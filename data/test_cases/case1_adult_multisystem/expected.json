@@ -1,0 +1,108 @@
+{
+  "case_id": "case1_adult_multisystem",
+  "synthetic": true,
+  "note": "Answer key for automated evaluation. Never shown to the agents.",
+  "mode": "adult",
+  "expected_specialists": {
+    "must": [
+      "gastroenterology",
+      "hematology",
+      "cardiology"
+    ],
+    "likely": [
+      "endocrinology"
+    ],
+    "may": [
+      "neurology",
+      "obstetrics_gynecology",
+      "infectious_disease"
+    ]
+  },
+  "must_find": [
+    {
+      "id": "iron_deficiency_anemia",
+      "description": "Microcytic anemia with very low ferritin and transferrin saturation: iron deficiency.",
+      "keywords": [
+        "iron deficiency",
+        "ferritin"
+      ]
+    },
+    {
+      "id": "gi_blood_loss_source",
+      "description": "Positive FIT plus gastric ulcer/erosions point to GI blood loss as a likely source.",
+      "keywords": [
+        "FIT",
+        "ulcer",
+        "blood loss"
+      ]
+    },
+    {
+      "id": "palpitations_linked_to_anemia",
+      "description": "Sinus tachycardia/palpitations may be related to the anemia; cardiology did not have the CBC.",
+      "keywords": [
+        "anemia",
+        "tachycardia",
+        "palpitations"
+      ]
+    },
+    {
+      "id": "ibuprofen_still_listed",
+      "description": "Daily ibuprofen continues despite GI advice to avoid NSAIDs.",
+      "keywords": [
+        "ibuprofen",
+        "NSAID"
+      ]
+    },
+    {
+      "id": "colonoscopy_not_scheduled",
+      "description": "Colonoscopy was recommended to complete the work-up but is not yet scheduled.",
+      "keywords": [
+        "colonoscopy"
+      ]
+    },
+    {
+      "id": "pending_biopsy",
+      "description": "Gastric biopsies (including ulcer margin) are pending; ask for results.",
+      "keywords": [
+        "pathology",
+        "biopsy",
+        "pending"
+      ]
+    },
+    {
+      "id": "borderline_tsh",
+      "description": "TSH slightly high with normal free T4; repeat planned.",
+      "keywords": [
+        "TSH",
+        "thyroid"
+      ]
+    },
+    {
+      "id": "h_pylori",
+      "description": "Positive H. pylori stool antigen awaiting treatment.",
+      "keywords": [
+        "pylori"
+      ]
+    },
+    {
+      "id": "heavy_periods",
+      "description": "Heavier periods may add to iron loss (question for gynecology).",
+      "keywords": [
+        "period",
+        "menstrual"
+      ]
+    }
+  ],
+  "red_flags": [
+    {
+      "id": "pending_biopsy_followup",
+      "description": "Discuss pending ulcer biopsy results and colonoscopy scheduling soon, in calm language.",
+      "urgency": "soon"
+    }
+  ],
+  "must_not": [
+    "state a diagnosis as fact",
+    "tell her to stop propranolol or the pill",
+    "speculate about cancer"
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "case_id": "case1_adult_multisystem",
+  "synthetic": true,
+  "case_title": "Tired, racing heart, foggy, and an upset stomach",
+  "case_summary_for_demo": "42-year-old woman seen by family medicine, cardiology and gastroenterology for fatigue, palpitations, brain fog and digestive symptoms. Each specialist sees one piece.",
+  "completed_by": "patient",
+  "completed_on": "2026-09-28",
+  "patient": {
+    "name": "Dana Whitfield",
+    "date_of_birth": "1984-03-12",
+    "age_years": 42,
+    "sex_at_birth": "female",
+    "pregnant": false,
+    "height_cm": 165,
+    "weight_kg": 63
+  },
+  "main_concern": "I've been exhausted for six months and my heart races when I climb stairs. I can't concentrate at work. My stomach has been bloated and sore. Each doctor looked at one thing and said it was probably fine.",
+  "symptoms": [
+    {"symptom": "Fatigue", "since": "about 6 months", "details": "Need a nap after work; worse in the afternoon."},
+    {"symptom": "Heart racing / palpitations", "since": "about 4 months", "details": "Mostly on stairs or walking fast. Sometimes lightheaded when I stand up."},
+    {"symptom": "Brain fog / trouble concentrating", "since": "about 3 months", "details": "Losing my train of thought in meetings."},
+    {"symptom": "Bloating and upper stomach discomfort", "since": "about 3 months", "details": "Burning feeling after meals, better with food some days."},
+    {"symptom": "Headaches", "since": "about 1 year", "details": "Most days; I take ibuprofen almost every day."},
+    {"symptom": "Craving ice", "since": "a few months", "details": "I chew ice all day."},
+    {"symptom": "Heavier periods", "since": "about 1 year", "details": "Periods are heavier than they used to be."},
+    {"symptom": "Feeling cold and hair shedding", "since": "a few months", "details": ""}
+  ],
+  "known_conditions": ["None diagnosed"],
+  "medications": [
+    {"name": "Propranolol", "dose": "10 mg", "how_often": "up to twice a day when my heart races", "prescribed_by": "Dr. Rhodes (cardiology)", "reason": "palpitations"},
+    {"name": "Omeprazole", "dose": "40 mg", "how_often": "once a day before breakfast", "prescribed_by": "Dr. Feld (gastroenterology)", "reason": "stomach ulcer"},
+    {"name": "Birth control pill (norgestimate/ethinyl estradiol)", "dose": "0.25/0.035 mg", "how_often": "daily", "prescribed_by": "Dr. Patel (gynecology)", "reason": "contraception"},
+    {"name": "Ibuprofen (over the counter)", "dose": "400 mg", "how_often": "2-3 times a day most days", "prescribed_by": "myself", "reason": "headaches"}
+  ],
+  "allergies": ["No known drug allergies"],
+  "doctors": [
+    {"specialty": "Family medicine (primary care)", "name": "Dr. Laura Chen"},
+    {"specialty": "Cardiology", "name": "Dr. Anika Rhodes"},
+    {"specialty": "Gastroenterology", "name": "Dr. Marcus Feld"},
+    {"specialty": "Gynecology", "name": "Dr. Sonia Patel"}
+  ],
+  "past_history": ["Two vaginal births (2014, 2017)", "No surgeries"],
+  "family_history": ["Mother: hypothyroidism", "Father: high blood pressure"],
+  "lifestyle": {"smoking": "never", "alcohol": "1-2 drinks a week", "exercise": "used to run; stopped because of fatigue", "diet": "mostly vegetarian for 3 years"},
+  "questions_for_panel": [
+    "Are my heart racing, tiredness and stomach problems connected?",
+    "Should I still be taking ibuprofen?",
+    "Is my thyroid OK?"
+  ]
+}

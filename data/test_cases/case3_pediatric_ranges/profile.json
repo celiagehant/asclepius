@@ -1,0 +1,48 @@
+{
+  "case_id": "case3_pediatric_ranges",
+  "synthetic": true,
+  "case_title": "A 7-year-old whose labs were read with adult ranges",
+  "case_summary_for_demo": "7-year-old boy with headaches, thirst, night-time urination and slowing growth. The urgent care lab printed adult reference ranges, so some results looked normal when they may not be for his age.",
+  "completed_by": "parent/guardian (father, Erik Lindqvist)",
+  "completed_on": "2026-09-27",
+  "patient": {
+    "name": "Theo Lindqvist",
+    "date_of_birth": "2019-04-02",
+    "age_years": 7,
+    "sex_at_birth": "male",
+    "pregnant": false,
+    "height_cm": 116,
+    "weight_kg": 20.1
+  },
+  "main_concern": "Theo has had headaches most mornings for two weeks, he's always thirsty and he has started wetting the bed again. Urgent care said his labs were fine, but he's one of the shortest in his class now and he isn't himself.",
+  "symptoms": [
+    {"symptom": "Morning headaches", "since": "about 3 weeks", "details": "Forehead; sometimes better after breakfast."},
+    {"symptom": "Very thirsty, drinking a lot of water", "since": "about 2 months", "details": ""},
+    {"symptom": "Waking at night to urinate; bedwetting again", "since": "about 1 month", "details": "Had been dry at night since age 4."},
+    {"symptom": "Tired, less active", "since": "about 2 months", "details": ""},
+    {"symptom": "Poor appetite", "since": "about 2 months", "details": ""},
+    {"symptom": "Seems shorter than classmates", "since": "this school year", "details": "Shoe and clothing sizes barely changed in a year."}
+  ],
+  "known_conditions": ["None diagnosed"],
+  "medications": [
+    {"name": "Ibuprofen (children's)", "dose": "200 mg", "how_often": "every 6-8 hours when he has a headache, about once a day", "prescribed_by": "urgent care (J. Kim, PA-C)", "reason": "headache"},
+    {"name": "Children's multivitamin", "dose": "1 chewable", "how_often": "daily", "prescribed_by": "over the counter", "reason": "general health"}
+  ],
+  "allergies": ["No known drug allergies"],
+  "doctors": [
+    {"specialty": "Pediatrics", "name": "Dr. Nadia Petrov"},
+    {"specialty": "Urgent care", "name": "Jordan Kim, PA-C"}
+  ],
+  "past_history": [
+    "Born at 36 weeks",
+    "Three urinary tract infections with fever before age 3 (two emergency visits)",
+    "A kidney ultrasound was recommended in 2022 but never done after we moved"
+  ],
+  "family_history": ["Paternal grandfather: kidney problems (on dialysis in his 60s)", "Mother: migraines"],
+  "lifestyle": {"smoking": "no smokers at home", "alcohol": "n/a", "exercise": "used to play soccer; less active lately", "diet": "picky eater"},
+  "questions_for_panel": [
+    "Urgent care said his labs were normal. Are they normal for a 7-year-old?",
+    "Why is he so thirsty and wetting the bed?",
+    "Should we be worried about his growth?"
+  ]
+}

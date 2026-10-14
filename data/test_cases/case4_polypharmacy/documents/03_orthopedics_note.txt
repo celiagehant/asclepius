@@ -1,0 +1,29 @@
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA
+
+SUMMIT ORTHOPEDICS - CLINIC NOTE
+Patient: Harold Pike    DOB: 02/17/1948    Date of visit: 08/05/2026
+Clinician: Kevin O'Brien, MD (Orthopedic Surgery)
+
+HISTORY
+Bilateral knee pain for 2 years, right worse than left, worse on stairs.
+Fell 3 weeks ago when getting up at night to use the bathroom; felt
+dizzy on standing. Bruised left hip, no fracture on hip X-ray at the
+time.
+
+Medications per patient: lisinopril, metformin, "a heart pill" and
+"a cholesterol pill". Unsure of names.
+
+KNEE X-RAYS (standing, both knees)
+Moderate narrowing of the inner joint space on both sides, right worse.
+Bone spurs present. No fracture.
+
+ASSESSMENT
+Moderate osteoarthritis of both knees.
+
+PLAN
+1. Naproxen 500 mg by mouth twice daily with food for 4 weeks, then as
+   needed.
+2. Physical therapy referral.
+3. Consider a steroid injection if not improved in 6 weeks.
+
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA

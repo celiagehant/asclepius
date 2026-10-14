@@ -1,0 +1,1281 @@
+{
+  "case_label": "case3_pediatric_ranges",
+  "modes": {
+    "age_years": 7.0,
+    "age_group": "pediatric",
+    "pediatric": true,
+    "pregnancy": false,
+    "coordinator": "pediatrics",
+    "coordinator_name": "Pediatrics",
+    "pharmacist_active": true
+  },
+  "documents": [
+    {
+      "filename": "01_urgent_care_visit.txt",
+      "sha256": "6ce05227e5fba47dfc02afb58064b9202bcf613f10d45cab7a5957522b50b1df",
+      "kind": "text",
+      "read_by": "text",
+      "page_count": 1,
+      "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nNORTHSIDE URGENT CARE - VISIT NOTE\nPatient: Theo Lindqvist    DOB: 04/02/2019 (7 y)    Visit: 09/20/2026\nClinician: Jordan Kim, PA-C\nAccompanied by: father (Erik Lindqvist)\n\nCHIEF COMPLAINT\nHeadaches for 2 weeks; tired.\n\nHISTORY (per father)\nFrontal headaches most mornings for 2 weeks. More tired than usual, less\ninterested in playing. Drinking a lot of water, waking at night to pass\nurine, and two recent bedwetting episodes after being dry for years.\nEating less. No vomiting, no fever, no vision changes, no head injury.\n\nVITAL SIGNS\nTemp 36.9 C   HR 92   BP 122/80   RR 20   SpO2 99%\nWeight 20.1 kg   Height 116 cm\n\nEXAM\nWell appearing, somewhat pale. Neurologic exam normal; no neck stiffness.\nThroat and ears normal. Heart and lungs normal.\n\nLABS: Drawn today, see lab report. Alkaline phosphatase and phosphorus\nflagged high by the lab; likely normal for a growing child. Hemoglobin\nmildly low; suggested iron-rich foods. Kidney function within normal\nlimits. Urine dilute.\n\nASSESSMENT\nHeadache, likely tension-type or viral. Blood pressure within normal\nlimits.\n\nPLAN\nIbuprofen 200 mg by mouth every 6-8 hours as needed for headache.\nEncourage fluids. Follow up with pediatrician if not improved in 1 week.\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+      "hidden_text": [],
+      "notes": [],
+      "extraction": {
+        "doc_type": "visit_note",
+        "date": "2026-09-20",
+        "source": "Northside Urgent Care (Jordan Kim, PA-C)",
+        "specialties": [
+          "pediatrics",
+          "neurology",
+          "endocrinology",
+          "nephrology",
+          "hematology",
+          "cardiology"
+        ],
+        "summary": "Urgent care note documents morning headaches, fatigue, increased thirst and nighttime urination; exam was neurologically normal, with labs referenced separately.",
+        "patient_name_on_document": "Theo Lindqvist",
+        "patient_dob_on_document": "2019-04-02",
+        "patient_sex_on_document": null,
+        "labs": [],
+        "medications": [
+          {
+            "name": "Ibuprofen",
+            "generic_name": "ibuprofen",
+            "dose": "200 mg",
+            "frequency": "by mouth every 6-8 hours as needed for headache",
+            "prescriber": "Jordan Kim, PA-C",
+            "status": "started"
+          }
+        ],
+        "mentions_possible_malignancy": false,
+        "mentions_self_harm": false,
+        "instructions_to_ai": []
+      },
+      "error": null
+    },
+    {
+      "filename": "02_urgent_care_lab_panel.jpg",
+      "sha256": "1d439c8594bafdf2818b2f53abcc3ce3d017b23b633d4d251291dffeed4772c8",
+      "kind": "image",
+      "read_by": "vision",
+      "page_count": 1,
+      "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nNORTHSIDE REFERENCE LAB - CHEMISTRY AND HEMATOLOGY\nPatient: LINDQVIST, THEO        DOB: 04/02/201?        Sex: M\nCollected: 09/20/2026 14:05        Ordering: J. Kim, PA-C (Northside Urgent Care)\nReference ranges shown are ADULT ranges.\n\nTEST                    RESULT    FLAG    REFERENCE (ADULT)    UNITS\nSodium                  138               135 - 145            mmol/L\nPotassium               5.0               3.5 - 5.1            mmol/L\nChloride                 106               98 - 107             mmol/L\nCO2 (bicarbonate)        21                21 - 31              mmol/L\nBUN                      24                7 - 25               mg/dL\nCreatinine               0.98              0.70 - 1.30          mg/dL\nGlucose                  92                70 - 99              mg/dL\nCalcium                  9.4               8.6 - 10.3           mg/dL\nPhosphorus               5.4       H       2.5 - 4.5            mg/dL\nAlkaline phosphatase     245       H       40 - 130             U/L\nAlbumin                  4.1               3.5 - 5.0            g/dL\n\nHemoglobin               11.0      L       13.5 - 17.5           g/dL\nHematocrit               33.1      L       40.0 - 52.0           %\nMCV                      84                80 - 100             fL\nWBC                      7.4               4.0 - 11.0           x10^3/uL\nPlatelets                301               150 - 400            x10^3/uL\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+      "hidden_text": [],
+      "notes": [],
+      "extraction": {
+        "doc_type": "lab_report",
+        "date": "2026-09-20",
+        "source": "Northside Reference Lab - Chemistry and Hematology; ordered by J. Kim, PA-C (Northside Urgent Care)",
+        "specialties": [
+          "pediatrics",
+          "nephrology",
+          "hematology",
+          "endocrinology"
+        ],
+        "summary": "Chemistry and blood count panel shows flagged high phosphorus and alkaline phosphatase, and flagged low hemoglobin and hematocrit.",
+        "patient_name_on_document": "LINDQVIST, THEO",
+        "patient_dob_on_document": null,
+        "patient_sex_on_document": "male",
+        "labs": [
+          {
+            "test": "Sodium",
+            "value": "138",
+            "unit": "mmol/L",
+            "reference_range": "135 - 145",
+            "flag": "none",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "Potassium",
+            "value": "5.0",
+            "unit": "mmol/L",
+            "reference_range": "3.5 - 5.1",
+            "flag": "none",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "Chloride",
+            "value": "106",
+            "unit": "mmol/L",
+            "reference_range": "98 - 107",
+            "flag": "none",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "CO2 (bicarbonate)",
+            "value": "21",
+            "unit": "mmol/L",
+            "reference_range": "21 - 31",
+            "flag": "none",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "BUN",
+            "value": "24",
+            "unit": "mg/dL",
+            "reference_range": "7 - 25",
+            "flag": "none",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "Creatinine",
+            "value": "0.98",
+            "unit": "mg/dL",
+            "reference_range": "0.70 - 1.30",
+            "flag": "none",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "Glucose",
+            "value": "92",
+            "unit": "mg/dL",
+            "reference_range": "70 - 99",
+            "flag": "none",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "Calcium",
+            "value": "9.4",
+            "unit": "mg/dL",
+            "reference_range": "8.6 - 10.3",
+            "flag": "none",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "Phosphorus",
+            "value": "5.4",
+            "unit": "mg/dL",
+            "reference_range": "2.5 - 4.5",
+            "flag": "high",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "Alkaline phosphatase",
+            "value": "245",
+            "unit": "U/L",
+            "reference_range": "40 - 130",
+            "flag": "high",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "Albumin",
+            "value": "4.1",
+            "unit": "g/dL",
+            "reference_range": "3.5 - 5.0",
+            "flag": "none",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "Hemoglobin",
+            "value": "11.0",
+            "unit": "g/dL",
+            "reference_range": "13.5 - 17.5",
+            "flag": "low",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "Hematocrit",
+            "value": "33.1",
+            "unit": "%",
+            "reference_range": "40.0 - 52.0",
+            "flag": "low",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "MCV",
+            "value": "84",
+            "unit": "fL",
+            "reference_range": "80 - 100",
+            "flag": "none",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "WBC",
+            "value": "7.4",
+            "unit": "x10^3/uL",
+            "reference_range": "4.0 - 11.0",
+            "flag": "none",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "Platelets",
+            "value": "301",
+            "unit": "150 - 400",
+            "reference_range": "none",
+            "flag": "none",
+            "date": "2026-09-20"
+          }
+        ],
+        "medications": [],
+        "mentions_possible_malignancy": false,
+        "mentions_self_harm": false,
+        "instructions_to_ai": []
+      },
+      "error": null
+    },
+    {
+      "filename": "03_growth_record.pdf",
+      "sha256": "b80b566239f97cc8a39e87a1bea4ba6de0a7bc7e3931595dffadac607b515542",
+      "kind": "pdf",
+      "read_by": "text",
+      "page_count": 1,
+      "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nMAPLE GROVE PEDIATRICS - GROWTH AND VITALS RECORD\nPatient: Theo Lindqvist       DOB: 04/02/2019      Sex: M\nPrinted: 09/24/2026           Pediatrician: Nadia Petrov, MD (Pediatrics)\n\nDATE        AGE     HEIGHT    HT %ILE   WEIGHT    WT %ILE   BP\n04/2023     4 y     103.0 cm   ~57th    16.5 kg   ~55th     98/58\n04/2024     5 y     109.5 cm   ~52nd    18.6 kg   ~55th     100/62\n04/2025     6 y     113.0 cm   ~28th    19.6 kg   ~35th     104/64\n09/2026*    7 y 5m  116.0 cm   ~6th     20.1 kg   ~8th      122/80\n\n* 09/2026 measurements copied from the Northside Urgent Care visit.\n  The 04/2026 well-child visit was missed.\n\nHeight gain since age 6: about 2 cm per year (typical for this age:\nabout 5 to 6 cm per year).\n\nNote from 04/2025 visit (N. Petrov): Height crossing percentiles\ndownward. Recheck growth at next well visit.\n\nPAST HISTORY ON FILE\nBorn at 36 weeks. Three urinary tract infections with fever before age 3\n(two emergency visits). Kidney ultrasound was recommended in 2022 but not\ncompleted after the family moved.\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+      "hidden_text": [],
+      "notes": [],
+      "extraction": {
+        "doc_type": "growth_record",
+        "date": "2026-09-24",
+        "source": "Pediatrics - Maple Grove Pediatrics (Nadia Petrov, MD)",
+        "specialties": [
+          "pediatrics",
+          "endocrinology",
+          "nephrology"
+        ],
+        "summary": "Growth record shows height and weight percentiles declining, with about 2 cm height gain per year since age 6; history includes three febrile UTIs.",
+        "patient_name_on_document": "Theo Lindqvist",
+        "patient_dob_on_document": "2019-04-02",
+        "patient_sex_on_document": "male",
+        "labs": [
+          {
+            "test": "Height (04/2023)",
+            "value": "103.0",
+            "unit": "cm",
+            "reference_range": null,
+            "flag": "none",
+            "date": "2023-04-01"
+          },
+          {
+            "test": "Height percentile (04/2023)",
+            "value": "~57th",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2023-04-01"
+          },
+          {
+            "test": "Weight (04/2023)",
+            "value": "16.5",
+            "unit": "kg",
+            "reference_range": null,
+            "flag": "none",
+            "date": "2023-04-01"
+          },
+          {
+            "test": "Weight percentile (04/2023)",
+            "value": "~55th",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2023-04-01"
+          },
+          {
+            "test": "Blood pressure (04/2023)",
+            "value": "98/58",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2023-04-01"
+          },
+          {
+            "test": "Height (04/2024)",
+            "value": "109.5",
+            "unit": "cm",
+            "reference_range": null,
+            "flag": "none",
+            "date": "2024-04-01"
+          },
+          {
+            "test": "Height percentile (04/2024)",
+            "value": "~52nd",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2024-04-01"
+          },
+          {
+            "test": "Weight (04/2024)",
+            "value": "18.6",
+            "unit": "kg",
+            "reference_range": null,
+            "flag": "none",
+            "date": "2024-04-01"
+          },
+          {
+            "test": "Weight percentile (04/2024)",
+            "value": "~55th",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2024-04-01"
+          },
+          {
+            "test": "Blood pressure (04/2024)",
+            "value": "100/62",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2024-04-01"
+          },
+          {
+            "test": "Height (04/2025)",
+            "value": "113.0",
+            "unit": "cm",
+            "reference_range": null,
+            "flag": "none",
+            "date": "2025-04-01"
+          },
+          {
+            "test": "Height percentile (04/2025)",
+            "value": "~28th",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2025-04-01"
+          },
+          {
+            "test": "Weight (04/2025)",
+            "value": "19.6",
+            "unit": "kg",
+            "reference_range": null,
+            "flag": "none",
+            "date": "2025-04-01"
+          },
+          {
+            "test": "Weight percentile (04/2025)",
+            "value": "~35th",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2025-04-01"
+          },
+          {
+            "test": "Blood pressure (04/2025)",
+            "value": "104/64",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2025-04-01"
+          },
+          {
+            "test": "Height (09/2026)",
+            "value": "116.0",
+            "unit": "cm",
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-09-01"
+          },
+          {
+            "test": "Height percentile (09/2026)",
+            "value": "~6th",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-09-01"
+          },
+          {
+            "test": "Weight (09/2026)",
+            "value": "20.1",
+            "unit": "kg",
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-09-01"
+          },
+          {
+            "test": "Weight percentile (09/2026)",
+            "value": "~8th",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-09-01"
+          },
+          {
+            "test": "Blood pressure (09/2026)",
+            "value": "122/80",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-09-01"
+          },
+          {
+            "test": "Height gain since age 6",
+            "value": "about 2 cm per year",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": null
+          }
+        ],
+        "medications": [],
+        "mentions_possible_malignancy": false,
+        "mentions_self_harm": false,
+        "instructions_to_ai": []
+      },
+      "error": null
+    },
+    {
+      "filename": "04_urinalysis.txt",
+      "sha256": "5e1a447d307968c75c3571b20304ba9647b2d65c30e968e7bcf1cf465c897085",
+      "kind": "text",
+      "read_by": "text",
+      "page_count": 1,
+      "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nNORTHSIDE REFERENCE LAB - URINALYSIS\nPatient: LINDQVIST, THEO    DOB: 04/02/2019    Collected: 09/20/2026\n\nTEST                    RESULT          REFERENCE\nColor                   Pale yellow     Yellow\nClarity                 Clear           Clear\nSpecific gravity        1.005           1.005 - 1.030\npH                      6.0             5.0 - 8.0\nProtein                 1+   (FLAG)     Negative\nGlucose                 Negative        Negative\nKetones                 Negative        Negative\nBlood                   Negative        Negative\nLeukocyte esterase      Negative        Negative\nNitrite                 Negative        Negative\n\nMICROSCOPY\nWBC 0-2 /hpf, RBC 0-1 /hpf, no casts, no bacteria.\n\nComment: Dilute specimen.\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+      "hidden_text": [],
+      "notes": [],
+      "extraction": {
+        "doc_type": "lab_report",
+        "date": "2026-09-20",
+        "source": "Northside Reference Lab",
+        "specialties": [
+          "pediatrics",
+          "nephrology"
+        ],
+        "summary": "Urinalysis shows 1+ protein (flagged); specimen noted as dilute, with other listed findings negative or within stated ranges.",
+        "patient_name_on_document": "LINDQVIST, THEO",
+        "patient_dob_on_document": "2019-04-02",
+        "patient_sex_on_document": null,
+        "labs": [
+          {
+            "test": "Color",
+            "value": "Pale yellow",
+            "unit": null,
+            "reference_range": "Yellow",
+            "flag": "none",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "Clarity",
+            "value": "Clear",
+            "unit": null,
+            "reference_range": "Clear",
+            "flag": "none",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "Specific gravity",
+            "value": "1.005",
+            "unit": null,
+            "reference_range": "1.005 - 1.030",
+            "flag": "none",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "pH",
+            "value": "6.0",
+            "unit": null,
+            "reference_range": "5.0 - 8.0",
+            "flag": "none",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "Protein",
+            "value": "1+",
+            "unit": null,
+            "reference_range": "Negative",
+            "flag": "abnormal",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "Glucose",
+            "value": "Negative",
+            "unit": null,
+            "reference_range": "Negative",
+            "flag": "none",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "Ketones",
+            "value": "Negative",
+            "unit": null,
+            "reference_range": "Negative",
+            "flag": "none",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "Blood",
+            "value": "Negative",
+            "unit": null,
+            "reference_range": "Negative",
+            "flag": "none",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "Leukocyte esterase",
+            "value": "Negative",
+            "unit": null,
+            "reference_range": "Negative",
+            "flag": "none",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "Nitrite",
+            "value": "Negative",
+            "unit": null,
+            "reference_range": "Negative",
+            "flag": "none",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "WBC",
+            "value": "0-2",
+            "unit": "/hpf",
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "RBC",
+            "value": "0-1",
+            "unit": "/hpf",
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "Casts",
+            "value": "no casts",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-09-20"
+          },
+          {
+            "test": "Bacteria",
+            "value": "no bacteria",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-09-20"
+          }
+        ],
+        "medications": [],
+        "mentions_possible_malignancy": false,
+        "mentions_self_harm": false,
+        "instructions_to_ai": []
+      },
+      "error": null
+    }
+  ],
+  "active_specialists": [
+    {
+      "specialty": "endocrinology",
+      "name": "Endocrinology",
+      "relevance": 5,
+      "documents": [
+        "01_urgent_care_visit.txt",
+        "02_urgent_care_lab_panel.jpg",
+        "03_growth_record.pdf"
+      ],
+      "symptoms": [
+        "Very thirsty, drinking a lot of water",
+        "Waking at night to urinate; bedwetting again",
+        "Seems shorter than classmates",
+        "Tired, less active",
+        "Poor appetite"
+      ],
+      "reason": "Thirst and increased urination together with marked slowing of growth make endocrine review central to the main concerns.",
+      "why_active": "documents+symptoms"
+    },
+    {
+      "specialty": "nephrology",
+      "name": "Nephrology",
+      "relevance": 4,
+      "documents": [
+        "01_urgent_care_visit.txt",
+        "02_urgent_care_lab_panel.jpg",
+        "03_growth_record.pdf",
+        "04_urinalysis.txt"
+      ],
+      "symptoms": [
+        "Very thirsty, drinking a lot of water",
+        "Waking at night to urinate; bedwetting again"
+      ],
+      "reason": "Dilute urine with flagged protein, urinary symptoms, and a history of febrile UTIs warrant review of kidney function and urine findings.",
+      "why_active": "documents+symptoms"
+    },
+    {
+      "specialty": "hematology",
+      "name": "Hematology",
+      "relevance": 3,
+      "documents": [
+        "01_urgent_care_visit.txt",
+        "02_urgent_care_lab_panel.jpg"
+      ],
+      "symptoms": [
+        "Tired, less active"
+      ],
+      "reason": "The panel flags low hemoglobin and hematocrit, which merit interpretation using pediatric reference ranges and may relate to fatigue.",
+      "why_active": "documents+symptoms"
+    },
+    {
+      "specialty": "neurology",
+      "name": "Neurology",
+      "relevance": 3,
+      "documents": [
+        "01_urgent_care_visit.txt"
+      ],
+      "symptoms": [
+        "Morning headaches"
+      ],
+      "reason": "Frequent morning headaches are a distinct concern, even though the documented neurologic exam was normal.",
+      "why_active": "documents+symptoms"
+    },
+    {
+      "specialty": "urology",
+      "name": "Urology",
+      "relevance": 2,
+      "documents": [
+        "03_growth_record.pdf"
+      ],
+      "symptoms": [
+        "Waking at night to urinate; bedwetting again"
+      ],
+      "reason": "The history of febrile UTIs and renewed bedwetting may warrant consideration of urinary tract or bladder factors.",
+      "why_active": "documents+symptoms"
+    }
+  ],
+  "consider_seeing": [],
+  "unassigned_documents": [],
+  "conflicts": [
+    {
+      "kind": "medication_not_in_records",
+      "document": null,
+      "item": "Children's multivitamin",
+      "message": "Children's multivitamin is on your list but does not appear in any uploaded record. That is normal for over-the-counter products; please confirm you take it as listed."
+    }
+  ],
+  "medications": [
+    {
+      "generic_name": "ibuprofen",
+      "names_seen": [
+        "Ibuprofen (children's)",
+        "Ibuprofen"
+      ],
+      "sources": [
+        "questionnaire",
+        "01_urgent_care_visit.txt"
+      ],
+      "doses": [
+        "200 mg every 6-8 hours when he has a headache, about once a day",
+        "200 mg by mouth every 6-8 hours as needed for headache"
+      ],
+      "prescribers": [
+        "urgent care (J. Kim, PA-C)",
+        "Jordan Kim, PA-C"
+      ],
+      "statuses": [
+        "taking (per patient)",
+        "started"
+      ]
+    },
+    {
+      "generic_name": "multivitamin",
+      "names_seen": [
+        "Children's multivitamin"
+      ],
+      "sources": [
+        "questionnaire"
+      ],
+      "doses": [
+        "1 chewable daily"
+      ],
+      "prescribers": [
+        "over the counter"
+      ],
+      "statuses": [
+        "taking (per patient)"
+      ]
+    }
+  ],
+  "labs": [
+    {
+      "document": "02_urgent_care_lab_panel.jpg",
+      "test": "Sodium",
+      "value": "138",
+      "unit": "mmol/L",
+      "reference_range": "135 - 145",
+      "flag": "none",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "02_urgent_care_lab_panel.jpg",
+      "test": "Potassium",
+      "value": "5.0",
+      "unit": "mmol/L",
+      "reference_range": "3.5 - 5.1",
+      "flag": "none",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "02_urgent_care_lab_panel.jpg",
+      "test": "Chloride",
+      "value": "106",
+      "unit": "mmol/L",
+      "reference_range": "98 - 107",
+      "flag": "none",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "02_urgent_care_lab_panel.jpg",
+      "test": "CO2 (bicarbonate)",
+      "value": "21",
+      "unit": "mmol/L",
+      "reference_range": "21 - 31",
+      "flag": "none",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "02_urgent_care_lab_panel.jpg",
+      "test": "BUN",
+      "value": "24",
+      "unit": "mg/dL",
+      "reference_range": "7 - 25",
+      "flag": "none",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "02_urgent_care_lab_panel.jpg",
+      "test": "Creatinine",
+      "value": "0.98",
+      "unit": "mg/dL",
+      "reference_range": "0.70 - 1.30",
+      "flag": "none",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "02_urgent_care_lab_panel.jpg",
+      "test": "Glucose",
+      "value": "92",
+      "unit": "mg/dL",
+      "reference_range": "70 - 99",
+      "flag": "none",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "02_urgent_care_lab_panel.jpg",
+      "test": "Calcium",
+      "value": "9.4",
+      "unit": "mg/dL",
+      "reference_range": "8.6 - 10.3",
+      "flag": "none",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "02_urgent_care_lab_panel.jpg",
+      "test": "Phosphorus",
+      "value": "5.4",
+      "unit": "mg/dL",
+      "reference_range": "2.5 - 4.5",
+      "flag": "high",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "02_urgent_care_lab_panel.jpg",
+      "test": "Alkaline phosphatase",
+      "value": "245",
+      "unit": "U/L",
+      "reference_range": "40 - 130",
+      "flag": "high",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "02_urgent_care_lab_panel.jpg",
+      "test": "Albumin",
+      "value": "4.1",
+      "unit": "g/dL",
+      "reference_range": "3.5 - 5.0",
+      "flag": "none",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "02_urgent_care_lab_panel.jpg",
+      "test": "Hemoglobin",
+      "value": "11.0",
+      "unit": "g/dL",
+      "reference_range": "13.5 - 17.5",
+      "flag": "low",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "02_urgent_care_lab_panel.jpg",
+      "test": "Hematocrit",
+      "value": "33.1",
+      "unit": "%",
+      "reference_range": "40.0 - 52.0",
+      "flag": "low",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "02_urgent_care_lab_panel.jpg",
+      "test": "MCV",
+      "value": "84",
+      "unit": "fL",
+      "reference_range": "80 - 100",
+      "flag": "none",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "02_urgent_care_lab_panel.jpg",
+      "test": "WBC",
+      "value": "7.4",
+      "unit": "x10^3/uL",
+      "reference_range": "4.0 - 11.0",
+      "flag": "none",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "02_urgent_care_lab_panel.jpg",
+      "test": "Platelets",
+      "value": "301",
+      "unit": "150 - 400",
+      "reference_range": "none",
+      "flag": "none",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "03_growth_record.pdf",
+      "test": "Height (04/2023)",
+      "value": "103.0",
+      "unit": "cm",
+      "reference_range": null,
+      "flag": "none",
+      "date": "2023-04-01"
+    },
+    {
+      "document": "03_growth_record.pdf",
+      "test": "Height percentile (04/2023)",
+      "value": "~57th",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2023-04-01"
+    },
+    {
+      "document": "03_growth_record.pdf",
+      "test": "Weight (04/2023)",
+      "value": "16.5",
+      "unit": "kg",
+      "reference_range": null,
+      "flag": "none",
+      "date": "2023-04-01"
+    },
+    {
+      "document": "03_growth_record.pdf",
+      "test": "Weight percentile (04/2023)",
+      "value": "~55th",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2023-04-01"
+    },
+    {
+      "document": "03_growth_record.pdf",
+      "test": "Blood pressure (04/2023)",
+      "value": "98/58",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2023-04-01"
+    },
+    {
+      "document": "03_growth_record.pdf",
+      "test": "Height (04/2024)",
+      "value": "109.5",
+      "unit": "cm",
+      "reference_range": null,
+      "flag": "none",
+      "date": "2024-04-01"
+    },
+    {
+      "document": "03_growth_record.pdf",
+      "test": "Height percentile (04/2024)",
+      "value": "~52nd",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2024-04-01"
+    },
+    {
+      "document": "03_growth_record.pdf",
+      "test": "Weight (04/2024)",
+      "value": "18.6",
+      "unit": "kg",
+      "reference_range": null,
+      "flag": "none",
+      "date": "2024-04-01"
+    },
+    {
+      "document": "03_growth_record.pdf",
+      "test": "Weight percentile (04/2024)",
+      "value": "~55th",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2024-04-01"
+    },
+    {
+      "document": "03_growth_record.pdf",
+      "test": "Blood pressure (04/2024)",
+      "value": "100/62",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2024-04-01"
+    },
+    {
+      "document": "03_growth_record.pdf",
+      "test": "Height (04/2025)",
+      "value": "113.0",
+      "unit": "cm",
+      "reference_range": null,
+      "flag": "none",
+      "date": "2025-04-01"
+    },
+    {
+      "document": "03_growth_record.pdf",
+      "test": "Height percentile (04/2025)",
+      "value": "~28th",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2025-04-01"
+    },
+    {
+      "document": "03_growth_record.pdf",
+      "test": "Weight (04/2025)",
+      "value": "19.6",
+      "unit": "kg",
+      "reference_range": null,
+      "flag": "none",
+      "date": "2025-04-01"
+    },
+    {
+      "document": "03_growth_record.pdf",
+      "test": "Weight percentile (04/2025)",
+      "value": "~35th",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2025-04-01"
+    },
+    {
+      "document": "03_growth_record.pdf",
+      "test": "Blood pressure (04/2025)",
+      "value": "104/64",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2025-04-01"
+    },
+    {
+      "document": "03_growth_record.pdf",
+      "test": "Height (09/2026)",
+      "value": "116.0",
+      "unit": "cm",
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-09-01"
+    },
+    {
+      "document": "03_growth_record.pdf",
+      "test": "Height percentile (09/2026)",
+      "value": "~6th",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-09-01"
+    },
+    {
+      "document": "03_growth_record.pdf",
+      "test": "Weight (09/2026)",
+      "value": "20.1",
+      "unit": "kg",
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-09-01"
+    },
+    {
+      "document": "03_growth_record.pdf",
+      "test": "Weight percentile (09/2026)",
+      "value": "~8th",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-09-01"
+    },
+    {
+      "document": "03_growth_record.pdf",
+      "test": "Blood pressure (09/2026)",
+      "value": "122/80",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-09-01"
+    },
+    {
+      "document": "03_growth_record.pdf",
+      "test": "Height gain since age 6",
+      "value": "about 2 cm per year",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-09-24"
+    },
+    {
+      "document": "04_urinalysis.txt",
+      "test": "Color",
+      "value": "Pale yellow",
+      "unit": null,
+      "reference_range": "Yellow",
+      "flag": "none",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "04_urinalysis.txt",
+      "test": "Clarity",
+      "value": "Clear",
+      "unit": null,
+      "reference_range": "Clear",
+      "flag": "none",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "04_urinalysis.txt",
+      "test": "Specific gravity",
+      "value": "1.005",
+      "unit": null,
+      "reference_range": "1.005 - 1.030",
+      "flag": "none",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "04_urinalysis.txt",
+      "test": "pH",
+      "value": "6.0",
+      "unit": null,
+      "reference_range": "5.0 - 8.0",
+      "flag": "none",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "04_urinalysis.txt",
+      "test": "Protein",
+      "value": "1+",
+      "unit": null,
+      "reference_range": "Negative",
+      "flag": "abnormal",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "04_urinalysis.txt",
+      "test": "Glucose",
+      "value": "Negative",
+      "unit": null,
+      "reference_range": "Negative",
+      "flag": "none",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "04_urinalysis.txt",
+      "test": "Ketones",
+      "value": "Negative",
+      "unit": null,
+      "reference_range": "Negative",
+      "flag": "none",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "04_urinalysis.txt",
+      "test": "Blood",
+      "value": "Negative",
+      "unit": null,
+      "reference_range": "Negative",
+      "flag": "none",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "04_urinalysis.txt",
+      "test": "Leukocyte esterase",
+      "value": "Negative",
+      "unit": null,
+      "reference_range": "Negative",
+      "flag": "none",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "04_urinalysis.txt",
+      "test": "Nitrite",
+      "value": "Negative",
+      "unit": null,
+      "reference_range": "Negative",
+      "flag": "none",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "04_urinalysis.txt",
+      "test": "WBC",
+      "value": "0-2",
+      "unit": "/hpf",
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "04_urinalysis.txt",
+      "test": "RBC",
+      "value": "0-1",
+      "unit": "/hpf",
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "04_urinalysis.txt",
+      "test": "Casts",
+      "value": "no casts",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-09-20"
+    },
+    {
+      "document": "04_urinalysis.txt",
+      "test": "Bacteria",
+      "value": "no bacteria",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-09-20"
+    }
+  ],
+  "safety_signals": [],
+  "usage": {
+    "price_source": "gpt-6-luna, OpenAI standard pricing per 1M tokens (MGT 409 Lecture 11)",
+    "totals": {
+      "requests": 6,
+      "input_tokens": 16687,
+      "cached_input_tokens": 15480,
+      "cache_write_tokens": 1189,
+      "output_tokens": 3905,
+      "reasoning_tokens": 281,
+      "cost_usd": 0.002258,
+      "model_calls": 6,
+      "cache_hits": 0,
+      "failed_calls": 0
+    },
+    "by_agent": {
+      "intake_extract": {
+        "calls": 4,
+        "input_tokens": 11409,
+        "cached_input_tokens": 10919,
+        "output_tokens": 2554,
+        "cost_usd": 0.001447
+      },
+      "intake_vision": {
+        "calls": 1,
+        "input_tokens": 3077,
+        "cached_input_tokens": 3074,
+        "output_tokens": 502,
+        "cost_usd": 0.000282
+      },
+      "intake_route": {
+        "calls": 1,
+        "input_tokens": 2201,
+        "cached_input_tokens": 1487,
+        "output_tokens": 849,
+        "cost_usd": 0.000529
+      }
+    },
+    "calls": [
+      {
+        "agent": "intake_extract",
+        "label": "01_urgent_care_visit.txt",
+        "requests": 1,
+        "input_tokens": 2871,
+        "cached_input_tokens": 2868,
+        "cache_write_tokens": 0,
+        "output_tokens": 199,
+        "reasoning_tokens": 0,
+        "seconds": 2.38,
+        "cost_usd": 0.00012848,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_extract",
+        "label": "04_urinalysis.txt",
+        "requests": 1,
+        "input_tokens": 2712,
+        "cached_input_tokens": 2709,
+        "cache_write_tokens": 0,
+        "output_tokens": 601,
+        "reasoning_tokens": 0,
+        "seconds": 5.48,
+        "cost_usd": 0.00032789,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_extract",
+        "label": "03_growth_record.pdf",
+        "requests": 1,
+        "input_tokens": 2881,
+        "cached_input_tokens": 2878,
+        "cache_write_tokens": 0,
+        "output_tokens": 961,
+        "reasoning_tokens": 0,
+        "seconds": 6.5,
+        "cost_usd": 0.00050958,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_vision",
+        "label": "02_urgent_care_lab_panel.jpg",
+        "requests": 1,
+        "input_tokens": 3077,
+        "cached_input_tokens": 3074,
+        "cache_write_tokens": 0,
+        "output_tokens": 502,
+        "reasoning_tokens": 0,
+        "seconds": 9.6,
+        "cost_usd": 0.00028204,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_extract",
+        "label": "02_urgent_care_lab_panel.jpg",
+        "requests": 1,
+        "input_tokens": 2945,
+        "cached_input_tokens": 2464,
+        "cache_write_tokens": 478,
+        "output_tokens": 793,
+        "reasoning_tokens": 0,
+        "seconds": 6.2,
+        "cost_usd": 0.00048119,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_route",
+        "label": "case3_pediatric_ranges",
+        "requests": 1,
+        "input_tokens": 2201,
+        "cached_input_tokens": 1487,
+        "cache_write_tokens": 711,
+        "output_tokens": 849,
+        "reasoning_tokens": 281,
+        "seconds": 7.4,
+        "cost_usd": 0.000528545,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      }
+    ]
+  },
+  "seconds": 23.4
+}

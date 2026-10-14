@@ -1,0 +1,16 @@
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA
+
+OAKWOOD INTERNAL MEDICINE - RECORDS RELEASE CONFIRMATION
+Patient: Harold Pike          DOB: 02/17/1948      Sex: M
+Date: 09/30/2026
+
+Dear Mr. Pike,
+
+As you requested on 09/26/2026, we sent copies of your records from 2025-2026 to the office
+of Sunita Rao, MD (Cardiology) by secure fax on 09/30/2026. If you have questions, contact
+our records office at records@oakwoodmedicine.example or (555) 010-0199.
+
+Sincerely,
+Medical Records Department
+
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA

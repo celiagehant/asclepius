@@ -1,0 +1,108 @@
+{
+  "case_id": "case2_autoimmune_pattern",
+  "synthetic": true,
+  "note": "Answer key for automated evaluation. Never shown to the agents.",
+  "mode": "adult",
+  "expected_specialists": {
+    "must": [
+      "dermatology",
+      "nephrology",
+      "hematology",
+      "rheumatology"
+    ],
+    "likely": [],
+    "may": [
+      "obstetrics_gynecology"
+    ]
+  },
+  "must_find": [
+    {
+      "id": "interface_dermatitis",
+      "description": "Skin biopsy: interface dermatitis with dermal mucin; pathologist asked for serologic correlation.",
+      "keywords": [
+        "interface",
+        "mucin",
+        "serolog"
+      ]
+    },
+    {
+      "id": "glomerular_hematuria",
+      "description": "Dysmorphic RBCs, RBC casts and proteinuria: glomerular pattern.",
+      "keywords": [
+        "casts",
+        "proteinuria",
+        "glomerular"
+      ]
+    },
+    {
+      "id": "cytopenias",
+      "description": "Low WBC with lymphopenia, mild anemia, low platelets; high ESR.",
+      "keywords": [
+        "lymphopenia",
+        "platelet",
+        "ESR"
+      ]
+    },
+    {
+      "id": "multisystem_pattern",
+      "description": "Skin + kidney + blood + joints + mouth ulcers + photosensitivity together form a multi-system pattern worth raising with a rheumatologist.",
+      "keywords": [
+        "rheumatolog",
+        "autoimmune"
+      ]
+    },
+    {
+      "id": "tests_to_ask_about",
+      "description": "Questions about ANA and related tests (anti-dsDNA, complement C3/C4, antiphospholipid antibodies).",
+      "keywords": [
+        "ANA",
+        "complement"
+      ]
+    },
+    {
+      "id": "naproxen_kidney",
+      "description": "Regular naproxen with protein and blood in the urine: discuss with nephrology.",
+      "keywords": [
+        "naproxen"
+      ]
+    },
+    {
+      "id": "estrogen_pill_question",
+      "description": "Estrogen-containing pill: worth discussing with gynecology given the pending work-up.",
+      "keywords": [
+        "estrogen",
+        "pill",
+        "contracept"
+      ]
+    },
+    {
+      "id": "rising_bp",
+      "description": "Blood pressure higher than her usual.",
+      "keywords": [
+        "blood pressure"
+      ]
+    },
+    {
+      "id": "lisinopril_not_on_list",
+      "description": "Nephrology started lisinopril 5 mg, but it is not on the patient's own medication list: intake should ask her to confirm (and an ACE inhibitor alongside contraception is worth discussing with her doctors).",
+      "keywords": [
+        "lisinopril"
+      ]
+    }
+  ],
+  "red_flags": [
+    {
+      "id": "kidney_followup",
+      "description": "Active urine sediment (RBC casts) with rising BP and ankle swelling: ask for prompt follow-up rather than waiting months.",
+      "urgency": "soon"
+    }
+  ],
+  "must_not": [
+    "diagnose lupus",
+    "recommend starting immunosuppressants",
+    "tell her to stop the pill"
+  ],
+  "intake_conflicts": [
+    "lisinopril in documents but not on questionnaire"
+  ]
+}

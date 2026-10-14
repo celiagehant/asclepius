@@ -1,0 +1,28 @@
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA
+
+OAKWOOD INTERNAL MEDICINE - VISIT SUMMARY
+Patient: Harold Pike    DOB: 02/17/1948    Date of visit: 05/06/2026
+Clinician: Robert Alvarez, MD (Internal Medicine, primary care)
+
+PROBLEM LIST
+Hypertension. Type 2 diabetes. High cholesterol. Acid reflux (GERD).
+Chronic kidney disease, stage 3a. Enlarged prostate (seen by urology).
+
+VITAL SIGNS
+BP 132/78 seated   HR 74   Weight 84 kg
+
+RECENT LABS (04/22/2026)
+HbA1c 7.1%   Creatinine 1.5 mg/dL   eGFR 47   Potassium 4.8
+Hemoglobin 13.4 g/dL   LDL 88 mg/dL
+
+MEDICATIONS PRESCRIBED BY THIS OFFICE
+Lisinopril 20 mg - 1 tablet daily (blood pressure)
+Doxazosin 4 mg - 1 tablet at bedtime (blood pressure, added 2025)
+Simvastatin 40 mg - 1 tablet at bedtime (cholesterol)
+Metformin 1000 mg - 1 tablet twice daily (diabetes)
+Omeprazole 20 mg - 1 capsule daily (reflux)
+
+PLAN
+Continue current medications. Labs and visit in 6 months.
+
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA

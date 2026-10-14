@@ -1,0 +1,17 @@
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA
+
+MEDICATION LIST - prepared by patient for appointments (09/10/2026)
+Patient: Alicia Moreno    DOB: 05/21/1995
+
+1. Hydrocortisone 2.5% cream - face, twice daily as needed
+   Prescribed by Dr. Brooks (dermatology), June 2026
+2. Triamcinolone 0.1% cream - arms, twice daily as needed
+   Prescribed by Dr. Brooks (dermatology), June 2026
+3. Levonorgestrel/ethinyl estradiol 0.15 mg/0.03 mg - 1 tablet daily
+   Prescribed by Dr. Okafor (gynecology), for several years
+4. Naproxen 220 mg (over the counter) - 1 to 2 tablets, 3-4 times a week
+   for joint aches. My own choice, not prescribed.
+
+Allergies: sulfa drugs (rash).
+
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA

@@ -1,0 +1,386 @@
+{
+  "run_id": "run-ee8b854dfa",
+  "user_id": "cli",
+  "case_id": "case3_pediatric_ranges",
+  "agents": [
+    {
+      "agent_id": "intake",
+      "agent": "intake",
+      "specialty": null,
+      "round": 0,
+      "inputs": [
+        "01_urgent_care_visit.txt",
+        "02_urgent_care_lab_panel.jpg",
+        "03_growth_record.pdf",
+        "04_urinalysis.txt"
+      ],
+      "started": "2026-10-14T03:17:26+00:00",
+      "finished": "2026-10-14T03:17:57+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {},
+      "output_summary": "4 documents, 4 specialists"
+    },
+    {
+      "agent_id": "r1.endocrinology",
+      "agent": "specialist",
+      "specialty": "endocrinology",
+      "round": 1,
+      "inputs": [
+        "01_urgent_care_visit.txt",
+        "02_urgent_care_lab_panel.jpg",
+        "03_growth_record.pdf",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:17:59+00:00",
+      "finished": "2026-10-14T03:18:17+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "child growth"
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Child Development; Cerebral Palsy; Juvenile Arthritis",
+          "urls": [
+            "https://medlineplus.gov/childdevelopment.html",
+            "https://medlineplus.gov/cerebralpalsy.html",
+            "https://medlineplus.gov/juvenilearthritis.html"
+          ],
+          "seconds": 0.11
+        },
+        {
+          "tool": "search_pubmed",
+          "args": {
+            "query": "pediatric short stature growth velocity evaluation"
+          },
+          "status": "ok",
+          "source": "PubMed",
+          "summary": "ok: Short Stature for the General Pediatrician.; Once-Weekly Navepegritide in Children With Achondroplasia: The APPROACH Randomized Clinical Trial.",
+          "urls": [
+            "https://pubmed.ncbi.nlm.nih.gov/40449913/",
+            "https://pubmed.ncbi.nlm.nih.gov/41247754/"
+          ],
+          "seconds": 0.87
+        }
+      ],
+      "validation": {
+        "findings_kept": 5,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 2
+      },
+      "output_summary": "5 findings"
+    },
+    {
+      "agent_id": "r1.nephrology",
+      "agent": "specialist",
+      "specialty": "nephrology",
+      "round": 1,
+      "inputs": [
+        "01_urgent_care_visit.txt",
+        "02_urgent_care_lab_panel.jpg",
+        "03_growth_record.pdf",
+        "04_urinalysis.txt",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:17:59+00:00",
+      "finished": "2026-10-14T03:18:18+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "kidney tests",
+            "max_results": 2
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Kidney Tests; Kidney Cancer",
+          "urls": [
+            "https://medlineplus.gov/kidneytests.html",
+            "https://medlineplus.gov/kidneycancer.html"
+          ],
+          "seconds": 0.1
+        },
+        {
+          "tool": "search_pubmed",
+          "args": {
+            "query": "pediatric creatinine height eGFR Schwartz growth kidney",
+            "max_results": 2
+          },
+          "status": "ok",
+          "source": "PubMed",
+          "summary": "ok: Comparing Estimated and Measured Glomerular Filtration Rate in Children with Posterior Urethral Valve.; Metabolic syndrome as risk factor for left ventricular hypertrophy in children with chronic kidney disease.",
+          "urls": [
+            "https://pubmed.ncbi.nlm.nih.gov/37635882/",
+            "https://pubmed.ncbi.nlm.nih.gov/37324258/"
+          ],
+          "seconds": 0.93
+        }
+      ],
+      "validation": {
+        "findings_kept": 6,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 2
+      },
+      "output_summary": "6 findings"
+    },
+    {
+      "agent_id": "r1.neurology",
+      "agent": "specialist",
+      "specialty": "neurology",
+      "round": 1,
+      "inputs": [
+        "01_urgent_care_visit.txt",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:17:59+00:00",
+      "finished": "2026-10-14T03:18:12+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "children headaches",
+            "max_results": 2
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Headache; Eye Diseases",
+          "urls": [
+            "https://medlineplus.gov/headache.html",
+            "https://medlineplus.gov/eyediseases.html"
+          ],
+          "seconds": 0.69
+        }
+      ],
+      "validation": {
+        "findings_kept": 5,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 1
+      },
+      "output_summary": "5 findings"
+    },
+    {
+      "agent_id": "r1.hematology",
+      "agent": "specialist",
+      "specialty": "hematology",
+      "round": 1,
+      "inputs": [
+        "01_urgent_care_visit.txt",
+        "02_urgent_care_lab_panel.jpg",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:17:59+00:00",
+      "finished": "2026-10-14T03:18:10+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "anemia",
+            "max_results": 2
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Anemia; Aplastic Anemia",
+          "urls": [
+            "https://medlineplus.gov/anemia.html",
+            "https://medlineplus.gov/aplasticanemia.html"
+          ],
+          "seconds": 0.12
+        }
+      ],
+      "validation": {
+        "findings_kept": 3,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 1
+      },
+      "output_summary": "3 findings"
+    },
+    {
+      "agent_id": "r1.clinical_pharmacist",
+      "agent": "pharmacist",
+      "specialty": "clinical_pharmacist",
+      "round": 1,
+      "inputs": [
+        "intake medication summary",
+        "relevant labs",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:17:59+00:00",
+      "finished": "2026-10-14T03:18:07+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "fda_label_search",
+          "args": {
+            "drug": "ibuprofen",
+            "terms": [
+              "children",
+              "kidney disease",
+              "dehydration",
+              "renal impairment",
+              "multivitamin"
+            ]
+          },
+          "status": "ok",
+          "source": "openFDA drug label",
+          "summary": "ok: label sections: warnings",
+          "urls": [
+            "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=00653b7c-7099-487e-9a01-e89781c21323"
+          ],
+          "seconds": 0.68
+        }
+      ],
+      "validation": {
+        "issues_kept": 2,
+        "dropped": [],
+        "tool_calls": 1
+      },
+      "output_summary": "2 issues"
+    },
+    {
+      "agent_id": "r2.hematology",
+      "agent": "specialist",
+      "specialty": "hematology",
+      "round": 2,
+      "inputs": [
+        "round-1 report of endocrinology",
+        "round-1 report of nephrology"
+      ],
+      "started": "2026-10-14T03:18:18+00:00",
+      "finished": "2026-10-14T03:18:24+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "connections_kept": 1,
+        "dropped": []
+      },
+      "output_summary": "1 connections, 0 disagreements"
+    },
+    {
+      "agent_id": "r2.neurology",
+      "agent": "specialist",
+      "specialty": "neurology",
+      "round": 2,
+      "inputs": [
+        "round-1 report of endocrinology",
+        "round-1 report of nephrology"
+      ],
+      "started": "2026-10-14T03:18:18+00:00",
+      "finished": "2026-10-14T03:19:54+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "connections_kept": 2,
+        "dropped": []
+      },
+      "output_summary": "2 connections, 0 disagreements"
+    },
+    {
+      "agent_id": "r2.endocrinology",
+      "agent": "specialist",
+      "specialty": "endocrinology",
+      "round": 2,
+      "inputs": [
+        "round-1 report of hematology",
+        "round-1 report of neurology",
+        "round-1 report of nephrology"
+      ],
+      "started": "2026-10-14T03:18:18+00:00",
+      "finished": "2026-10-14T03:18:25+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "connections_kept": 3,
+        "dropped": []
+      },
+      "output_summary": "3 connections, 0 disagreements"
+    },
+    {
+      "agent_id": "r2.nephrology",
+      "agent": "specialist",
+      "specialty": "nephrology",
+      "round": 2,
+      "inputs": [
+        "round-1 report of hematology",
+        "round-1 report of neurology",
+        "round-1 report of endocrinology"
+      ],
+      "started": "2026-10-14T03:18:18+00:00",
+      "finished": "2026-10-14T03:18:25+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "connections_kept": 3,
+        "dropped": []
+      },
+      "output_summary": "3 connections, 0 disagreements"
+    },
+    {
+      "agent_id": "coordinator.synthesis",
+      "agent": "coordinator",
+      "specialty": "pediatrics",
+      "round": null,
+      "inputs": [
+        "reports of hematology, neurology, endocrinology, nephrology",
+        "pharmacist",
+        "round 2",
+        "document summaries"
+      ],
+      "started": "2026-10-14T03:19:54+00:00",
+      "finished": "2026-10-14T03:20:11+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "dropped": []
+      },
+      "output_summary": "7 findings, 4 connections"
+    },
+    {
+      "agent_id": "safety_reviewer",
+      "agent": "safety_reviewer",
+      "specialty": null,
+      "round": null,
+      "inputs": [
+        "summary items",
+        "urgent concerns",
+        "intake signals"
+      ],
+      "started": "2026-10-14T03:20:11+00:00",
+      "finished": "2026-10-14T03:20:17+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {},
+      "output_summary": "0 edits, 3 missed red flags added"
+    }
+  ],
+  "tool_calls_total": 7,
+  "stop_reason": "completed: conference ended after round 2 (hard stop), summary reviewed",
+  "status": "complete",
+  "budget": {
+    "spent_usd": 0.012349,
+    "run_limit_usd": 0.05,
+    "limit_usd": 0.05,
+    "remaining_usd": 0.037651
+  }
+}

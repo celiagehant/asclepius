@@ -1,0 +1,484 @@
+{
+  "run_id": "run-ee336f8d55",
+  "user_id": "cli",
+  "case_id": "case1_adult_multisystem",
+  "agents": [
+    {
+      "agent_id": "intake",
+      "agent": "intake",
+      "specialty": null,
+      "round": 0,
+      "inputs": [
+        "01_primary_care_labs.png",
+        "02_iron_studies_and_stool_tests.pdf",
+        "03_cardiology_consult.txt",
+        "04_ecg_report.txt",
+        "05_upper_endoscopy_report.pdf",
+        "06_medication_list.txt"
+      ],
+      "started": "2026-10-14T03:30:26+00:00",
+      "finished": "2026-10-14T03:30:34+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {},
+      "output_summary": "6 documents, 5 specialists"
+    },
+    {
+      "agent_id": "r1.hematology",
+      "agent": "specialist",
+      "specialty": "hematology",
+      "round": 1,
+      "inputs": [
+        "01_primary_care_labs.png",
+        "02_iron_studies_and_stool_tests.pdf",
+        "05_upper_endoscopy_report.pdf",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:30:36+00:00",
+      "finished": "2026-10-14T03:30:54+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "iron deficiency anemia",
+            "max_results": 2
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Anemia; Iron",
+          "urls": [
+            "https://medlineplus.gov/anemia.html",
+            "https://medlineplus.gov/iron.html"
+          ],
+          "seconds": 0.52
+        },
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "stomach ulcers",
+            "max_results": 2
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Peptic Ulcer; Helicobacter pylori Infections",
+          "urls": [
+            "https://medlineplus.gov/pepticulcer.html",
+            "https://medlineplus.gov/helicobacterpyloriinfections.html"
+          ],
+          "seconds": 0.66
+        }
+      ],
+      "validation": {
+        "findings_kept": 6,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 2
+      },
+      "output_summary": "6 findings"
+    },
+    {
+      "agent_id": "r1.gastroenterology",
+      "agent": "specialist",
+      "specialty": "gastroenterology",
+      "round": 1,
+      "inputs": [
+        "02_iron_studies_and_stool_tests.pdf",
+        "05_upper_endoscopy_report.pdf",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:30:36+00:00",
+      "finished": "2026-10-14T03:30:48+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "iron deficiency",
+            "max_results": 3
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Anemia; Iron; Aplastic Anemia",
+          "urls": [
+            "https://medlineplus.gov/anemia.html",
+            "https://medlineplus.gov/iron.html",
+            "https://medlineplus.gov/aplasticanemia.html"
+          ],
+          "seconds": 0.52
+        }
+      ],
+      "validation": {
+        "findings_kept": 6,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 1
+      },
+      "output_summary": "6 findings"
+    },
+    {
+      "agent_id": "r1.cardiology",
+      "agent": "specialist",
+      "specialty": "cardiology",
+      "round": 1,
+      "inputs": [
+        "03_cardiology_consult.txt",
+        "04_ecg_report.txt",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:30:36+00:00",
+      "finished": "2026-10-14T03:30:46+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "heart palpitations",
+            "max_results": 3
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Arrhythmia; Atrial Fibrillation; Heart Diseases",
+          "urls": [
+            "https://medlineplus.gov/arrhythmia.html",
+            "https://medlineplus.gov/atrialfibrillation.html",
+            "https://medlineplus.gov/heartdiseases.html"
+          ],
+          "seconds": 0.46
+        },
+        {
+          "tool": "search_pubmed",
+          "args": {
+            "query": "sinus tachycardia iron deficiency anemia palpitations",
+            "max_results": 3
+          },
+          "status": "ok",
+          "source": "PubMed",
+          "summary": "ok: [Electrocardiographic changes in patients with chronic anemia].",
+          "urls": [
+            "https://pubmed.ncbi.nlm.nih.gov/9921020/"
+          ],
+          "seconds": 0.74
+        }
+      ],
+      "validation": {
+        "findings_kept": 4,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 2
+      },
+      "output_summary": "4 findings"
+    },
+    {
+      "agent_id": "r1.endocrinology",
+      "agent": "specialist",
+      "specialty": "endocrinology",
+      "round": 1,
+      "inputs": [
+        "01_primary_care_labs.png",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:30:36+00:00",
+      "finished": "2026-10-14T03:30:47+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "thyroid tests",
+            "max_results": 2
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Thyroid Tests; Hyperthyroidism",
+          "urls": [
+            "https://medlineplus.gov/thyroidtests.html",
+            "https://medlineplus.gov/hyperthyroidism.html"
+          ],
+          "seconds": 0.33
+        }
+      ],
+      "validation": {
+        "findings_kept": 3,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 1
+      },
+      "output_summary": "3 findings"
+    },
+    {
+      "agent_id": "r1.neurology",
+      "agent": "specialist",
+      "specialty": "neurology",
+      "round": 1,
+      "inputs": [
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:30:36+00:00",
+      "finished": "2026-10-14T03:30:49+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "headaches"
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Headache; Migraine; Caffeine",
+          "urls": [
+            "https://medlineplus.gov/headache.html",
+            "https://medlineplus.gov/migraine.html",
+            "https://medlineplus.gov/caffeine.html"
+          ],
+          "seconds": 0.61
+        },
+        {
+          "tool": "search_pubmed",
+          "args": {
+            "query": "medication overuse headache ibuprofen frequent use",
+            "max_results": 3
+          },
+          "status": "ok",
+          "source": "PubMed",
+          "summary": "ok: Monitoring chronic headache and medication-overuse headache prevalence in Denmark.; Overuse of analgesics can affect the fertility biomarker Anti-M\u00fcllerian Hormone in females. A translational study.",
+          "urls": [
+            "https://pubmed.ncbi.nlm.nih.gov/31522547/",
+            "https://pubmed.ncbi.nlm.nih.gov/39558601/"
+          ],
+          "seconds": 1.52
+        }
+      ],
+      "validation": {
+        "findings_kept": 3,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 2
+      },
+      "output_summary": "3 findings"
+    },
+    {
+      "agent_id": "r1.clinical_pharmacist",
+      "agent": "pharmacist",
+      "specialty": "clinical_pharmacist",
+      "round": 1,
+      "inputs": [
+        "intake medication summary",
+        "relevant labs",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:30:36+00:00",
+      "finished": "2026-10-14T03:30:47+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "fda_label_search",
+          "args": {
+            "drug": "ibuprofen",
+            "terms": [
+              "omeprazole",
+              "norgestimate",
+              "ethinyl estradiol",
+              "NSAID",
+              "ulcer",
+              "gastrointestinal bleeding"
+            ]
+          },
+          "status": "ok",
+          "source": "openFDA drug label",
+          "summary": "ok: label sections: warnings",
+          "urls": [
+            "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=00653b7c-7099-487e-9a01-e89781c21323"
+          ],
+          "seconds": 0.5
+        },
+        {
+          "tool": "fda_label_search",
+          "args": {
+            "drug": "omeprazole",
+            "terms": [
+              "ibuprofen",
+              "iron",
+              "H. pylori"
+            ]
+          },
+          "status": "ok",
+          "source": "openFDA drug label",
+          "summary": "ok: No label sentence mentions these terms.",
+          "urls": [
+            "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=015b1c8f-9d5b-4afc-a55c-1a731b5fc72a"
+          ],
+          "seconds": 0.52
+        },
+        {
+          "tool": "fda_label_search",
+          "args": {
+            "drug": "norgestimate/ethinyl estradiol",
+            "terms": [
+              "ibuprofen",
+              "propranolol"
+            ]
+          },
+          "status": "ok",
+          "source": "openFDA drug label",
+          "summary": "ok: No label sentence mentions these terms.",
+          "urls": [
+            "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=00dd9b78-dd90-414b-b241-7619aa9d1ed2"
+          ],
+          "seconds": 1.12
+        }
+      ],
+      "validation": {
+        "issues_kept": 3,
+        "dropped": [],
+        "tool_calls": 3
+      },
+      "output_summary": "3 issues"
+    },
+    {
+      "agent_id": "r2.endocrinology",
+      "agent": "specialist",
+      "specialty": "endocrinology",
+      "round": 2,
+      "inputs": [
+        "round-1 report of hematology",
+        "round-1 report of gastroenterology"
+      ],
+      "started": "2026-10-14T03:30:54+00:00",
+      "finished": "2026-10-14T03:31:00+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "connections_kept": 2,
+        "dropped": []
+      },
+      "output_summary": "2 connections, 0 disagreements"
+    },
+    {
+      "agent_id": "r2.gastroenterology",
+      "agent": "specialist",
+      "specialty": "gastroenterology",
+      "round": 2,
+      "inputs": [
+        "round-1 report of hematology",
+        "round-1 report of cardiology",
+        "round-1 report of endocrinology"
+      ],
+      "started": "2026-10-14T03:30:54+00:00",
+      "finished": "2026-10-14T03:30:59+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "connections_kept": 2,
+        "dropped": []
+      },
+      "output_summary": "2 connections, 0 disagreements"
+    },
+    {
+      "agent_id": "r2.hematology",
+      "agent": "specialist",
+      "specialty": "hematology",
+      "round": 2,
+      "inputs": [
+        "round-1 report of endocrinology",
+        "round-1 report of gastroenterology",
+        "round-1 report of neurology"
+      ],
+      "started": "2026-10-14T03:30:54+00:00",
+      "finished": "2026-10-14T03:30:58+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "connections_kept": 2,
+        "dropped": []
+      },
+      "output_summary": "2 connections, 0 disagreements"
+    },
+    {
+      "agent_id": "r2.cardiology",
+      "agent": "specialist",
+      "specialty": "cardiology",
+      "round": 2,
+      "inputs": [],
+      "started": "2026-10-14T03:31:00+00:00",
+      "finished": "2026-10-14T03:31:00+00:00",
+      "status": "skipped",
+      "stop_reason": "no peer shares a question, value or region",
+      "tool_calls": [],
+      "validation": {},
+      "output_summary": null
+    },
+    {
+      "agent_id": "r2.neurology",
+      "agent": "specialist",
+      "specialty": "neurology",
+      "round": 2,
+      "inputs": [],
+      "started": "2026-10-14T03:31:00+00:00",
+      "finished": "2026-10-14T03:31:00+00:00",
+      "status": "skipped",
+      "stop_reason": "no peer shares a question, value or region",
+      "tool_calls": [],
+      "validation": {},
+      "output_summary": null
+    },
+    {
+      "agent_id": "coordinator.synthesis",
+      "agent": "coordinator",
+      "specialty": "internal_medicine",
+      "round": null,
+      "inputs": [
+        "reports of cardiology, endocrinology, gastroenterology, neurology, hematology",
+        "pharmacist",
+        "round 2",
+        "document summaries"
+      ],
+      "started": "2026-10-14T03:31:00+00:00",
+      "finished": "2026-10-14T03:31:17+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "dropped": []
+      },
+      "output_summary": "8 findings, 6 connections"
+    },
+    {
+      "agent_id": "safety_reviewer",
+      "agent": "safety_reviewer",
+      "specialty": null,
+      "round": null,
+      "inputs": [
+        "summary items",
+        "urgent concerns",
+        "intake signals"
+      ],
+      "started": "2026-10-14T03:31:17+00:00",
+      "finished": "2026-10-14T03:31:24+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {},
+      "output_summary": "0 edits, 2 missed red flags added"
+    }
+  ],
+  "tool_calls_total": 11,
+  "stop_reason": "completed: conference ended after round 2 (hard stop), summary reviewed",
+  "status": "complete",
+  "budget": {
+    "spent_usd": 0.01138,
+    "run_limit_usd": 0.05,
+    "limit_usd": 0.05,
+    "remaining_usd": 0.03862
+  }
+}

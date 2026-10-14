@@ -1,0 +1,25 @@
+# One-click deployment on Render (render.com): New + > Blueprint > pick this repo.
+# Render asks for PORTKEY_API_KEY (stored as a secret, never in the repo). Everything else is set here.
+services:
+  - type: web
+    name: case-conference
+    runtime: python
+    plan: free                      # free instances sleep after 15 idle minutes (first visit then takes ~1 min)
+    buildCommand: pip install --prefer-binary -r requirements.txt
+    startCommand: python run.py --host 0.0.0.0 --proxy-headers
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      - key: PORTKEY_API_KEY
+        sync: false                 # you paste the key in the Render dashboard
+      - key: CC_PUBLIC_DEMO         # shows "don't upload real medical records" notices
+        value: "1"
+      - key: CC_DAILY_BUDGET_USD    # per user per day
+        value: "0.30"
+      - key: CC_GLOBAL_DAILY_BUDGET_USD   # all users together per day: protects the course key
+        value: "3.00"
+      - key: CC_SIGNUPS_PER_IP_PER_HOUR
+        value: "5"
+      - key: PYDANTIC_AI_NO_BANNER
+        value: "1"

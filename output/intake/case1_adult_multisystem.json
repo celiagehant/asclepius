@@ -1,0 +1,1352 @@
+{
+  "case_label": "case1_adult_multisystem",
+  "modes": {
+    "age_years": 42.0,
+    "age_group": "adult",
+    "pediatric": false,
+    "pregnancy": false,
+    "coordinator": "internal_medicine",
+    "coordinator_name": "Internal medicine",
+    "pharmacist_active": true
+  },
+  "documents": [
+    {
+      "filename": "01_primary_care_labs.png",
+      "sha256": "e8b42e838423b4923ad8f648318725e9fc5f6583e0e747c92e5d23a1a540a6d2",
+      "kind": "image",
+      "read_by": "vision",
+      "page_count": 1,
+      "text": "SYNTHETIC TEST DOCUMENT \u2013 FICTIONAL PATIENT \u2013 NOT REAL MEDICAL DATA\n\nRIVERBEND FAMILY MEDICINE \u2013 LABORATORY RESULTS\nPatient: Dana Whitfield        DOB: 03/12/1984        Sex: F\nCollected: 07/08/2026 08:14        Ordering: Laura Chen, MD (Family Medicine)\n\nCOMPLETE BLOOD COUNT\nRESULT    FLAG    REFERENCE    UNITS\nWBC          6.8             4.0 \u2013 11.0     x10^3/uL\nRBC          4.02            3.90 \u2013 5.20    x10^6/uL\nHemoglobin   10.1      L     12.0 \u2013 15.5    g/dL\nHematocrit   32.4      L     36.0 \u2013 46.0    %\nMCV          76        L     80 \u2013 100       fL\nMCH          25.1      L     27.0 \u2013 33.0    pg\nRDW          17.6      H     11.5 \u2013 14.5    %\nPlatelets    438       H     150 \u2013 400      x10^3/uL\n\nCOMPREHENSIVE METABOLIC PANEL\nSodium       139             135 \u2013 145      mmol/L\nPotassium    4.1             3.5 \u2013 5.1      mmol/L\nCreatinine   0.8             0.6 \u2013 1.1      mg/dL\nGlucose, fasting 88           70 \u2013 99        mg/dL\nALT          22              7 \u2013 35         U/L\nAST          19              10 \u2013 35        U/L\nAlbumin      4.0             3.5 \u2013 5.0      g/dL\nCalcium      9.2             8.6 \u2013 10.3     mg/dL\n\nTHYROID / VITAMINS\nTSH          4.9       H     0.4 \u2013 4.5      mIU/L\nFree T4      1.0             0.8 \u2013 1.8      ng/dL\nVitamin B12  412             200 \u2013 900      pg/mL\n\nPhysician comment (L. Chen, 07/10/2026): Mild anemia. TSH slightly high\nwith normal free T4. Repeat CBC and TSH in 3 months.\n\nSYNTHETIC TEST DOCUMENT \u2013 FICTIONAL PATIENT \u2013 NOT REAL MEDICAL DATA",
+      "hidden_text": [],
+      "notes": [],
+      "extraction": {
+        "doc_type": "lab_report",
+        "date": "2026-07-08",
+        "source": "Riverbend Family Medicine \u2013 Laboratory Results (Laura Chen, MD, Family Medicine)",
+        "specialties": [
+          "internal_medicine",
+          "hematology",
+          "endocrinology",
+          "nephrology"
+        ],
+        "summary": "CBC shows flagged low hemoglobin, hematocrit, MCV and MCH, with high RDW and platelets; TSH is high with normal free T4.",
+        "patient_name_on_document": "Dana Whitfield",
+        "patient_dob_on_document": "1984-03-12",
+        "patient_sex_on_document": "female",
+        "labs": [
+          {
+            "test": "WBC",
+            "value": "6.8",
+            "unit": "x10^3/uL",
+            "reference_range": "4.0 \u2013 11.0",
+            "flag": "none",
+            "date": "2026-07-08"
+          },
+          {
+            "test": "RBC",
+            "value": "4.02",
+            "unit": "x10^6/uL",
+            "reference_range": "3.90 \u2013 5.20",
+            "flag": "none",
+            "date": "2026-07-08"
+          },
+          {
+            "test": "Hemoglobin",
+            "value": "10.1",
+            "unit": "g/dL",
+            "reference_range": "12.0 \u2013 15.5",
+            "flag": "low",
+            "date": "2026-07-08"
+          },
+          {
+            "test": "Hematocrit",
+            "value": "32.4",
+            "unit": "%",
+            "reference_range": "36.0 \u2013 46.0",
+            "flag": "low",
+            "date": "2026-07-08"
+          },
+          {
+            "test": "MCV",
+            "value": "76",
+            "unit": "fL",
+            "reference_range": "80 \u2013 100",
+            "flag": "low",
+            "date": "2026-07-08"
+          },
+          {
+            "test": "MCH",
+            "value": "25.1",
+            "unit": "pg",
+            "reference_range": "27.0 \u2013 33.0",
+            "flag": "low",
+            "date": "2026-07-08"
+          },
+          {
+            "test": "RDW",
+            "value": "17.6",
+            "unit": "%",
+            "reference_range": "11.5 \u2013 14.5",
+            "flag": "high",
+            "date": "2026-07-08"
+          },
+          {
+            "test": "Platelets",
+            "value": "438",
+            "unit": "x10^3/uL",
+            "reference_range": "150 \u2013 400",
+            "flag": "high",
+            "date": "2026-07-08"
+          },
+          {
+            "test": "Sodium",
+            "value": "139",
+            "unit": "mmol/L",
+            "reference_range": "135 \u2013 145",
+            "flag": "none",
+            "date": "2026-07-08"
+          },
+          {
+            "test": "Potassium",
+            "value": "4.1",
+            "unit": "mmol/L",
+            "reference_range": "3.5 \u2013 5.1",
+            "flag": "none",
+            "date": "2026-07-08"
+          },
+          {
+            "test": "Creatinine",
+            "value": "0.8",
+            "unit": "mg/dL",
+            "reference_range": "0.6 \u2013 1.1",
+            "flag": "none",
+            "date": "2026-07-08"
+          },
+          {
+            "test": "Glucose, fasting",
+            "value": "88",
+            "unit": "mg/dL",
+            "reference_range": "70 \u2013 99",
+            "flag": "none",
+            "date": "2026-07-08"
+          },
+          {
+            "test": "ALT",
+            "value": "22",
+            "unit": "U/L",
+            "reference_range": "7 \u2013 35",
+            "flag": "none",
+            "date": "2026-07-08"
+          },
+          {
+            "test": "AST",
+            "value": "19",
+            "unit": "U/L",
+            "reference_range": "10 \u2013 35",
+            "flag": "none",
+            "date": "2026-07-08"
+          },
+          {
+            "test": "Albumin",
+            "value": "4.0",
+            "unit": "g/dL",
+            "reference_range": "3.5 \u2013 5.0",
+            "flag": "none",
+            "date": "2026-07-08"
+          },
+          {
+            "test": "Calcium",
+            "value": "9.2",
+            "unit": "mg/dL",
+            "reference_range": "8.6 \u2013 10.3",
+            "flag": "none",
+            "date": "2026-07-08"
+          },
+          {
+            "test": "TSH",
+            "value": "4.9",
+            "unit": "mIU/L",
+            "reference_range": "0.4 \u2013 4.5",
+            "flag": "high",
+            "date": "2026-07-08"
+          },
+          {
+            "test": "Free T4",
+            "value": "1.0",
+            "unit": "ng/dL",
+            "reference_range": "0.8 \u2013 1.8",
+            "flag": "none",
+            "date": "2026-07-08"
+          },
+          {
+            "test": "Vitamin B12",
+            "value": "412",
+            "unit": "pg/mL",
+            "reference_range": "200 \u2013 900",
+            "flag": "none",
+            "date": "2026-07-08"
+          }
+        ],
+        "medications": [],
+        "mentions_possible_malignancy": false,
+        "mentions_self_harm": false,
+        "instructions_to_ai": []
+      },
+      "error": null
+    },
+    {
+      "filename": "02_iron_studies_and_stool_tests.pdf",
+      "sha256": "fd0eea16ce216e3acee35d5e1c6c873612c8a47a2a82f328353ea1bdafa4109e",
+      "kind": "pdf",
+      "read_by": "text",
+      "page_count": 1,
+      "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nLAKESIDE DIGESTIVE HEALTH - LABORATORY REPORT\nPatient: Dana Whitfield        DOB: 03/12/1984      Sex: F\nCollected: 08/19/2026          Ordering: Marcus Feld, MD (Gastroenterology)\n\nIRON STUDIES                  RESULT    FLAG   REFERENCE        UNITS\nIron, serum                    28        L      50 - 170        ug/dL\nTIBC                           462       H      250 - 450       ug/dL\nTransferrin saturation         6         L      15 - 50         %\nFerritin                       6         L      15 - 150        ng/mL\n\nCELIAC SCREEN\ntTG-IgA                        <1.0             <4.0 negative   U/mL\nTotal IgA                      210              70 - 400        mg/dL\n\nSTOOL TESTS\nFecal immunochemical test (FIT)     POSITIVE   (reference: negative)\nH. pylori stool antigen             POSITIVE   (reference: negative)\n\nComment: Iron studies consistent with iron deficiency. Celiac screen\nnegative with normal total IgA. Upper endoscopy scheduled.\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+      "hidden_text": [],
+      "notes": [],
+      "extraction": {
+        "doc_type": "lab_report",
+        "date": "2026-08-19",
+        "source": "Laboratory - Lakeside Digestive Health (ordered by Marcus Feld, MD, Gastroenterology)",
+        "specialties": [
+          "gastroenterology",
+          "hematology",
+          "infectious_disease"
+        ],
+        "summary": "Iron studies show low serum iron, transferrin saturation, and ferritin with high TIBC; stool FIT and H. pylori antigen are positive, and celiac screen is negative.",
+        "patient_name_on_document": "Dana Whitfield",
+        "patient_dob_on_document": "1984-03-12",
+        "patient_sex_on_document": "female",
+        "labs": [
+          {
+            "test": "Iron, serum",
+            "value": "28",
+            "unit": "ug/dL",
+            "reference_range": "50 - 170",
+            "flag": "low",
+            "date": "2026-08-19"
+          },
+          {
+            "test": "TIBC",
+            "value": "462",
+            "unit": "ug/dL",
+            "reference_range": "250 - 450",
+            "flag": "high",
+            "date": "2026-08-19"
+          },
+          {
+            "test": "Transferrin saturation",
+            "value": "6",
+            "unit": "%",
+            "reference_range": "15 - 50",
+            "flag": "low",
+            "date": "2026-08-19"
+          },
+          {
+            "test": "Ferritin",
+            "value": "6",
+            "unit": "ng/mL",
+            "reference_range": "15 - 150",
+            "flag": "low",
+            "date": "2026-08-19"
+          },
+          {
+            "test": "tTG-IgA",
+            "value": "<1.0",
+            "unit": "U/mL",
+            "reference_range": "<4.0 negative",
+            "flag": "none",
+            "date": "2026-08-19"
+          },
+          {
+            "test": "Total IgA",
+            "value": "210",
+            "unit": "mg/dL",
+            "reference_range": "70 - 400",
+            "flag": "none",
+            "date": "2026-08-19"
+          },
+          {
+            "test": "Fecal immunochemical test (FIT)",
+            "value": "POSITIVE",
+            "unit": null,
+            "reference_range": "negative",
+            "flag": "abnormal",
+            "date": "2026-08-19"
+          },
+          {
+            "test": "H. pylori stool antigen",
+            "value": "POSITIVE",
+            "unit": null,
+            "reference_range": "negative",
+            "flag": "abnormal",
+            "date": "2026-08-19"
+          }
+        ],
+        "medications": [],
+        "mentions_possible_malignancy": false,
+        "mentions_self_harm": false,
+        "instructions_to_ai": []
+      },
+      "error": null
+    },
+    {
+      "filename": "03_cardiology_consult.txt",
+      "sha256": "1a62b401753e9527aa235249bc9fcb561a830320c0d0e3d97675f0c6a927143c",
+      "kind": "text",
+      "read_by": "text",
+      "page_count": 1,
+      "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nHARBORVIEW HEART ASSOCIATES - CARDIOLOGY CONSULTATION\nPatient: Dana Whitfield    DOB: 03/12/1984    Date of visit: 07/29/2026\nConsultant: Anika Rhodes, MD (Cardiology)\nReferred by: Laura Chen, MD, for palpitations\n\nHISTORY\n42-year-old woman with 4 months of palpitations, worse climbing stairs,\nwith fatigue and occasional lightheadedness on standing. No chest pain,\nno fainting. Drinks 2 cups of coffee a day. No prior heart history.\n\nVITAL SIGNS\nBP 108/68   HR 102 (regular)   SpO2 99% on room air   BMI 23.1\n\nEXAM\nRegular rhythm, mildly fast. Soft 2/6 systolic flow murmur at the left\nsternal border. Lungs clear. No leg swelling.\n\nTESTS REVIEWED\n- ECG today: sinus tachycardia, otherwise normal (separate report).\n- 48-hour Holter (07/15-07/17/2026): sinus rhythm throughout. Average HR\n  96, maximum 148 with exertion, minimum 68 asleep. Rare isolated PACs\n  (<1% of beats). No atrial fibrillation, no sustained arrhythmia.\n- Echocardiogram (07/22/2026): normal left ventricular size and function,\n  ejection fraction 60%. No significant valve disease. Murmur consistent\n  with a benign flow murmur.\n- Recent blood counts were not available at the time of this visit.\n\nASSESSMENT\nPalpitations with sinus tachycardia and a structurally normal heart.\nNo arrhythmia identified.\n\nPLAN\n1. Propranolol 10 mg by mouth up to twice daily as needed for palpitations.\n2. Reduce caffeine.\n3. Return in 6 months, sooner if fainting or chest pain.\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+      "hidden_text": [],
+      "notes": [],
+      "extraction": {
+        "doc_type": "consult_note",
+        "date": "2026-07-29",
+        "source": "Cardiology - Harborview Heart Associates (Anika Rhodes, MD)",
+        "specialties": [
+          "cardiology"
+        ],
+        "summary": "Palpitations with sinus tachycardia; Holter showed rare isolated PACs without sustained arrhythmia, and echocardiogram showed normal heart structure and function.",
+        "patient_name_on_document": "Dana Whitfield",
+        "patient_dob_on_document": "1984-03-12",
+        "patient_sex_on_document": "female",
+        "labs": [
+          {
+            "test": "BP",
+            "value": "108/68",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-07-29"
+          },
+          {
+            "test": "HR",
+            "value": "102",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-07-29"
+          },
+          {
+            "test": "SpO2",
+            "value": "99%",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-07-29"
+          },
+          {
+            "test": "BMI",
+            "value": "23.1",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-07-29"
+          },
+          {
+            "test": "Holter average HR",
+            "value": "96",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-07-15"
+          },
+          {
+            "test": "Holter maximum HR",
+            "value": "148",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-07-15"
+          },
+          {
+            "test": "Holter minimum HR",
+            "value": "68",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-07-15"
+          },
+          {
+            "test": "PACs",
+            "value": "<1% of beats",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-07-15"
+          },
+          {
+            "test": "Ejection fraction",
+            "value": "60%",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-07-22"
+          }
+        ],
+        "medications": [
+          {
+            "name": "Propranolol",
+            "generic_name": "propranolol",
+            "dose": "10 mg",
+            "frequency": "by mouth up to twice daily as needed for palpitations",
+            "prescriber": "Anika Rhodes, MD",
+            "status": "started"
+          }
+        ],
+        "mentions_possible_malignancy": false,
+        "mentions_self_harm": false,
+        "instructions_to_ai": []
+      },
+      "error": null
+    },
+    {
+      "filename": "04_ecg_report.txt",
+      "sha256": "ac18a176d64c689e479e631817f65aeb08785853992ea79f2f28b1ea4c30cf65",
+      "kind": "text",
+      "read_by": "text",
+      "page_count": 1,
+      "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nHARBORVIEW HEART ASSOCIATES - 12-LEAD ECG REPORT\nPatient: Dana Whitfield    DOB: 03/12/1984    Recorded: 07/29/2026 10:42\nRead by: Anika Rhodes, MD (Cardiology)\n\nMEASUREMENTS\nVentricular rate     104 bpm\nPR interval          148 ms\nQRS duration          86 ms\nQT / QTc (Bazett)    330 / 434 ms\nAxis                 +52 degrees\n\nINTERPRETATION\nSinus tachycardia. Normal intervals and axis. No ST-segment or T-wave\nchanges. No signs of chamber enlargement.\nOtherwise normal ECG. No prior ECG available for comparison.\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+      "hidden_text": [],
+      "notes": [],
+      "extraction": {
+        "doc_type": "ecg_report",
+        "date": "2026-07-29",
+        "source": "Cardiology - Harborview Heart Associates (Anika Rhodes, MD)",
+        "specialties": [
+          "cardiology"
+        ],
+        "summary": "ECG shows sinus tachycardia with normal intervals and axis, no ST-segment or T-wave changes, and no signs of chamber enlargement.",
+        "patient_name_on_document": "Dana Whitfield",
+        "patient_dob_on_document": "1984-03-12",
+        "patient_sex_on_document": null,
+        "labs": [
+          {
+            "test": "Ventricular rate",
+            "value": "104",
+            "unit": "bpm",
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-07-29"
+          },
+          {
+            "test": "PR interval",
+            "value": "148",
+            "unit": "ms",
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-07-29"
+          },
+          {
+            "test": "QRS duration",
+            "value": "86",
+            "unit": "ms",
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-07-29"
+          },
+          {
+            "test": "QT",
+            "value": "330",
+            "unit": "ms",
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-07-29"
+          },
+          {
+            "test": "QTc (Bazett)",
+            "value": "434",
+            "unit": "ms",
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-07-29"
+          },
+          {
+            "test": "Axis",
+            "value": "+52",
+            "unit": "degrees",
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-07-29"
+          }
+        ],
+        "medications": [],
+        "mentions_possible_malignancy": false,
+        "mentions_self_harm": false,
+        "instructions_to_ai": []
+      },
+      "error": null
+    },
+    {
+      "filename": "05_upper_endoscopy_report.pdf",
+      "sha256": "fa827a1522941b140d349b35017c09e1fbcbaf1619a64b651ffb0ed4066f9e22",
+      "kind": "pdf",
+      "read_by": "text",
+      "page_count": 1,
+      "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nLAKESIDE DIGESTIVE HEALTH - UPPER ENDOSCOPY (EGD) REPORT\nPatient: Dana Whitfield        DOB: 03/12/1984\nDate of procedure: 09/02/2026  Endoscopist: Marcus Feld, MD\n\nINDICATIONS\nIron-deficiency anemia, positive fecal immunochemical test, 3 months of\nupper abdominal discomfort and bloating, daily ibuprofen use for\nheadaches, positive H. pylori stool antigen.\n\nFINDINGS\nEsophagus: normal.\nStomach: patchy redness of the antrum with 5 to 6 small superficial\nerosions. One 6 mm clean-based ulcer in the antrum with no active\nbleeding and no visible vessel.\nDuodenum: normal to the second portion.\n\nBIOPSIES\nGastric antrum and body (H. pylori, histology). Ulcer margin sampled per\nstandard practice. Duodenal biopsies to exclude celiac disease.\nPathology: PENDING at the time of this report.\n\nIMPRESSION\nAntral erosions and a small clean-based gastric ulcer, most likely\nrelated to NSAID use and/or H. pylori infection.\n\nRECOMMENDATIONS\n1. Avoid ibuprofen and other NSAIDs.\n2. Omeprazole 40 mg daily before breakfast for 8 weeks.\n3. Treat H. pylori once pathology is back.\n4. Colonoscopy recommended to complete the evaluation of iron deficiency\n   and the positive FIT (not yet scheduled).\n5. Clinic follow-up to review pathology in 2 to 3 weeks.\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+      "hidden_text": [],
+      "notes": [],
+      "extraction": {
+        "doc_type": "procedure_report",
+        "date": "2026-09-02",
+        "source": "Gastroenterology - Lakeside Digestive Health (Marcus Feld, MD)",
+        "specialties": [
+          "gastroenterology",
+          "hematology",
+          "infectious_disease"
+        ],
+        "summary": "EGD showed antral erosions and a small clean-based gastric ulcer; gastric and duodenal biopsies are pending.",
+        "patient_name_on_document": "Dana Whitfield",
+        "patient_dob_on_document": "1984-03-12",
+        "patient_sex_on_document": null,
+        "labs": [],
+        "medications": [
+          {
+            "name": "ibuprofen",
+            "generic_name": "ibuprofen",
+            "dose": null,
+            "frequency": "daily",
+            "prescriber": null,
+            "status": "advised_to_avoid"
+          },
+          {
+            "name": "NSAIDs",
+            "generic_name": "nsaids",
+            "dose": null,
+            "frequency": null,
+            "prescriber": null,
+            "status": "advised_to_avoid"
+          },
+          {
+            "name": "Omeprazole",
+            "generic_name": "omeprazole",
+            "dose": "40 mg",
+            "frequency": "daily before breakfast for 8 weeks",
+            "prescriber": "Marcus Feld, MD",
+            "status": "started"
+          }
+        ],
+        "mentions_possible_malignancy": true,
+        "mentions_self_harm": false,
+        "instructions_to_ai": []
+      },
+      "error": null
+    },
+    {
+      "filename": "06_medication_list.txt",
+      "sha256": "f84d11eddf1d5510f35a0a85e89082d9ff802c6d32dd386d247332ef8f218076",
+      "kind": "text",
+      "read_by": "text",
+      "page_count": 1,
+      "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nPATIENT PORTAL - CURRENT MEDICATIONS (printed 09/10/2026)\nPatient: Dana Whitfield    DOB: 03/12/1984\nPharmacy on file: Corner Street Pharmacy\n\nMEDICATION                          DIRECTIONS                     PRESCRIBER\nPropranolol 10 mg tablet            1 tab up to twice daily as     A. Rhodes, MD\n                                    needed for palpitations        (Cardiology)\n                                    Started 07/29/2026\nOmeprazole 40 mg capsule            1 cap daily before breakfast   M. Feld, MD\n                                    for 8 weeks                    (Gastroenterology)\n                                    Started 09/02/2026\nNorgestimate/ethinyl estradiol      1 tab daily                    S. Patel, MD\n0.25 mg/0.035 mg tablet             Long-term                      (OB/GYN)\nIbuprofen 200 mg tablet (OTC)       2 tabs up to 3 times daily     Self-reported\n                                    for headaches                  (over the counter)\n\nAllergies: No known drug allergies.\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+      "hidden_text": [],
+      "notes": [],
+      "extraction": {
+        "doc_type": "medication_list",
+        "date": "2026-09-10",
+        "source": "Patient Portal",
+        "specialties": [
+          "clinical_pharmacist",
+          "internal_medicine"
+        ],
+        "summary": "Current medication list includes propranolol, omeprazole, norgestimate/ethinyl estradiol, and ibuprofen; no known drug allergies.",
+        "patient_name_on_document": "Dana Whitfield",
+        "patient_dob_on_document": "1984-03-12",
+        "patient_sex_on_document": null,
+        "labs": [],
+        "medications": [
+          {
+            "name": "Propranolol 10 mg tablet",
+            "generic_name": "propranolol",
+            "dose": "10 mg",
+            "frequency": "1 tab up to twice daily as needed for palpitations",
+            "prescriber": "A. Rhodes, MD (Cardiology)",
+            "status": "taking"
+          },
+          {
+            "name": "Omeprazole 40 mg capsule",
+            "generic_name": "omeprazole",
+            "dose": "40 mg",
+            "frequency": "1 cap daily before breakfast for 8 weeks",
+            "prescriber": "M. Feld, MD (Gastroenterology)",
+            "status": "taking"
+          },
+          {
+            "name": "Norgestimate/ethinyl estradiol 0.25 mg/0.035 mg tablet",
+            "generic_name": "norgestimate/ethinyl estradiol",
+            "dose": "0.25 mg/0.035 mg",
+            "frequency": "1 tab daily",
+            "prescriber": "S. Patel, MD (OB/GYN)",
+            "status": "taking"
+          },
+          {
+            "name": "Ibuprofen 200 mg tablet (OTC)",
+            "generic_name": "ibuprofen",
+            "dose": "200 mg",
+            "frequency": "2 tabs up to 3 times daily for headaches",
+            "prescriber": "Self-reported",
+            "status": "taking"
+          }
+        ],
+        "mentions_possible_malignancy": false,
+        "mentions_self_harm": false,
+        "instructions_to_ai": []
+      },
+      "error": null
+    }
+  ],
+  "active_specialists": [
+    {
+      "specialty": "hematology",
+      "name": "Hematology",
+      "relevance": 5,
+      "documents": [
+        "01_primary_care_labs.png",
+        "02_iron_studies_and_stool_tests.pdf",
+        "05_upper_endoscopy_report.pdf"
+      ],
+      "symptoms": [
+        "Fatigue (since about 6 months): Need a nap after work; worse in the afternoon.",
+        "Craving ice (since a few months): I chew ice all day.",
+        "Feeling cold and hair shedding (since a few months)"
+      ],
+      "reason": "The microcytic anemia and markedly depleted iron stores are central findings that could relate to her fatigue, ice craving, and other symptoms.",
+      "why_active": "documents+symptoms"
+    },
+    {
+      "specialty": "gastroenterology",
+      "name": "Gastroenterology",
+      "relevance": 5,
+      "documents": [
+        "02_iron_studies_and_stool_tests.pdf",
+        "05_upper_endoscopy_report.pdf"
+      ],
+      "symptoms": [
+        "Bloating and upper stomach discomfort (since about 3 months): Burning feeling after meals, better with food some days.",
+        "Should I still be taking ibuprofen?"
+      ],
+      "reason": "Positive FIT, H. pylori, and a gastric ulcer with antral erosions warrant review alongside her digestive symptoms and iron deficiency.",
+      "why_active": "documents+symptoms"
+    },
+    {
+      "specialty": "cardiology",
+      "name": "Cardiology",
+      "relevance": 3,
+      "documents": [
+        "03_cardiology_consult.txt",
+        "04_ecg_report.txt"
+      ],
+      "symptoms": [
+        "Heart racing / palpitations (since about 4 months): Mostly on stairs or walking fast. Sometimes lightheaded when I stand up."
+      ],
+      "reason": "She has exertional palpitations and lightheadedness with documented sinus tachycardia, though testing found no sustained arrhythmia or structural heart problem.",
+      "why_active": "documents+symptoms"
+    },
+    {
+      "specialty": "endocrinology",
+      "name": "Endocrinology",
+      "relevance": 3,
+      "documents": [
+        "01_primary_care_labs.png"
+      ],
+      "symptoms": [
+        "Feeling cold and hair shedding (since a few months)",
+        "Is my thyroid OK?"
+      ],
+      "reason": "Her thyroid question and symptoms merit review in light of a mildly elevated TSH with normal free T4.",
+      "why_active": "documents+symptoms"
+    },
+    {
+      "specialty": "obstetrics_gynecology",
+      "name": "Obstetrics and gynecology",
+      "relevance": 3,
+      "documents": [],
+      "symptoms": [
+        "Heavier periods (since about 1 year): Periods are heavier than they used to be."
+      ],
+      "reason": "Heavier menstrual bleeding may be relevant to her iron deficiency and is within this specialty's scope.",
+      "why_active": "symptoms"
+    }
+  ],
+  "consider_seeing": [
+    {
+      "specialty": "neurology",
+      "name": "Neurology",
+      "reason": "Frequent headaches and concentration difficulty are within neurology's scope, though the headaches may also relate to frequent ibuprofen use and her other findings."
+    }
+  ],
+  "unassigned_documents": [
+    "06_medication_list.txt"
+  ],
+  "conflicts": [
+    {
+      "kind": "advised_to_avoid_but_listed",
+      "document": "05_upper_endoscopy_report.pdf",
+      "item": "Ibuprofen (over the counter)",
+      "message": "05_upper_endoscopy_report.pdf says to avoid ibuprofen, but Ibuprofen (over the counter) is on your current list. Please confirm whether you still take it."
+    }
+  ],
+  "medications": [
+    {
+      "generic_name": "propranolol",
+      "names_seen": [
+        "Propranolol",
+        "Propranolol 10 mg tablet"
+      ],
+      "sources": [
+        "questionnaire",
+        "03_cardiology_consult.txt",
+        "06_medication_list.txt"
+      ],
+      "doses": [
+        "10 mg up to twice a day when my heart races",
+        "10 mg by mouth up to twice daily as needed for palpitations",
+        "10 mg 1 tab up to twice daily as needed for palpitations"
+      ],
+      "prescribers": [
+        "Dr. Rhodes (cardiology)",
+        "Anika Rhodes, MD",
+        "A. Rhodes, MD (Cardiology)"
+      ],
+      "statuses": [
+        "taking (per patient)",
+        "started",
+        "taking"
+      ]
+    },
+    {
+      "generic_name": "omeprazole",
+      "names_seen": [
+        "Omeprazole",
+        "Omeprazole 40 mg capsule"
+      ],
+      "sources": [
+        "questionnaire",
+        "05_upper_endoscopy_report.pdf",
+        "06_medication_list.txt"
+      ],
+      "doses": [
+        "40 mg once a day before breakfast",
+        "40 mg daily before breakfast for 8 weeks",
+        "40 mg 1 cap daily before breakfast for 8 weeks"
+      ],
+      "prescribers": [
+        "Dr. Feld (gastroenterology)",
+        "Marcus Feld, MD",
+        "M. Feld, MD (Gastroenterology)"
+      ],
+      "statuses": [
+        "taking (per patient)",
+        "started",
+        "taking"
+      ]
+    },
+    {
+      "generic_name": "norgestimate/ethinyl estradiol",
+      "names_seen": [
+        "Birth control pill (norgestimate/ethinyl estradiol)",
+        "Norgestimate/ethinyl estradiol 0.25 mg/0.035 mg tablet"
+      ],
+      "sources": [
+        "questionnaire",
+        "06_medication_list.txt"
+      ],
+      "doses": [
+        "0.25/0.035 mg daily",
+        "0.25 mg/0.035 mg 1 tab daily"
+      ],
+      "prescribers": [
+        "Dr. Patel (gynecology)",
+        "S. Patel, MD (OB/GYN)"
+      ],
+      "statuses": [
+        "taking (per patient)",
+        "taking"
+      ]
+    },
+    {
+      "generic_name": "ibuprofen",
+      "names_seen": [
+        "Ibuprofen (over the counter)",
+        "ibuprofen",
+        "Ibuprofen 200 mg tablet (OTC)"
+      ],
+      "sources": [
+        "questionnaire",
+        "05_upper_endoscopy_report.pdf",
+        "06_medication_list.txt"
+      ],
+      "doses": [
+        "400 mg 2-3 times a day most days",
+        "daily",
+        "200 mg 2 tabs up to 3 times daily for headaches"
+      ],
+      "prescribers": [
+        "myself",
+        "Self-reported"
+      ],
+      "statuses": [
+        "taking (per patient)",
+        "advised_to_avoid",
+        "taking"
+      ]
+    },
+    {
+      "generic_name": "nsaids",
+      "names_seen": [
+        "NSAIDs"
+      ],
+      "sources": [
+        "05_upper_endoscopy_report.pdf"
+      ],
+      "doses": [],
+      "prescribers": [],
+      "statuses": [
+        "advised_to_avoid"
+      ]
+    }
+  ],
+  "labs": [
+    {
+      "document": "01_primary_care_labs.png",
+      "test": "WBC",
+      "value": "6.8",
+      "unit": "x10^3/uL",
+      "reference_range": "4.0 \u2013 11.0",
+      "flag": "none",
+      "date": "2026-07-08"
+    },
+    {
+      "document": "01_primary_care_labs.png",
+      "test": "RBC",
+      "value": "4.02",
+      "unit": "x10^6/uL",
+      "reference_range": "3.90 \u2013 5.20",
+      "flag": "none",
+      "date": "2026-07-08"
+    },
+    {
+      "document": "01_primary_care_labs.png",
+      "test": "Hemoglobin",
+      "value": "10.1",
+      "unit": "g/dL",
+      "reference_range": "12.0 \u2013 15.5",
+      "flag": "low",
+      "date": "2026-07-08"
+    },
+    {
+      "document": "01_primary_care_labs.png",
+      "test": "Hematocrit",
+      "value": "32.4",
+      "unit": "%",
+      "reference_range": "36.0 \u2013 46.0",
+      "flag": "low",
+      "date": "2026-07-08"
+    },
+    {
+      "document": "01_primary_care_labs.png",
+      "test": "MCV",
+      "value": "76",
+      "unit": "fL",
+      "reference_range": "80 \u2013 100",
+      "flag": "low",
+      "date": "2026-07-08"
+    },
+    {
+      "document": "01_primary_care_labs.png",
+      "test": "MCH",
+      "value": "25.1",
+      "unit": "pg",
+      "reference_range": "27.0 \u2013 33.0",
+      "flag": "low",
+      "date": "2026-07-08"
+    },
+    {
+      "document": "01_primary_care_labs.png",
+      "test": "RDW",
+      "value": "17.6",
+      "unit": "%",
+      "reference_range": "11.5 \u2013 14.5",
+      "flag": "high",
+      "date": "2026-07-08"
+    },
+    {
+      "document": "01_primary_care_labs.png",
+      "test": "Platelets",
+      "value": "438",
+      "unit": "x10^3/uL",
+      "reference_range": "150 \u2013 400",
+      "flag": "high",
+      "date": "2026-07-08"
+    },
+    {
+      "document": "01_primary_care_labs.png",
+      "test": "Sodium",
+      "value": "139",
+      "unit": "mmol/L",
+      "reference_range": "135 \u2013 145",
+      "flag": "none",
+      "date": "2026-07-08"
+    },
+    {
+      "document": "01_primary_care_labs.png",
+      "test": "Potassium",
+      "value": "4.1",
+      "unit": "mmol/L",
+      "reference_range": "3.5 \u2013 5.1",
+      "flag": "none",
+      "date": "2026-07-08"
+    },
+    {
+      "document": "01_primary_care_labs.png",
+      "test": "Creatinine",
+      "value": "0.8",
+      "unit": "mg/dL",
+      "reference_range": "0.6 \u2013 1.1",
+      "flag": "none",
+      "date": "2026-07-08"
+    },
+    {
+      "document": "01_primary_care_labs.png",
+      "test": "Glucose, fasting",
+      "value": "88",
+      "unit": "mg/dL",
+      "reference_range": "70 \u2013 99",
+      "flag": "none",
+      "date": "2026-07-08"
+    },
+    {
+      "document": "01_primary_care_labs.png",
+      "test": "ALT",
+      "value": "22",
+      "unit": "U/L",
+      "reference_range": "7 \u2013 35",
+      "flag": "none",
+      "date": "2026-07-08"
+    },
+    {
+      "document": "01_primary_care_labs.png",
+      "test": "AST",
+      "value": "19",
+      "unit": "U/L",
+      "reference_range": "10 \u2013 35",
+      "flag": "none",
+      "date": "2026-07-08"
+    },
+    {
+      "document": "01_primary_care_labs.png",
+      "test": "Albumin",
+      "value": "4.0",
+      "unit": "g/dL",
+      "reference_range": "3.5 \u2013 5.0",
+      "flag": "none",
+      "date": "2026-07-08"
+    },
+    {
+      "document": "01_primary_care_labs.png",
+      "test": "Calcium",
+      "value": "9.2",
+      "unit": "mg/dL",
+      "reference_range": "8.6 \u2013 10.3",
+      "flag": "none",
+      "date": "2026-07-08"
+    },
+    {
+      "document": "01_primary_care_labs.png",
+      "test": "TSH",
+      "value": "4.9",
+      "unit": "mIU/L",
+      "reference_range": "0.4 \u2013 4.5",
+      "flag": "high",
+      "date": "2026-07-08"
+    },
+    {
+      "document": "01_primary_care_labs.png",
+      "test": "Free T4",
+      "value": "1.0",
+      "unit": "ng/dL",
+      "reference_range": "0.8 \u2013 1.8",
+      "flag": "none",
+      "date": "2026-07-08"
+    },
+    {
+      "document": "01_primary_care_labs.png",
+      "test": "Vitamin B12",
+      "value": "412",
+      "unit": "pg/mL",
+      "reference_range": "200 \u2013 900",
+      "flag": "none",
+      "date": "2026-07-08"
+    },
+    {
+      "document": "02_iron_studies_and_stool_tests.pdf",
+      "test": "Iron, serum",
+      "value": "28",
+      "unit": "ug/dL",
+      "reference_range": "50 - 170",
+      "flag": "low",
+      "date": "2026-08-19"
+    },
+    {
+      "document": "02_iron_studies_and_stool_tests.pdf",
+      "test": "TIBC",
+      "value": "462",
+      "unit": "ug/dL",
+      "reference_range": "250 - 450",
+      "flag": "high",
+      "date": "2026-08-19"
+    },
+    {
+      "document": "02_iron_studies_and_stool_tests.pdf",
+      "test": "Transferrin saturation",
+      "value": "6",
+      "unit": "%",
+      "reference_range": "15 - 50",
+      "flag": "low",
+      "date": "2026-08-19"
+    },
+    {
+      "document": "02_iron_studies_and_stool_tests.pdf",
+      "test": "Ferritin",
+      "value": "6",
+      "unit": "ng/mL",
+      "reference_range": "15 - 150",
+      "flag": "low",
+      "date": "2026-08-19"
+    },
+    {
+      "document": "02_iron_studies_and_stool_tests.pdf",
+      "test": "tTG-IgA",
+      "value": "<1.0",
+      "unit": "U/mL",
+      "reference_range": "<4.0 negative",
+      "flag": "none",
+      "date": "2026-08-19"
+    },
+    {
+      "document": "02_iron_studies_and_stool_tests.pdf",
+      "test": "Total IgA",
+      "value": "210",
+      "unit": "mg/dL",
+      "reference_range": "70 - 400",
+      "flag": "none",
+      "date": "2026-08-19"
+    },
+    {
+      "document": "02_iron_studies_and_stool_tests.pdf",
+      "test": "Fecal immunochemical test (FIT)",
+      "value": "POSITIVE",
+      "unit": null,
+      "reference_range": "negative",
+      "flag": "abnormal",
+      "date": "2026-08-19"
+    },
+    {
+      "document": "02_iron_studies_and_stool_tests.pdf",
+      "test": "H. pylori stool antigen",
+      "value": "POSITIVE",
+      "unit": null,
+      "reference_range": "negative",
+      "flag": "abnormal",
+      "date": "2026-08-19"
+    },
+    {
+      "document": "03_cardiology_consult.txt",
+      "test": "BP",
+      "value": "108/68",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-07-29"
+    },
+    {
+      "document": "03_cardiology_consult.txt",
+      "test": "HR",
+      "value": "102",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-07-29"
+    },
+    {
+      "document": "03_cardiology_consult.txt",
+      "test": "SpO2",
+      "value": "99%",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-07-29"
+    },
+    {
+      "document": "03_cardiology_consult.txt",
+      "test": "BMI",
+      "value": "23.1",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-07-29"
+    },
+    {
+      "document": "03_cardiology_consult.txt",
+      "test": "Holter average HR",
+      "value": "96",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-07-15"
+    },
+    {
+      "document": "03_cardiology_consult.txt",
+      "test": "Holter maximum HR",
+      "value": "148",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-07-15"
+    },
+    {
+      "document": "03_cardiology_consult.txt",
+      "test": "Holter minimum HR",
+      "value": "68",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-07-15"
+    },
+    {
+      "document": "03_cardiology_consult.txt",
+      "test": "PACs",
+      "value": "<1% of beats",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-07-15"
+    },
+    {
+      "document": "03_cardiology_consult.txt",
+      "test": "Ejection fraction",
+      "value": "60%",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-07-22"
+    },
+    {
+      "document": "04_ecg_report.txt",
+      "test": "Ventricular rate",
+      "value": "104",
+      "unit": "bpm",
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-07-29"
+    },
+    {
+      "document": "04_ecg_report.txt",
+      "test": "PR interval",
+      "value": "148",
+      "unit": "ms",
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-07-29"
+    },
+    {
+      "document": "04_ecg_report.txt",
+      "test": "QRS duration",
+      "value": "86",
+      "unit": "ms",
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-07-29"
+    },
+    {
+      "document": "04_ecg_report.txt",
+      "test": "QT",
+      "value": "330",
+      "unit": "ms",
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-07-29"
+    },
+    {
+      "document": "04_ecg_report.txt",
+      "test": "QTc (Bazett)",
+      "value": "434",
+      "unit": "ms",
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-07-29"
+    },
+    {
+      "document": "04_ecg_report.txt",
+      "test": "Axis",
+      "value": "+52",
+      "unit": "degrees",
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-07-29"
+    }
+  ],
+  "safety_signals": [
+    "05_upper_endoscopy_report.pdf: mentions a possible malignancy. Calm red flag: discuss this result with your doctor soon."
+  ],
+  "usage": {
+    "price_source": "gpt-6-luna, OpenAI standard pricing per 1M tokens (MGT 409 Lecture 11)",
+    "totals": {
+      "requests": 8,
+      "input_tokens": 22698,
+      "cached_input_tokens": 20908,
+      "cache_write_tokens": 1766,
+      "output_tokens": 4443,
+      "reasoning_tokens": 201,
+      "cost_usd": 0.002654,
+      "model_calls": 8,
+      "cache_hits": 0,
+      "failed_calls": 0
+    },
+    "by_agent": {
+      "intake_extract": {
+        "calls": 6,
+        "input_tokens": 17062,
+        "cached_input_tokens": 16459,
+        "output_tokens": 2827,
+        "cost_usd": 0.001653
+      },
+      "intake_vision": {
+        "calls": 1,
+        "input_tokens": 2965,
+        "cached_input_tokens": 2962,
+        "output_tokens": 606,
+        "cost_usd": 0.000333
+      },
+      "intake_route": {
+        "calls": 1,
+        "input_tokens": 2671,
+        "cached_input_tokens": 1487,
+        "output_tokens": 1010,
+        "cost_usd": 0.000668
+      }
+    },
+    "calls": [
+      {
+        "agent": "intake_extract",
+        "label": "02_iron_studies_and_stool_tests.pdf",
+        "requests": 1,
+        "input_tokens": 2780,
+        "cached_input_tokens": 2777,
+        "cache_write_tokens": 0,
+        "output_tokens": 466,
+        "reasoning_tokens": 0,
+        "seconds": 4.67,
+        "cost_usd": 0.00026107,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_extract",
+        "label": "04_ecg_report.txt",
+        "requests": 1,
+        "input_tokens": 2679,
+        "cached_input_tokens": 2676,
+        "cache_write_tokens": 0,
+        "output_tokens": 332,
+        "reasoning_tokens": 0,
+        "seconds": 4.67,
+        "cost_usd": 0.00019306,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_extract",
+        "label": "03_cardiology_consult.txt",
+        "requests": 1,
+        "input_tokens": 2934,
+        "cached_input_tokens": 2931,
+        "cache_write_tokens": 0,
+        "output_tokens": 487,
+        "reasoning_tokens": 0,
+        "seconds": 5.14,
+        "cost_usd": 0.00027311,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_vision",
+        "label": "01_primary_care_labs.png",
+        "requests": 1,
+        "input_tokens": 2965,
+        "cached_input_tokens": 2962,
+        "cache_write_tokens": 0,
+        "output_tokens": 606,
+        "reasoning_tokens": 0,
+        "seconds": 7.0,
+        "cost_usd": 0.00033292,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_extract",
+        "label": "05_upper_endoscopy_report.pdf",
+        "requests": 1,
+        "input_tokens": 2862,
+        "cached_input_tokens": 2859,
+        "cache_write_tokens": 0,
+        "output_tokens": 253,
+        "reasoning_tokens": 0,
+        "seconds": 3.38,
+        "cost_usd": 0.00015539,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_extract",
+        "label": "06_medication_list.txt",
+        "requests": 1,
+        "input_tokens": 2755,
+        "cached_input_tokens": 2752,
+        "cache_write_tokens": 0,
+        "output_tokens": 370,
+        "reasoning_tokens": 0,
+        "seconds": 3.83,
+        "cost_usd": 0.00021282,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_extract",
+        "label": "01_primary_care_labs.png",
+        "requests": 1,
+        "input_tokens": 3052,
+        "cached_input_tokens": 2464,
+        "cache_write_tokens": 585,
+        "output_tokens": 919,
+        "reasoning_tokens": 0,
+        "seconds": 8.4,
+        "cost_usd": 0.000557565,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_route",
+        "label": "case1_adult_multisystem",
+        "requests": 1,
+        "input_tokens": 2671,
+        "cached_input_tokens": 1487,
+        "cache_write_tokens": 1181,
+        "output_tokens": 1010,
+        "reasoning_tokens": 201,
+        "seconds": 8.97,
+        "cost_usd": 0.000667795,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      }
+    ]
+  },
+  "seconds": 24.9
+}

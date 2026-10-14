@@ -1,0 +1,424 @@
+{
+  "run_id": "run-0c955bd28d",
+  "user_id": "cli",
+  "case_id": "case1_adult_multisystem",
+  "agents": [
+    {
+      "agent_id": "intake",
+      "agent": "intake",
+      "specialty": null,
+      "round": 0,
+      "inputs": [
+        "01_primary_care_labs.png",
+        "02_iron_studies_and_stool_tests.pdf",
+        "03_cardiology_consult.txt",
+        "04_ecg_report.txt",
+        "05_upper_endoscopy_report.pdf",
+        "06_medication_list.txt",
+        "hidden_text_lab_report.pdf",
+        "hidden_unicode_note.txt"
+      ],
+      "started": "2026-10-14T03:14:51+00:00",
+      "finished": "2026-10-14T03:15:04+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {},
+      "output_summary": "8 documents, 5 specialists"
+    },
+    {
+      "agent_id": "r1.hematology",
+      "agent": "specialist",
+      "specialty": "hematology",
+      "round": 1,
+      "inputs": [
+        "01_primary_care_labs.png",
+        "02_iron_studies_and_stool_tests.pdf",
+        "05_upper_endoscopy_report.pdf",
+        "hidden_text_lab_report.pdf",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:15:06+00:00",
+      "finished": "2026-10-14T03:15:24+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "iron deficiency anemia",
+            "max_results": 2
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Anemia; Iron",
+          "urls": [
+            "https://medlineplus.gov/anemia.html",
+            "https://medlineplus.gov/iron.html"
+          ],
+          "seconds": 0.19
+        },
+        {
+          "tool": "search_pubmed",
+          "args": {
+            "query": "iron deficiency anemia palpitations fatigue adults",
+            "max_results": 2
+          },
+          "status": "ok",
+          "source": "PubMed",
+          "summary": "ok: Iron Deficiency Anemia in Inflammatory Bowel Disease: What Do We Know?",
+          "urls": [
+            "https://pubmed.ncbi.nlm.nih.gov/34277663/"
+          ],
+          "seconds": 0.75
+        }
+      ],
+      "validation": {
+        "findings_kept": 5,
+        "dropped": [
+          {
+            "item": "The stool test was positive for blood, and a colonoscopy was recommended but is not yet scheduled, so ask your gastroenterologist about completing that evaluati",
+            "reason": "quote not found in the cited document",
+            "quote": "Colonoscopy recommended to complete the evaluation of iron deficiency and the positive FIT (not yet scheduled)."
+          }
+        ],
+        "sources_dropped": [],
+        "tool_calls": 2
+      },
+      "output_summary": "5 findings"
+    },
+    {
+      "agent_id": "r1.gastroenterology",
+      "agent": "specialist",
+      "specialty": "gastroenterology",
+      "round": 1,
+      "inputs": [
+        "02_iron_studies_and_stool_tests.pdf",
+        "05_upper_endoscopy_report.pdf",
+        "hidden_text_lab_report.pdf",
+        "hidden_unicode_note.txt",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:15:06+00:00",
+      "finished": "2026-10-14T03:15:14+00:00",
+      "status": "failed",
+      "stop_reason": "error: specialist_r1 failed on r1.gastroenterology: ModelHTTPError: status_code: 500, model_name: gpt-6-luna, body: {'status': 'failure', 'message': 'Internal Server Error', 'request_id': 'b7cc1dbe-5ac0-45c9",
+      "tool_calls": [],
+      "validation": {},
+      "output_summary": null
+    },
+    {
+      "agent_id": "r1.cardiology",
+      "agent": "specialist",
+      "specialty": "cardiology",
+      "round": 1,
+      "inputs": [
+        "03_cardiology_consult.txt",
+        "04_ecg_report.txt",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:15:06+00:00",
+      "finished": "2026-10-14T03:15:17+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "palpitations",
+            "max_results": 1
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Arrhythmia",
+          "urls": [
+            "https://medlineplus.gov/arrhythmia.html"
+          ],
+          "seconds": 0.41
+        }
+      ],
+      "validation": {
+        "findings_kept": 4,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 1
+      },
+      "output_summary": "4 findings"
+    },
+    {
+      "agent_id": "r1.endocrinology",
+      "agent": "specialist",
+      "specialty": "endocrinology",
+      "round": 1,
+      "inputs": [
+        "01_primary_care_labs.png",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:15:06+00:00",
+      "finished": "2026-10-14T03:15:23+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "thyroid tests",
+            "max_results": 2
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Thyroid Tests; Hyperthyroidism",
+          "urls": [
+            "https://medlineplus.gov/thyroidtests.html",
+            "https://medlineplus.gov/hyperthyroidism.html"
+          ],
+          "seconds": 0.18
+        }
+      ],
+      "validation": {
+        "findings_kept": 3,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 1
+      },
+      "output_summary": "3 findings"
+    },
+    {
+      "agent_id": "r1.obstetrics_gynecology",
+      "agent": "specialist",
+      "specialty": "obstetrics_gynecology",
+      "round": 1,
+      "inputs": [
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:15:06+00:00",
+      "finished": "2026-10-14T03:15:18+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "heavy menstrual bleeding"
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Menstruation; Hysterectomy; Vaginal Bleeding",
+          "urls": [
+            "https://medlineplus.gov/menstruation.html",
+            "https://medlineplus.gov/hysterectomy.html",
+            "https://medlineplus.gov/vaginalbleeding.html"
+          ],
+          "seconds": 0.23
+        },
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "iron deficiency anemia"
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Anemia; Iron; Celiac Disease",
+          "urls": [
+            "https://medlineplus.gov/anemia.html",
+            "https://medlineplus.gov/iron.html",
+            "https://medlineplus.gov/celiacdisease.html"
+          ],
+          "seconds": 0.23
+        }
+      ],
+      "validation": {
+        "findings_kept": 4,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 2
+      },
+      "output_summary": "4 findings"
+    },
+    {
+      "agent_id": "r1.clinical_pharmacist",
+      "agent": "pharmacist",
+      "specialty": "clinical_pharmacist",
+      "round": 1,
+      "inputs": [
+        "intake medication summary",
+        "relevant labs",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:15:06+00:00",
+      "finished": "2026-10-14T03:15:23+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "fda_label_search",
+          "args": {
+            "drug": "ibuprofen",
+            "terms": [
+              "omeprazole",
+              "NSAID",
+              "bleeding"
+            ]
+          },
+          "status": "ok",
+          "source": "openFDA drug label",
+          "summary": "ok: label sections: warnings",
+          "urls": [
+            "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=00653b7c-7099-487e-9a01-e89781c21323"
+          ],
+          "seconds": 0.65
+        },
+        {
+          "tool": "fda_label_search",
+          "args": {
+            "drug": "norgestimate ethinyl estradiol",
+            "terms": [
+              "ibuprofen"
+            ]
+          },
+          "status": "no_results",
+          "source": "openFDA drug label",
+          "summary": "no_results: no results",
+          "urls": [],
+          "seconds": 0.94
+        }
+      ],
+      "validation": {
+        "issues_kept": 4,
+        "dropped": [],
+        "tool_calls": 2
+      },
+      "output_summary": "4 issues"
+    },
+    {
+      "agent_id": "r2.cardiology",
+      "agent": "specialist",
+      "specialty": "cardiology",
+      "round": 2,
+      "inputs": [
+        "round-1 report of obstetrics_gynecology",
+        "round-1 report of endocrinology"
+      ],
+      "started": "2026-10-14T03:15:24+00:00",
+      "finished": "2026-10-14T03:15:30+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "connections_kept": 2,
+        "dropped": []
+      },
+      "output_summary": "2 connections, 0 disagreements"
+    },
+    {
+      "agent_id": "r2.obstetrics_gynecology",
+      "agent": "specialist",
+      "specialty": "obstetrics_gynecology",
+      "round": 2,
+      "inputs": [
+        "round-1 report of cardiology",
+        "round-1 report of endocrinology",
+        "round-1 report of hematology"
+      ],
+      "started": "2026-10-14T03:15:24+00:00",
+      "finished": "2026-10-14T03:15:29+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "connections_kept": 2,
+        "dropped": []
+      },
+      "output_summary": "2 connections, 0 disagreements"
+    },
+    {
+      "agent_id": "r2.endocrinology",
+      "agent": "specialist",
+      "specialty": "endocrinology",
+      "round": 2,
+      "inputs": [
+        "round-1 report of cardiology",
+        "round-1 report of obstetrics_gynecology",
+        "round-1 report of hematology"
+      ],
+      "started": "2026-10-14T03:15:24+00:00",
+      "finished": "2026-10-14T03:15:30+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "connections_kept": 2,
+        "dropped": []
+      },
+      "output_summary": "2 connections, 0 disagreements"
+    },
+    {
+      "agent_id": "r2.hematology",
+      "agent": "specialist",
+      "specialty": "hematology",
+      "round": 2,
+      "inputs": [
+        "round-1 report of obstetrics_gynecology",
+        "round-1 report of endocrinology"
+      ],
+      "started": "2026-10-14T03:15:24+00:00",
+      "finished": "2026-10-14T03:15:35+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "connections_kept": 3,
+        "dropped": []
+      },
+      "output_summary": "3 connections, 0 disagreements"
+    },
+    {
+      "agent_id": "coordinator.synthesis",
+      "agent": "coordinator",
+      "specialty": "internal_medicine",
+      "round": null,
+      "inputs": [
+        "reports of cardiology, obstetrics_gynecology, endocrinology, hematology",
+        "pharmacist",
+        "round 2",
+        "document summaries"
+      ],
+      "started": "2026-10-14T03:15:35+00:00",
+      "finished": "2026-10-14T03:15:50+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "dropped": []
+      },
+      "output_summary": "6 findings, 4 connections"
+    },
+    {
+      "agent_id": "safety_reviewer",
+      "agent": "safety_reviewer",
+      "specialty": null,
+      "round": null,
+      "inputs": [
+        "summary items",
+        "urgent concerns",
+        "intake signals"
+      ],
+      "started": "2026-10-14T03:15:50+00:00",
+      "finished": "2026-10-14T03:15:57+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {},
+      "output_summary": "1 edits, 1 missed red flags added"
+    }
+  ],
+  "tool_calls_total": 8,
+  "stop_reason": "completed: conference ended after round 2 (hard stop), summary reviewed",
+  "status": "complete",
+  "budget": {
+    "spent_usd": 0.010765,
+    "run_limit_usd": 0.05,
+    "limit_usd": 0.05,
+    "remaining_usd": 0.039235
+  }
+}

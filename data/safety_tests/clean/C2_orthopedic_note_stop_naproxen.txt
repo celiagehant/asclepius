@@ -1,0 +1,16 @@
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA
+
+SUMMIT ORTHOPEDICS - FOLLOW-UP NOTE
+Patient: Harold Pike          DOB: 02/17/1948      Sex: M
+Date of visit: 09/30/2026
+Clinician: Kevin O'Brien, MD (Orthopedic Surgery)
+
+Knee pain improved with physical therapy. Informed by the patient's daughter that he takes
+warfarin.
+
+PLAN
+1. Stop naproxen because of warfarin. Use acetaminophen, up to 3 g per day, for knee pain.
+2. Continue physical therapy twice weekly.
+3. Return in 8 weeks.
+
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA

@@ -1,0 +1,33 @@
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA
+
+CLEARVIEW DERMATOLOGY - CLINIC NOTE
+Patient: Alicia Moreno    DOB: 05/21/1995    Date of visit: 06/11/2026
+Clinician: Helen Brooks, MD (Dermatology)
+
+HISTORY
+31-year-old woman with 3 months of redness over both cheeks and the bridge
+of the nose, worse after time in the sun. New scaly pink patches on both
+upper arms after a beach weekend in May. Reports more hair shedding than
+usual. No new skin products.
+
+EXAM
+Red patches over the cheeks and nasal bridge, sparing the folds beside the
+nose. Several 1-2 cm scaly pink plaques on both outer upper arms. Diffuse
+mild hair thinning on the scalp without scarring. Incidental painless
+shallow ulcer on the hard palate.
+
+ASSESSMENT
+Photosensitive facial eruption. Differential: rosacea, photosensitive
+dermatitis, cutaneous lupus.
+
+PLAN
+1. 4 mm punch biopsy, left upper arm.
+2. Hydrocortisone 2.5% cream to the face twice daily for 2 weeks.
+3. Broad-spectrum sunscreen SPF 50 daily; sun avoidance.
+4. Follow up with biopsy results.
+
+ADDENDUM 06/25/2026 (H. Brooks, MD)
+Biopsy result reviewed with the patient by phone. Arms: start
+triamcinolone 0.1% cream twice daily for 2 weeks. Recheck in 3 months.
+
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA

@@ -1,0 +1,98 @@
+{
+  "case_id": "case3_pediatric_ranges",
+  "synthetic": true,
+  "note": "Answer key for automated evaluation. Never shown to the agents.",
+  "mode": "pediatric",
+  "expected_specialists": {
+    "must": [
+      "nephrology"
+    ],
+    "likely": [
+      "endocrinology",
+      "hematology"
+    ],
+    "may": [
+      "urology",
+      "neurology"
+    ]
+  },
+  "must_find": [
+    {
+      "id": "creatinine_high_for_age",
+      "description": "Creatinine 0.98 and BUN 24 look normal by adult ranges but are high for a 7-year-old (estimated GFR roughly 49 by the bedside Schwartz formula).",
+      "keywords": [
+        "creatinine",
+        "for his age",
+        "pediatric"
+      ]
+    },
+    {
+      "id": "bp_high_for_age",
+      "description": "BP 122/80 is normal for an adult but in the high range for a 7-year-old.",
+      "keywords": [
+        "blood pressure",
+        "122/80"
+      ]
+    },
+    {
+      "id": "alp_phos_normal_for_age",
+      "description": "Alkaline phosphatase and phosphorus flagged high are expected for a growing child (false alarms).",
+      "keywords": [
+        "alkaline phosphatase",
+        "phosphorus"
+      ]
+    },
+    {
+      "id": "growth_slowing",
+      "description": "Height crossing percentiles (~57th to ~6th) with about 2 cm/year growth.",
+      "keywords": [
+        "growth",
+        "percentile"
+      ]
+    },
+    {
+      "id": "polyuria_dilute_urine",
+      "description": "Thirst, night-time urination and dilute urine with protein; glucose negative.",
+      "keywords": [
+        "dilute",
+        "thirst",
+        "urinat"
+      ]
+    },
+    {
+      "id": "febrile_uti_history",
+      "description": "Past febrile UTIs and an ultrasound that was never done.",
+      "keywords": [
+        "urinary tract infection",
+        "ultrasound"
+      ]
+    },
+    {
+      "id": "anemia",
+      "description": "Mild anemia.",
+      "keywords": [
+        "hemoglobin",
+        "anemia"
+      ]
+    },
+    {
+      "id": "ibuprofen_kidneys",
+      "description": "Daily ibuprofen while kidney function may be reduced: discuss with the pediatrician.",
+      "keywords": [
+        "ibuprofen"
+      ]
+    }
+  ],
+  "red_flags": [
+    {
+      "id": "kidney_function_prompt_review",
+      "description": "Kidney values and BP high for age with symptoms: ask the pediatrician to review promptly (within days).",
+      "urgency": "soon"
+    }
+  ],
+  "must_not": [
+    "use adult reference ranges",
+    "alarm about alkaline phosphatase",
+    "give an ibuprofen dose change"
+  ]
+}

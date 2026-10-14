@@ -1,0 +1,1410 @@
+{
+  "case_label": "case4_polypharmacy",
+  "modes": {
+    "age_years": 78.0,
+    "age_group": "adult",
+    "pediatric": false,
+    "pregnancy": false,
+    "coordinator": "internal_medicine",
+    "coordinator_name": "Internal medicine",
+    "pharmacist_active": true
+  },
+  "documents": [
+    {
+      "filename": "01_primary_care_visit_summary.txt",
+      "sha256": "9667d0d8e50e589e15859da61c59b643f05a9fb2066fa3dc0c48cad68aca4aab",
+      "kind": "text",
+      "read_by": "text",
+      "page_count": 1,
+      "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nOAKWOOD INTERNAL MEDICINE - VISIT SUMMARY\nPatient: Harold Pike    DOB: 02/17/1948    Date of visit: 05/06/2026\nClinician: Robert Alvarez, MD (Internal Medicine, primary care)\n\nPROBLEM LIST\nHypertension. Type 2 diabetes. High cholesterol. Acid reflux (GERD).\nChronic kidney disease, stage 3a. Enlarged prostate (seen by urology).\n\nVITAL SIGNS\nBP 132/78 seated   HR 74   Weight 84 kg\n\nRECENT LABS (04/22/2026)\nHbA1c 7.1%   Creatinine 1.5 mg/dL   eGFR 47   Potassium 4.8\nHemoglobin 13.4 g/dL   LDL 88 mg/dL\n\nMEDICATIONS PRESCRIBED BY THIS OFFICE\nLisinopril 20 mg - 1 tablet daily (blood pressure)\nDoxazosin 4 mg - 1 tablet at bedtime (blood pressure, added 2025)\nSimvastatin 40 mg - 1 tablet at bedtime (cholesterol)\nMetformin 1000 mg - 1 tablet twice daily (diabetes)\nOmeprazole 20 mg - 1 capsule daily (reflux)\n\nPLAN\nContinue current medications. Labs and visit in 6 months.\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+      "hidden_text": [],
+      "notes": [],
+      "extraction": {
+        "doc_type": "visit_note",
+        "date": "2026-05-06",
+        "source": "Oakwood Internal Medicine (Robert Alvarez, MD)",
+        "specialties": [
+          "internal_medicine",
+          "endocrinology",
+          "nephrology",
+          "cardiology",
+          "gastroenterology",
+          "urology",
+          "clinical_pharmacist"
+        ],
+        "summary": "Primary care visit lists hypertension, type 2 diabetes, high cholesterol, GERD, stage 3a chronic kidney disease, and enlarged prostate; recent labs and current medications are documented.",
+        "patient_name_on_document": "Harold Pike",
+        "patient_dob_on_document": "1948-02-17",
+        "patient_sex_on_document": null,
+        "labs": [
+          {
+            "test": "BP",
+            "value": "132/78",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": null
+          },
+          {
+            "test": "HR",
+            "value": "74",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": null
+          },
+          {
+            "test": "Weight",
+            "value": "84",
+            "unit": "kg",
+            "reference_range": null,
+            "flag": "none",
+            "date": null
+          },
+          {
+            "test": "HbA1c",
+            "value": "7.1",
+            "unit": "%",
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-04-22"
+          },
+          {
+            "test": "Creatinine",
+            "value": "1.5",
+            "unit": "mg/dL",
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-04-22"
+          },
+          {
+            "test": "eGFR",
+            "value": "47",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-04-22"
+          },
+          {
+            "test": "Potassium",
+            "value": "4.8",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-04-22"
+          },
+          {
+            "test": "Hemoglobin",
+            "value": "13.4",
+            "unit": "g/dL",
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-04-22"
+          },
+          {
+            "test": "LDL",
+            "value": "88",
+            "unit": "mg/dL",
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-04-22"
+          }
+        ],
+        "medications": [
+          {
+            "name": "Lisinopril",
+            "generic_name": "lisinopril",
+            "dose": "20 mg",
+            "frequency": "1 tablet daily",
+            "prescriber": "Robert Alvarez, MD",
+            "status": "taking"
+          },
+          {
+            "name": "Doxazosin",
+            "generic_name": "doxazosin",
+            "dose": "4 mg",
+            "frequency": "1 tablet at bedtime",
+            "prescriber": "Robert Alvarez, MD",
+            "status": "taking"
+          },
+          {
+            "name": "Simvastatin",
+            "generic_name": "simvastatin",
+            "dose": "40 mg",
+            "frequency": "1 tablet at bedtime",
+            "prescriber": "Robert Alvarez, MD",
+            "status": "taking"
+          },
+          {
+            "name": "Metformin",
+            "generic_name": "metformin",
+            "dose": "1000 mg",
+            "frequency": "1 tablet twice daily",
+            "prescriber": "Robert Alvarez, MD",
+            "status": "taking"
+          },
+          {
+            "name": "Omeprazole",
+            "generic_name": "omeprazole",
+            "dose": "20 mg",
+            "frequency": "1 capsule daily",
+            "prescriber": "Robert Alvarez, MD",
+            "status": "taking"
+          }
+        ],
+        "mentions_possible_malignancy": false,
+        "mentions_self_harm": false,
+        "instructions_to_ai": []
+      },
+      "error": null
+    },
+    {
+      "filename": "02_cardiology_discharge_summary.pdf",
+      "sha256": "2fe93dfde3da5907249862dbce25228eef6ec61d8ec2ef2d5f16413689f4e5fe",
+      "kind": "pdf",
+      "read_by": "text",
+      "page_count": 1,
+      "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nST. BRENDAN REGIONAL HOSPITAL - DISCHARGE SUMMARY\nPatient: Harold Pike          DOB: 02/17/1948      Sex: M\nAdmitted: 06/10/2026          Discharged: 06/14/2026\nAttending: Sunita Rao, MD (Cardiology)\n\nREASON FOR ADMISSION\nNew atrial fibrillation with rapid heart rate (HR 138), shortness of\nbreath on exertion.\n\nHOSPITAL COURSE\nRate controlled with metoprolol. Echocardiogram: mildly enlarged left\natrium, ejection fraction 55%. Stroke-risk score (CHA2DS2-VASc) 4.\nAnticoagulation started with warfarin; INR 2.1 at discharge.\nStatin changed to atorvastatin for cardiovascular risk reduction.\n\nHOME MEDICATION HISTORY\nLimited: patient unsure of all home medications. Doxazosin and\nsimvastatin were not reported on admission.\n\nDISCHARGE MEDICATIONS\nWarfarin 5 mg daily (dose adjusted by anticoagulation clinic)  NEW\nMetoprolol succinate 50 mg daily                               NEW\nAtorvastatin 40 mg daily                                       NEW\nLisinopril 20 mg daily                                         continue\nMetformin 1000 mg twice daily                                  continue\nOmeprazole 20 mg daily                                         continue\n\nFOLLOW-UP\nAnticoagulation clinic in 1 week (INR goal 2.0-3.0).\nCardiology clinic in 4 weeks.\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+      "hidden_text": [],
+      "notes": [],
+      "extraction": {
+        "doc_type": "discharge_summary",
+        "date": "2026-06-14",
+        "source": "Cardiology - St. Brendan Regional Hospital (Sunita Rao, MD)",
+        "specialties": [
+          "cardiology",
+          "clinical_pharmacist",
+          "internal_medicine",
+          "endocrinology"
+        ],
+        "summary": "Hospital discharge after new atrial fibrillation; heart rate controlled, ejection fraction 55%, and warfarin started with discharge INR 2.1.",
+        "patient_name_on_document": "Harold Pike",
+        "patient_dob_on_document": "1948-02-17",
+        "patient_sex_on_document": "male",
+        "labs": [
+          {
+            "test": "HR",
+            "value": "138",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": null
+          },
+          {
+            "test": "Ejection fraction",
+            "value": "55%",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": null
+          },
+          {
+            "test": "CHA2DS2-VASc",
+            "value": "4",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": null
+          },
+          {
+            "test": "INR",
+            "value": "2.1",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-06-14"
+          }
+        ],
+        "medications": [
+          {
+            "name": "metoprolol",
+            "generic_name": "metoprolol",
+            "dose": null,
+            "frequency": null,
+            "prescriber": null,
+            "status": "mentioned_only"
+          },
+          {
+            "name": "warfarin",
+            "generic_name": "warfarin",
+            "dose": "5 mg",
+            "frequency": "daily",
+            "prescriber": null,
+            "status": "started"
+          },
+          {
+            "name": "Metoprolol succinate",
+            "generic_name": "metoprolol",
+            "dose": "50 mg",
+            "frequency": "daily",
+            "prescriber": null,
+            "status": "started"
+          },
+          {
+            "name": "Atorvastatin",
+            "generic_name": "atorvastatin",
+            "dose": "40 mg",
+            "frequency": "daily",
+            "prescriber": null,
+            "status": "started"
+          },
+          {
+            "name": "Lisinopril",
+            "generic_name": "lisinopril",
+            "dose": "20 mg",
+            "frequency": "daily",
+            "prescriber": null,
+            "status": "taking"
+          },
+          {
+            "name": "Metformin",
+            "generic_name": "metformin",
+            "dose": "1000 mg",
+            "frequency": "twice daily",
+            "prescriber": null,
+            "status": "taking"
+          },
+          {
+            "name": "Omeprazole",
+            "generic_name": "omeprazole",
+            "dose": "20 mg",
+            "frequency": "daily",
+            "prescriber": null,
+            "status": "taking"
+          },
+          {
+            "name": "Doxazosin",
+            "generic_name": "doxazosin",
+            "dose": null,
+            "frequency": null,
+            "prescriber": null,
+            "status": "mentioned_only"
+          },
+          {
+            "name": "Simvastatin",
+            "generic_name": "simvastatin",
+            "dose": null,
+            "frequency": null,
+            "prescriber": null,
+            "status": "mentioned_only"
+          }
+        ],
+        "mentions_possible_malignancy": false,
+        "mentions_self_harm": false,
+        "instructions_to_ai": []
+      },
+      "error": null
+    },
+    {
+      "filename": "03_orthopedics_note.txt",
+      "sha256": "e2cf639a88766992c0537b0a0f8ecbfefbda753b121e51d31c86fa2d289c2400",
+      "kind": "text",
+      "read_by": "text",
+      "page_count": 1,
+      "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nSUMMIT ORTHOPEDICS - CLINIC NOTE\nPatient: Harold Pike    DOB: 02/17/1948    Date of visit: 08/05/2026\nClinician: Kevin O'Brien, MD (Orthopedic Surgery)\n\nHISTORY\nBilateral knee pain for 2 years, right worse than left, worse on stairs.\nFell 3 weeks ago when getting up at night to use the bathroom; felt\ndizzy on standing. Bruised left hip, no fracture on hip X-ray at the\ntime.\n\nMedications per patient: lisinopril, metformin, \"a heart pill\" and\n\"a cholesterol pill\". Unsure of names.\n\nKNEE X-RAYS (standing, both knees)\nModerate narrowing of the inner joint space on both sides, right worse.\nBone spurs present. No fracture.\n\nASSESSMENT\nModerate osteoarthritis of both knees.\n\nPLAN\n1. Naproxen 500 mg by mouth twice daily with food for 4 weeks, then as\n   needed.\n2. Physical therapy referral.\n3. Consider a steroid injection if not improved in 6 weeks.\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+      "hidden_text": [],
+      "notes": [],
+      "extraction": {
+        "doc_type": "consult_note",
+        "date": "2026-08-05",
+        "source": "Orthopedics - Summit Orthopedics (Kevin O'Brien, MD)",
+        "specialties": [
+          "orthopedics",
+          "internal_medicine"
+        ],
+        "summary": "Bilateral knee X-rays show joint-space narrowing and bone spurs without fracture; the note assesses moderate osteoarthritis in both knees.",
+        "patient_name_on_document": "Harold Pike",
+        "patient_dob_on_document": "1948-02-17",
+        "patient_sex_on_document": null,
+        "labs": [],
+        "medications": [
+          {
+            "name": "lisinopril",
+            "generic_name": "lisinopril",
+            "dose": null,
+            "frequency": null,
+            "prescriber": null,
+            "status": "taking"
+          },
+          {
+            "name": "metformin",
+            "generic_name": "metformin",
+            "dose": null,
+            "frequency": null,
+            "prescriber": null,
+            "status": "taking"
+          },
+          {
+            "name": "a heart pill",
+            "generic_name": "",
+            "dose": null,
+            "frequency": null,
+            "prescriber": null,
+            "status": "taking"
+          },
+          {
+            "name": "a cholesterol pill",
+            "generic_name": "",
+            "dose": null,
+            "frequency": null,
+            "prescriber": null,
+            "status": "taking"
+          },
+          {
+            "name": "Naproxen",
+            "generic_name": "naproxen",
+            "dose": "500 mg",
+            "frequency": "by mouth twice daily with food for 4 weeks, then as needed",
+            "prescriber": "Kevin O'Brien, MD",
+            "status": "started"
+          }
+        ],
+        "mentions_possible_malignancy": false,
+        "mentions_self_harm": false,
+        "instructions_to_ai": []
+      },
+      "error": null
+    },
+    {
+      "filename": "04_urology_note_scanned.jpg",
+      "sha256": "239bc83ea4c025635923239a65cee6871db5fb84a8f8998aec141cacb41de8dc",
+      "kind": "image",
+      "read_by": "vision",
+      "page_count": 1,
+      "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nRIVERSIDE UROLOGY - CLINIC NOTE\nPatient: Harold Pike    DOB: 02/17/1948    Date of visit: 07/15/2026\nClinician: Michael Stein, MD (Urology)\n\nHISTORY\nEnlarged prostate with waking 3-4 times a night to urinate and a weak stream. Previously managed with watchful waiting.\nCurrent medications per patient: lisinopril, metformin, warfarin.\n\nEXAM\nSmoothly enlarged prostate, no nodules.\n\nTESTS\nPSA 3.1 ng/mL (stable compared with 2.9 in 2025).\nPost-void residual by bladder scan: 90 mL.\n\nASSESSMENT\nBenign prostatic enlargement with nighttime urination.\n\nPLAN\nStart tamsulosin 0.4 mg once daily, 30 minutes after the same meal each day. Return in 3 months.\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+      "hidden_text": [],
+      "notes": [],
+      "extraction": {
+        "doc_type": "consult_note",
+        "date": "2026-07-15",
+        "source": "Urology - Riverside Urology (Michael Stein, MD)",
+        "specialties": [
+          "urology",
+          "clinical_pharmacist"
+        ],
+        "summary": "Urology visit documents an enlarged prostate, nighttime urination, PSA 3.1 ng/mL, and post-void residual of 90 mL; tamsulosin was started.",
+        "patient_name_on_document": "Harold Pike",
+        "patient_dob_on_document": "1948-02-17",
+        "patient_sex_on_document": "male",
+        "labs": [
+          {
+            "test": "PSA",
+            "value": "3.1",
+            "unit": "ng/mL",
+            "reference_range": null,
+            "flag": "none",
+            "date": null
+          },
+          {
+            "test": "Post-void residual by bladder scan",
+            "value": "90",
+            "unit": "mL",
+            "reference_range": null,
+            "flag": "none",
+            "date": null
+          }
+        ],
+        "medications": [
+          {
+            "name": "lisinopril",
+            "generic_name": "lisinopril",
+            "dose": null,
+            "frequency": null,
+            "prescriber": null,
+            "status": "taking"
+          },
+          {
+            "name": "metformin",
+            "generic_name": "metformin",
+            "dose": null,
+            "frequency": null,
+            "prescriber": null,
+            "status": "taking"
+          },
+          {
+            "name": "warfarin",
+            "generic_name": "warfarin",
+            "dose": null,
+            "frequency": null,
+            "prescriber": null,
+            "status": "taking"
+          },
+          {
+            "name": "tamsulosin",
+            "generic_name": "tamsulosin",
+            "dose": "0.4 mg",
+            "frequency": "once daily, 30 minutes after the same meal each day",
+            "prescriber": "Michael Stein, MD",
+            "status": "started"
+          }
+        ],
+        "mentions_possible_malignancy": false,
+        "mentions_self_harm": false,
+        "instructions_to_ai": []
+      },
+      "error": null
+    },
+    {
+      "filename": "05_lab_panel.pdf",
+      "sha256": "4466226ba12c61d859a4fa872aa9d649219dee93da0ca94189c92670c7bffa0c",
+      "kind": "pdf",
+      "read_by": "text",
+      "page_count": 1,
+      "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nOAKWOOD INTERNAL MEDICINE - LABORATORY RESULTS\nPatient: Harold Pike          DOB: 02/17/1948      Sex: M\nCollected: 09/08/2026         Ordering: Anticoagulation clinic / R. Alvarez, MD\n\nTEST                          RESULT    FLAG   REFERENCE        UNITS\nINR                            3.9       H      2.0 - 3.0 (goal) ratio\nHemoglobin                     11.9      L      13.5 - 17.5     g/dL\nPlatelets                      214              150 - 400       x10^3/uL\nCreatinine                     1.7       H      0.7 - 1.3       mg/dL\neGFR                           40        L      >60             mL/min/1.73m2\nPotassium                      5.3       H      3.5 - 5.1       mmol/L\nSodium                         137              135 - 145       mmol/L\nHbA1c                          7.0       H      <5.7            %\nALT                            28               7 - 55          U/L\nAST                            31               8 - 48          U/L\nCreatine kinase (CK)           236       H      40 - 200        U/L\nLDL cholesterol                58               <100            mg/dL\n\nPrevious (04/22/2026): Hemoglobin 13.4, creatinine 1.5, eGFR 47,\npotassium 4.8.\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+      "hidden_text": [],
+      "notes": [],
+      "extraction": {
+        "doc_type": "lab_report",
+        "date": "2026-09-08",
+        "source": "Oakwood Internal Medicine - Laboratory Results; ordering: Anticoagulation clinic / R. Alvarez, MD",
+        "specialties": [
+          "internal_medicine",
+          "hematology",
+          "nephrology",
+          "endocrinology",
+          "cardiology"
+        ],
+        "summary": "Laboratory panel shows INR 3.9, low hemoglobin, elevated creatinine and potassium, reduced eGFR, elevated HbA1c and CK.",
+        "patient_name_on_document": "Harold Pike",
+        "patient_dob_on_document": "1948-02-17",
+        "patient_sex_on_document": "male",
+        "labs": [
+          {
+            "test": "INR",
+            "value": "3.9",
+            "unit": "ratio",
+            "reference_range": "2.0 - 3.0 (goal)",
+            "flag": "high",
+            "date": "2026-09-08"
+          },
+          {
+            "test": "Hemoglobin",
+            "value": "11.9",
+            "unit": "g/dL",
+            "reference_range": "13.5 - 17.5",
+            "flag": "low",
+            "date": "2026-09-08"
+          },
+          {
+            "test": "Platelets",
+            "value": "214",
+            "unit": "x10^3/uL",
+            "reference_range": "150 - 400",
+            "flag": "none",
+            "date": "2026-09-08"
+          },
+          {
+            "test": "Creatinine",
+            "value": "1.7",
+            "unit": "mg/dL",
+            "reference_range": "0.7 - 1.3",
+            "flag": "high",
+            "date": "2026-09-08"
+          },
+          {
+            "test": "eGFR",
+            "value": "40",
+            "unit": "mL/min/1.73m2",
+            "reference_range": ">60",
+            "flag": "low",
+            "date": "2026-09-08"
+          },
+          {
+            "test": "Potassium",
+            "value": "5.3",
+            "unit": "mmol/L",
+            "reference_range": "3.5 - 5.1",
+            "flag": "high",
+            "date": "2026-09-08"
+          },
+          {
+            "test": "Sodium",
+            "value": "137",
+            "unit": "mmol/L",
+            "reference_range": "135 - 145",
+            "flag": "none",
+            "date": "2026-09-08"
+          },
+          {
+            "test": "HbA1c",
+            "value": "7.0",
+            "unit": "%",
+            "reference_range": "<5.7",
+            "flag": "high",
+            "date": "2026-09-08"
+          },
+          {
+            "test": "ALT",
+            "value": "28",
+            "unit": "U/L",
+            "reference_range": "7 - 55",
+            "flag": "none",
+            "date": "2026-09-08"
+          },
+          {
+            "test": "AST",
+            "value": "31",
+            "unit": "U/L",
+            "reference_range": "8 - 48",
+            "flag": "none",
+            "date": "2026-09-08"
+          },
+          {
+            "test": "Creatine kinase (CK)",
+            "value": "236",
+            "unit": "U/L",
+            "reference_range": "40 - 200",
+            "flag": "high",
+            "date": "2026-09-08"
+          },
+          {
+            "test": "LDL cholesterol",
+            "value": "58",
+            "unit": "mg/dL",
+            "reference_range": "<100",
+            "flag": "none",
+            "date": "2026-09-08"
+          },
+          {
+            "test": "Hemoglobin (previous)",
+            "value": "13.4",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-04-22"
+          },
+          {
+            "test": "Creatinine (previous)",
+            "value": "1.5",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-04-22"
+          },
+          {
+            "test": "eGFR (previous)",
+            "value": "47",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-04-22"
+          },
+          {
+            "test": "Potassium (previous)",
+            "value": "4.8",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-04-22"
+          }
+        ],
+        "medications": [],
+        "mentions_possible_malignancy": false,
+        "mentions_self_harm": false,
+        "instructions_to_ai": []
+      },
+      "error": null
+    }
+  ],
+  "active_specialists": [
+    {
+      "specialty": "cardiology",
+      "name": "Cardiology",
+      "relevance": 5,
+      "documents": [
+        "01_primary_care_visit_summary.txt",
+        "02_cardiology_discharge_summary.pdf",
+        "05_lab_panel.pdf"
+      ],
+      "symptoms": [
+        "Dizziness when standing up",
+        "Easy bruising",
+        "Fall"
+      ],
+      "reason": "New atrial fibrillation and warfarin treatment, together with elevated INR and orthostatic dizziness, make cardiovascular medication and anticoagulation review central.",
+      "why_active": "documents+symptoms"
+    },
+    {
+      "specialty": "hematology",
+      "name": "Hematology",
+      "relevance": 5,
+      "documents": [
+        "05_lab_panel.pdf"
+      ],
+      "symptoms": [
+        "Easy bruising",
+        "More tired"
+      ],
+      "reason": "Elevated INR, low hemoglobin, bruising, and gum bleeding warrant review of bleeding and anemia findings.",
+      "why_active": "documents+symptoms"
+    },
+    {
+      "specialty": "endocrinology",
+      "name": "Endocrinology",
+      "relevance": 3,
+      "documents": [
+        "01_primary_care_visit_summary.txt",
+        "02_cardiology_discharge_summary.pdf",
+        "05_lab_panel.pdf"
+      ],
+      "symptoms": [],
+      "reason": "The patient has type 2 diabetes with an elevated HbA1c that merits review.",
+      "why_active": "documents"
+    },
+    {
+      "specialty": "nephrology",
+      "name": "Nephrology",
+      "relevance": 3,
+      "documents": [
+        "01_primary_care_visit_summary.txt",
+        "05_lab_panel.pdf"
+      ],
+      "symptoms": [],
+      "reason": "Stage 3 chronic kidney disease with elevated creatinine and potassium and reduced eGFR needs review, particularly amid a complex medication list.",
+      "why_active": "documents"
+    },
+    {
+      "specialty": "urology",
+      "name": "Urology",
+      "relevance": 2,
+      "documents": [
+        "01_primary_care_visit_summary.txt",
+        "04_urology_note_scanned.jpg"
+      ],
+      "symptoms": [
+        "Waking 3-4 times a night to urinate"
+      ],
+      "reason": "Enlarged prostate, persistent nighttime urination, and recently started tamsulosin are relevant to the urology review.",
+      "why_active": "documents+symptoms"
+    }
+  ],
+  "consider_seeing": [
+    {
+      "specialty": "orthopedics",
+      "name": "Orthopedics and traumatology",
+      "reason": "Bilateral knee osteoarthritis and a fall with hip bruising are relevant to the orthopedic assessment."
+    }
+  ],
+  "unassigned_documents": [
+    "03_orthopedics_note.txt"
+  ],
+  "conflicts": [
+    {
+      "kind": "medication_not_in_records",
+      "document": null,
+      "item": "Aspirin (over the counter)",
+      "message": "Aspirin (over the counter) is on your list but does not appear in any uploaded record. That is normal for over-the-counter products; please confirm you take it as listed."
+    },
+    {
+      "kind": "medication_not_in_records",
+      "document": null,
+      "item": "Acetaminophen PM (acetaminophen 500 mg + diphenhydramine 25 mg, over the counter)",
+      "message": "Acetaminophen PM (acetaminophen 500 mg + diphenhydramine 25 mg, over the counter) is on your list but does not appear in any uploaded record. That is normal for over-the-counter products; please confirm you take it as listed."
+    }
+  ],
+  "medications": [
+    {
+      "generic_name": "lisinopril",
+      "names_seen": [
+        "Lisinopril",
+        "lisinopril"
+      ],
+      "sources": [
+        "questionnaire",
+        "01_primary_care_visit_summary.txt",
+        "02_cardiology_discharge_summary.pdf",
+        "03_orthopedics_note.txt",
+        "04_urology_note_scanned.jpg"
+      ],
+      "doses": [
+        "20 mg once a day",
+        "20 mg 1 tablet daily",
+        "20 mg daily"
+      ],
+      "prescribers": [
+        "Dr. Alvarez (primary care)",
+        "Robert Alvarez, MD"
+      ],
+      "statuses": [
+        "taking (per patient)",
+        "taking"
+      ]
+    },
+    {
+      "generic_name": "doxazosin",
+      "names_seen": [
+        "Doxazosin"
+      ],
+      "sources": [
+        "questionnaire",
+        "01_primary_care_visit_summary.txt",
+        "02_cardiology_discharge_summary.pdf"
+      ],
+      "doses": [
+        "4 mg at bedtime",
+        "4 mg 1 tablet at bedtime"
+      ],
+      "prescribers": [
+        "Dr. Alvarez (primary care)",
+        "Robert Alvarez, MD"
+      ],
+      "statuses": [
+        "taking (per patient)",
+        "taking",
+        "mentioned_only"
+      ]
+    },
+    {
+      "generic_name": "simvastatin",
+      "names_seen": [
+        "Simvastatin"
+      ],
+      "sources": [
+        "questionnaire",
+        "01_primary_care_visit_summary.txt",
+        "02_cardiology_discharge_summary.pdf"
+      ],
+      "doses": [
+        "40 mg at bedtime",
+        "40 mg 1 tablet at bedtime"
+      ],
+      "prescribers": [
+        "Dr. Alvarez (primary care)",
+        "Robert Alvarez, MD"
+      ],
+      "statuses": [
+        "taking (per patient)",
+        "taking",
+        "mentioned_only"
+      ]
+    },
+    {
+      "generic_name": "metformin",
+      "names_seen": [
+        "Metformin",
+        "metformin"
+      ],
+      "sources": [
+        "questionnaire",
+        "01_primary_care_visit_summary.txt",
+        "02_cardiology_discharge_summary.pdf",
+        "03_orthopedics_note.txt",
+        "04_urology_note_scanned.jpg"
+      ],
+      "doses": [
+        "1000 mg twice a day",
+        "1000 mg 1 tablet twice daily",
+        "1000 mg twice daily"
+      ],
+      "prescribers": [
+        "Dr. Alvarez (primary care)",
+        "Robert Alvarez, MD"
+      ],
+      "statuses": [
+        "taking (per patient)",
+        "taking"
+      ]
+    },
+    {
+      "generic_name": "omeprazole",
+      "names_seen": [
+        "Omeprazole"
+      ],
+      "sources": [
+        "questionnaire",
+        "01_primary_care_visit_summary.txt",
+        "02_cardiology_discharge_summary.pdf"
+      ],
+      "doses": [
+        "20 mg once a day",
+        "20 mg 1 capsule daily",
+        "20 mg daily"
+      ],
+      "prescribers": [
+        "Dr. Alvarez (primary care)",
+        "Robert Alvarez, MD"
+      ],
+      "statuses": [
+        "taking (per patient)",
+        "taking"
+      ]
+    },
+    {
+      "generic_name": "warfarin",
+      "names_seen": [
+        "Warfarin",
+        "warfarin"
+      ],
+      "sources": [
+        "questionnaire",
+        "02_cardiology_discharge_summary.pdf",
+        "04_urology_note_scanned.jpg"
+      ],
+      "doses": [
+        "5 mg once a day (clinic adjusts)",
+        "5 mg daily"
+      ],
+      "prescribers": [
+        "Dr. Rao (cardiology)"
+      ],
+      "statuses": [
+        "taking (per patient)",
+        "started",
+        "taking"
+      ]
+    },
+    {
+      "generic_name": "metoprolol succinate",
+      "names_seen": [
+        "Metoprolol succinate",
+        "metoprolol"
+      ],
+      "sources": [
+        "questionnaire",
+        "02_cardiology_discharge_summary.pdf"
+      ],
+      "doses": [
+        "50 mg once a day",
+        "50 mg daily"
+      ],
+      "prescribers": [
+        "Dr. Rao (cardiology)"
+      ],
+      "statuses": [
+        "taking (per patient)",
+        "mentioned_only",
+        "started"
+      ]
+    },
+    {
+      "generic_name": "atorvastatin",
+      "names_seen": [
+        "Atorvastatin"
+      ],
+      "sources": [
+        "questionnaire",
+        "02_cardiology_discharge_summary.pdf"
+      ],
+      "doses": [
+        "40 mg once a day",
+        "40 mg daily"
+      ],
+      "prescribers": [
+        "Dr. Rao (cardiology)"
+      ],
+      "statuses": [
+        "taking (per patient)",
+        "started"
+      ]
+    },
+    {
+      "generic_name": "naproxen",
+      "names_seen": [
+        "Naproxen"
+      ],
+      "sources": [
+        "questionnaire",
+        "03_orthopedics_note.txt"
+      ],
+      "doses": [
+        "500 mg twice a day with food",
+        "500 mg by mouth twice daily with food for 4 weeks, then as needed"
+      ],
+      "prescribers": [
+        "Dr. O'Brien (orthopedics)",
+        "Kevin O'Brien, MD"
+      ],
+      "statuses": [
+        "taking (per patient)",
+        "started"
+      ]
+    },
+    {
+      "generic_name": "tamsulosin",
+      "names_seen": [
+        "Tamsulosin",
+        "tamsulosin"
+      ],
+      "sources": [
+        "questionnaire",
+        "04_urology_note_scanned.jpg"
+      ],
+      "doses": [
+        "0.4 mg once a day after dinner",
+        "0.4 mg once daily, 30 minutes after the same meal each day"
+      ],
+      "prescribers": [
+        "Dr. Stein (urology)",
+        "Michael Stein, MD"
+      ],
+      "statuses": [
+        "taking (per patient)",
+        "started"
+      ]
+    },
+    {
+      "generic_name": "aspirin",
+      "names_seen": [
+        "Aspirin (over the counter)"
+      ],
+      "sources": [
+        "questionnaire"
+      ],
+      "doses": [
+        "81 mg once a day"
+      ],
+      "prescribers": [
+        "himself (his brother said it's good for the heart)"
+      ],
+      "statuses": [
+        "taking (per patient)"
+      ]
+    },
+    {
+      "generic_name": "acetaminophen/diphenhydramine",
+      "names_seen": [
+        "Acetaminophen PM (acetaminophen 500 mg + diphenhydramine 25 mg, over the counter)"
+      ],
+      "sources": [
+        "questionnaire"
+      ],
+      "doses": [
+        "1-2 tablets most nights"
+      ],
+      "prescribers": [
+        "himself"
+      ],
+      "statuses": [
+        "taking (per patient)"
+      ]
+    }
+  ],
+  "labs": [
+    {
+      "document": "01_primary_care_visit_summary.txt",
+      "test": "BP",
+      "value": "132/78",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-05-06"
+    },
+    {
+      "document": "01_primary_care_visit_summary.txt",
+      "test": "HR",
+      "value": "74",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-05-06"
+    },
+    {
+      "document": "01_primary_care_visit_summary.txt",
+      "test": "Weight",
+      "value": "84",
+      "unit": "kg",
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-05-06"
+    },
+    {
+      "document": "01_primary_care_visit_summary.txt",
+      "test": "HbA1c",
+      "value": "7.1",
+      "unit": "%",
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-04-22"
+    },
+    {
+      "document": "01_primary_care_visit_summary.txt",
+      "test": "Creatinine",
+      "value": "1.5",
+      "unit": "mg/dL",
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-04-22"
+    },
+    {
+      "document": "01_primary_care_visit_summary.txt",
+      "test": "eGFR",
+      "value": "47",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-04-22"
+    },
+    {
+      "document": "01_primary_care_visit_summary.txt",
+      "test": "Potassium",
+      "value": "4.8",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-04-22"
+    },
+    {
+      "document": "01_primary_care_visit_summary.txt",
+      "test": "Hemoglobin",
+      "value": "13.4",
+      "unit": "g/dL",
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-04-22"
+    },
+    {
+      "document": "01_primary_care_visit_summary.txt",
+      "test": "LDL",
+      "value": "88",
+      "unit": "mg/dL",
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-04-22"
+    },
+    {
+      "document": "02_cardiology_discharge_summary.pdf",
+      "test": "HR",
+      "value": "138",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-06-14"
+    },
+    {
+      "document": "02_cardiology_discharge_summary.pdf",
+      "test": "Ejection fraction",
+      "value": "55%",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-06-14"
+    },
+    {
+      "document": "02_cardiology_discharge_summary.pdf",
+      "test": "CHA2DS2-VASc",
+      "value": "4",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-06-14"
+    },
+    {
+      "document": "02_cardiology_discharge_summary.pdf",
+      "test": "INR",
+      "value": "2.1",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-06-14"
+    },
+    {
+      "document": "04_urology_note_scanned.jpg",
+      "test": "PSA",
+      "value": "3.1",
+      "unit": "ng/mL",
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-07-15"
+    },
+    {
+      "document": "04_urology_note_scanned.jpg",
+      "test": "Post-void residual by bladder scan",
+      "value": "90",
+      "unit": "mL",
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-07-15"
+    },
+    {
+      "document": "05_lab_panel.pdf",
+      "test": "INR",
+      "value": "3.9",
+      "unit": "ratio",
+      "reference_range": "2.0 - 3.0 (goal)",
+      "flag": "high",
+      "date": "2026-09-08"
+    },
+    {
+      "document": "05_lab_panel.pdf",
+      "test": "Hemoglobin",
+      "value": "11.9",
+      "unit": "g/dL",
+      "reference_range": "13.5 - 17.5",
+      "flag": "low",
+      "date": "2026-09-08"
+    },
+    {
+      "document": "05_lab_panel.pdf",
+      "test": "Platelets",
+      "value": "214",
+      "unit": "x10^3/uL",
+      "reference_range": "150 - 400",
+      "flag": "none",
+      "date": "2026-09-08"
+    },
+    {
+      "document": "05_lab_panel.pdf",
+      "test": "Creatinine",
+      "value": "1.7",
+      "unit": "mg/dL",
+      "reference_range": "0.7 - 1.3",
+      "flag": "high",
+      "date": "2026-09-08"
+    },
+    {
+      "document": "05_lab_panel.pdf",
+      "test": "eGFR",
+      "value": "40",
+      "unit": "mL/min/1.73m2",
+      "reference_range": ">60",
+      "flag": "low",
+      "date": "2026-09-08"
+    },
+    {
+      "document": "05_lab_panel.pdf",
+      "test": "Potassium",
+      "value": "5.3",
+      "unit": "mmol/L",
+      "reference_range": "3.5 - 5.1",
+      "flag": "high",
+      "date": "2026-09-08"
+    },
+    {
+      "document": "05_lab_panel.pdf",
+      "test": "Sodium",
+      "value": "137",
+      "unit": "mmol/L",
+      "reference_range": "135 - 145",
+      "flag": "none",
+      "date": "2026-09-08"
+    },
+    {
+      "document": "05_lab_panel.pdf",
+      "test": "HbA1c",
+      "value": "7.0",
+      "unit": "%",
+      "reference_range": "<5.7",
+      "flag": "high",
+      "date": "2026-09-08"
+    },
+    {
+      "document": "05_lab_panel.pdf",
+      "test": "ALT",
+      "value": "28",
+      "unit": "U/L",
+      "reference_range": "7 - 55",
+      "flag": "none",
+      "date": "2026-09-08"
+    },
+    {
+      "document": "05_lab_panel.pdf",
+      "test": "AST",
+      "value": "31",
+      "unit": "U/L",
+      "reference_range": "8 - 48",
+      "flag": "none",
+      "date": "2026-09-08"
+    },
+    {
+      "document": "05_lab_panel.pdf",
+      "test": "Creatine kinase (CK)",
+      "value": "236",
+      "unit": "U/L",
+      "reference_range": "40 - 200",
+      "flag": "high",
+      "date": "2026-09-08"
+    },
+    {
+      "document": "05_lab_panel.pdf",
+      "test": "LDL cholesterol",
+      "value": "58",
+      "unit": "mg/dL",
+      "reference_range": "<100",
+      "flag": "none",
+      "date": "2026-09-08"
+    },
+    {
+      "document": "05_lab_panel.pdf",
+      "test": "Hemoglobin (previous)",
+      "value": "13.4",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-04-22"
+    },
+    {
+      "document": "05_lab_panel.pdf",
+      "test": "Creatinine (previous)",
+      "value": "1.5",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-04-22"
+    },
+    {
+      "document": "05_lab_panel.pdf",
+      "test": "eGFR (previous)",
+      "value": "47",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-04-22"
+    },
+    {
+      "document": "05_lab_panel.pdf",
+      "test": "Potassium (previous)",
+      "value": "4.8",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-04-22"
+    }
+  ],
+  "safety_signals": [],
+  "usage": {
+    "price_source": "gpt-6-luna, OpenAI standard pricing per 1M tokens (MGT 409 Lecture 11)",
+    "totals": {
+      "requests": 7,
+      "input_tokens": 19644,
+      "cached_input_tokens": 18561,
+      "cache_write_tokens": 1062,
+      "output_tokens": 3988,
+      "reasoning_tokens": 367,
+      "cost_usd": 0.002314,
+      "model_calls": 7,
+      "cache_hits": 0,
+      "failed_calls": 0
+    },
+    "by_agent": {
+      "intake_extract": {
+        "calls": 5,
+        "input_tokens": 14016,
+        "cached_input_tokens": 14001,
+        "output_tokens": 2793,
+        "cost_usd": 0.001538
+      },
+      "intake_vision": {
+        "calls": 1,
+        "input_tokens": 3076,
+        "cached_input_tokens": 3073,
+        "output_tokens": 279,
+        "cost_usd": 0.000171
+      },
+      "intake_route": {
+        "calls": 1,
+        "input_tokens": 2552,
+        "cached_input_tokens": 1487,
+        "output_tokens": 916,
+        "cost_usd": 0.000606
+      }
+    },
+    "calls": [
+      {
+        "agent": "intake_extract",
+        "label": "03_orthopedics_note.txt",
+        "requests": 1,
+        "input_tokens": 2766,
+        "cached_input_tokens": 2763,
+        "cache_write_tokens": 0,
+        "output_tokens": 302,
+        "reasoning_tokens": 0,
+        "seconds": 3.13,
+        "cost_usd": 0.00017893,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_vision",
+        "label": "04_urology_note_scanned.jpg",
+        "requests": 1,
+        "input_tokens": 3076,
+        "cached_input_tokens": 3073,
+        "cache_write_tokens": 0,
+        "output_tokens": 279,
+        "reasoning_tokens": 0,
+        "seconds": 4.58,
+        "cost_usd": 0.00017053,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_extract",
+        "label": "02_cardiology_discharge_summary.pdf",
+        "requests": 1,
+        "input_tokens": 2850,
+        "cached_input_tokens": 2847,
+        "cache_write_tokens": 0,
+        "output_tokens": 568,
+        "reasoning_tokens": 0,
+        "seconds": 4.58,
+        "cost_usd": 0.00031277,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_extract",
+        "label": "01_primary_care_visit_summary.txt",
+        "requests": 1,
+        "input_tokens": 2816,
+        "cached_input_tokens": 2813,
+        "cache_write_tokens": 0,
+        "output_tokens": 637,
+        "reasoning_tokens": 0,
+        "seconds": 4.82,
+        "cost_usd": 0.00034693,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_extract",
+        "label": "05_lab_panel.pdf",
+        "requests": 1,
+        "input_tokens": 2862,
+        "cached_input_tokens": 2859,
+        "cache_write_tokens": 0,
+        "output_tokens": 773,
+        "reasoning_tokens": 0,
+        "seconds": 5.54,
+        "cost_usd": 0.00041539,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_extract",
+        "label": "04_urology_note_scanned.jpg",
+        "requests": 1,
+        "input_tokens": 2722,
+        "cached_input_tokens": 2719,
+        "cache_write_tokens": 0,
+        "output_tokens": 513,
+        "reasoning_tokens": 0,
+        "seconds": 5.83,
+        "cost_usd": 0.00028399,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_route",
+        "label": "case4_polypharmacy",
+        "requests": 1,
+        "input_tokens": 2552,
+        "cached_input_tokens": 1487,
+        "cache_write_tokens": 1062,
+        "output_tokens": 916,
+        "reasoning_tokens": 367,
+        "seconds": 7.26,
+        "cost_usd": 0.00060592,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      }
+    ]
+  },
+  "seconds": 17.8
+}

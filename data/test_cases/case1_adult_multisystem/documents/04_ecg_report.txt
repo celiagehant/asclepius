@@ -1,0 +1,19 @@
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA
+
+HARBORVIEW HEART ASSOCIATES - 12-LEAD ECG REPORT
+Patient: Dana Whitfield    DOB: 03/12/1984    Recorded: 07/29/2026 10:42
+Read by: Anika Rhodes, MD (Cardiology)
+
+MEASUREMENTS
+Ventricular rate     104 bpm
+PR interval          148 ms
+QRS duration          86 ms
+QT / QTc (Bazett)    330 / 434 ms
+Axis                 +52 degrees
+
+INTERPRETATION
+Sinus tachycardia. Normal intervals and axis. No ST-segment or T-wave
+changes. No signs of chamber enlargement.
+Otherwise normal ECG. No prior ECG available for comparison.
+
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA

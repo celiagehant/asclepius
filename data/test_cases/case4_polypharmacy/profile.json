@@ -1,0 +1,57 @@
+{
+  "case_id": "case4_polypharmacy",
+  "synthetic": true,
+  "case_title": "Four doctors, twelve medications, no shared list",
+  "case_summary_for_demo": "78-year-old man with prescriptions from primary care, cardiology, orthopedics and urology, plus his own over-the-counter choices. No single doctor has the full list.",
+  "completed_by": "patient (with help from daughter)",
+  "completed_on": "2026-09-29",
+  "patient": {
+    "name": "Harold Pike",
+    "date_of_birth": "1948-02-17",
+    "age_years": 78,
+    "sex_at_birth": "male",
+    "pregnant": false,
+    "height_cm": 178,
+    "weight_kg": 84
+  },
+  "main_concern": "My father has a bag full of pill bottles from four different doctors. Since the summer he's dizzy when he stands up, he fell once, his legs ache and he bruises easily. We don't know what he should be taking.",
+  "symptoms": [
+    {"symptom": "Dizziness when standing up", "since": "about 3 months", "details": "Worst at night when he gets up to urinate."},
+    {"symptom": "Fall", "since": "July 2026", "details": "Fell getting up at night; bruised hip."},
+    {"symptom": "Easy bruising", "since": "about 2 months", "details": "Large bruises on arms; gums bleed when brushing."},
+    {"symptom": "Aching thigh muscles", "since": "about 2 months", "details": "Both legs; worse with walking."},
+    {"symptom": "Waking 3-4 times a night to urinate", "since": "over a year", "details": ""},
+    {"symptom": "Knee pain", "since": "about 2 years", "details": "Right worse than left."},
+    {"symptom": "More tired", "since": "about 1 month", "details": ""}
+  ],
+  "known_conditions": ["High blood pressure", "Type 2 diabetes", "High cholesterol", "Acid reflux", "Kidney disease (stage 3)", "Atrial fibrillation (since June 2026)", "Enlarged prostate", "Knee arthritis"],
+  "medications": [
+    {"name": "Lisinopril", "dose": "20 mg", "how_often": "once a day", "prescribed_by": "Dr. Alvarez (primary care)", "reason": "blood pressure"},
+    {"name": "Doxazosin", "dose": "4 mg", "how_often": "at bedtime", "prescribed_by": "Dr. Alvarez (primary care)", "reason": "blood pressure"},
+    {"name": "Simvastatin", "dose": "40 mg", "how_often": "at bedtime", "prescribed_by": "Dr. Alvarez (primary care)", "reason": "cholesterol"},
+    {"name": "Metformin", "dose": "1000 mg", "how_often": "twice a day", "prescribed_by": "Dr. Alvarez (primary care)", "reason": "diabetes"},
+    {"name": "Omeprazole", "dose": "20 mg", "how_often": "once a day", "prescribed_by": "Dr. Alvarez (primary care)", "reason": "reflux"},
+    {"name": "Warfarin", "dose": "5 mg", "how_often": "once a day (clinic adjusts)", "prescribed_by": "Dr. Rao (cardiology)", "reason": "atrial fibrillation"},
+    {"name": "Metoprolol succinate", "dose": "50 mg", "how_often": "once a day", "prescribed_by": "Dr. Rao (cardiology)", "reason": "heart rate"},
+    {"name": "Atorvastatin", "dose": "40 mg", "how_often": "once a day", "prescribed_by": "Dr. Rao (cardiology)", "reason": "cholesterol / heart"},
+    {"name": "Naproxen", "dose": "500 mg", "how_often": "twice a day with food", "prescribed_by": "Dr. O'Brien (orthopedics)", "reason": "knee arthritis"},
+    {"name": "Tamsulosin", "dose": "0.4 mg", "how_often": "once a day after dinner", "prescribed_by": "Dr. Stein (urology)", "reason": "prostate"},
+    {"name": "Aspirin (over the counter)", "dose": "81 mg", "how_often": "once a day", "prescribed_by": "himself (his brother said it's good for the heart)", "reason": "heart"},
+    {"name": "Acetaminophen PM (acetaminophen 500 mg + diphenhydramine 25 mg, over the counter)", "dose": "1-2 tablets", "how_often": "most nights", "prescribed_by": "himself", "reason": "sleep and knee pain"}
+  ],
+  "allergies": ["Penicillin (hives)"],
+  "doctors": [
+    {"specialty": "Internal medicine (primary care)", "name": "Dr. Robert Alvarez"},
+    {"specialty": "Cardiology", "name": "Dr. Sunita Rao"},
+    {"specialty": "Orthopedic surgery", "name": "Dr. Kevin O'Brien"},
+    {"specialty": "Urology", "name": "Dr. Michael Stein"}
+  ],
+  "past_history": ["Hospitalized June 2026 for atrial fibrillation", "Right cataract surgery 2021"],
+  "family_history": ["Brother: heart attack at 70"],
+  "lifestyle": {"smoking": "quit 1990", "alcohol": "1 beer most evenings", "exercise": "short walks", "diet": "lives alone; daughter visits twice a week"},
+  "questions_for_panel": [
+    "Is he taking two pills for the same thing?",
+    "Could any of his medicines be causing the dizziness, bruising or leg aches?",
+    "What should we ask each doctor?"
+  ]
+}

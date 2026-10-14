@@ -1,0 +1,996 @@
+{
+  "case_label": "case2_autoimmune_pattern",
+  "modes": {
+    "age_years": 31.0,
+    "age_group": "adult",
+    "pediatric": false,
+    "pregnancy": false,
+    "coordinator": "internal_medicine",
+    "coordinator_name": "Internal medicine",
+    "pharmacist_active": true
+  },
+  "documents": [
+    {
+      "filename": "01_dermatology_note.txt",
+      "sha256": "1e5b4d81b12a636b6ecc3a978ffb7b85fe9dfa852cb57e775e18f70a51562733",
+      "kind": "text",
+      "read_by": "text",
+      "page_count": 1,
+      "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nCLEARVIEW DERMATOLOGY - CLINIC NOTE\nPatient: Alicia Moreno    DOB: 05/21/1995    Date of visit: 06/11/2026\nClinician: Helen Brooks, MD (Dermatology)\n\nHISTORY\n31-year-old woman with 3 months of redness over both cheeks and the bridge\nof the nose, worse after time in the sun. New scaly pink patches on both\nupper arms after a beach weekend in May. Reports more hair shedding than\nusual. No new skin products.\n\nEXAM\nRed patches over the cheeks and nasal bridge, sparing the folds beside the\nnose. Several 1-2 cm scaly pink plaques on both outer upper arms. Diffuse\nmild hair thinning on the scalp without scarring. Incidental painless\nshallow ulcer on the hard palate.\n\nASSESSMENT\nPhotosensitive facial eruption. Differential: rosacea, photosensitive\ndermatitis, cutaneous lupus.\n\nPLAN\n1. 4 mm punch biopsy, left upper arm.\n2. Hydrocortisone 2.5% cream to the face twice daily for 2 weeks.\n3. Broad-spectrum sunscreen SPF 50 daily; sun avoidance.\n4. Follow up with biopsy results.\n\nADDENDUM 06/25/2026 (H. Brooks, MD)\nBiopsy result reviewed with the patient by phone. Arms: start\ntriamcinolone 0.1% cream twice daily for 2 weeks. Recheck in 3 months.\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+      "hidden_text": [],
+      "notes": [],
+      "extraction": {
+        "doc_type": "consult_note",
+        "date": "2026-06-11",
+        "source": "Dermatology - Clearview Dermatology (Helen Brooks, MD)",
+        "specialties": [
+          "dermatology"
+        ],
+        "summary": "Photosensitive facial eruption with scaly arm plaques and hair thinning; left upper-arm punch biopsy performed, with topical corticosteroids documented.",
+        "patient_name_on_document": "Alicia Moreno",
+        "patient_dob_on_document": "1995-05-21",
+        "patient_sex_on_document": "female",
+        "labs": [],
+        "medications": [
+          {
+            "name": "Hydrocortisone 2.5% cream",
+            "generic_name": "hydrocortisone",
+            "dose": "2.5%",
+            "frequency": "twice daily for 2 weeks",
+            "prescriber": "Helen Brooks, MD",
+            "status": "started"
+          },
+          {
+            "name": "Triamcinolone 0.1% cream",
+            "generic_name": "triamcinolone",
+            "dose": "0.1%",
+            "frequency": "twice daily for 2 weeks",
+            "prescriber": "Helen Brooks, MD",
+            "status": "started"
+          }
+        ],
+        "mentions_possible_malignancy": false,
+        "mentions_self_harm": false,
+        "instructions_to_ai": []
+      },
+      "error": null
+    },
+    {
+      "filename": "02_skin_biopsy_pathology.pdf",
+      "sha256": "53fb80dbc4beae70f839aa234b3cf9f955676ccdd09a03fbaea06db1f1579a5d",
+      "kind": "pdf",
+      "read_by": "text",
+      "page_count": 1,
+      "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nNORTHGATE PATHOLOGY GROUP - SURGICAL PATHOLOGY REPORT\nPatient: Alicia Moreno        DOB: 05/21/1995      Sex: F\nSpecimen received: 06/12/2026 Reported: 06/18/2026\nSubmitting clinician: Helen Brooks, MD (Dermatology)\n\nSPECIMEN\nSkin, left upper arm, 4 mm punch biopsy.\n\nMICROSCOPIC DESCRIPTION\nVacuolar interface change along the dermal-epidermal junction with\nscattered apoptotic keratinocytes. Superficial and deep perivascular and\nperiadnexal lymphocytic infiltrate. Increased dermal mucin on colloidal\niron stain. Mild basement membrane thickening.\n\nDIAGNOSIS\nVacuolar interface dermatitis with superficial and deep perivascular\nlymphocytic infiltrate and increased dermal mucin.\n\nCOMMENT\nThese findings can be seen in cutaneous lupus erythematosus or\ndermatomyositis. Clinical and serologic correlation is recommended.\n\nElectronically signed: R. Vance, MD (Dermatopathology)\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+      "hidden_text": [],
+      "notes": [],
+      "extraction": {
+        "doc_type": "pathology_report",
+        "date": "2026-06-12",
+        "source": "Northgate Pathology Group - Surgical Pathology (R. Vance, MD, Dermatopathology); submitting clinician: Helen Brooks, MD (Dermatology)",
+        "specialties": [
+          "dermatology",
+          "rheumatology"
+        ],
+        "summary": "Left upper-arm skin biopsy shows vacuolar interface dermatitis, lymphocytic infiltrate, and increased dermal mucin; findings can be seen in cutaneous lupus or dermatomyositis.",
+        "patient_name_on_document": "Alicia Moreno",
+        "patient_dob_on_document": "1995-05-21",
+        "patient_sex_on_document": "female",
+        "labs": [],
+        "medications": [],
+        "mentions_possible_malignancy": false,
+        "mentions_self_harm": false,
+        "instructions_to_ai": []
+      },
+      "error": null
+    },
+    {
+      "filename": "03_nephrology_consult_scanned.pdf",
+      "sha256": "0b8a39f06c76e20c90eec4f3f58f3cfbd03927e2c019f96cb2a3d8c25a430fe0",
+      "kind": "pdf",
+      "read_by": "vision",
+      "page_count": 1,
+      "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nCITY KIDNEY CARE - NEPHROLOGY CONSULTATION\nPatient: Alicia Moreno    DOB: 05/21/1995    Date: 08/14/2026\nConsultant: Omar Haddad, MD (Nephrology)\nReferred by primary care for protein and blood on a urine dipstick.\n\nHISTORY: Annual physical in July showed protein and blood in the urine.\nNo visible blood in urine, no urinary symptoms. Mild ankle puffiness by\nevening. Takes over-the-counter naproxen for joint aches a few times a\nweek. Usual blood pressure in the 110s systolic.\n\nVITALS: BP 136/86 (repeat 134/84)    HR 84    Weight 61 kg\n\nURINALYSIS (08/14/2026)          RESULT             REFERENCE\nProtein                          2+                 Negative\nBlood                            2+                 Negative\nRed blood cells                  15-20 /hpf         0-2 /hpf\nDysmorphic red cells              Present            Absent\nRed cell casts                   Few                None\nWhite blood cells                0-2 /hpf           0-5 /hpf\nUrine protein/creatinine ratio   0.9 g/g            <0.2 g/g\n\nBLOOD (08/14/2026)\nCreatinine 0.9 mg/dL (0.6-1.1)    eGFR >90    Potassium 4.2    Albumin 3.6\n\nASSESSMENT: Glomerular-pattern hematuria with proteinuria below the\nnephrotic range; kidney filtration currently preserved.\n\nPLAN: Start lisinopril 5 mg by mouth once daily for protein in the urine\nand blood pressure. Renal ultrasound. Repeat urinalysis, protein/creatinine\nratio and potassium in 6-8 weeks. Serologic workup to be discussed at the\nfollow-up visit (scheduled 10/30/2026). If findings persist, consider\nkidney biopsy.\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+      "hidden_text": [],
+      "notes": [],
+      "extraction": {
+        "doc_type": "consult_note",
+        "date": "2026-08-14",
+        "source": "Nephrology - City Kidney Care (Omar Haddad, MD)",
+        "specialties": [
+          "nephrology"
+        ],
+        "summary": "Consultation documents urine protein and blood with red cell casts, preserved kidney filtration, and a plan for lisinopril and follow-up testing.",
+        "patient_name_on_document": "Alicia Moreno",
+        "patient_dob_on_document": "1995-05-21",
+        "patient_sex_on_document": null,
+        "labs": [
+          {
+            "test": "Blood pressure",
+            "value": "136/86",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-08-14"
+          },
+          {
+            "test": "Blood pressure (repeat)",
+            "value": "134/84",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-08-14"
+          },
+          {
+            "test": "Heart rate",
+            "value": "84",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-08-14"
+          },
+          {
+            "test": "Weight",
+            "value": "61",
+            "unit": "kg",
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-08-14"
+          },
+          {
+            "test": "Protein",
+            "value": "2+",
+            "unit": null,
+            "reference_range": "Negative",
+            "flag": "none",
+            "date": "2026-08-14"
+          },
+          {
+            "test": "Blood",
+            "value": "2+",
+            "unit": null,
+            "reference_range": "Negative",
+            "flag": "none",
+            "date": "2026-08-14"
+          },
+          {
+            "test": "Red blood cells",
+            "value": "15-20",
+            "unit": "/hpf",
+            "reference_range": "0-2 /hpf",
+            "flag": "none",
+            "date": "2026-08-14"
+          },
+          {
+            "test": "Dysmorphic red cells",
+            "value": "Present",
+            "unit": null,
+            "reference_range": "Absent",
+            "flag": "none",
+            "date": "2026-08-14"
+          },
+          {
+            "test": "Red cell casts",
+            "value": "Few",
+            "unit": null,
+            "reference_range": "None",
+            "flag": "none",
+            "date": "2026-08-14"
+          },
+          {
+            "test": "White blood cells",
+            "value": "0-2",
+            "unit": "/hpf",
+            "reference_range": "0-5 /hpf",
+            "flag": "none",
+            "date": "2026-08-14"
+          },
+          {
+            "test": "Urine protein/creatinine ratio",
+            "value": "0.9",
+            "unit": "g/g",
+            "reference_range": "<0.2 g/g",
+            "flag": "none",
+            "date": "2026-08-14"
+          },
+          {
+            "test": "Creatinine",
+            "value": "0.9",
+            "unit": "mg/dL",
+            "reference_range": "0.6-1.1",
+            "flag": "none",
+            "date": "2026-08-14"
+          },
+          {
+            "test": "eGFR",
+            "value": ">90",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-08-14"
+          },
+          {
+            "test": "Potassium",
+            "value": "4.2",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-08-14"
+          },
+          {
+            "test": "Albumin",
+            "value": "3.6",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-08-14"
+          }
+        ],
+        "medications": [
+          {
+            "name": "over-the-counter naproxen",
+            "generic_name": "naproxen",
+            "dose": null,
+            "frequency": "a few times a week",
+            "prescriber": null,
+            "status": "taking"
+          },
+          {
+            "name": "lisinopril",
+            "generic_name": "lisinopril",
+            "dose": "5 mg",
+            "frequency": "once daily",
+            "prescriber": "Omar Haddad, MD",
+            "status": "started"
+          }
+        ],
+        "mentions_possible_malignancy": false,
+        "mentions_self_harm": false,
+        "instructions_to_ai": []
+      },
+      "error": null
+    },
+    {
+      "filename": "04_hematology_note.txt",
+      "sha256": "fb79a8f01a904aa264c3418aa3b02b4ac4f0a6eda434df0a7b77c4d0b7927cf8",
+      "kind": "text",
+      "read_by": "text",
+      "page_count": 1,
+      "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nWESTFIELD HEMATOLOGY - CLINIC NOTE\nPatient: Alicia Moreno    DOB: 05/21/1995    Date of visit: 09/03/2026\nClinician: Grace Liu, MD (Hematology)\nReferred by primary care for low blood counts.\n\nHISTORY\nLow white cells and platelets found on labs in July. Reports fatigue,\naching hand joints, and one episode of low-grade fever in August. No\nnight sweats, no weight loss, no unusual bleeding.\n\nLABS (09/03/2026)             RESULT    FLAG   REFERENCE        UNITS\nWBC                            3.2       L      4.0 - 11.0      x10^3/uL\nAbsolute neutrophils           2.1              1.5 - 7.5       x10^3/uL\nAbsolute lymphocytes           0.7       L      1.0 - 4.0       x10^3/uL\nHemoglobin                     11.0      L      12.0 - 15.5     g/dL\nMCV                            88               80 - 100        fL\nPlatelets                      112       L      150 - 400       x10^3/uL\nReticulocytes                  2.6       H      0.5 - 2.5       %\nLDH                            262              140 - 280       U/L\nESR                            52        H      0 - 20          mm/hr\nB12 / folate                   normal\n\nPERIPHERAL SMEAR\nMild lymphopenia. No blasts. No schistocytes. Platelets mildly decreased\nwith normal morphology.\n\nASSESSMENT\nMild decrease in all three cell lines (leukopenia with lymphopenia, mild\nnormocytic anemia, mild thrombocytopenia). Possibly post-viral. No sign\nof a primary bone marrow disorder on the smear.\n\nPLAN\nRepeat CBC in 3 months. Bone marrow biopsy only if counts fall further.\nJoint pain and fatigue deferred to primary care.\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+      "hidden_text": [],
+      "notes": [],
+      "extraction": {
+        "doc_type": "consult_note",
+        "date": "2026-09-03",
+        "source": "Hematology - Westfield Hematology (Grace Liu, MD)",
+        "specialties": [
+          "hematology",
+          "rheumatology",
+          "internal_medicine"
+        ],
+        "summary": "Hematology visit documents mild decreases in white cells, hemoglobin, and platelets, elevated reticulocytes and ESR, and no blasts or schistocytes on smear.",
+        "patient_name_on_document": "Alicia Moreno",
+        "patient_dob_on_document": "1995-05-21",
+        "patient_sex_on_document": null,
+        "labs": [
+          {
+            "test": "WBC",
+            "value": "3.2",
+            "unit": "x10^3/uL",
+            "reference_range": "4.0 - 11.0",
+            "flag": "low",
+            "date": "2026-09-03"
+          },
+          {
+            "test": "Absolute neutrophils",
+            "value": "2.1",
+            "unit": "x10^3/uL",
+            "reference_range": "1.5 - 7.5",
+            "flag": "none",
+            "date": "2026-09-03"
+          },
+          {
+            "test": "Absolute lymphocytes",
+            "value": "0.7",
+            "unit": "x10^3/uL",
+            "reference_range": "1.0 - 4.0",
+            "flag": "low",
+            "date": "2026-09-03"
+          },
+          {
+            "test": "Hemoglobin",
+            "value": "11.0",
+            "unit": "g/dL",
+            "reference_range": "12.0 - 15.5",
+            "flag": "low",
+            "date": "2026-09-03"
+          },
+          {
+            "test": "MCV",
+            "value": "88",
+            "unit": "fL",
+            "reference_range": "80 - 100",
+            "flag": "none",
+            "date": "2026-09-03"
+          },
+          {
+            "test": "Platelets",
+            "value": "112",
+            "unit": "x10^3/uL",
+            "reference_range": "150 - 400",
+            "flag": "low",
+            "date": "2026-09-03"
+          },
+          {
+            "test": "Reticulocytes",
+            "value": "2.6",
+            "unit": "%",
+            "reference_range": "0.5 - 2.5",
+            "flag": "high",
+            "date": "2026-09-03"
+          },
+          {
+            "test": "LDH",
+            "value": "262",
+            "unit": "U/L",
+            "reference_range": "140 - 280",
+            "flag": "none",
+            "date": "2026-09-03"
+          },
+          {
+            "test": "ESR",
+            "value": "52",
+            "unit": "mm/hr",
+            "reference_range": "0 - 20",
+            "flag": "high",
+            "date": "2026-09-03"
+          },
+          {
+            "test": "B12 / folate",
+            "value": "normal",
+            "unit": null,
+            "reference_range": null,
+            "flag": "none",
+            "date": "2026-09-03"
+          }
+        ],
+        "medications": [],
+        "mentions_possible_malignancy": false,
+        "mentions_self_harm": false,
+        "instructions_to_ai": []
+      },
+      "error": null
+    },
+    {
+      "filename": "05_medication_list.txt",
+      "sha256": "605f932c4e93023acce7784879608beeb21aa717cd5619ac26328d7feb0f438d",
+      "kind": "text",
+      "read_by": "text",
+      "page_count": 1,
+      "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nMEDICATION LIST - prepared by patient for appointments (09/10/2026)\nPatient: Alicia Moreno    DOB: 05/21/1995\n\n1. Hydrocortisone 2.5% cream - face, twice daily as needed\n   Prescribed by Dr. Brooks (dermatology), June 2026\n2. Triamcinolone 0.1% cream - arms, twice daily as needed\n   Prescribed by Dr. Brooks (dermatology), June 2026\n3. Levonorgestrel/ethinyl estradiol 0.15 mg/0.03 mg - 1 tablet daily\n   Prescribed by Dr. Okafor (gynecology), for several years\n4. Naproxen 220 mg (over the counter) - 1 to 2 tablets, 3-4 times a week\n   for joint aches. My own choice, not prescribed.\n\nAllergies: sulfa drugs (rash).\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+      "hidden_text": [],
+      "notes": [],
+      "extraction": {
+        "doc_type": "medication_list",
+        "date": "2026-09-10",
+        "source": "Patient-prepared medication list for appointments",
+        "specialties": [
+          "clinical_pharmacist",
+          "internal_medicine"
+        ],
+        "summary": "Patient-prepared list of four current medications: two topical creams, a combined oral contraceptive, and over-the-counter naproxen.",
+        "patient_name_on_document": "Alicia Moreno",
+        "patient_dob_on_document": "1995-05-21",
+        "patient_sex_on_document": null,
+        "labs": [],
+        "medications": [
+          {
+            "name": "Hydrocortisone 2.5% cream",
+            "generic_name": "hydrocortisone",
+            "dose": "2.5% cream",
+            "frequency": "twice daily as needed",
+            "prescriber": "Dr. Brooks (dermatology)",
+            "status": "taking"
+          },
+          {
+            "name": "Triamcinolone 0.1% cream",
+            "generic_name": "triamcinolone",
+            "dose": "0.1% cream",
+            "frequency": "twice daily as needed",
+            "prescriber": "Dr. Brooks (dermatology)",
+            "status": "taking"
+          },
+          {
+            "name": "Levonorgestrel/ethinyl estradiol 0.15 mg/0.03 mg",
+            "generic_name": "levonorgestrel/ethinyl estradiol",
+            "dose": "0.15 mg/0.03 mg",
+            "frequency": "1 tablet daily",
+            "prescriber": "Dr. Okafor (gynecology)",
+            "status": "taking"
+          },
+          {
+            "name": "Naproxen 220 mg",
+            "generic_name": "naproxen",
+            "dose": "220 mg; 1 to 2 tablets",
+            "frequency": "3-4 times a week",
+            "prescriber": null,
+            "status": "taking"
+          }
+        ],
+        "mentions_possible_malignancy": false,
+        "mentions_self_harm": false,
+        "instructions_to_ai": []
+      },
+      "error": null
+    }
+  ],
+  "active_specialists": [
+    {
+      "specialty": "rheumatology",
+      "name": "Rheumatology",
+      "relevance": 5,
+      "documents": [
+        "01_dermatology_note.txt",
+        "02_skin_biopsy_pathology.pdf",
+        "03_nephrology_consult_scanned.pdf",
+        "04_hematology_note.txt"
+      ],
+      "symptoms": [
+        "Joint pain and stiffness in hands and wrists",
+        "Facial rash after sun",
+        "Fatigue",
+        "Mouth sores",
+        "Hair thinning",
+        "Fingers turn white or blue in the cold",
+        "Low-grade fevers",
+        "Ankle puffiness in the evening"
+      ],
+      "reason": "The combination of inflammatory joint symptoms, photosensitive rash, mouth sores, Raynaud-like color changes, urinary abnormalities, and low blood counts warrants evaluation for a multisystem rheumatologic process.",
+      "why_active": "documents+symptoms"
+    },
+    {
+      "specialty": "hematology",
+      "name": "Hematology",
+      "relevance": 4,
+      "documents": [
+        "04_hematology_note.txt"
+      ],
+      "symptoms": [
+        "Fatigue"
+      ],
+      "reason": "Low white cells, hemoglobin, and platelets with elevated reticulocytes merit hematology review, particularly alongside the broader systemic findings.",
+      "why_active": "documents+symptoms"
+    },
+    {
+      "specialty": "nephrology",
+      "name": "Nephrology",
+      "relevance": 4,
+      "documents": [
+        "03_nephrology_consult_scanned.pdf"
+      ],
+      "symptoms": [
+        "Ankle puffiness in the evening"
+      ],
+      "reason": "Urine protein, blood, and red cell casts are significant kidney findings, with ankle puffiness as a related concern.",
+      "why_active": "documents+symptoms"
+    },
+    {
+      "specialty": "dermatology",
+      "name": "Dermatology",
+      "relevance": 3,
+      "documents": [
+        "01_dermatology_note.txt",
+        "02_skin_biopsy_pathology.pdf"
+      ],
+      "symptoms": [
+        "Facial rash after sun",
+        "Hair thinning"
+      ],
+      "reason": "The photosensitive eruption, hair thinning, and biopsy findings require dermatologic interpretation and coordination with the systemic evaluation.",
+      "why_active": "documents+symptoms"
+    }
+  ],
+  "consider_seeing": [],
+  "unassigned_documents": [
+    "05_medication_list.txt"
+  ],
+  "conflicts": [
+    {
+      "kind": "medication_not_on_your_list",
+      "document": "03_nephrology_consult_scanned.pdf",
+      "item": "lisinopril",
+      "message": "lisinopril 5 mg once daily was started in 03_nephrology_consult_scanned.pdf, but it is not on your medication list. Are you taking it? Please confirm rather than let the panel guess."
+    }
+  ],
+  "medications": [
+    {
+      "generic_name": "hydrocortisone",
+      "names_seen": [
+        "Hydrocortisone 2.5% cream"
+      ],
+      "sources": [
+        "questionnaire",
+        "01_dermatology_note.txt",
+        "05_medication_list.txt"
+      ],
+      "doses": [
+        "thin layer twice a day as needed",
+        "2.5% twice daily for 2 weeks",
+        "2.5% cream twice daily as needed"
+      ],
+      "prescribers": [
+        "Dr. Brooks (dermatology)",
+        "Helen Brooks, MD"
+      ],
+      "statuses": [
+        "taking (per patient)",
+        "started",
+        "taking"
+      ]
+    },
+    {
+      "generic_name": "triamcinolone",
+      "names_seen": [
+        "Triamcinolone 0.1% cream"
+      ],
+      "sources": [
+        "questionnaire",
+        "01_dermatology_note.txt",
+        "05_medication_list.txt"
+      ],
+      "doses": [
+        "thin layer twice a day as needed",
+        "0.1% twice daily for 2 weeks",
+        "0.1% cream twice daily as needed"
+      ],
+      "prescribers": [
+        "Dr. Brooks (dermatology)",
+        "Helen Brooks, MD"
+      ],
+      "statuses": [
+        "taking (per patient)",
+        "started",
+        "taking"
+      ]
+    },
+    {
+      "generic_name": "levonorgestrel/ethinyl estradiol",
+      "names_seen": [
+        "Birth control pill (levonorgestrel/ethinyl estradiol)",
+        "Levonorgestrel/ethinyl estradiol 0.15 mg/0.03 mg"
+      ],
+      "sources": [
+        "questionnaire",
+        "05_medication_list.txt"
+      ],
+      "doses": [
+        "0.15/0.03 mg daily",
+        "0.15 mg/0.03 mg 1 tablet daily"
+      ],
+      "prescribers": [
+        "Dr. Okafor (gynecology)"
+      ],
+      "statuses": [
+        "taking (per patient)",
+        "taking"
+      ]
+    },
+    {
+      "generic_name": "naproxen",
+      "names_seen": [
+        "Naproxen (over the counter)",
+        "over-the-counter naproxen",
+        "Naproxen 220 mg"
+      ],
+      "sources": [
+        "questionnaire",
+        "03_nephrology_consult_scanned.pdf",
+        "05_medication_list.txt"
+      ],
+      "doses": [
+        "220-440 mg 3-4 times a week",
+        "a few times a week",
+        "220 mg; 1 to 2 tablets 3-4 times a week"
+      ],
+      "prescribers": [
+        "myself"
+      ],
+      "statuses": [
+        "taking (per patient)",
+        "taking"
+      ]
+    },
+    {
+      "generic_name": "lisinopril",
+      "names_seen": [
+        "lisinopril"
+      ],
+      "sources": [
+        "03_nephrology_consult_scanned.pdf"
+      ],
+      "doses": [
+        "5 mg once daily"
+      ],
+      "prescribers": [
+        "Omar Haddad, MD"
+      ],
+      "statuses": [
+        "started"
+      ]
+    }
+  ],
+  "labs": [
+    {
+      "document": "03_nephrology_consult_scanned.pdf",
+      "test": "Blood pressure",
+      "value": "136/86",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-08-14"
+    },
+    {
+      "document": "03_nephrology_consult_scanned.pdf",
+      "test": "Blood pressure (repeat)",
+      "value": "134/84",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-08-14"
+    },
+    {
+      "document": "03_nephrology_consult_scanned.pdf",
+      "test": "Heart rate",
+      "value": "84",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-08-14"
+    },
+    {
+      "document": "03_nephrology_consult_scanned.pdf",
+      "test": "Weight",
+      "value": "61",
+      "unit": "kg",
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-08-14"
+    },
+    {
+      "document": "03_nephrology_consult_scanned.pdf",
+      "test": "Protein",
+      "value": "2+",
+      "unit": null,
+      "reference_range": "Negative",
+      "flag": "none",
+      "date": "2026-08-14"
+    },
+    {
+      "document": "03_nephrology_consult_scanned.pdf",
+      "test": "Blood",
+      "value": "2+",
+      "unit": null,
+      "reference_range": "Negative",
+      "flag": "none",
+      "date": "2026-08-14"
+    },
+    {
+      "document": "03_nephrology_consult_scanned.pdf",
+      "test": "Red blood cells",
+      "value": "15-20",
+      "unit": "/hpf",
+      "reference_range": "0-2 /hpf",
+      "flag": "none",
+      "date": "2026-08-14"
+    },
+    {
+      "document": "03_nephrology_consult_scanned.pdf",
+      "test": "Dysmorphic red cells",
+      "value": "Present",
+      "unit": null,
+      "reference_range": "Absent",
+      "flag": "none",
+      "date": "2026-08-14"
+    },
+    {
+      "document": "03_nephrology_consult_scanned.pdf",
+      "test": "Red cell casts",
+      "value": "Few",
+      "unit": null,
+      "reference_range": "None",
+      "flag": "none",
+      "date": "2026-08-14"
+    },
+    {
+      "document": "03_nephrology_consult_scanned.pdf",
+      "test": "White blood cells",
+      "value": "0-2",
+      "unit": "/hpf",
+      "reference_range": "0-5 /hpf",
+      "flag": "none",
+      "date": "2026-08-14"
+    },
+    {
+      "document": "03_nephrology_consult_scanned.pdf",
+      "test": "Urine protein/creatinine ratio",
+      "value": "0.9",
+      "unit": "g/g",
+      "reference_range": "<0.2 g/g",
+      "flag": "none",
+      "date": "2026-08-14"
+    },
+    {
+      "document": "03_nephrology_consult_scanned.pdf",
+      "test": "Creatinine",
+      "value": "0.9",
+      "unit": "mg/dL",
+      "reference_range": "0.6-1.1",
+      "flag": "none",
+      "date": "2026-08-14"
+    },
+    {
+      "document": "03_nephrology_consult_scanned.pdf",
+      "test": "eGFR",
+      "value": ">90",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-08-14"
+    },
+    {
+      "document": "03_nephrology_consult_scanned.pdf",
+      "test": "Potassium",
+      "value": "4.2",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-08-14"
+    },
+    {
+      "document": "03_nephrology_consult_scanned.pdf",
+      "test": "Albumin",
+      "value": "3.6",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-08-14"
+    },
+    {
+      "document": "04_hematology_note.txt",
+      "test": "WBC",
+      "value": "3.2",
+      "unit": "x10^3/uL",
+      "reference_range": "4.0 - 11.0",
+      "flag": "low",
+      "date": "2026-09-03"
+    },
+    {
+      "document": "04_hematology_note.txt",
+      "test": "Absolute neutrophils",
+      "value": "2.1",
+      "unit": "x10^3/uL",
+      "reference_range": "1.5 - 7.5",
+      "flag": "none",
+      "date": "2026-09-03"
+    },
+    {
+      "document": "04_hematology_note.txt",
+      "test": "Absolute lymphocytes",
+      "value": "0.7",
+      "unit": "x10^3/uL",
+      "reference_range": "1.0 - 4.0",
+      "flag": "low",
+      "date": "2026-09-03"
+    },
+    {
+      "document": "04_hematology_note.txt",
+      "test": "Hemoglobin",
+      "value": "11.0",
+      "unit": "g/dL",
+      "reference_range": "12.0 - 15.5",
+      "flag": "low",
+      "date": "2026-09-03"
+    },
+    {
+      "document": "04_hematology_note.txt",
+      "test": "MCV",
+      "value": "88",
+      "unit": "fL",
+      "reference_range": "80 - 100",
+      "flag": "none",
+      "date": "2026-09-03"
+    },
+    {
+      "document": "04_hematology_note.txt",
+      "test": "Platelets",
+      "value": "112",
+      "unit": "x10^3/uL",
+      "reference_range": "150 - 400",
+      "flag": "low",
+      "date": "2026-09-03"
+    },
+    {
+      "document": "04_hematology_note.txt",
+      "test": "Reticulocytes",
+      "value": "2.6",
+      "unit": "%",
+      "reference_range": "0.5 - 2.5",
+      "flag": "high",
+      "date": "2026-09-03"
+    },
+    {
+      "document": "04_hematology_note.txt",
+      "test": "LDH",
+      "value": "262",
+      "unit": "U/L",
+      "reference_range": "140 - 280",
+      "flag": "none",
+      "date": "2026-09-03"
+    },
+    {
+      "document": "04_hematology_note.txt",
+      "test": "ESR",
+      "value": "52",
+      "unit": "mm/hr",
+      "reference_range": "0 - 20",
+      "flag": "high",
+      "date": "2026-09-03"
+    },
+    {
+      "document": "04_hematology_note.txt",
+      "test": "B12 / folate",
+      "value": "normal",
+      "unit": null,
+      "reference_range": null,
+      "flag": "none",
+      "date": "2026-09-03"
+    }
+  ],
+  "safety_signals": [],
+  "usage": {
+    "price_source": "gpt-6-luna, OpenAI standard pricing per 1M tokens (MGT 409 Lecture 11)",
+    "totals": {
+      "requests": 7,
+      "input_tokens": 19664,
+      "cached_input_tokens": 18275,
+      "cache_write_tokens": 1368,
+      "output_tokens": 3290,
+      "reasoning_tokens": 116,
+      "cost_usd": 0.002001,
+      "model_calls": 7,
+      "cache_hits": 0,
+      "failed_calls": 0
+    },
+    "by_agent": {
+      "intake_extract": {
+        "calls": 5,
+        "input_tokens": 14268,
+        "cached_input_tokens": 13759,
+        "output_tokens": 2075,
+        "cost_usd": 0.001238
+      },
+      "intake_vision": {
+        "calls": 1,
+        "input_tokens": 3032,
+        "cached_input_tokens": 3029,
+        "output_tokens": 517,
+        "cost_usd": 0.000289
+      },
+      "intake_route": {
+        "calls": 1,
+        "input_tokens": 2364,
+        "cached_input_tokens": 1487,
+        "output_tokens": 698,
+        "cost_usd": 0.000473
+      }
+    },
+    "calls": [
+      {
+        "agent": "intake_extract",
+        "label": "02_skin_biopsy_pathology.pdf",
+        "requests": 1,
+        "input_tokens": 2766,
+        "cached_input_tokens": 2763,
+        "cache_write_tokens": 0,
+        "output_tokens": 174,
+        "reasoning_tokens": 0,
+        "seconds": 3.11,
+        "cost_usd": 0.00011493,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_extract",
+        "label": "01_dermatology_note.txt",
+        "requests": 1,
+        "input_tokens": 2840,
+        "cached_input_tokens": 2837,
+        "cache_write_tokens": 0,
+        "output_tokens": 237,
+        "reasoning_tokens": 0,
+        "seconds": 3.21,
+        "cost_usd": 0.00014717,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_extract",
+        "label": "04_hematology_note.txt",
+        "requests": 1,
+        "input_tokens": 2969,
+        "cached_input_tokens": 2966,
+        "cache_write_tokens": 0,
+        "output_tokens": 554,
+        "reasoning_tokens": 0,
+        "seconds": 4.4,
+        "cost_usd": 0.00030696,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_vision",
+        "label": "03_nephrology_consult_scanned.pdf page 1",
+        "requests": 1,
+        "input_tokens": 3032,
+        "cached_input_tokens": 3029,
+        "cache_write_tokens": 0,
+        "output_tokens": 517,
+        "reasoning_tokens": 0,
+        "seconds": 6.28,
+        "cost_usd": 0.00028909,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_extract",
+        "label": "05_medication_list.txt",
+        "requests": 1,
+        "input_tokens": 2732,
+        "cached_input_tokens": 2729,
+        "cache_write_tokens": 0,
+        "output_tokens": 367,
+        "reasoning_tokens": 0,
+        "seconds": 3.89,
+        "cost_usd": 0.00021109,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_extract",
+        "label": "03_nephrology_consult_scanned.pdf",
+        "requests": 1,
+        "input_tokens": 2961,
+        "cached_input_tokens": 2464,
+        "cache_write_tokens": 494,
+        "output_tokens": 743,
+        "reasoning_tokens": 0,
+        "seconds": 5.03,
+        "cost_usd": 0.00045819,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_route",
+        "label": "case2_autoimmune_pattern",
+        "requests": 1,
+        "input_tokens": 2364,
+        "cached_input_tokens": 1487,
+        "cache_write_tokens": 874,
+        "output_tokens": 698,
+        "reasoning_tokens": 116,
+        "seconds": 6.0,
+        "cost_usd": 0.00047342,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      }
+    ]
+  },
+  "seconds": 17.7
+}

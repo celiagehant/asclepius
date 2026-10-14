@@ -1,0 +1,23 @@
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA
+
+NORTHSIDE REFERENCE LAB - URINALYSIS
+Patient: LINDQVIST, THEO    DOB: 04/02/2019    Collected: 09/20/2026
+
+TEST                    RESULT          REFERENCE
+Color                   Pale yellow     Yellow
+Clarity                 Clear           Clear
+Specific gravity        1.005           1.005 - 1.030
+pH                      6.0             5.0 - 8.0
+Protein                 1+   (FLAG)     Negative
+Glucose                 Negative        Negative
+Ketones                 Negative        Negative
+Blood                   Negative        Negative
+Leukocyte esterase      Negative        Negative
+Nitrite                 Negative        Negative
+
+MICROSCOPY
+WBC 0-2 /hpf, RBC 0-1 /hpf, no casts, no bacteria.
+
+Comment: Dilute specimen.
+
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA

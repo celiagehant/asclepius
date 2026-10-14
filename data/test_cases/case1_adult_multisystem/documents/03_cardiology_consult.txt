@@ -1,0 +1,39 @@
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA
+
+HARBORVIEW HEART ASSOCIATES - CARDIOLOGY CONSULTATION
+Patient: Dana Whitfield    DOB: 03/12/1984    Date of visit: 07/29/2026
+Consultant: Anika Rhodes, MD (Cardiology)
+Referred by: Laura Chen, MD, for palpitations
+
+HISTORY
+42-year-old woman with 4 months of palpitations, worse climbing stairs,
+with fatigue and occasional lightheadedness on standing. No chest pain,
+no fainting. Drinks 2 cups of coffee a day. No prior heart history.
+
+VITAL SIGNS
+BP 108/68   HR 102 (regular)   SpO2 99% on room air   BMI 23.1
+
+EXAM
+Regular rhythm, mildly fast. Soft 2/6 systolic flow murmur at the left
+sternal border. Lungs clear. No leg swelling.
+
+TESTS REVIEWED
+- ECG today: sinus tachycardia, otherwise normal (separate report).
+- 48-hour Holter (07/15-07/17/2026): sinus rhythm throughout. Average HR
+  96, maximum 148 with exertion, minimum 68 asleep. Rare isolated PACs
+  (<1% of beats). No atrial fibrillation, no sustained arrhythmia.
+- Echocardiogram (07/22/2026): normal left ventricular size and function,
+  ejection fraction 60%. No significant valve disease. Murmur consistent
+  with a benign flow murmur.
+- Recent blood counts were not available at the time of this visit.
+
+ASSESSMENT
+Palpitations with sinus tachycardia and a structurally normal heart.
+No arrhythmia identified.
+
+PLAN
+1. Propranolol 10 mg by mouth up to twice daily as needed for palpitations.
+2. Reduce caffeine.
+3. Return in 6 months, sooner if fainting or chest pain.
+
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA

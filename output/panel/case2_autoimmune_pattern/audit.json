@@ -1,0 +1,400 @@
+{
+  "run_id": "run-a19f153e5a",
+  "user_id": "cli",
+  "case_id": "case2_autoimmune_pattern",
+  "agents": [
+    {
+      "agent_id": "intake",
+      "agent": "intake",
+      "specialty": null,
+      "round": 0,
+      "inputs": [
+        "01_dermatology_note.txt",
+        "02_skin_biopsy_pathology.pdf",
+        "03_nephrology_consult_scanned.pdf",
+        "04_hematology_note.txt",
+        "05_medication_list.txt"
+      ],
+      "started": "2026-10-14T03:50:44+00:00",
+      "finished": "2026-10-14T03:50:53+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {},
+      "output_summary": "5 documents, 4 specialists"
+    },
+    {
+      "agent_id": "r1.rheumatology",
+      "agent": "specialist",
+      "specialty": "rheumatology",
+      "round": 1,
+      "inputs": [
+        "01_dermatology_note.txt",
+        "02_skin_biopsy_pathology.pdf",
+        "03_nephrology_consult_scanned.pdf",
+        "04_hematology_note.txt",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:50:58+00:00",
+      "finished": "2026-10-14T03:51:16+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "lupus",
+            "max_results": 2
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Lupus; Joint Disorders",
+          "urls": [
+            "https://medlineplus.gov/lupus.html",
+            "https://medlineplus.gov/jointdisorders.html"
+          ],
+          "seconds": 0.19
+        },
+        {
+          "tool": "search_pubmed",
+          "args": {
+            "query": "systemic autoimmune disease proteinuria hematuria cytopenia photosensitive rash",
+            "max_results": 2
+          },
+          "status": "no_results",
+          "source": "PubMed",
+          "summary": "no_results: no results",
+          "urls": [],
+          "seconds": 0.42
+        }
+      ],
+      "validation": {
+        "findings_kept": 4,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 2
+      },
+      "output_summary": "4 findings"
+    },
+    {
+      "agent_id": "r1.hematology",
+      "agent": "specialist",
+      "specialty": "hematology",
+      "round": 1,
+      "inputs": [
+        "04_hematology_note.txt",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:50:58+00:00",
+      "finished": "2026-10-14T03:51:12+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "blood count"
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Blood Count Tests; Blood Disorders; Hodgkin Lymphoma",
+          "urls": [
+            "https://medlineplus.gov/bloodcounttests.html",
+            "https://medlineplus.gov/blooddisorders.html",
+            "https://medlineplus.gov/hodgkinlymphoma.html"
+          ],
+          "seconds": 0.74
+        }
+      ],
+      "validation": {
+        "findings_kept": 6,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 1
+      },
+      "output_summary": "6 findings"
+    },
+    {
+      "agent_id": "r1.nephrology",
+      "agent": "specialist",
+      "specialty": "nephrology",
+      "round": 1,
+      "inputs": [
+        "03_nephrology_consult_scanned.pdf",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:50:58+00:00",
+      "finished": "2026-10-14T03:51:09+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "urinalysis",
+            "max_results": 2
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Urinalysis; Urine and Urination",
+          "urls": [
+            "https://medlineplus.gov/urinalysis.html",
+            "https://medlineplus.gov/urineandurination.html"
+          ],
+          "seconds": 0.69
+        }
+      ],
+      "validation": {
+        "findings_kept": 5,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 1
+      },
+      "output_summary": "5 findings"
+    },
+    {
+      "agent_id": "r1.dermatology",
+      "agent": "specialist",
+      "specialty": "dermatology",
+      "round": 1,
+      "inputs": [
+        "01_dermatology_note.txt",
+        "02_skin_biopsy_pathology.pdf",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:50:58+00:00",
+      "finished": "2026-10-14T03:51:09+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "lupus",
+            "max_results": 2
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Lupus; Joint Disorders",
+          "urls": [
+            "https://medlineplus.gov/lupus.html",
+            "https://medlineplus.gov/jointdisorders.html"
+          ],
+          "seconds": 0.66
+        }
+      ],
+      "validation": {
+        "findings_kept": 3,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 1
+      },
+      "output_summary": "3 findings"
+    },
+    {
+      "agent_id": "r1.clinical_pharmacist",
+      "agent": "pharmacist",
+      "specialty": "clinical_pharmacist",
+      "round": 1,
+      "inputs": [
+        "intake medication summary",
+        "relevant labs",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:50:58+00:00",
+      "finished": "2026-10-14T03:51:10+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "fda_label_search",
+          "args": {
+            "drug": "naproxen",
+            "terms": [
+              "lisinopril",
+              "kidney",
+              "renal"
+            ]
+          },
+          "status": "ok",
+          "source": "openFDA drug label",
+          "summary": "ok: label sections: drug_interactions, warnings_and_cautions, use_in_specific_populations, pregnancy, geriatric_use",
+          "urls": [
+            "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=000155a8-709c-44e5-a75f-cd890f3a7caf"
+          ],
+          "seconds": 0.78
+        },
+        {
+          "tool": "fda_label_search",
+          "args": {
+            "drug": "lisinopril",
+            "terms": [
+              "naproxen",
+              "NSAID",
+              "kidney"
+            ]
+          },
+          "status": "ok",
+          "source": "openFDA drug label",
+          "summary": "ok: label sections: drug_interactions, precautions, geriatric_use",
+          "urls": [
+            "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=00f67e1a-6999-4295-9c9f-fcb1ce9711b8"
+          ],
+          "seconds": 0.91
+        },
+        {
+          "tool": "fda_label_search",
+          "args": {
+            "drug": "levonorgestrel and ethinyl estradiol",
+            "terms": [
+              "lupus",
+              "systemic lupus",
+              "thrombosis"
+            ]
+          },
+          "status": "ok",
+          "source": "openFDA drug label",
+          "summary": "ok: label sections: contraindications, warnings_and_cautions",
+          "urls": [
+            "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=00657f4e-9df8-4f58-91a0-eff5a467f988"
+          ],
+          "seconds": 0.91
+        }
+      ],
+      "validation": {
+        "issues_kept": 4,
+        "dropped": [],
+        "tool_calls": 3
+      },
+      "output_summary": "4 issues"
+    },
+    {
+      "agent_id": "r2.dermatology",
+      "agent": "specialist",
+      "specialty": "dermatology",
+      "round": 2,
+      "inputs": [
+        "round-1 report of rheumatology"
+      ],
+      "started": "2026-10-14T03:51:16+00:00",
+      "finished": "2026-10-14T03:51:21+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "connections_kept": 1,
+        "dropped": []
+      },
+      "output_summary": "1 connections, 0 disagreements"
+    },
+    {
+      "agent_id": "r2.nephrology",
+      "agent": "specialist",
+      "specialty": "nephrology",
+      "round": 2,
+      "inputs": [
+        "round-1 report of rheumatology",
+        "round-1 report of dermatology"
+      ],
+      "started": "2026-10-14T03:51:16+00:00",
+      "finished": "2026-10-14T03:51:23+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "connections_kept": 2,
+        "dropped": []
+      },
+      "output_summary": "2 connections, 0 disagreements"
+    },
+    {
+      "agent_id": "r2.hematology",
+      "agent": "specialist",
+      "specialty": "hematology",
+      "round": 2,
+      "inputs": [
+        "round-1 report of rheumatology",
+        "round-1 report of nephrology"
+      ],
+      "started": "2026-10-14T03:51:16+00:00",
+      "finished": "2026-10-14T03:51:25+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "connections_kept": 1,
+        "dropped": []
+      },
+      "output_summary": "1 connections, 0 disagreements"
+    },
+    {
+      "agent_id": "r2.rheumatology",
+      "agent": "specialist",
+      "specialty": "rheumatology",
+      "round": 2,
+      "inputs": [
+        "round-1 report of nephrology",
+        "round-1 report of hematology",
+        "round-1 report of dermatology"
+      ],
+      "started": "2026-10-14T03:51:16+00:00",
+      "finished": "2026-10-14T03:51:23+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "connections_kept": 2,
+        "dropped": []
+      },
+      "output_summary": "2 connections, 0 disagreements"
+    },
+    {
+      "agent_id": "coordinator.synthesis",
+      "agent": "coordinator",
+      "specialty": "internal_medicine",
+      "round": null,
+      "inputs": [
+        "reports of dermatology, nephrology, hematology, rheumatology",
+        "pharmacist",
+        "round 2",
+        "document summaries"
+      ],
+      "started": "2026-10-14T03:51:25+00:00",
+      "finished": "2026-10-14T03:51:39+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "dropped": []
+      },
+      "output_summary": "4 findings, 3 connections"
+    },
+    {
+      "agent_id": "safety_reviewer",
+      "agent": "safety_reviewer",
+      "specialty": null,
+      "round": null,
+      "inputs": [
+        "summary items",
+        "urgent concerns",
+        "intake signals"
+      ],
+      "started": "2026-10-14T03:51:39+00:00",
+      "finished": "2026-10-14T03:51:43+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {},
+      "output_summary": "0 edits, 0 missed red flags added"
+    }
+  ],
+  "tool_calls_total": 8,
+  "stop_reason": "completed: conference ended after round 2 (hard stop), summary reviewed",
+  "status": "complete",
+  "budget": {
+    "spent_usd": 0.011413,
+    "run_limit_usd": 0.05,
+    "limit_usd": 0.05,
+    "remaining_usd": 0.038587
+  }
+}

@@ -1,0 +1,2497 @@
+{
+  "run_id": "run-df7d0cc04c",
+  "case_id": "case2_autoimmune_pattern",
+  "status": "complete",
+  "stop_reason": "completed: conference ended after round 2 (hard stop), summary reviewed",
+  "seconds": 70.9,
+  "modes": {
+    "age_years": 31.0,
+    "age_group": "adult",
+    "pediatric": false,
+    "pregnancy": false,
+    "coordinator": "internal_medicine",
+    "coordinator_name": "Internal medicine",
+    "pharmacist_active": true
+  },
+  "emergency": {
+    "active": false,
+    "crisis": false,
+    "reasons": [],
+    "actions": [],
+    "message": null
+  },
+  "summary": {
+    "plain_language_summary": "You have several findings that are important to review together: a sun-sensitive rash and an unclear skin biopsy, blood and protein in your urine, and lower-than-usual counts in several types of blood cells. Your kidney filtration was preserved when tested, but the urine results and ankle puffiness still need a clear follow-up plan. Your hand and wrist stiffness, mouth sores, fatigue, hair thinning, and fingers changing color in the cold are useful context to share with your care team. These findings do not establish one cause, but the specialists agree it is reasonable to coordinate the review rather than treat each result as unrelated. Please contact your primary-care clinician and nephrologist soon to confirm the testing and appointment timing. Also make sure they know about your naproxen use and confirm whether you are currently taking lisinopril.",
+    "key_findings": [
+      {
+        "text": "The skin biopsy describes a pattern that can occur in more than one condition and does not establish a diagnosis by itself; the report recommends clinical and blood-test correlation.",
+        "finding_refs": [
+          "dermatology.F2"
+        ]
+      },
+      {
+        "text": "Urine testing showed blood and protein, including red-cell casts, and an elevated protein-to-creatinine ratio. Kidney filtration was reported as preserved at that visit.",
+        "finding_refs": [
+          "nephrology.F1",
+          "nephrology.F2",
+          "nephrology.F3"
+        ]
+      },
+      {
+        "text": "Several blood-cell counts are low, including white cells, hemoglobin, and platelets; the report also notes an elevated inflammation marker. The smear reported no blasts or schistocytes.",
+        "finding_refs": [
+          "hematology.F1",
+          "hematology.F2",
+          "hematology.F3",
+          "hematology.F4",
+          "hematology.F5"
+        ]
+      },
+      {
+        "text": "Reported symptoms include about 45 minutes of morning stiffness in the hands and wrists, a sun-triggered facial rash, mouth sores, and fingers changing color in the cold.",
+        "finding_refs": [
+          "rheumatology.F4",
+          "rheumatology.F5"
+        ]
+      },
+      {
+        "text": "Evening ankle puffiness was recorded alongside the abnormal urine findings.",
+        "finding_refs": [
+          "nephrology.F4"
+        ]
+      }
+    ],
+    "connections": [
+      {
+        "text": "Ask the care team to review the skin biopsy and rash alongside the urine abnormalities and low blood counts. The available information does not establish that they share a cause.",
+        "finding_refs": [
+          "dermatology.F1",
+          "dermatology.F2",
+          "nephrology.F1",
+          "nephrology.F2",
+          "hematology.F1"
+        ]
+      },
+      {
+        "text": "The morning hand and wrist stiffness, sun-sensitive rash, mouth sores, cold-related finger color changes, and hair thinning provide context for reviewing the skin, blood, and urine findings together.",
+        "finding_refs": [
+          "rheumatology.F4",
+          "rheumatology.F5",
+          "dermatology.F1",
+          "dermatology.F3",
+          "hematology.F1",
+          "nephrology.F1"
+        ]
+      },
+      {
+        "text": "Because the urine results are abnormal and ankle puffiness is noted, clarify the nephrology follow-up plan even though kidney filtration was preserved at the reported test.",
+        "finding_refs": [
+          "nephrology.F1",
+          "nephrology.F2",
+          "nephrology.F3",
+          "nephrology.F4",
+          "nephrology.F5"
+        ]
+      },
+      {
+        "text": "Regular naproxen use should be reviewed in light of the urine findings and the possible lisinopril use; confirm whether lisinopril is currently being taken and what kidney and potassium monitoring is planned.",
+        "finding_refs": [
+          "rheumatology.F6",
+          "nephrology.F5"
+        ]
+      }
+    ],
+    "questions_for_doctors": [
+      {
+        "doctor": "Primary care (Dr. James Whitaker)",
+        "questions": [
+          "Could you coordinate a review of the skin biopsy, urine results, blood counts, and symptoms with my specialists?",
+          "Should the planned blood and urine rechecks or specialist follow-up happen sooner given that I feel worse?",
+          "Would blood tests for autoantibodies and complement, such as ANA, anti-dsDNA, C3, and C4, be appropriate to discuss?",
+          "Can we confirm whether lisinopril is currently on my medication plan and what follow-up testing is needed?"
+        ]
+      },
+      {
+        "doctor": "Nephrology (Dr. Omar Haddad)",
+        "questions": [
+          "When should my urine and kidney-related blood tests be repeated, and when should I be seen again?",
+          "What additional blood or urine tests are being considered, and what are they intended to assess?",
+          "What changes in swelling, urine, or other symptoms should prompt me to contact you sooner?",
+          "Is my regular naproxen use appropriate while these urine findings are being evaluated, particularly if I am taking lisinopril?"
+        ]
+      },
+      {
+        "doctor": "Hematology (Dr. Grace Liu)",
+        "questions": [
+          "Given the low counts in several blood-cell types and my worsening symptoms, should the planned CBC recheck in three months be reviewed?",
+          "Could the blood-count changes be reviewed alongside the urine, skin, and joint findings?",
+          "What bleeding symptoms should prompt me to contact you promptly?"
+        ]
+      },
+      {
+        "doctor": "Dermatology (Dr. Helen Brooks)",
+        "questions": [
+          "What does the biopsy wording mean alongside my symptoms, and what clinical or blood-test correlation do you recommend?",
+          "Can you coordinate your interpretation with my primary-care clinician and other specialists?",
+          "What are the intended current instructions for my two topical creams?"
+        ]
+      },
+      {
+        "doctor": "Rheumatology",
+        "questions": [
+          "Could you review the joint stiffness and other reported symptoms together with the skin biopsy, urine results, and low blood counts?",
+          "Would tests such as ANA, anti-dsDNA, C3, and C4 be appropriate to discuss?",
+          "Should I be assessed before the currently planned repeat tests?"
+        ]
+      },
+      {
+        "doctor": "Gynecology (Dr. Ngozi Okafor)",
+        "questions": [
+          "Should I review the risks and benefits of my estrogen-containing contraceptive in light of my other symptoms and findings?"
+        ]
+      }
+    ],
+    "medication_discussion": [
+      {
+        "text": "Naproxen and lisinopril may affect kidney function when used together; discuss this with nephrology or primary care in light of the urine findings. The pharmacist noted this interaction concern has lower confidence because a label lookup was unavailable.",
+        "finding_refs": [
+          "pharmacist.I1"
+        ]
+      },
+      {
+        "text": "Make sure the clinicians evaluating the kidney findings, joint symptoms, and blood counts know about your regular over-the-counter naproxen use.",
+        "finding_refs": [
+          "pharmacist.I2"
+        ]
+      },
+      {
+        "text": "The nephrology record lists lisinopril 5 mg daily, but it is absent from your medication list. Confirm with Dr. Haddad whether you are taking it and what monitoring is planned.",
+        "finding_refs": [
+          "pharmacist.I3"
+        ]
+      },
+      {
+        "text": "The dermatology record describes a two-week twice-daily course for each cream, while your list says use as needed. Confirm the intended current instructions with Dr. Brooks.",
+        "finding_refs": [
+          "pharmacist.I4"
+        ]
+      }
+    ],
+    "suggested_specialists": [
+      {
+        "specialty": "Rheumatology",
+        "reason": "A rheumatology review is reasonable to discuss the joint stiffness and other symptoms alongside the skin, urine, and blood findings; the records do not establish a cause.",
+        "urgency": "soon"
+      }
+    ],
+    "red_flags": [
+      {
+        "flag": "The urine blood and protein, ankle puffiness, and several low blood counts deserve a coordinated follow-up plan rather than waiting without clarifying timing.",
+        "urgency": "soon",
+        "what_to_do": "Contact Dr. Whitaker or Dr. Haddad soon to review the findings together and confirm when repeat testing and follow-up should occur.",
+        "finding_refs": [
+          "nephrology.F1",
+          "nephrology.F2",
+          "nephrology.F4",
+          "hematology.F1"
+        ]
+      },
+      {
+        "flag": "The platelet count is mildly low; the hematology note reports no unusual bleeding, but new or persistent bleeding or black stools need prompt attention.",
+        "urgency": "soon",
+        "what_to_do": "Contact Dr. Liu promptly if bleeding starts or does not stop, or if you notice black stools.",
+        "finding_refs": [
+          "hematology.F4"
+        ]
+      }
+    ],
+    "body_regions": [
+      {
+        "region": "skin",
+        "severity": "discuss",
+        "reason": "Sun-worsened facial and arm findings, hair thinning, and a biopsy that needs clinical correlation.",
+        "finding_refs": [
+          "dermatology.F1",
+          "dermatology.F2"
+        ]
+      },
+      {
+        "region": "kidneys",
+        "severity": "discuss",
+        "reason": "Urine blood and protein, red-cell casts, elevated urine protein ratio, and reported evening ankle puffiness need a clear follow-up plan.",
+        "finding_refs": [
+          "nephrology.F1",
+          "nephrology.F2",
+          "nephrology.F4",
+          "nephrology.F5"
+        ]
+      },
+      {
+        "region": "blood",
+        "severity": "discuss",
+        "reason": "White cells, hemoglobin, and platelets are low and should be reviewed with the reported symptoms and other findings.",
+        "finding_refs": [
+          "hematology.F1",
+          "hematology.F2",
+          "hematology.F3",
+          "hematology.F4"
+        ]
+      },
+      {
+        "region": "bones_joints",
+        "severity": "discuss",
+        "reason": "Morning stiffness in the hands and wrists lasting about 45 minutes is relevant to the coordinated review.",
+        "finding_refs": [
+          "rheumatology.F4"
+        ]
+      },
+      {
+        "region": "reproductive",
+        "severity": "discuss",
+        "reason": "Review the estrogen-containing contraceptive with its prescriber in light of the findings being evaluated.",
+        "finding_refs": [
+          "obstetrics_gynecology.F1",
+          "obstetrics_gynecology.F2"
+        ]
+      }
+    ],
+    "limitations": [
+      "The biopsy pattern is not specific and does not establish a diagnosis by itself.",
+      "The records provided do not establish whether the skin, urine, blood-count, and joint findings share a cause.",
+      "The reported kidney filtration was preserved at the time of testing, but later results are not available here.",
+      "The medication information is inconsistent about whether lisinopril is currently being taken and how often the topical creams should be used; this needs confirmation.",
+      "The specialist reviews had limited confidence or information, and external medical reference sources could not be reached during those reviews."
+    ]
+  },
+  "specialists": {
+    "dermatology": {
+      "specialty": "dermatology",
+      "name": "Dermatology",
+      "documents": [
+        "01_dermatology_note.txt",
+        "02_skin_biopsy_pathology.pdf"
+      ],
+      "findings": [
+        {
+          "statement": "Your note describes a sun-worsened rash over the cheeks and nose, with the folds beside the nose spared, along with arm patches and hair thinning; these skin findings merit follow-up in light of your other symptoms.",
+          "document": "01_dermatology_note.txt",
+          "quote": "Red patches over the cheeks and nasal bridge, sparing the folds beside the nose.",
+          "significance": "abnormal",
+          "region": "skin",
+          "id": "dermatology.F1"
+        },
+        {
+          "statement": "The arm-skin biopsy describes a pattern that the pathologist says can be seen in more than one condition and recommends clinical and blood-test correlation; it does not establish a diagnosis by itself.",
+          "document": "02_skin_biopsy_pathology.pdf",
+          "quote": "These findings can be seen in cutaneous lupus erythematosus or dermatomyositis. Clinical and serologic correlation is recommended.",
+          "significance": "unclear",
+          "region": "skin",
+          "id": "dermatology.F2"
+        },
+        {
+          "statement": "Your dermatology note records an oral ulcer as well as skin findings, which is relevant to discuss alongside the mouth sores and other symptoms you reported.",
+          "document": "01_dermatology_note.txt",
+          "quote": "Incidental painless shallow ulcer on the hard palate.",
+          "significance": "abnormal",
+          "region": "skin",
+          "id": "dermatology.F3"
+        }
+      ],
+      "abnormal_values": [],
+      "concerns": [
+        {
+          "concern": "Please follow up with your dermatologist and coordinating doctor about the biopsy interpretation and whether the skin findings need to be considered together with your reported joint symptoms, urine concern, and low blood counts.",
+          "urgency": "soon",
+          "based_on": "Biopsy comment recommends clinical and serologic correlation; questionnaire reports joint pain, a urine concern, and low blood counts."
+        }
+      ],
+      "questions_for_specialists": [
+        {
+          "to_specialty": "rheumatology",
+          "question": "Could the sun-sensitive rash, biopsy description, oral sores, joint stiffness, and cold-related finger color changes merit a coordinated assessment?"
+        },
+        {
+          "to_specialty": "nephrology",
+          "question": "Could the skin biopsy findings be relevant to the urine concern, and what clinical or test correlation would be useful?"
+        },
+        {
+          "to_specialty": "hematology",
+          "question": "Could the biopsy findings and reported symptoms be relevant to the low blood counts, and should the teams coordinate their review?"
+        }
+      ],
+      "questions_for_doctor": [
+        "What does my biopsy result mean in the context of my symptoms, and what follow-up do you recommend?",
+        "Does the biopsy warrant clinical or blood-test correlation, and who should coordinate that?",
+        "Should I arrange an earlier dermatology review rather than wait for the planned recheck?",
+        "Are my current skin treatments appropriate while the biopsy findings are being reviewed?"
+      ],
+      "sources": [],
+      "source_note": "MedlinePlus could not be reached. PubMed could not be reached. No external sources are cited. MedlinePlus and PubMed could not be reached during this review, so no source from it is cited.",
+      "confidence": "medium",
+      "insufficient_information": true,
+      "missing_information": [
+        "The dermatology documents do not include blood-test, urine-test, or other specialist results.",
+        "The biopsy report recommends clinical and serologic correlation, but no such correlation results are provided.",
+        "No written follow-up assessment of the facial or arm rash after treatment is included."
+      ],
+      "consult": false
+    },
+    "nephrology": {
+      "specialty": "nephrology",
+      "name": "Nephrology",
+      "documents": [
+        "03_nephrology_consult_scanned.pdf"
+      ],
+      "findings": [
+        {
+          "statement": "The urine results show protein and blood, including red blood cells with features that can point to a kidney-filtering-unit source, so the planned follow-up matters.",
+          "document": "03_nephrology_consult_scanned.pdf",
+          "quote": "Dysmorphic red cells                     Present",
+          "significance": "abnormal",
+          "region": "kidneys",
+          "id": "nephrology.F1"
+        },
+        {
+          "statement": "The urine protein/creatinine ratio is above the report\u2019s reference, indicating a substantial amount of protein in the urine that should be rechecked.",
+          "document": "03_nephrology_consult_scanned.pdf",
+          "quote": "Urine protein/creatinine ratio            0.9 g/g       <0.2 g/g",
+          "significance": "abnormal",
+          "region": "kidneys",
+          "id": "nephrology.F2"
+        },
+        {
+          "statement": "Kidney filtration was reported as preserved in this test, which is useful context alongside the abnormal urine results.",
+          "document": "03_nephrology_consult_scanned.pdf",
+          "quote": "Creatinine 0.9 mg/dL (0.6\u20131.1)    eGFR >90",
+          "significance": "normal_but_relevant",
+          "region": "kidneys",
+          "id": "nephrology.F3"
+        },
+        {
+          "statement": "The note records evening ankle puffiness, which is relevant to discuss with nephrology alongside the urine protein.",
+          "document": "03_nephrology_consult_scanned.pdf",
+          "quote": "Mild ankle puffiness by evening.",
+          "significance": "unclear",
+          "region": "kidneys",
+          "id": "nephrology.F4"
+        },
+        {
+          "statement": "The nephrologist planned repeat urine and potassium testing and discussion of additional blood tests, so it would be useful to clarify the timing and plan with the care team.",
+          "document": "03_nephrology_consult_scanned.pdf",
+          "quote": "Repeat urinalysis, protein/creatinine ratio and potassium in 6\u20138 weeks.",
+          "significance": "normal_but_relevant",
+          "region": "kidneys",
+          "id": "nephrology.F5"
+        }
+      ],
+      "abnormal_values": [
+        {
+          "test": "Urine protein",
+          "value": "2+",
+          "unit": null,
+          "reference_used": "Negative, as listed on the report; adult.",
+          "interpretation": "abnormal",
+          "document": "03_nephrology_consult_scanned.pdf"
+        },
+        {
+          "test": "Urine blood",
+          "value": "2+",
+          "unit": null,
+          "reference_used": "Negative, as listed on the report; adult.",
+          "interpretation": "abnormal",
+          "document": "03_nephrology_consult_scanned.pdf"
+        },
+        {
+          "test": "Urine red blood cells",
+          "value": "15\u201320",
+          "unit": "/hpf",
+          "reference_used": "0\u20132 /hpf, as listed on the report; adult.",
+          "interpretation": "high",
+          "document": "03_nephrology_consult_scanned.pdf"
+        },
+        {
+          "test": "Dysmorphic red blood cells",
+          "value": "Present",
+          "unit": null,
+          "reference_used": "Absent, as listed on the report; adult.",
+          "interpretation": "abnormal",
+          "document": "03_nephrology_consult_scanned.pdf"
+        },
+        {
+          "test": "Red cell casts",
+          "value": "Few",
+          "unit": null,
+          "reference_used": "None, as listed on the report; adult.",
+          "interpretation": "abnormal",
+          "document": "03_nephrology_consult_scanned.pdf"
+        },
+        {
+          "test": "Urine protein/creatinine ratio",
+          "value": "0.9",
+          "unit": "g/g",
+          "reference_used": "<0.2 g/g, as listed on the report; adult.",
+          "interpretation": "high",
+          "document": "03_nephrology_consult_scanned.pdf"
+        }
+      ],
+      "concerns": [
+        {
+          "concern": "Please contact nephrology or your primary-care doctor soon to clarify the follow-up plan for the urine blood and protein, especially given the ankle puffiness and worsening symptoms described in your questionnaire.",
+          "urgency": "soon",
+          "based_on": "The urine report shows 2+ protein and blood, 15\u201320 red cells/hpf, dysmorphic red cells, a few red cell casts, and a protein/creatinine ratio of 0.9 g/g; the questionnaire reports ankle puffiness."
+        },
+        {
+          "concern": "Discuss your regular naproxen use with the prescribing clinician, particularly if lisinopril from the nephrology plan has been started; the note calls for potassium and kidney-related follow-up testing.",
+          "urgency": "routine",
+          "based_on": "The questionnaire reports naproxen use 3\u20134 times a week; the nephrology note plans lisinopril and repeat potassium and urine testing."
+        }
+      ],
+      "questions_for_specialists": [
+        {
+          "to_specialty": "rheumatology",
+          "question": "Could the combination of the urine findings and the patient-reported rash, joint symptoms, mouth sores, and cold-related finger color changes merit coordinated evaluation or additional testing?"
+        },
+        {
+          "to_specialty": "hematology",
+          "question": "Could the reported low blood counts be relevant to the kidney findings or the broader pattern of symptoms, and what results should be reviewed together?"
+        },
+        {
+          "to_specialty": "internal_medicine",
+          "question": "Can you help coordinate the timing of repeat urine, kidney-function, and potassium testing with nephrology while the other reported symptoms are being evaluated?"
+        }
+      ],
+      "questions_for_doctor": [
+        "With blood and protein in my urine, what is the timing for repeat testing and the next nephrology review?",
+        "What additional blood or urine tests are being considered, and what are they checking for?",
+        "Should I discuss my naproxen use with you, especially if I have started the lisinopril in the nephrology plan?",
+        "What changes in swelling, urine, or general symptoms should prompt me to contact you sooner?"
+      ],
+      "sources": [],
+      "source_note": "The MedlinePlus search for \u201cprotein in urine\u201d could not be reached, so no external source is cited. MedlinePlus could not be reached during this review, so no source from it is cited.",
+      "confidence": "medium",
+      "insufficient_information": true,
+      "missing_information": [
+        "No repeat urine results, kidney ultrasound report, or follow-up serologic testing is available.",
+        "The document gives one creatinine and eGFR result; trends and repeat potassium results are not available.",
+        "The questionnaire mentions low blood counts, rash, and joint symptoms, but the corresponding records and test results are not included."
+      ],
+      "consult": false
+    },
+    "hematology": {
+      "specialty": "hematology",
+      "name": "Hematology",
+      "documents": [
+        "04_hematology_note.txt"
+      ],
+      "findings": [
+        {
+          "statement": "The CBC shows decreases in white cells, hemoglobin, and platelets; this combination is worth discussing alongside your other symptoms and kidney findings with your doctors.",
+          "document": "04_hematology_note.txt",
+          "quote": "Mild decrease in all three cell lines (leukopenia with lymphopenia, mild normocytic anemia, mild thrombocytopenia).",
+          "significance": "abnormal",
+          "region": "blood",
+          "id": "hematology.F1"
+        },
+        {
+          "statement": "The hemoglobin is mildly below the adult reference range printed in the report, which can contribute to fatigue and merits follow-up.",
+          "document": "04_hematology_note.txt",
+          "quote": "Hemoglobin                     11.0      L      12.0 - 15.5     g/dL",
+          "significance": "abnormal",
+          "region": "blood",
+          "id": "hematology.F2"
+        },
+        {
+          "statement": "The white-cell count and lymphocyte count are low, while the neutrophil count is within the report's range.",
+          "document": "04_hematology_note.txt",
+          "quote": "WBC                            3.2       L      4.0 - 11.0",
+          "significance": "abnormal",
+          "region": "blood",
+          "id": "hematology.F3"
+        },
+        {
+          "statement": "The platelet count is mildly low; the note reports no unusual bleeding and normal platelet morphology.",
+          "document": "04_hematology_note.txt",
+          "quote": "Platelets mildly decreased with normal morphology.",
+          "significance": "abnormal",
+          "region": "blood",
+          "id": "hematology.F4"
+        },
+        {
+          "statement": "The smear reports no blasts or schistocytes, findings that are relevant to the assessment of the blood-count changes.",
+          "document": "04_hematology_note.txt",
+          "quote": "No blasts. No schistocytes.",
+          "significance": "normal_but_relevant",
+          "region": "blood",
+          "id": "hematology.F5"
+        }
+      ],
+      "abnormal_values": [
+        {
+          "test": "WBC",
+          "value": "3.2",
+          "unit": "x10^3/uL",
+          "reference_used": "Adult reference range printed in the report: 4.0-11.0 x10^3/uL; patient is 31 and not pregnant.",
+          "interpretation": "low",
+          "document": "04_hematology_note.txt"
+        },
+        {
+          "test": "Absolute lymphocytes",
+          "value": "0.7",
+          "unit": "x10^3/uL",
+          "reference_used": "Adult reference range printed in the report: 1.0-4.0 x10^3/uL; patient is 31 and not pregnant.",
+          "interpretation": "low",
+          "document": "04_hematology_note.txt"
+        },
+        {
+          "test": "Hemoglobin",
+          "value": "11.0",
+          "unit": "g/dL",
+          "reference_used": "Adult female reference range printed in the report: 12.0-15.5 g/dL; patient is 31 and not pregnant.",
+          "interpretation": "low",
+          "document": "04_hematology_note.txt"
+        },
+        {
+          "test": "Platelets",
+          "value": "112",
+          "unit": "x10^3/uL",
+          "reference_used": "Adult reference range printed in the report: 150-400 x10^3/uL; patient is 31 and not pregnant.",
+          "interpretation": "low",
+          "document": "04_hematology_note.txt"
+        },
+        {
+          "test": "Reticulocytes",
+          "value": "2.6",
+          "unit": "%",
+          "reference_used": "Adult reference range printed in the report: 0.5-2.5%; the report flags this value high.",
+          "interpretation": "high",
+          "document": "04_hematology_note.txt"
+        },
+        {
+          "test": "ESR",
+          "value": "52",
+          "unit": "mm/hr",
+          "reference_used": "Adult reference range printed in the report: 0-20 mm/hr; the report flags this value high.",
+          "interpretation": "high",
+          "document": "04_hematology_note.txt"
+        }
+      ],
+      "concerns": [
+        {
+          "concern": "The report plans a repeat CBC in three months, but the three low blood-cell counts together with the worsening symptoms described in your questionnaire are worth raising with your hematologist and primary-care clinician to ask whether the follow-up timing should be reviewed.",
+          "urgency": "soon",
+          "based_on": "WBC 3.2, hemoglobin 11.0, platelets 112 in 04_hematology_note.txt; questionnaire reports fatigue, joint symptoms and feeling worse."
+        },
+        {
+          "concern": "The platelet count is mildly low. The note records no unusual bleeding; contact a clinician promptly if bleeding starts or does not stop, or if you notice black stools.",
+          "urgency": "routine",
+          "based_on": "Platelets 112 x10^3/uL and \u201cNo ... unusual bleeding\u201d in 04_hematology_note.txt."
+        }
+      ],
+      "questions_for_specialists": [
+        {
+          "to_specialty": "internal_medicine",
+          "question": "Could the pattern of low white cells, hemoglobin and platelets be considered together with the reported rash, joint symptoms, fevers and urine/kidney concerns, and does it affect follow-up timing?"
+        },
+        {
+          "to_specialty": "nephrology",
+          "question": "Could the kidney or urine findings help interpret the combination of low blood counts and the symptoms reported in the questionnaire?"
+        },
+        {
+          "to_specialty": "rheumatology",
+          "question": "Could the reported joint stiffness and other symptoms provide context for the low blood counts and elevated ESR?"
+        }
+      ],
+      "questions_for_doctor": [
+        "Given that several blood counts are low and I feel worse, should my CBC be repeated sooner than the planned three months?",
+        "What might explain the low counts together, and what additional blood tests, if any, should we consider?",
+        "Could my naproxen use affect bleeding risk with my platelet count, and should I discuss its use with the prescriber?",
+        "What symptoms of bleeding or worsening low blood counts should prompt me to seek urgent care?"
+      ],
+      "sources": [],
+      "source_note": "MedlinePlus and PubMed could not be reached, so no trusted-source results were available to cite. MedlinePlus and PubMed could not be reached during this review, so no source from it is cited.",
+      "confidence": "medium",
+      "insufficient_information": true,
+      "missing_information": [
+        "Prior CBC results and trends are not included, so it is unclear whether the counts are improving or falling.",
+        "Iron studies and hemolysis testing are not included; B12 and folate are reported normal.",
+        "The kidney and urine results mentioned in the questionnaire are not included.",
+        "The report does not give a cause for the elevated ESR or reticulocyte percentage."
+      ],
+      "consult": false
+    },
+    "rheumatology": {
+      "specialty": "rheumatology",
+      "name": "Rheumatology",
+      "documents": [
+        "02_skin_biopsy_pathology.pdf",
+        "03_nephrology_consult_scanned.pdf",
+        "04_hematology_note.txt"
+      ],
+      "findings": [
+        {
+          "statement": "The skin biopsy describes an inflammatory pattern that the pathologist says can occur in more than one skin condition and recommends correlating with symptoms and blood tests.",
+          "document": "02_skin_biopsy_pathology.pdf",
+          "quote": "Clinical and serologic correlation is recommended.",
+          "significance": "abnormal",
+          "region": "skin",
+          "id": "rheumatology.F1"
+        },
+        {
+          "statement": "The urine results show protein and blood, including red cell casts, while kidney filtration was preserved at that visit; this merits follow-up with nephrology.",
+          "document": "03_nephrology_consult_scanned.pdf",
+          "quote": "Glomerular-pattern hematuria with proteinuria below the nephrotic range; kidney filtration currently preserved.",
+          "significance": "abnormal",
+          "region": "kidneys",
+          "id": "rheumatology.F2"
+        },
+        {
+          "statement": "The blood count shows decreases in white cells, lymphocytes, hemoglobin, and platelets, alongside an elevated inflammation marker.",
+          "document": "04_hematology_note.txt",
+          "quote": "Mild decrease in all three cell lines (leukopenia with lymphopenia, mild normocytic anemia, mild thrombocytopenia).",
+          "significance": "abnormal",
+          "region": "blood",
+          "id": "rheumatology.F3"
+        },
+        {
+          "statement": "You report morning stiffness lasting about 45 minutes in your hands and wrists, which is worth discussing in the context of the other findings.",
+          "document": "questionnaire",
+          "quote": "Stiff for about 45 minutes in the morning.",
+          "significance": "abnormal",
+          "region": "bones_joints",
+          "id": "rheumatology.F4"
+        },
+        {
+          "statement": "You report a sun-triggered facial rash, painless mouth sores, and fingers changing color in the cold; together with the documented skin, urine, and blood findings, this is worth asking your doctors to review as a connected pattern.",
+          "document": "questionnaire",
+          "quote": "Facial rash after sun (since about 3 months): Across cheeks and nose.",
+          "significance": "unclear",
+          "region": "skin",
+          "id": "rheumatology.F5"
+        },
+        {
+          "statement": "You report taking naproxen several times a week for joint aches, and the nephrology note also records its use while evaluating urine abnormalities; ask the prescribers whether it is appropriate for you.",
+          "document": "questionnaire",
+          "quote": "Naproxen (over the counter); 220-440 mg; 3-4 times a week",
+          "significance": "normal_but_relevant",
+          "region": "kidneys",
+          "id": "rheumatology.F6"
+        }
+      ],
+      "abnormal_values": [
+        {
+          "test": "Urine protein",
+          "value": "2+",
+          "unit": null,
+          "reference_used": "Negative, as listed by the nephrology report.",
+          "interpretation": "abnormal",
+          "document": "03_nephrology_consult_scanned.pdf"
+        },
+        {
+          "test": "Urine blood",
+          "value": "2+",
+          "unit": null,
+          "reference_used": "Negative, as listed by the nephrology report.",
+          "interpretation": "abnormal",
+          "document": "03_nephrology_consult_scanned.pdf"
+        },
+        {
+          "test": "Urine red blood cells",
+          "value": "15\u201320",
+          "unit": "/hpf",
+          "reference_used": "0\u20132 /hpf, as listed by the nephrology report.",
+          "interpretation": "high",
+          "document": "03_nephrology_consult_scanned.pdf"
+        },
+        {
+          "test": "Urine protein/creatinine ratio",
+          "value": "0.9",
+          "unit": "g/g",
+          "reference_used": "<0.2 g/g, as listed by the nephrology report.",
+          "interpretation": "high",
+          "document": "03_nephrology_consult_scanned.pdf"
+        },
+        {
+          "test": "White blood cells",
+          "value": "3.2",
+          "unit": "x10^3/uL",
+          "reference_used": "4.0\u201311.0 x10^3/uL, as listed by the hematology report; adult reference range.",
+          "interpretation": "low",
+          "document": "04_hematology_note.txt"
+        },
+        {
+          "test": "Absolute lymphocytes",
+          "value": "0.7",
+          "unit": "x10^3/uL",
+          "reference_used": "1.0\u20134.0 x10^3/uL, as listed by the hematology report; adult reference range.",
+          "interpretation": "low",
+          "document": "04_hematology_note.txt"
+        },
+        {
+          "test": "Hemoglobin",
+          "value": "11.0",
+          "unit": "g/dL",
+          "reference_used": "12.0\u201315.5 g/dL, as listed by the hematology report for an adult female.",
+          "interpretation": "low",
+          "document": "04_hematology_note.txt"
+        },
+        {
+          "test": "Platelets",
+          "value": "112",
+          "unit": "x10^3/uL",
+          "reference_used": "150\u2013400 x10^3/uL, as listed by the hematology report; adult reference range.",
+          "interpretation": "low",
+          "document": "04_hematology_note.txt"
+        },
+        {
+          "test": "ESR",
+          "value": "52",
+          "unit": "mm/hr",
+          "reference_used": "0\u201320 mm/hr, as listed by the hematology report.",
+          "interpretation": "high",
+          "document": "04_hematology_note.txt"
+        },
+        {
+          "test": "Reticulocytes",
+          "value": "2.6",
+          "unit": "%",
+          "reference_used": "0.5\u20132.5%, as listed by the hematology report.",
+          "interpretation": "high",
+          "document": "04_hematology_note.txt"
+        }
+      ],
+      "concerns": [
+        {
+          "concern": "Please contact your primary care clinician and nephrologist soon to review whether the urine abnormalities and blood-count changes should be assessed together, rather than waiting for each routine recheck. The nephrology note documents blood and protein in urine with red cell casts, and the hematology note documents several low blood counts.",
+          "urgency": "soon",
+          "based_on": "03_nephrology_consult_scanned.pdf: 2+ urine protein and blood, 15\u201320 red cells/hpf, few red cell casts, protein/creatinine ratio 0.9 g/g; 04_hematology_note.txt: low WBC, lymphocytes, hemoglobin, and platelets."
+        },
+        {
+          "concern": "Discuss naproxen use with your kidney clinician or prescriber, given the documented urine abnormalities and its recorded use. Do not change prescribed medicines based on this report.",
+          "urgency": "soon",
+          "based_on": "03_nephrology_consult_scanned.pdf records naproxen use and protein and blood in urine; questionnaire reports naproxen use 3\u20134 times a week."
+        }
+      ],
+      "questions_for_specialists": [
+        {
+          "to_specialty": "nephrology",
+          "question": "Given the protein, blood, dysmorphic red cells, and red cell casts in the urine, should the planned serologic evaluation or follow-up timing be revisited in light of the skin findings and low blood counts?"
+        },
+        {
+          "to_specialty": "hematology",
+          "question": "Could the several mildly low blood counts and elevated ESR be considered alongside the skin biopsy, joint symptoms, and kidney urine findings, and what repeat testing or timing is appropriate?"
+        },
+        {
+          "to_specialty": "dermatology",
+          "question": "How should the biopsy result be correlated with the reported sun-related facial rash, mouth sores, joint symptoms, and urine and blood findings?"
+        },
+        {
+          "to_specialty": "obstetrics_gynecology",
+          "question": "Given the reported cold-related finger color changes and the broader findings under evaluation, should the clotting-risk implications of an estrogen-containing contraceptive be reviewed with the prescriber?"
+        },
+        {
+          "to_specialty": "internal_medicine",
+          "question": "Can you coordinate review of the skin, urine, and blood-count findings and consider whether autoimmune blood tests such as ANA, anti-dsDNA, and complement C3/C4 are appropriate?"
+        }
+      ],
+      "questions_for_doctor": [
+        "Could the skin biopsy, urine findings, joint symptoms, and low blood counts be reviewed together?",
+        "Would blood tests for autoantibodies and complement (such as ANA, anti-dsDNA, C3, and C4) be appropriate for me?",
+        "Should I be seen before the scheduled repeat tests, given the urine findings and how I feel?",
+        "Is my current naproxen use appropriate while the urine findings are being evaluated?"
+      ],
+      "sources": [],
+      "source_note": "MedlinePlus and PubMed could not be reached in this conversation, so no external sources are cited. MedlinePlus and PubMed could not be reached during this review, so no source from it is cited.",
+      "confidence": "medium",
+      "insufficient_information": true,
+      "missing_information": [
+        "Autoimmune blood-test results, including ANA, anti-dsDNA, and complement levels, are not provided.",
+        "The planned repeat urine tests, urine protein measurement, and kidney imaging results are not provided.",
+        "No joint examination or inflammatory joint imaging is provided.",
+        "The available record does not include the full current medication list from the treating clinicians."
+      ],
+      "consult": false
+    }
+  },
+  "pharmacist": {
+    "specialty": "clinical_pharmacist",
+    "name": "Clinical pharmacist",
+    "combined_list": [
+      {
+        "medication": "Hydrocortisone 2.5% cream",
+        "dose_and_schedule": "Thin layer twice daily as needed; dermatology record also lists twice daily for 2 weeks.",
+        "prescriber": "Dr. Helen Brooks (dermatology)",
+        "reason": "Facial rash",
+        "sources": [
+          "questionnaire",
+          "01_dermatology_note.txt",
+          "05_medication_list.txt"
+        ]
+      },
+      {
+        "medication": "Triamcinolone 0.1% cream",
+        "dose_and_schedule": "Thin layer twice daily as needed; dermatology record also lists twice daily for 2 weeks.",
+        "prescriber": "Dr. Helen Brooks (dermatology)",
+        "reason": "Arm rash",
+        "sources": [
+          "questionnaire",
+          "01_dermatology_note.txt",
+          "05_medication_list.txt"
+        ]
+      },
+      {
+        "medication": "Levonorgestrel/ethinyl estradiol 0.15 mg/0.03 mg",
+        "dose_and_schedule": "1 tablet daily",
+        "prescriber": "Dr. Ngozi Okafor (gynecology)",
+        "reason": "Contraception",
+        "sources": [
+          "questionnaire",
+          "05_medication_list.txt"
+        ]
+      },
+      {
+        "medication": "Naproxen 220 mg (over the counter)",
+        "dose_and_schedule": "Patient reports 220\u2013440 mg, 3\u20134 times a week; record lists 220 mg, 1\u20132 tablets 3\u20134 times a week.",
+        "prescriber": "Self-directed OTC use; no prescriber listed",
+        "reason": "Joint aches",
+        "sources": [
+          "questionnaire",
+          "03_nephrology_consult_scanned.pdf",
+          "05_medication_list.txt"
+        ]
+      },
+      {
+        "medication": "Lisinopril 5 mg",
+        "dose_and_schedule": "Once daily",
+        "prescriber": "Dr. Omar Haddad (nephrology)",
+        "reason": null,
+        "sources": [
+          "03_nephrology_consult_scanned.pdf"
+        ]
+      }
+    ],
+    "issues": [
+      {
+        "kind": "interaction",
+        "medications": [
+          "Naproxen",
+          "Lisinopril"
+        ],
+        "explanation": "Naproxen and lisinopril may affect kidney function when used together. This is worth reviewing in light of the urine findings and the fact that naproxen is being used without a prescriber's list entry. The FDA label lookup was unavailable, so this concern is based on general knowledge and has lower confidence.",
+        "discuss_with": [
+          "Dr. Omar Haddad (nephrology)",
+          "Dr. James Whitaker (primary care)"
+        ],
+        "urgency": "soon",
+        "source_urls": [],
+        "id": "pharmacist.I1"
+      },
+      {
+        "kind": "otc_unknown_to_doctors",
+        "medications": [
+          "Naproxen"
+        ],
+        "explanation": "Naproxen is an over-the-counter medicine used several times a week and does not appear as a prescribed medication on the doctors' lists. Make sure the clinicians evaluating the kidney findings and joint symptoms know about its use.",
+        "discuss_with": [
+          "Dr. Omar Haddad (nephrology)",
+          "Dr. James Whitaker (primary care)",
+          "Dr. Grace Liu (hematology)"
+        ],
+        "urgency": "routine",
+        "source_urls": [],
+        "id": "pharmacist.I2"
+      },
+      {
+        "kind": "list_discrepancy",
+        "medications": [
+          "Lisinopril"
+        ],
+        "explanation": "The nephrology record says lisinopril 5 mg daily was started, but it is absent from the patient's medication list. Confirm with the patient and nephrologist whether it is currently being taken.",
+        "discuss_with": [
+          "Dr. Omar Haddad (nephrology)",
+          "Dr. James Whitaker (primary care)"
+        ],
+        "urgency": "routine",
+        "source_urls": [],
+        "id": "pharmacist.I3"
+      },
+      {
+        "kind": "list_discrepancy",
+        "medications": [
+          "Hydrocortisone 2.5% cream",
+          "Triamcinolone 0.1% cream"
+        ],
+        "explanation": "The dermatology record includes a two-week twice-daily course, while the patient and medication list describe use as needed. Confirm the intended current instructions with dermatology.",
+        "discuss_with": [
+          "Dr. Helen Brooks (dermatology)"
+        ],
+        "urgency": "routine",
+        "source_urls": [],
+        "id": "pharmacist.I4"
+      }
+    ],
+    "questions_for_doctor": [
+      "Please reconcile whether lisinopril 5 mg daily is currently being taken.",
+      "Please review the reported naproxen use alongside the urine findings and possible lisinopril use.",
+      "Please clarify the current instructions for the two topical creams, since the record's two-week course differs from the as-needed list.",
+      "Given the reported symptoms and abnormal urine and blood-count results, which clinician should coordinate follow-up and whether further evaluation is needed?"
+    ],
+    "source_note": "The FDA openFDA label service was unreachable for all three searches, so no label URLs could be returned or cited. The naproxen\u2013lisinopril concern is based on general knowledge with lower confidence. No MedlinePlus lookup was used. openFDA could not be reached; label checks rely on general knowledge.",
+    "confidence": "low"
+  },
+  "round2": {
+    "nephrology": {
+      "specialty": "nephrology",
+      "agreements": [
+        {
+          "with_specialty": "dermatology",
+          "point": "I agree that the biopsy and skin findings need to be considered alongside the urine concern and other symptoms. The biopsy alone does not establish what is causing the findings."
+        },
+        {
+          "with_specialty": "hematology",
+          "point": "I agree that the several low blood counts merit coordinated review with the urine findings and symptoms, rather than being considered in isolation."
+        },
+        {
+          "with_specialty": "rheumatology",
+          "point": "I agree that blood and protein in the urine with red cell casts, together with the reported skin, joint, and blood-count findings, warrants timely coordinated follow-up."
+        }
+      ],
+      "disagreements": [],
+      "connections": [
+        {
+          "connection": "The skin biopsy report calls for correlation with symptoms and blood tests; this can be reviewed together with the urine abnormalities and blood-count changes, without assuming they share a cause.",
+          "specialties": [
+            "dermatology",
+            "rheumatology",
+            "hematology"
+          ],
+          "finding_refs": [
+            "dermatology.F2",
+            "rheumatology.F2",
+            "hematology.F1"
+          ]
+        },
+        {
+          "connection": "The urine findings and the low blood counts are both documented, so it is reasonable to ask the treating clinicians to coordinate their review and follow-up.",
+          "specialties": [
+            "hematology",
+            "rheumatology"
+          ],
+          "finding_refs": [
+            "nephrology.F1",
+            "nephrology.F2",
+            "hematology.F1",
+            "rheumatology.F3"
+          ]
+        }
+      ],
+      "answers": [
+        {
+          "from_specialty": "nephrology",
+          "question": "Could the skin biopsy findings be relevant to the urine concern, and what clinical or test correlation would be useful?",
+          "answer": "The biopsy is described as a pattern that can occur in more than one condition and calls for clinical and blood-test correlation. It may be useful for dermatology, nephrology, and the coordinating clinician to review the biopsy wording together with the urine results, symptoms, and any blood-test evaluation already planned."
+        },
+        {
+          "from_specialty": "nephrology",
+          "question": "Could the kidney or urine findings help interpret the combination of low blood counts and the symptoms reported in the questionnaire?",
+          "answer": "The urine findings and the low counts are important findings to review together, but the information provided does not establish a shared cause. Ask the coordinating clinician and relevant specialists to review the results and symptoms together."
+        },
+        {
+          "from_specialty": "nephrology",
+          "question": "Given the protein, blood, dysmorphic red cells, and red cell casts in the urine, should the planned serologic evaluation or follow-up timing be revisited in light of the skin findings and low blood counts?",
+          "answer": "This combination supports contacting nephrology and the coordinating clinician soon to clarify the planned evaluation and timing of repeat urine and blood tests. The clinicians can decide whether the skin findings and low blood counts affect the evaluation or timing."
+        }
+      ],
+      "revised_concerns": [
+        {
+          "concern": "Please contact nephrology and the coordinating clinician soon to review the urine abnormalities together with the skin findings and several low blood counts, and clarify the planned evaluation and repeat-testing timing.",
+          "urgency": "soon",
+          "based_on": "nephrology.F1 and nephrology.F2; dermatology.F2; hematology.F1; rheumatology.F3"
+        }
+      ]
+    },
+    "rheumatology": {
+      "specialty": "rheumatology",
+      "agreements": [
+        {
+          "with_specialty": "dermatology",
+          "point": "The biopsy description does not establish a diagnosis by itself, and the sun-worsened rash and oral ulcer should be considered alongside the other reported symptoms and findings."
+        },
+        {
+          "with_specialty": "nephrology",
+          "point": "Blood and protein in the urine, including red cell casts, warrant timely follow-up. The reported skin, mouth, joint, and finger-color symptoms make coordinated review across specialties reasonable."
+        },
+        {
+          "with_specialty": "hematology",
+          "point": "The low counts and elevated ESR deserve follow-up in the context of the reported joint stiffness and the skin and urine findings."
+        }
+      ],
+      "disagreements": [],
+      "connections": [
+        {
+          "connection": "The skin findings and biopsy described by dermatology overlap with the reported sun-triggered rash and mouth sores, and are worth reviewing together with the joint symptoms and urine and blood findings.",
+          "specialties": [
+            "dermatology",
+            "nephrology",
+            "hematology",
+            "rheumatology"
+          ],
+          "finding_refs": [
+            "rheumatology.F1",
+            "rheumatology.F2",
+            "rheumatology.F3",
+            "rheumatology.F4",
+            "rheumatology.F5",
+            "dermatology.F1",
+            "dermatology.F2",
+            "dermatology.F3",
+            "nephrology.F1",
+            "hematology.F1"
+          ]
+        },
+        {
+          "connection": "The reported 45-minute morning stiffness can provide context for discussing the joint symptoms alongside the low blood counts, elevated inflammation marker, and urine findings.",
+          "specialties": [
+            "rheumatology",
+            "hematology",
+            "nephrology"
+          ],
+          "finding_refs": [
+            "rheumatology.F4",
+            "hematology.F1",
+            "hematology.F3",
+            "nephrology.F1"
+          ]
+        }
+      ],
+      "answers": [
+        {
+          "from_specialty": "dermatology",
+          "question": "Could the sun-sensitive rash, biopsy description, oral sores, joint stiffness, and cold-related finger color changes merit a coordinated assessment?",
+          "answer": "Yes. These reported symptoms and the biopsy description merit coordinated review with the urine and blood-count findings. The biopsy alone does not settle what is causing the skin pattern."
+        },
+        {
+          "from_specialty": "nephrology",
+          "question": "Could the combination of the urine findings and the patient-reported rash, joint symptoms, mouth sores, and cold-related finger color changes merit coordinated evaluation or additional testing?",
+          "answer": "Yes. It would be reasonable to ask the nephrologist and coordinating clinician to review these findings together and clarify the planned urine follow-up and whether additional blood tests are appropriate."
+        },
+        {
+          "from_specialty": "hematology",
+          "question": "Could the reported joint stiffness and other symptoms provide context for the low blood counts and elevated ESR?",
+          "answer": "Yes. The reported morning stiffness and other symptoms are relevant context to share with hematology and the coordinating clinician when discussing the low counts and elevated ESR and the timing of repeat testing."
+        }
+      ],
+      "revised_concerns": [
+        {
+          "concern": "The multiple low blood counts, urine blood and protein, and skin and joint findings merit coordinated review soon; clarify whether the planned follow-up timing is appropriate rather than assuming each finding will be assessed separately.",
+          "urgency": "soon",
+          "based_on": "rheumatology.F2, rheumatology.F3, rheumatology.F4, dermatology.F1, dermatology.F2, nephrology.F1, hematology.F1"
+        },
+        {
+          "concern": "Make sure the kidney clinician and prescriber know about regular naproxen use, and clarify whether lisinopril is currently being taken and what kidney and potassium follow-up is planned.",
+          "urgency": "soon",
+          "based_on": "rheumatology.F2, rheumatology.F6, nephrology.F5, pharmacist.I1, pharmacist.I2, pharmacist.I3"
+        }
+      ]
+    },
+    "hematology": {
+      "specialty": "hematology",
+      "agreements": [
+        {
+          "with_specialty": "dermatology",
+          "point": "Agree that the biopsy is not diagnostic on its own and that the skin findings should be reviewed alongside the blood-count changes and other symptoms."
+        },
+        {
+          "with_specialty": "nephrology",
+          "point": "Agree that the urine blood and protein findings, including red-cell casts, deserve timely follow-up and should be considered alongside the low blood counts."
+        },
+        {
+          "with_specialty": "rheumatology",
+          "point": "Agree that the low counts and elevated ESR warrant review together with the joint symptoms, skin findings, and urine abnormalities rather than in isolation."
+        }
+      ],
+      "disagreements": [],
+      "connections": [
+        {
+          "connection": "The combination of decreases across several blood-cell types and urine blood and protein is a reason for the teams to review the findings together; this does not establish a cause.",
+          "specialties": [
+            "hematology",
+            "nephrology"
+          ],
+          "finding_refs": [
+            "hematology.F1",
+            "nephrology.F1",
+            "nephrology.F2"
+          ]
+        },
+        {
+          "connection": "The blood-count changes and elevated inflammation marker may be useful context when the teams review the reported rash, mouth sores, and joint stiffness alongside the biopsy findings.",
+          "specialties": [
+            "hematology",
+            "dermatology",
+            "rheumatology"
+          ],
+          "finding_refs": [
+            "hematology.F1",
+            "hematology.F2",
+            "hematology.F3",
+            "dermatology.F1",
+            "dermatology.F2",
+            "dermatology.F3",
+            "rheumatology.F4",
+            "rheumatology.F5"
+          ]
+        }
+      ],
+      "answers": [
+        {
+          "from_specialty": "hematology",
+          "question": "Could the biopsy findings and reported symptoms be relevant to the low blood counts, and should the teams coordinate their review?",
+          "answer": "They provide important context for review, but the records shared here cannot establish a cause for the low counts. Yes\u2014ask the coordinating clinician, hematologist, dermatologist, rheumatologist, and nephrologist to review the findings together."
+        },
+        {
+          "from_specialty": "hematology",
+          "question": "Could the reported low blood counts be relevant to the kidney findings or the broader pattern of symptoms, and what results should be reviewed together?",
+          "answer": "The records do not establish a connection, but the findings merit coordinated review: the CBC and smear, reticulocyte count and ESR, urine blood and protein results including red-cell casts and the protein/creatinine ratio, and the skin biopsy and reported symptoms. Confirm the timing of repeat blood and urine tests with the treating clinicians."
+        },
+        {
+          "from_specialty": "hematology",
+          "question": "Could the several mildly low blood counts and elevated ESR be considered alongside the skin biopsy, joint symptoms, and kidney urine findings, and what repeat testing or timing is appropriate?",
+          "answer": "Yes, these findings can be considered together, while recognizing that they do not establish a diagnosis. The available reports do not settle the appropriate timing: ask the coordinating clinician and hematologist whether the planned CBC recheck in three months should be reviewed in light of the worsening symptoms and the other findings, and clarify the nephrology repeat urine and blood-test plan."
+        }
+      ],
+      "revised_concerns": [
+        {
+          "concern": "Please contact your coordinating clinician soon to review the blood-count changes together with the urine abnormalities, biopsy findings, and reported symptoms, and to clarify whether the planned CBC follow-up timing remains appropriate.",
+          "urgency": "soon",
+          "based_on": "hematology.F1-F4; nephrology.F1-F2; dermatology.F2-F3; rheumatology.F4-F5"
+        }
+      ]
+    },
+    "dermatology": {
+      "specialty": "dermatology",
+      "agreements": [
+        {
+          "with_specialty": "rheumatology",
+          "point": "The biopsy description is not conclusive on its own and should be considered alongside the reported symptoms and blood-test findings."
+        },
+        {
+          "with_specialty": "nephrology",
+          "point": "The urine blood and protein findings warrant follow-up, and it is useful for dermatology and nephrology to share the biopsy and symptom context."
+        },
+        {
+          "with_specialty": "hematology",
+          "point": "The several low blood counts are important context for reviewing the skin and other reported symptoms together."
+        }
+      ],
+      "disagreements": [],
+      "connections": [
+        {
+          "connection": "The nonspecific skin biopsy and sun-worsened rash can be reviewed alongside the urine blood and protein findings, including red cell casts, as part of a coordinated clinical assessment.",
+          "specialties": [
+            "dermatology",
+            "nephrology",
+            "rheumatology"
+          ],
+          "finding_refs": [
+            "dermatology.F1",
+            "dermatology.F2",
+            "nephrology.F1",
+            "nephrology.F2",
+            "rheumatology.F5"
+          ]
+        },
+        {
+          "connection": "The skin findings and oral ulcer can be considered alongside the reported joint stiffness and the documented decreases in blood-cell counts.",
+          "specialties": [
+            "dermatology",
+            "hematology",
+            "rheumatology"
+          ],
+          "finding_refs": [
+            "dermatology.F1",
+            "dermatology.F3",
+            "hematology.F1",
+            "rheumatology.F4",
+            "rheumatology.F5"
+          ]
+        }
+      ],
+      "answers": [
+        {
+          "from_specialty": "dermatology",
+          "question": "How should the biopsy result be correlated with the reported sun-related facial rash, mouth sores, joint symptoms, and urine and blood findings?",
+          "answer": "The biopsy description is a pattern that can occur in more than one condition; it does not establish a diagnosis by itself. It is reasonable to ask the treating clinicians to review it alongside the documented sun-worsened facial rash and oral ulcer, the reported joint and cold-related finger symptoms, and the urine and blood results. Dermatology, rheumatology, nephrology, and hematology can clarify what clinical and blood-test correlation is useful."
+        }
+      ],
+      "revised_concerns": [
+        {
+          "concern": "Please raise the combined skin, urine, and blood-count findings with your coordinating doctor and relevant specialists soon, and clarify whether the planned follow-up timing is appropriate rather than assuming each finding can be reviewed separately.",
+          "urgency": "soon",
+          "based_on": "The nephrology report notes urine blood and protein, red-cell casts, and a protein/creatinine ratio above its reference; the hematology report notes decreases in several blood counts; dermatology and rheumatology report skin and other symptoms for clinical correlation."
+        }
+      ]
+    }
+  },
+  "consult": {
+    "specialty": "obstetrics_gynecology",
+    "name": "Obstetrics and gynecology",
+    "documents": [],
+    "findings": [
+      {
+        "statement": "You report taking a combined estrogen-containing birth control pill; its suitability is worth reviewing with the prescriber in light of the other symptoms and findings being evaluated.",
+        "document": "questionnaire",
+        "quote": "Birth control pill (levonorgestrel/ethinyl estradiol); 0.15/0.03 mg; daily",
+        "significance": "normal_but_relevant",
+        "region": "reproductive",
+        "id": "obstetrics_gynecology.F1"
+      },
+      {
+        "statement": "You report fingers turning white or blue in the cold, which is relevant to discuss with your gynecologist when reviewing contraception.",
+        "document": "questionnaire",
+        "quote": "Fingers turn white or blue in the cold",
+        "significance": "unclear",
+        "region": "reproductive",
+        "id": "obstetrics_gynecology.F2"
+      },
+      {
+        "statement": "You report no current pregnancy and no prior pregnancies, which provides context for reviewing your contraception and reproductive health.",
+        "document": "questionnaire",
+        "quote": "pregnant: no",
+        "significance": "normal_but_relevant",
+        "region": "reproductive",
+        "id": "obstetrics_gynecology.F3"
+      }
+    ],
+    "abnormal_values": [],
+    "concerns": [
+      {
+        "concern": "Review the estrogen-containing contraceptive with its prescriber in light of the reported cold-related finger color changes and the broader findings under evaluation; this report does not determine whether the pill is suitable for you.",
+        "urgency": "soon",
+        "based_on": "Questionnaire reports daily levonorgestrel/ethinyl estradiol use and fingers turning white or blue in the cold."
+      }
+    ],
+    "questions_for_specialists": [
+      {
+        "to_specialty": "rheumatology",
+        "question": "Could the reported cold-related finger color changes affect how you assess the broader pattern, and should gynecology be included in reviewing contraception?"
+      },
+      {
+        "to_specialty": "hematology",
+        "question": "Do the blood-count findings you are evaluating raise any particular considerations for reviewing an estrogen-containing contraceptive with the prescriber?"
+      },
+      {
+        "to_specialty": "internal_medicine",
+        "question": "Could you coordinate with gynecology on whether the current combined contraceptive remains appropriate while the other reported findings are being evaluated?"
+      }
+    ],
+    "questions_for_doctor": [
+      "Should I review the risks and benefits of my current estrogen-containing pill in light of my other symptoms and test results?",
+      "Are there contraception options you would consider while my other findings are being evaluated?",
+      "Should my cold-related finger color changes affect this contraception review?"
+    ],
+    "sources": [],
+    "source_note": "MedlinePlus could not be reached, so no source is cited. MedlinePlus could not be reached during this review, so no source from it is cited.",
+    "confidence": "low",
+    "insufficient_information": true,
+    "missing_information": [
+      "No gynecologic records, examination, or test results were routed to this review.",
+      "No details are available here about prior clotting events, migraine with aura, blood pressure, or other factors that could inform contraceptive risk assessment."
+    ],
+    "consult": true
+  },
+  "safety": {
+    "model_edits": [],
+    "missed_red_flags_added": [],
+    "code_blocked": [],
+    "crisis_mentions": []
+  },
+  "intake": {
+    "case_label": "case2_autoimmune_pattern",
+    "modes": {
+      "age_years": 31.0,
+      "age_group": "adult",
+      "pediatric": false,
+      "pregnancy": false,
+      "coordinator": "internal_medicine",
+      "coordinator_name": "Internal medicine",
+      "pharmacist_active": true
+    },
+    "documents": [
+      {
+        "filename": "01_dermatology_note.txt",
+        "sha256": "1e5b4d81b12a636b6ecc3a978ffb7b85fe9dfa852cb57e775e18f70a51562733",
+        "kind": "text",
+        "read_by": "text",
+        "page_count": 1,
+        "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nCLEARVIEW DERMATOLOGY - CLINIC NOTE\nPatient: Alicia Moreno    DOB: 05/21/1995    Date of visit: 06/11/2026\nClinician: Helen Brooks, MD (Dermatology)\n\nHISTORY\n31-year-old woman with 3 months of redness over both cheeks and the bridge\nof the nose, worse after time in the sun. New scaly pink patches on both\nupper arms after a beach weekend in May. Reports more hair shedding than\nusual. No new skin products.\n\nEXAM\nRed patches over the cheeks and nasal bridge, sparing the folds beside the\nnose. Several 1-2 cm scaly pink plaques on both outer upper arms. Diffuse\nmild hair thinning on the scalp without scarring. Incidental painless\nshallow ulcer on the hard palate.\n\nASSESSMENT\nPhotosensitive facial eruption. Differential: rosacea, photosensitive\ndermatitis, cutaneous lupus.\n\nPLAN\n1. 4 mm punch biopsy, left upper arm.\n2. Hydrocortisone 2.5% cream to the face twice daily for 2 weeks.\n3. Broad-spectrum sunscreen SPF 50 daily; sun avoidance.\n4. Follow up with biopsy results.\n\nADDENDUM 06/25/2026 (H. Brooks, MD)\nBiopsy result reviewed with the patient by phone. Arms: start\ntriamcinolone 0.1% cream twice daily for 2 weeks. Recheck in 3 months.\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+        "hidden_text": [],
+        "notes": [],
+        "extraction": {
+          "doc_type": "consult_note",
+          "date": "2026-06-11",
+          "source": "Dermatology - Clearview Dermatology (Helen Brooks, MD)",
+          "specialties": [
+            "dermatology"
+          ],
+          "summary": "Photosensitive facial eruption with scaly arm plaques and hair thinning; left upper-arm biopsy performed, with topical treatments documented.",
+          "patient_name_on_document": "Alicia Moreno",
+          "patient_dob_on_document": "1995-05-21",
+          "patient_sex_on_document": "female",
+          "labs": [],
+          "medications": [
+            {
+              "name": "Hydrocortisone 2.5% cream",
+              "generic_name": "hydrocortisone",
+              "dose": "2.5%",
+              "frequency": "twice daily for 2 weeks",
+              "prescriber": "Helen Brooks, MD",
+              "status": "started"
+            },
+            {
+              "name": "Triamcinolone 0.1% cream",
+              "generic_name": "triamcinolone",
+              "dose": "0.1%",
+              "frequency": "twice daily for 2 weeks",
+              "prescriber": "Helen Brooks, MD",
+              "status": "started"
+            }
+          ],
+          "mentions_possible_malignancy": false,
+          "mentions_self_harm": false,
+          "instructions_to_ai": []
+        },
+        "raw_image": false,
+        "error": null
+      },
+      {
+        "filename": "02_skin_biopsy_pathology.pdf",
+        "sha256": "53fb80dbc4beae70f839aa234b3cf9f955676ccdd09a03fbaea06db1f1579a5d",
+        "kind": "pdf",
+        "read_by": "text",
+        "page_count": 1,
+        "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nNORTHGATE PATHOLOGY GROUP - SURGICAL PATHOLOGY REPORT\nPatient: Alicia Moreno        DOB: 05/21/1995      Sex: F\nSpecimen received: 06/12/2026 Reported: 06/18/2026\nSubmitting clinician: Helen Brooks, MD (Dermatology)\n\nSPECIMEN\nSkin, left upper arm, 4 mm punch biopsy.\n\nMICROSCOPIC DESCRIPTION\nVacuolar interface change along the dermal-epidermal junction with\nscattered apoptotic keratinocytes. Superficial and deep perivascular and\nperiadnexal lymphocytic infiltrate. Increased dermal mucin on colloidal\niron stain. Mild basement membrane thickening.\n\nDIAGNOSIS\nVacuolar interface dermatitis with superficial and deep perivascular\nlymphocytic infiltrate and increased dermal mucin.\n\nCOMMENT\nThese findings can be seen in cutaneous lupus erythematosus or\ndermatomyositis. Clinical and serologic correlation is recommended.\n\nElectronically signed: R. Vance, MD (Dermatopathology)\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+        "hidden_text": [],
+        "notes": [],
+        "extraction": {
+          "doc_type": "pathology_report",
+          "date": "2026-06-12",
+          "source": "Northgate Pathology Group - Surgical Pathology (R. Vance, MD, Dermatopathology); submitting clinician: Helen Brooks, MD (Dermatology)",
+          "specialties": [
+            "dermatology",
+            "rheumatology"
+          ],
+          "summary": "Left upper arm skin biopsy shows vacuolar interface dermatitis with increased dermal mucin; findings can be seen in cutaneous lupus erythematosus or dermatomyositis.",
+          "patient_name_on_document": "Alicia Moreno",
+          "patient_dob_on_document": "1995-05-21",
+          "patient_sex_on_document": "female",
+          "labs": [],
+          "medications": [],
+          "mentions_possible_malignancy": false,
+          "mentions_self_harm": false,
+          "instructions_to_ai": []
+        },
+        "raw_image": false,
+        "error": null
+      },
+      {
+        "filename": "03_nephrology_consult_scanned.pdf",
+        "sha256": "0b8a39f06c76e20c90eec4f3f58f3cfbd03927e2c019f96cb2a3d8c25a430fe0",
+        "kind": "pdf",
+        "read_by": "vision",
+        "page_count": 1,
+        "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nCITY KIDNEY CARE - NEPHROLOGY CONSULTATION\nPatient: Alicia Moreno    DOB: 05/21/1995    Date: 08/14/2026\nConsultant: Omar Haddad, MD (Nephrology)\nReferred by primary care for protein and blood on a urine dipstick.\n\nHISTORY: Annual physical in July showed protein and blood in the urine.\nNo visible blood in urine, no urinary symptoms. Mild ankle puffiness by\nevening. Takes over-the-counter naproxen for joint aches a few times a\nweek. Usual blood pressure in the 110s systolic.\n\nVITALS: BP 136/86 (repeat 134/84)    HR 84    Weight 61 kg\n\nURINALYSIS (08/14/2026)                 RESULT        REFERENCE\nProtein                                  2+            Negative\nBlood                                    2+            Negative\nRed blood cells                          15\u201320 /hpf    0\u20132 /hpf\nDysmorphic red cells                     Present       Absent\nRed cell casts                           Few           None\nWhite blood cells                        0\u20132 /hpf      0\u20135 /hpf\nUrine protein/creatinine ratio            0.9 g/g       <0.2 g/g\n\nBLOOD (08/14/2026)\nCreatinine 0.9 mg/dL (0.6\u20131.1)    eGFR >90    Potassium 4.2    Albumin 3.6\n\nASSESSMENT: Glomerular-pattern hematuria with proteinuria below the\nnephrotic range; kidney filtration currently preserved.\n\nPLAN: Start lisinopril 5 mg by mouth once daily for protein in the urine\nand blood pressure. Renal ultrasound. Repeat urinalysis, protein/creatinine\nratio and potassium in 6\u20138 weeks. Serologic workup to be discussed at the\nfollow-up visit (scheduled 10/30/2026). If findings persist, consider\nkidney biopsy.\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+        "hidden_text": [],
+        "notes": [],
+        "extraction": {
+          "doc_type": "consult_note",
+          "date": "2026-08-14",
+          "source": "Nephrology - City Kidney Care (Omar Haddad, MD)",
+          "specialties": [
+            "nephrology",
+            "internal_medicine"
+          ],
+          "summary": "Urinalysis shows protein, blood, red blood cells, dysmorphic red cells and casts; creatinine and eGFR are reported as preserved.",
+          "patient_name_on_document": "Alicia Moreno",
+          "patient_dob_on_document": "1995-05-21",
+          "patient_sex_on_document": null,
+          "labs": [
+            {
+              "test": "Blood pressure",
+              "value": "136/86 (repeat 134/84)",
+              "unit": null,
+              "reference_range": null,
+              "flag": "none",
+              "date": "2026-08-14"
+            },
+            {
+              "test": "Heart rate",
+              "value": "84",
+              "unit": null,
+              "reference_range": null,
+              "flag": "none",
+              "date": "2026-08-14"
+            },
+            {
+              "test": "Weight",
+              "value": "61",
+              "unit": "kg",
+              "reference_range": null,
+              "flag": "none",
+              "date": "2026-08-14"
+            },
+            {
+              "test": "Protein",
+              "value": "2+",
+              "unit": null,
+              "reference_range": "Negative",
+              "flag": "none",
+              "date": "2026-08-14"
+            },
+            {
+              "test": "Blood",
+              "value": "2+",
+              "unit": null,
+              "reference_range": "Negative",
+              "flag": "none",
+              "date": "2026-08-14"
+            },
+            {
+              "test": "Red blood cells",
+              "value": "15\u201320",
+              "unit": "/hpf",
+              "reference_range": "0\u20132 /hpf",
+              "flag": "none",
+              "date": "2026-08-14"
+            },
+            {
+              "test": "Dysmorphic red cells",
+              "value": "Present",
+              "unit": null,
+              "reference_range": "Absent",
+              "flag": "none",
+              "date": "2026-08-14"
+            },
+            {
+              "test": "Red cell casts",
+              "value": "Few",
+              "unit": null,
+              "reference_range": "None",
+              "flag": "none",
+              "date": "2026-08-14"
+            },
+            {
+              "test": "White blood cells",
+              "value": "0\u20132",
+              "unit": "/hpf",
+              "reference_range": "0\u20135 /hpf",
+              "flag": "none",
+              "date": "2026-08-14"
+            },
+            {
+              "test": "Urine protein/creatinine ratio",
+              "value": "0.9",
+              "unit": "g/g",
+              "reference_range": "<0.2 g/g",
+              "flag": "none",
+              "date": "2026-08-14"
+            },
+            {
+              "test": "Creatinine",
+              "value": "0.9",
+              "unit": "mg/dL",
+              "reference_range": "0.6\u20131.1",
+              "flag": "none",
+              "date": "2026-08-14"
+            },
+            {
+              "test": "eGFR",
+              "value": ">90",
+              "unit": null,
+              "reference_range": null,
+              "flag": "none",
+              "date": "2026-08-14"
+            },
+            {
+              "test": "Potassium",
+              "value": "4.2",
+              "unit": null,
+              "reference_range": null,
+              "flag": "none",
+              "date": "2026-08-14"
+            },
+            {
+              "test": "Albumin",
+              "value": "3.6",
+              "unit": null,
+              "reference_range": null,
+              "flag": "none",
+              "date": "2026-08-14"
+            }
+          ],
+          "medications": [
+            {
+              "name": "over-the-counter naproxen",
+              "generic_name": "naproxen",
+              "dose": null,
+              "frequency": "a few times a week",
+              "prescriber": null,
+              "status": "taking"
+            },
+            {
+              "name": "lisinopril",
+              "generic_name": "lisinopril",
+              "dose": "5 mg",
+              "frequency": "once daily",
+              "prescriber": "Omar Haddad, MD",
+              "status": "started"
+            }
+          ],
+          "mentions_possible_malignancy": false,
+          "mentions_self_harm": false,
+          "instructions_to_ai": []
+        },
+        "raw_image": false,
+        "error": null
+      },
+      {
+        "filename": "04_hematology_note.txt",
+        "sha256": "fb79a8f01a904aa264c3418aa3b02b4ac4f0a6eda434df0a7b77c4d0b7927cf8",
+        "kind": "text",
+        "read_by": "text",
+        "page_count": 1,
+        "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nWESTFIELD HEMATOLOGY - CLINIC NOTE\nPatient: Alicia Moreno    DOB: 05/21/1995    Date of visit: 09/03/2026\nClinician: Grace Liu, MD (Hematology)\nReferred by primary care for low blood counts.\n\nHISTORY\nLow white cells and platelets found on labs in July. Reports fatigue,\naching hand joints, and one episode of low-grade fever in August. No\nnight sweats, no weight loss, no unusual bleeding.\n\nLABS (09/03/2026)             RESULT    FLAG   REFERENCE        UNITS\nWBC                            3.2       L      4.0 - 11.0      x10^3/uL\nAbsolute neutrophils           2.1              1.5 - 7.5       x10^3/uL\nAbsolute lymphocytes           0.7       L      1.0 - 4.0       x10^3/uL\nHemoglobin                     11.0      L      12.0 - 15.5     g/dL\nMCV                            88               80 - 100        fL\nPlatelets                      112       L      150 - 400       x10^3/uL\nReticulocytes                  2.6       H      0.5 - 2.5       %\nLDH                            262              140 - 280       U/L\nESR                            52        H      0 - 20          mm/hr\nB12 / folate                   normal\n\nPERIPHERAL SMEAR\nMild lymphopenia. No blasts. No schistocytes. Platelets mildly decreased\nwith normal morphology.\n\nASSESSMENT\nMild decrease in all three cell lines (leukopenia with lymphopenia, mild\nnormocytic anemia, mild thrombocytopenia). Possibly post-viral. No sign\nof a primary bone marrow disorder on the smear.\n\nPLAN\nRepeat CBC in 3 months. Bone marrow biopsy only if counts fall further.\nJoint pain and fatigue deferred to primary care.\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+        "hidden_text": [],
+        "notes": [],
+        "extraction": {
+          "doc_type": "consult_note",
+          "date": "2026-09-03",
+          "source": "Westfield Hematology - Grace Liu, MD",
+          "specialties": [
+            "hematology",
+            "rheumatology"
+          ],
+          "summary": "Hematology note reports mild decreases in all three blood cell lines, elevated reticulocytes and ESR, and no blasts or schistocytes on smear.",
+          "patient_name_on_document": "Alicia Moreno",
+          "patient_dob_on_document": "1995-05-21",
+          "patient_sex_on_document": null,
+          "labs": [
+            {
+              "test": "WBC",
+              "value": "3.2",
+              "unit": "x10^3/uL",
+              "reference_range": "4.0 - 11.0",
+              "flag": "low",
+              "date": "2026-09-03"
+            },
+            {
+              "test": "Absolute neutrophils",
+              "value": "2.1",
+              "unit": "x10^3/uL",
+              "reference_range": "1.5 - 7.5",
+              "flag": "none",
+              "date": "2026-09-03"
+            },
+            {
+              "test": "Absolute lymphocytes",
+              "value": "0.7",
+              "unit": "x10^3/uL",
+              "reference_range": "1.0 - 4.0",
+              "flag": "low",
+              "date": "2026-09-03"
+            },
+            {
+              "test": "Hemoglobin",
+              "value": "11.0",
+              "unit": "g/dL",
+              "reference_range": "12.0 - 15.5",
+              "flag": "low",
+              "date": "2026-09-03"
+            },
+            {
+              "test": "MCV",
+              "value": "88",
+              "unit": "fL",
+              "reference_range": "80 - 100",
+              "flag": "none",
+              "date": "2026-09-03"
+            },
+            {
+              "test": "Platelets",
+              "value": "112",
+              "unit": "x10^3/uL",
+              "reference_range": "150 - 400",
+              "flag": "low",
+              "date": "2026-09-03"
+            },
+            {
+              "test": "Reticulocytes",
+              "value": "2.6",
+              "unit": "%",
+              "reference_range": "0.5 - 2.5",
+              "flag": "high",
+              "date": "2026-09-03"
+            },
+            {
+              "test": "LDH",
+              "value": "262",
+              "unit": "U/L",
+              "reference_range": "140 - 280",
+              "flag": "none",
+              "date": "2026-09-03"
+            },
+            {
+              "test": "ESR",
+              "value": "52",
+              "unit": "mm/hr",
+              "reference_range": "0 - 20",
+              "flag": "high",
+              "date": "2026-09-03"
+            },
+            {
+              "test": "B12 / folate",
+              "value": "normal",
+              "unit": null,
+              "reference_range": null,
+              "flag": "none",
+              "date": "2026-09-03"
+            }
+          ],
+          "medications": [],
+          "mentions_possible_malignancy": false,
+          "mentions_self_harm": false,
+          "instructions_to_ai": []
+        },
+        "raw_image": false,
+        "error": null
+      },
+      {
+        "filename": "05_medication_list.txt",
+        "sha256": "605f932c4e93023acce7784879608beeb21aa717cd5619ac26328d7feb0f438d",
+        "kind": "text",
+        "read_by": "text",
+        "page_count": 1,
+        "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nMEDICATION LIST - prepared by patient for appointments (09/10/2026)\nPatient: Alicia Moreno    DOB: 05/21/1995\n\n1. Hydrocortisone 2.5% cream - face, twice daily as needed\n   Prescribed by Dr. Brooks (dermatology), June 2026\n2. Triamcinolone 0.1% cream - arms, twice daily as needed\n   Prescribed by Dr. Brooks (dermatology), June 2026\n3. Levonorgestrel/ethinyl estradiol 0.15 mg/0.03 mg - 1 tablet daily\n   Prescribed by Dr. Okafor (gynecology), for several years\n4. Naproxen 220 mg (over the counter) - 1 to 2 tablets, 3-4 times a week\n   for joint aches. My own choice, not prescribed.\n\nAllergies: sulfa drugs (rash).\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+        "hidden_text": [],
+        "notes": [],
+        "extraction": {
+          "doc_type": "medication_list",
+          "date": "2026-09-10",
+          "source": "Patient-prepared medication list",
+          "specialties": [
+            "clinical_pharmacist",
+            "internal_medicine"
+          ],
+          "summary": "Patient-prepared list reports four current medications: two topical creams, an oral contraceptive, and over-the-counter naproxen.",
+          "patient_name_on_document": "Alicia Moreno",
+          "patient_dob_on_document": "1995-05-21",
+          "patient_sex_on_document": null,
+          "labs": [],
+          "medications": [
+            {
+              "name": "Hydrocortisone 2.5% cream",
+              "generic_name": "hydrocortisone",
+              "dose": "2.5% cream",
+              "frequency": "twice daily as needed",
+              "prescriber": "Dr. Brooks (dermatology)",
+              "status": "taking"
+            },
+            {
+              "name": "Triamcinolone 0.1% cream",
+              "generic_name": "triamcinolone",
+              "dose": "0.1% cream",
+              "frequency": "twice daily as needed",
+              "prescriber": "Dr. Brooks (dermatology)",
+              "status": "taking"
+            },
+            {
+              "name": "Levonorgestrel/ethinyl estradiol 0.15 mg/0.03 mg",
+              "generic_name": "levonorgestrel/ethinyl estradiol",
+              "dose": "0.15 mg/0.03 mg",
+              "frequency": "1 tablet daily",
+              "prescriber": "Dr. Okafor (gynecology)",
+              "status": "taking"
+            },
+            {
+              "name": "Naproxen 220 mg",
+              "generic_name": "naproxen",
+              "dose": "220 mg; 1 to 2 tablets",
+              "frequency": "3-4 times a week",
+              "prescriber": null,
+              "status": "taking"
+            }
+          ],
+          "mentions_possible_malignancy": false,
+          "mentions_self_harm": false,
+          "instructions_to_ai": []
+        },
+        "raw_image": false,
+        "error": null
+      }
+    ],
+    "active_specialists": [
+      {
+        "specialty": "rheumatology",
+        "name": "Rheumatology",
+        "relevance": 5,
+        "documents": [
+          "02_skin_biopsy_pathology.pdf",
+          "03_nephrology_consult_scanned.pdf",
+          "04_hematology_note.txt"
+        ],
+        "symptoms": [
+          "Joint pain and stiffness in hands and wrists",
+          "Facial rash after sun",
+          "Fatigue",
+          "Mouth sores",
+          "Hair thinning",
+          "Fingers turn white or blue in the cold",
+          "Low-grade fevers",
+          "Ankle puffiness in the evening"
+        ],
+        "reason": "The combination of inflammatory joint symptoms, photosensitive rash, Raynaud-like color changes, urinary abnormalities, and low blood counts raises a cross-system concern for rheumatologic review.",
+        "why_active": "documents+symptoms"
+      },
+      {
+        "specialty": "hematology",
+        "name": "Hematology",
+        "relevance": 4,
+        "documents": [
+          "04_hematology_note.txt"
+        ],
+        "symptoms": [
+          "Fatigue"
+        ],
+        "reason": "The documented decreases across all three blood cell lines and elevated reticulocytes require hematology review.",
+        "why_active": "documents+symptoms"
+      },
+      {
+        "specialty": "nephrology",
+        "name": "Nephrology",
+        "relevance": 4,
+        "documents": [
+          "03_nephrology_consult_scanned.pdf"
+        ],
+        "symptoms": [
+          "Ankle puffiness in the evening"
+        ],
+        "reason": "Protein, blood, dysmorphic red cells, and casts in the urine warrant review of possible kidney involvement despite preserved creatinine and eGFR.",
+        "why_active": "documents+symptoms"
+      },
+      {
+        "specialty": "dermatology",
+        "name": "Dermatology",
+        "relevance": 3,
+        "documents": [
+          "01_dermatology_note.txt",
+          "02_skin_biopsy_pathology.pdf"
+        ],
+        "symptoms": [
+          "Facial rash after sun",
+          "Hair thinning"
+        ],
+        "reason": "The photosensitive eruption, hair thinning, and biopsy findings merit dermatologic review, including their relationship to the systemic findings.",
+        "why_active": "documents+symptoms"
+      }
+    ],
+    "consider_seeing": [],
+    "unassigned_documents": [
+      "05_medication_list.txt"
+    ],
+    "conflicts": [
+      {
+        "kind": "medication_not_on_your_list",
+        "document": "03_nephrology_consult_scanned.pdf",
+        "item": "lisinopril",
+        "message": "lisinopril 5 mg once daily was started in 03_nephrology_consult_scanned.pdf, but it is not on your medication list. Are you taking it? Please confirm rather than let the panel guess."
+      }
+    ],
+    "medications": [
+      {
+        "generic_name": "hydrocortisone",
+        "names_seen": [
+          "Hydrocortisone 2.5% cream"
+        ],
+        "sources": [
+          "questionnaire",
+          "01_dermatology_note.txt",
+          "05_medication_list.txt"
+        ],
+        "doses": [
+          "thin layer twice a day as needed",
+          "2.5% twice daily for 2 weeks",
+          "2.5% cream twice daily as needed"
+        ],
+        "prescribers": [
+          "Dr. Brooks (dermatology)",
+          "Helen Brooks, MD"
+        ],
+        "statuses": [
+          "taking (per patient)",
+          "started",
+          "taking"
+        ]
+      },
+      {
+        "generic_name": "triamcinolone",
+        "names_seen": [
+          "Triamcinolone 0.1% cream"
+        ],
+        "sources": [
+          "questionnaire",
+          "01_dermatology_note.txt",
+          "05_medication_list.txt"
+        ],
+        "doses": [
+          "thin layer twice a day as needed",
+          "0.1% twice daily for 2 weeks",
+          "0.1% cream twice daily as needed"
+        ],
+        "prescribers": [
+          "Dr. Brooks (dermatology)",
+          "Helen Brooks, MD"
+        ],
+        "statuses": [
+          "taking (per patient)",
+          "started",
+          "taking"
+        ]
+      },
+      {
+        "generic_name": "levonorgestrel/ethinyl estradiol",
+        "names_seen": [
+          "Birth control pill (levonorgestrel/ethinyl estradiol)",
+          "Levonorgestrel/ethinyl estradiol 0.15 mg/0.03 mg"
+        ],
+        "sources": [
+          "questionnaire",
+          "05_medication_list.txt"
+        ],
+        "doses": [
+          "0.15/0.03 mg daily",
+          "0.15 mg/0.03 mg 1 tablet daily"
+        ],
+        "prescribers": [
+          "Dr. Okafor (gynecology)"
+        ],
+        "statuses": [
+          "taking (per patient)",
+          "taking"
+        ]
+      },
+      {
+        "generic_name": "naproxen",
+        "names_seen": [
+          "Naproxen (over the counter)",
+          "over-the-counter naproxen",
+          "Naproxen 220 mg"
+        ],
+        "sources": [
+          "questionnaire",
+          "03_nephrology_consult_scanned.pdf",
+          "05_medication_list.txt"
+        ],
+        "doses": [
+          "220-440 mg 3-4 times a week",
+          "a few times a week",
+          "220 mg; 1 to 2 tablets 3-4 times a week"
+        ],
+        "prescribers": [
+          "myself"
+        ],
+        "statuses": [
+          "taking (per patient)",
+          "taking"
+        ]
+      },
+      {
+        "generic_name": "lisinopril",
+        "names_seen": [
+          "lisinopril"
+        ],
+        "sources": [
+          "03_nephrology_consult_scanned.pdf"
+        ],
+        "doses": [
+          "5 mg once daily"
+        ],
+        "prescribers": [
+          "Omar Haddad, MD"
+        ],
+        "statuses": [
+          "started"
+        ]
+      }
+    ],
+    "labs": [
+      {
+        "document": "03_nephrology_consult_scanned.pdf",
+        "test": "Blood pressure",
+        "value": "136/86 (repeat 134/84)",
+        "unit": null,
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-08-14"
+      },
+      {
+        "document": "03_nephrology_consult_scanned.pdf",
+        "test": "Heart rate",
+        "value": "84",
+        "unit": null,
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-08-14"
+      },
+      {
+        "document": "03_nephrology_consult_scanned.pdf",
+        "test": "Weight",
+        "value": "61",
+        "unit": "kg",
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-08-14"
+      },
+      {
+        "document": "03_nephrology_consult_scanned.pdf",
+        "test": "Protein",
+        "value": "2+",
+        "unit": null,
+        "reference_range": "Negative",
+        "flag": "none",
+        "date": "2026-08-14"
+      },
+      {
+        "document": "03_nephrology_consult_scanned.pdf",
+        "test": "Blood",
+        "value": "2+",
+        "unit": null,
+        "reference_range": "Negative",
+        "flag": "none",
+        "date": "2026-08-14"
+      },
+      {
+        "document": "03_nephrology_consult_scanned.pdf",
+        "test": "Red blood cells",
+        "value": "15\u201320",
+        "unit": "/hpf",
+        "reference_range": "0\u20132 /hpf",
+        "flag": "none",
+        "date": "2026-08-14"
+      },
+      {
+        "document": "03_nephrology_consult_scanned.pdf",
+        "test": "Dysmorphic red cells",
+        "value": "Present",
+        "unit": null,
+        "reference_range": "Absent",
+        "flag": "none",
+        "date": "2026-08-14"
+      },
+      {
+        "document": "03_nephrology_consult_scanned.pdf",
+        "test": "Red cell casts",
+        "value": "Few",
+        "unit": null,
+        "reference_range": "None",
+        "flag": "none",
+        "date": "2026-08-14"
+      },
+      {
+        "document": "03_nephrology_consult_scanned.pdf",
+        "test": "White blood cells",
+        "value": "0\u20132",
+        "unit": "/hpf",
+        "reference_range": "0\u20135 /hpf",
+        "flag": "none",
+        "date": "2026-08-14"
+      },
+      {
+        "document": "03_nephrology_consult_scanned.pdf",
+        "test": "Urine protein/creatinine ratio",
+        "value": "0.9",
+        "unit": "g/g",
+        "reference_range": "<0.2 g/g",
+        "flag": "none",
+        "date": "2026-08-14"
+      },
+      {
+        "document": "03_nephrology_consult_scanned.pdf",
+        "test": "Creatinine",
+        "value": "0.9",
+        "unit": "mg/dL",
+        "reference_range": "0.6\u20131.1",
+        "flag": "none",
+        "date": "2026-08-14"
+      },
+      {
+        "document": "03_nephrology_consult_scanned.pdf",
+        "test": "eGFR",
+        "value": ">90",
+        "unit": null,
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-08-14"
+      },
+      {
+        "document": "03_nephrology_consult_scanned.pdf",
+        "test": "Potassium",
+        "value": "4.2",
+        "unit": null,
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-08-14"
+      },
+      {
+        "document": "03_nephrology_consult_scanned.pdf",
+        "test": "Albumin",
+        "value": "3.6",
+        "unit": null,
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-08-14"
+      },
+      {
+        "document": "04_hematology_note.txt",
+        "test": "WBC",
+        "value": "3.2",
+        "unit": "x10^3/uL",
+        "reference_range": "4.0 - 11.0",
+        "flag": "low",
+        "date": "2026-09-03"
+      },
+      {
+        "document": "04_hematology_note.txt",
+        "test": "Absolute neutrophils",
+        "value": "2.1",
+        "unit": "x10^3/uL",
+        "reference_range": "1.5 - 7.5",
+        "flag": "none",
+        "date": "2026-09-03"
+      },
+      {
+        "document": "04_hematology_note.txt",
+        "test": "Absolute lymphocytes",
+        "value": "0.7",
+        "unit": "x10^3/uL",
+        "reference_range": "1.0 - 4.0",
+        "flag": "low",
+        "date": "2026-09-03"
+      },
+      {
+        "document": "04_hematology_note.txt",
+        "test": "Hemoglobin",
+        "value": "11.0",
+        "unit": "g/dL",
+        "reference_range": "12.0 - 15.5",
+        "flag": "low",
+        "date": "2026-09-03"
+      },
+      {
+        "document": "04_hematology_note.txt",
+        "test": "MCV",
+        "value": "88",
+        "unit": "fL",
+        "reference_range": "80 - 100",
+        "flag": "none",
+        "date": "2026-09-03"
+      },
+      {
+        "document": "04_hematology_note.txt",
+        "test": "Platelets",
+        "value": "112",
+        "unit": "x10^3/uL",
+        "reference_range": "150 - 400",
+        "flag": "low",
+        "date": "2026-09-03"
+      },
+      {
+        "document": "04_hematology_note.txt",
+        "test": "Reticulocytes",
+        "value": "2.6",
+        "unit": "%",
+        "reference_range": "0.5 - 2.5",
+        "flag": "high",
+        "date": "2026-09-03"
+      },
+      {
+        "document": "04_hematology_note.txt",
+        "test": "LDH",
+        "value": "262",
+        "unit": "U/L",
+        "reference_range": "140 - 280",
+        "flag": "none",
+        "date": "2026-09-03"
+      },
+      {
+        "document": "04_hematology_note.txt",
+        "test": "ESR",
+        "value": "52",
+        "unit": "mm/hr",
+        "reference_range": "0 - 20",
+        "flag": "high",
+        "date": "2026-09-03"
+      },
+      {
+        "document": "04_hematology_note.txt",
+        "test": "B12 / folate",
+        "value": "normal",
+        "unit": null,
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-09-03"
+      }
+    ],
+    "safety_signals": []
+  },
+  "usage": {
+    "price_source": "gpt-6-luna, OpenAI standard pricing per 1M tokens (MGT 409 Lecture 11)",
+    "totals": {
+      "requests": 21,
+      "input_tokens": 86810,
+      "cached_input_tokens": 55546,
+      "cache_write_tokens": 31201,
+      "output_tokens": 14591,
+      "reasoning_tokens": 897,
+      "cost_usd": 0.011757,
+      "model_calls": 14,
+      "cache_hits": 5,
+      "failed_calls": 0
+    },
+    "by_agent": {
+      "intake_route": {
+        "calls": 1,
+        "input_tokens": 2358,
+        "cached_input_tokens": 2355,
+        "output_tokens": 591,
+        "cost_usd": 0.000319
+      },
+      "specialist_r1": {
+        "calls": 5,
+        "input_tokens": 45601,
+        "cached_input_tokens": 38128,
+        "output_tokens": 6896,
+        "cost_usd": 0.004763
+      },
+      "pharmacist": {
+        "calls": 1,
+        "input_tokens": 6041,
+        "cached_input_tokens": 5762,
+        "output_tokens": 1267,
+        "cost_usd": 0.000726
+      },
+      "specialist_r2": {
+        "calls": 4,
+        "input_tokens": 19501,
+        "cached_input_tokens": 8048,
+        "output_tokens": 3112,
+        "cost_usd": 0.003068
+      },
+      "coordinator": {
+        "calls": 2,
+        "input_tokens": 10485,
+        "cached_input_tokens": 1253,
+        "output_tokens": 2463,
+        "cost_usd": 0.002397
+      },
+      "safety_reviewer": {
+        "calls": 1,
+        "input_tokens": 2824,
+        "cached_input_tokens": 0,
+        "output_tokens": 262,
+        "cost_usd": 0.000484
+      }
+    },
+    "calls": [
+      {
+        "agent": "intake_extract",
+        "label": "01_dermatology_note.txt",
+        "requests": 0,
+        "input_tokens": 0,
+        "cached_input_tokens": 0,
+        "cache_write_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_tokens": 0,
+        "seconds": 0.0,
+        "cost_usd": 0.0,
+        "ok": true,
+        "error": null,
+        "from_cache": true
+      },
+      {
+        "agent": "intake_extract",
+        "label": "02_skin_biopsy_pathology.pdf",
+        "requests": 0,
+        "input_tokens": 0,
+        "cached_input_tokens": 0,
+        "cache_write_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_tokens": 0,
+        "seconds": 0.0,
+        "cost_usd": 0.0,
+        "ok": true,
+        "error": null,
+        "from_cache": true
+      },
+      {
+        "agent": "intake_extract",
+        "label": "03_nephrology_consult_scanned.pdf",
+        "requests": 0,
+        "input_tokens": 0,
+        "cached_input_tokens": 0,
+        "cache_write_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_tokens": 0,
+        "seconds": 0.0,
+        "cost_usd": 0.0,
+        "ok": true,
+        "error": null,
+        "from_cache": true
+      },
+      {
+        "agent": "intake_extract",
+        "label": "04_hematology_note.txt",
+        "requests": 0,
+        "input_tokens": 0,
+        "cached_input_tokens": 0,
+        "cache_write_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_tokens": 0,
+        "seconds": 0.0,
+        "cost_usd": 0.0,
+        "ok": true,
+        "error": null,
+        "from_cache": true
+      },
+      {
+        "agent": "intake_extract",
+        "label": "05_medication_list.txt",
+        "requests": 0,
+        "input_tokens": 0,
+        "cached_input_tokens": 0,
+        "cache_write_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_tokens": 0,
+        "seconds": 0.0,
+        "cost_usd": 0.0,
+        "ok": true,
+        "error": null,
+        "from_cache": true
+      },
+      {
+        "agent": "intake_route",
+        "label": "case2_autoimmune_pattern",
+        "requests": 1,
+        "input_tokens": 2358,
+        "cached_input_tokens": 2355,
+        "cache_write_tokens": 0,
+        "output_tokens": 591,
+        "reasoning_tokens": 186,
+        "seconds": 5.61,
+        "cost_usd": 0.00031935,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "specialist_r1",
+        "label": "r1.dermatology",
+        "requests": 2,
+        "input_tokens": 7712,
+        "cached_input_tokens": 3762,
+        "cache_write_tokens": 3944,
+        "output_tokens": 928,
+        "reasoning_tokens": 93,
+        "seconds": 12.1,
+        "cost_usd": 0.00099522,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "specialist_r1",
+        "label": "r1.nephrology",
+        "requests": 2,
+        "input_tokens": 7317,
+        "cached_input_tokens": 7230,
+        "cache_write_tokens": 81,
+        "output_tokens": 1676,
+        "reasoning_tokens": 134,
+        "seconds": 12.71,
+        "cost_usd": 0.000921025,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "pharmacist",
+        "label": "r1.clinical_pharmacist",
+        "requests": 2,
+        "input_tokens": 6041,
+        "cached_input_tokens": 5762,
+        "cache_write_tokens": 273,
+        "output_tokens": 1267,
+        "reasoning_tokens": 0,
+        "seconds": 13.37,
+        "cost_usd": 0.000725845,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "specialist_r1",
+        "label": "r1.hematology",
+        "requests": 3,
+        "input_tokens": 11073,
+        "cached_input_tokens": 10909,
+        "cache_write_tokens": 155,
+        "output_tokens": 1279,
+        "reasoning_tokens": 0,
+        "seconds": 13.6,
+        "cost_usd": 0.000768865,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "specialist_r1",
+        "label": "r1.rheumatology",
+        "requests": 2,
+        "input_tokens": 8966,
+        "cached_input_tokens": 8782,
+        "cache_write_tokens": 178,
+        "output_tokens": 2306,
+        "reasoning_tokens": 109,
+        "seconds": 17.32,
+        "cost_usd": 0.00126367,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "specialist_r2",
+        "label": "r2.nephrology",
+        "requests": 1,
+        "input_tokens": 4970,
+        "cached_input_tokens": 2012,
+        "cache_write_tokens": 2955,
+        "output_tokens": 650,
+        "reasoning_tokens": 0,
+        "seconds": 5.82,
+        "cost_usd": 0.000714795,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "specialist_r2",
+        "label": "r2.rheumatology",
+        "requests": 1,
+        "input_tokens": 5038,
+        "cached_input_tokens": 2012,
+        "cache_write_tokens": 3023,
+        "output_tokens": 924,
+        "reasoning_tokens": 0,
+        "seconds": 6.98,
+        "cost_usd": 0.000860295,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "specialist_r2",
+        "label": "r2.hematology",
+        "requests": 1,
+        "input_tokens": 4809,
+        "cached_input_tokens": 2012,
+        "cache_write_tokens": 2794,
+        "output_tokens": 705,
+        "reasoning_tokens": 0,
+        "seconds": 7.94,
+        "cost_usd": 0.00072217,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "specialist_r2",
+        "label": "r2.dermatology",
+        "requests": 1,
+        "input_tokens": 4684,
+        "cached_input_tokens": 2012,
+        "cache_write_tokens": 2669,
+        "output_tokens": 833,
+        "reasoning_tokens": 167,
+        "seconds": 8.4,
+        "cost_usd": 0.000770545,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "coordinator",
+        "label": "coordinator.consult",
+        "requests": 1,
+        "input_tokens": 3252,
+        "cached_input_tokens": 0,
+        "cache_write_tokens": 3249,
+        "output_tokens": 82,
+        "reasoning_tokens": 22,
+        "seconds": 2.99,
+        "cost_usd": 0.000447425,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "specialist_r1",
+        "label": "consult.obstetrics_gynecology",
+        "requests": 2,
+        "input_tokens": 10533,
+        "cached_input_tokens": 7445,
+        "cache_write_tokens": 3082,
+        "output_tokens": 707,
+        "reasoning_tokens": 0,
+        "seconds": 10.39,
+        "cost_usd": 0.0008138,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "coordinator",
+        "label": "coordinator.synthesis",
+        "requests": 1,
+        "input_tokens": 7233,
+        "cached_input_tokens": 1253,
+        "cache_write_tokens": 5977,
+        "output_tokens": 2381,
+        "reasoning_tokens": 0,
+        "seconds": 17.08,
+        "cost_usd": 0.001950455,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "safety_reviewer",
+        "label": "safety_reviewer",
+        "requests": 1,
+        "input_tokens": 2824,
+        "cached_input_tokens": 0,
+        "cache_write_tokens": 2821,
+        "output_tokens": 262,
+        "reasoning_tokens": 186,
+        "seconds": 3.82,
+        "cost_usd": 0.000483925,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      }
+    ]
+  },
+  "budget": {
+    "spent_usd": 0.011757,
+    "run_limit_usd": 0.05,
+    "limit_usd": 0.05,
+    "remaining_usd": 0.038243
+  }
+}

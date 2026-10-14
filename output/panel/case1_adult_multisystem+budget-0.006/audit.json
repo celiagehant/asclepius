@@ -1,0 +1,355 @@
+{
+  "run_id": "run-3c31464dde",
+  "user_id": "cli",
+  "case_id": "case1_adult_multisystem",
+  "agents": [
+    {
+      "agent_id": "intake",
+      "agent": "intake",
+      "specialty": null,
+      "round": 0,
+      "inputs": [
+        "01_primary_care_labs.png",
+        "02_iron_studies_and_stool_tests.pdf",
+        "03_cardiology_consult.txt",
+        "04_ecg_report.txt",
+        "05_upper_endoscopy_report.pdf",
+        "06_medication_list.txt"
+      ],
+      "started": "2026-10-14T03:14:51+00:00",
+      "finished": "2026-10-14T03:15:02+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {},
+      "output_summary": "6 documents, 5 specialists"
+    },
+    {
+      "agent_id": "r1.hematology",
+      "agent": "specialist",
+      "specialty": "hematology",
+      "round": 1,
+      "inputs": [
+        "01_primary_care_labs.png",
+        "02_iron_studies_and_stool_tests.pdf",
+        "05_upper_endoscopy_report.pdf",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:15:04+00:00",
+      "finished": "2026-10-14T03:15:21+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "iron deficiency anemia",
+            "max_results": 2
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Anemia; Iron",
+          "urls": [
+            "https://medlineplus.gov/anemia.html",
+            "https://medlineplus.gov/iron.html"
+          ],
+          "seconds": 0.65
+        },
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "stomach ulcer",
+            "max_results": 2
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Peptic Ulcer; Helicobacter pylori Infections",
+          "urls": [
+            "https://medlineplus.gov/pepticulcer.html",
+            "https://medlineplus.gov/helicobacterpyloriinfections.html"
+          ],
+          "seconds": 1.08
+        }
+      ],
+      "validation": {
+        "findings_kept": 5,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 2
+      },
+      "output_summary": "5 findings"
+    },
+    {
+      "agent_id": "r1.gastroenterology",
+      "agent": "specialist",
+      "specialty": "gastroenterology",
+      "round": 1,
+      "inputs": [
+        "02_iron_studies_and_stool_tests.pdf",
+        "05_upper_endoscopy_report.pdf",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:15:04+00:00",
+      "finished": "2026-10-14T03:15:20+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "iron deficiency"
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Anemia; Iron; Aplastic Anemia",
+          "urls": [
+            "https://medlineplus.gov/anemia.html",
+            "https://medlineplus.gov/iron.html",
+            "https://medlineplus.gov/aplasticanemia.html"
+          ],
+          "seconds": 1.13
+        }
+      ],
+      "validation": {
+        "findings_kept": 5,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 1
+      },
+      "output_summary": "5 findings"
+    },
+    {
+      "agent_id": "r1.cardiology",
+      "agent": "specialist",
+      "specialty": "cardiology",
+      "round": 1,
+      "inputs": [
+        "03_cardiology_consult.txt",
+        "04_ecg_report.txt",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:15:04+00:00",
+      "finished": "2026-10-14T03:15:16+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "sinus tachycardia",
+            "max_results": 2
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Arrhythmia",
+          "urls": [
+            "https://medlineplus.gov/arrhythmia.html"
+          ],
+          "seconds": 1.54
+        },
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "palpitations",
+            "max_results": 2
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Arrhythmia; Atrial Fibrillation",
+          "urls": [
+            "https://medlineplus.gov/arrhythmia.html",
+            "https://medlineplus.gov/atrialfibrillation.html"
+          ],
+          "seconds": 1.54
+        }
+      ],
+      "validation": {
+        "findings_kept": 4,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 2
+      },
+      "output_summary": "4 findings"
+    },
+    {
+      "agent_id": "r1.endocrinology",
+      "agent": "specialist",
+      "specialty": "endocrinology",
+      "round": 1,
+      "inputs": [
+        "01_primary_care_labs.png",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:15:04+00:00",
+      "finished": "2026-10-14T03:15:18+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "anemia",
+            "max_results": 2
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Anemia; Aplastic Anemia",
+          "urls": [
+            "https://medlineplus.gov/anemia.html",
+            "https://medlineplus.gov/aplasticanemia.html"
+          ],
+          "seconds": 0.64
+        },
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "thyroid tests",
+            "max_results": 2
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Thyroid Tests; Hyperthyroidism",
+          "urls": [
+            "https://medlineplus.gov/thyroidtests.html",
+            "https://medlineplus.gov/hyperthyroidism.html"
+          ],
+          "seconds": 0.65
+        }
+      ],
+      "validation": {
+        "findings_kept": 3,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 2
+      },
+      "output_summary": "3 findings"
+    },
+    {
+      "agent_id": "r1.obstetrics_gynecology",
+      "agent": "specialist",
+      "specialty": "obstetrics_gynecology",
+      "round": 1,
+      "inputs": [
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:15:04+00:00",
+      "finished": "2026-10-14T03:15:16+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "heavy menstrual bleeding",
+            "max_results": 2
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Menstruation; Hysterectomy",
+          "urls": [
+            "https://medlineplus.gov/menstruation.html",
+            "https://medlineplus.gov/hysterectomy.html"
+          ],
+          "seconds": 0.39
+        }
+      ],
+      "validation": {
+        "findings_kept": 3,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 1
+      },
+      "output_summary": "3 findings"
+    },
+    {
+      "agent_id": "r1.clinical_pharmacist",
+      "agent": "pharmacist",
+      "specialty": "clinical_pharmacist",
+      "round": 1,
+      "inputs": [
+        "intake medication summary",
+        "relevant labs",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:15:04+00:00",
+      "finished": "2026-10-14T03:15:19+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "iron deficiency anemia",
+            "max_results": 2
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Anemia; Iron",
+          "urls": [
+            "https://medlineplus.gov/anemia.html",
+            "https://medlineplus.gov/iron.html"
+          ],
+          "seconds": 0.35
+        },
+        {
+          "tool": "fda_label_search",
+          "args": {
+            "drug": "omeprazole",
+            "terms": [
+              "ibuprofen"
+            ]
+          },
+          "status": "ok",
+          "source": "openFDA drug label",
+          "summary": "ok: No label sentence mentions these terms.",
+          "urls": [
+            "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=015b1c8f-9d5b-4afc-a55c-1a731b5fc72a"
+          ],
+          "seconds": 1.08
+        },
+        {
+          "tool": "fda_label_search",
+          "args": {
+            "drug": "ibuprofen",
+            "terms": [
+              "omeprazole",
+              "norgestimate",
+              "ethinyl estradiol",
+              "propranolol",
+              "NSAID",
+              "ulcer",
+              "gastrointestinal bleeding"
+            ]
+          },
+          "status": "ok",
+          "source": "openFDA drug label",
+          "summary": "ok: label sections: warnings",
+          "urls": [
+            "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=00653b7c-7099-487e-9a01-e89781c21323"
+          ],
+          "seconds": 2.87
+        }
+      ],
+      "validation": {
+        "issues_kept": 2,
+        "dropped": [
+          {
+            "item": "The endoscopy report says to avoid NSAIDs, but ibuprofen remains on the current medication list and you report taking it most days. The ibuprofen label warns of",
+            "reason": "forbidden language"
+          }
+        ],
+        "tool_calls": 3
+      },
+      "output_summary": "2 issues"
+    }
+  ],
+  "tool_calls_total": 11,
+  "stop_reason": "stopped: run budget reached before the coordinator; returning specialist reports",
+  "status": "partial",
+  "budget": {
+    "spent_usd": 0.005604,
+    "run_limit_usd": 0.006,
+    "limit_usd": 0.006,
+    "remaining_usd": 0.000396
+  }
+}

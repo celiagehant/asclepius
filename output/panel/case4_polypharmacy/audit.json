@@ -1,0 +1,515 @@
+{
+  "run_id": "run-d4e75e4df6",
+  "user_id": "cli",
+  "case_id": "case4_polypharmacy",
+  "agents": [
+    {
+      "agent_id": "intake",
+      "agent": "intake",
+      "specialty": null,
+      "round": 0,
+      "inputs": [
+        "01_primary_care_visit_summary.txt",
+        "02_cardiology_discharge_summary.pdf",
+        "03_orthopedics_note.txt",
+        "04_urology_note_scanned.jpg",
+        "05_lab_panel.pdf"
+      ],
+      "started": "2026-10-14T03:50:45+00:00",
+      "finished": "2026-10-14T03:51:03+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {},
+      "output_summary": "5 documents, 5 specialists"
+    },
+    {
+      "agent_id": "r1.hematology",
+      "agent": "specialist",
+      "specialty": "hematology",
+      "round": 1,
+      "inputs": [
+        "05_lab_panel.pdf",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:51:06+00:00",
+      "finished": "2026-10-14T03:51:17+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "warfarin",
+            "max_results": 2
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Blood Thinners; Bleeding",
+          "urls": [
+            "https://medlineplus.gov/bloodthinners.html",
+            "https://medlineplus.gov/bleeding.html"
+          ],
+          "seconds": 0.43
+        }
+      ],
+      "validation": {
+        "findings_kept": 4,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 1
+      },
+      "output_summary": "4 findings"
+    },
+    {
+      "agent_id": "r1.cardiology",
+      "agent": "specialist",
+      "specialty": "cardiology",
+      "round": 1,
+      "inputs": [
+        "01_primary_care_visit_summary.txt",
+        "02_cardiology_discharge_summary.pdf",
+        "05_lab_panel.pdf",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:51:06+00:00",
+      "finished": "2026-10-14T03:51:20+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "warfarin",
+            "max_results": 2
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Blood Thinners; Bleeding",
+          "urls": [
+            "https://medlineplus.gov/bloodthinners.html",
+            "https://medlineplus.gov/bleeding.html"
+          ],
+          "seconds": 0.01
+        }
+      ],
+      "validation": {
+        "findings_kept": 5,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 1
+      },
+      "output_summary": "5 findings"
+    },
+    {
+      "agent_id": "r1.nephrology",
+      "agent": "specialist",
+      "specialty": "nephrology",
+      "round": 1,
+      "inputs": [
+        "01_primary_care_visit_summary.txt",
+        "05_lab_panel.pdf",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:51:06+00:00",
+      "finished": "2026-10-14T03:51:18+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "kidney disease",
+            "max_results": 2
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Kidney Cysts; Chronic Kidney Disease",
+          "urls": [
+            "https://medlineplus.gov/kidneycysts.html",
+            "https://medlineplus.gov/chronickidneydisease.html"
+          ],
+          "seconds": 1.13
+        }
+      ],
+      "validation": {
+        "findings_kept": 4,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 1
+      },
+      "output_summary": "4 findings"
+    },
+    {
+      "agent_id": "r1.endocrinology",
+      "agent": "specialist",
+      "specialty": "endocrinology",
+      "round": 1,
+      "inputs": [
+        "01_primary_care_visit_summary.txt",
+        "02_cardiology_discharge_summary.pdf",
+        "05_lab_panel.pdf",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:51:06+00:00",
+      "finished": "2026-10-14T03:51:17+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_pubmed",
+          "args": {
+            "query": "statin muscle symptoms creatine kinase older adults"
+          },
+          "status": "ok",
+          "source": "PubMed",
+          "summary": "ok: Effect of statin therapy on muscle symptoms: an individual participant data meta-analysis of large-scale, randomised, double-blind trials.; Rhabdomyolysis: an evaluation of 475 hospitalized patients.; Efficacy and Tolerability of Evolocumab vs Ezetimibe in Patients With Muscle-Related Statin Int",
+          "urls": [
+            "https://pubmed.ncbi.nlm.nih.gov/36049498/",
+            "https://pubmed.ncbi.nlm.nih.gov/16267412/",
+            "https://pubmed.ncbi.nlm.nih.gov/27039291/"
+          ],
+          "seconds": 0.88
+        },
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "diabetes"
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Diabetes; Diabetes Type 1; Diabetes Type 2",
+          "urls": [
+            "https://medlineplus.gov/diabetes.html",
+            "https://medlineplus.gov/diabetestype1.html",
+            "https://medlineplus.gov/diabetestype2.html"
+          ],
+          "seconds": 1.4
+        }
+      ],
+      "validation": {
+        "findings_kept": 3,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 2
+      },
+      "output_summary": "3 findings"
+    },
+    {
+      "agent_id": "r1.urology",
+      "agent": "specialist",
+      "specialty": "urology",
+      "round": 1,
+      "inputs": [
+        "01_primary_care_visit_summary.txt",
+        "04_urology_note_scanned.jpg",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:51:06+00:00",
+      "finished": "2026-10-14T03:51:41+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "enlarged prostate",
+            "max_results": 2
+          },
+          "status": "ok",
+          "source": "MedlinePlus",
+          "summary": "ok: Enlarged Prostate (BPH); Prostate Diseases",
+          "urls": [
+            "https://medlineplus.gov/enlargedprostatebph.html",
+            "https://medlineplus.gov/prostatediseases.html"
+          ],
+          "seconds": 0.19
+        }
+      ],
+      "validation": {
+        "findings_kept": 4,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 1
+      },
+      "output_summary": "4 findings"
+    },
+    {
+      "agent_id": "r1.clinical_pharmacist",
+      "agent": "pharmacist",
+      "specialty": "clinical_pharmacist",
+      "round": 1,
+      "inputs": [
+        "intake medication summary",
+        "relevant labs",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:51:06+00:00",
+      "finished": "2026-10-14T03:51:28+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "fda_label_search",
+          "args": {
+            "drug": "warfarin",
+            "terms": [
+              "naproxen",
+              "aspirin",
+              "acetaminophen"
+            ]
+          },
+          "status": "ok",
+          "source": "openFDA drug label",
+          "summary": "ok: label sections: drug_interactions",
+          "urls": [
+            "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=0cbce382-9c88-4f58-ae0f-532a841e8f95"
+          ],
+          "seconds": 0.68
+        },
+        {
+          "tool": "fda_label_search",
+          "args": {
+            "drug": "simvastatin",
+            "terms": [
+              "atorvastatin",
+              "muscle pain",
+              "myopathy"
+            ]
+          },
+          "status": "ok",
+          "source": "openFDA drug label",
+          "summary": "ok: label sections: drug_interactions, warnings_and_cautions, use_in_specific_populations, geriatric_use",
+          "urls": [
+            "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=00896fff-081d-4553-be8c-1999a8a73dda"
+          ],
+          "seconds": 0.72
+        },
+        {
+          "tool": "fda_label_search",
+          "args": {
+            "drug": "atorvastatin",
+            "terms": [
+              "simvastatin",
+              "muscle pain",
+              "myopathy"
+            ]
+          },
+          "status": "ok",
+          "source": "openFDA drug label",
+          "summary": "ok: label sections: drug_interactions, warnings_and_cautions, use_in_specific_populations, geriatric_use",
+          "urls": [
+            "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=00afce9b-48c9-487a-a738-e359c005c707"
+          ],
+          "seconds": 0.72
+        },
+        {
+          "tool": "fda_label_search",
+          "args": {
+            "drug": "metformin",
+            "terms": [
+              "renal impairment",
+              "eGFR"
+            ]
+          },
+          "status": "ok",
+          "source": "openFDA drug label",
+          "summary": "ok: label sections: boxed_warning, contraindications, warnings_and_cautions, use_in_specific_populations",
+          "urls": [
+            "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=0098dec4-f0e5-45d5-8aa4-5d0faf9ab142"
+          ],
+          "seconds": 3.38
+        },
+        {
+          "tool": "fda_label_search",
+          "args": {
+            "drug": "naproxen",
+            "terms": [
+              "warfarin",
+              "aspirin",
+              "kidney",
+              "renal"
+            ]
+          },
+          "status": "ok",
+          "source": "openFDA drug label",
+          "summary": "ok: label sections: contraindications, drug_interactions, warnings_and_cautions, use_in_specific_populations, pregnancy, geriatric_use",
+          "urls": [
+            "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=000155a8-709c-44e5-a75f-cd890f3a7caf"
+          ],
+          "seconds": 3.39
+        },
+        {
+          "tool": "fda_label_search",
+          "args": {
+            "drug": "doxazosin",
+            "terms": [
+              "tamsulosin",
+              "orthostatic",
+              "dizziness"
+            ]
+          },
+          "status": "ok",
+          "source": "openFDA drug label",
+          "summary": "ok: label sections: warnings_and_cautions",
+          "urls": [
+            "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=08521333-ff21-45ad-b99e-1f43d945d24d"
+          ],
+          "seconds": 3.46
+        }
+      ],
+      "validation": {
+        "issues_kept": 6,
+        "dropped": [],
+        "tool_calls": 6
+      },
+      "output_summary": "6 issues"
+    },
+    {
+      "agent_id": "r2.hematology",
+      "agent": "specialist",
+      "specialty": "hematology",
+      "round": 2,
+      "inputs": [
+        "round-1 report of cardiology",
+        "round-1 report of endocrinology",
+        "round-1 report of nephrology"
+      ],
+      "started": "2026-10-14T03:51:41+00:00",
+      "finished": "2026-10-14T03:51:46+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "connections_kept": 3,
+        "dropped": []
+      },
+      "output_summary": "3 connections, 0 disagreements"
+    },
+    {
+      "agent_id": "r2.endocrinology",
+      "agent": "specialist",
+      "specialty": "endocrinology",
+      "round": 2,
+      "inputs": [
+        "round-1 report of cardiology",
+        "round-1 report of nephrology",
+        "round-1 report of hematology"
+      ],
+      "started": "2026-10-14T03:51:41+00:00",
+      "finished": "2026-10-14T03:51:47+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "connections_kept": 3,
+        "dropped": []
+      },
+      "output_summary": "3 connections, 0 disagreements"
+    },
+    {
+      "agent_id": "r2.nephrology",
+      "agent": "specialist",
+      "specialty": "nephrology",
+      "round": 2,
+      "inputs": [
+        "round-1 report of endocrinology",
+        "round-1 report of cardiology",
+        "round-1 report of hematology"
+      ],
+      "started": "2026-10-14T03:51:41+00:00",
+      "finished": "2026-10-14T03:51:46+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "connections_kept": 3,
+        "dropped": []
+      },
+      "output_summary": "3 connections, 0 disagreements"
+    },
+    {
+      "agent_id": "r2.cardiology",
+      "agent": "specialist",
+      "specialty": "cardiology",
+      "round": 2,
+      "inputs": [
+        "round-1 report of hematology",
+        "round-1 report of endocrinology",
+        "round-1 report of nephrology"
+      ],
+      "started": "2026-10-14T03:51:41+00:00",
+      "finished": "2026-10-14T03:51:47+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "connections_kept": 3,
+        "dropped": []
+      },
+      "output_summary": "3 connections, 0 disagreements"
+    },
+    {
+      "agent_id": "r2.urology",
+      "agent": "specialist",
+      "specialty": "urology",
+      "round": 2,
+      "inputs": [],
+      "started": "2026-10-14T03:51:47+00:00",
+      "finished": "2026-10-14T03:51:47+00:00",
+      "status": "skipped",
+      "stop_reason": "no peer shares a question, value or region",
+      "tool_calls": [],
+      "validation": {},
+      "output_summary": null
+    },
+    {
+      "agent_id": "coordinator.synthesis",
+      "agent": "coordinator",
+      "specialty": "internal_medicine",
+      "round": null,
+      "inputs": [
+        "reports of hematology, endocrinology, nephrology, cardiology, urology",
+        "pharmacist",
+        "round 2",
+        "document summaries"
+      ],
+      "started": "2026-10-14T03:51:47+00:00",
+      "finished": "2026-10-14T03:52:03+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "dropped": []
+      },
+      "output_summary": "6 findings, 5 connections"
+    },
+    {
+      "agent_id": "safety_reviewer",
+      "agent": "safety_reviewer",
+      "specialty": null,
+      "round": null,
+      "inputs": [
+        "summary items",
+        "urgent concerns",
+        "intake signals"
+      ],
+      "started": "2026-10-14T03:52:03+00:00",
+      "finished": "2026-10-14T03:52:07+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {},
+      "output_summary": "0 edits, 0 missed red flags added"
+    }
+  ],
+  "tool_calls_total": 12,
+  "stop_reason": "completed: conference ended after round 2 (hard stop), summary reviewed",
+  "status": "complete",
+  "budget": {
+    "spent_usd": 0.013968,
+    "run_limit_usd": 0.05,
+    "limit_usd": 0.05,
+    "remaining_usd": 0.036032
+  }
+}

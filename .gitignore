@@ -1,0 +1,25 @@
+# Secrets: never commit
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Runtime data: the database and anything users upload
+*.db
+*.db-*
+*.sqlite*
+storage/
+uploads/
+
+# Frontend dependencies (frontend/dist IS committed so graders don't need Node)
+frontend/node_modules/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+frontend/dist-demo/

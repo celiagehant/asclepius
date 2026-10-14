@@ -1,0 +1,51 @@
+{
+  "case_id": "case2_autoimmune_pattern",
+  "synthetic": true,
+  "case_title": "A rash, kidney findings and low blood counts",
+  "case_summary_for_demo": "31-year-old woman seen separately by dermatology, nephrology and hematology. Each found something, but no one has put the pieces together.",
+  "completed_by": "patient",
+  "completed_on": "2026-09-30",
+  "patient": {
+    "name": "Alicia Moreno",
+    "date_of_birth": "1995-05-21",
+    "age_years": 31,
+    "sex_at_birth": "female",
+    "pregnant": false,
+    "height_cm": 160,
+    "weight_kg": 61
+  },
+  "main_concern": "I have three specialists for three different problems: a rash, something in my urine and low blood counts. Each one says to wait and recheck. I keep feeling worse and my joints hurt.",
+  "symptoms": [
+    {"symptom": "Joint pain and stiffness in hands and wrists", "since": "about 4 months", "details": "Stiff for about 45 minutes in the morning."},
+    {"symptom": "Facial rash after sun", "since": "about 3 months", "details": "Across cheeks and nose."},
+    {"symptom": "Fatigue", "since": "about 4 months", "details": ""},
+    {"symptom": "Mouth sores", "since": "on and off for 2 months", "details": "Painless, on the roof of my mouth."},
+    {"symptom": "Hair thinning", "since": "about 3 months", "details": ""},
+    {"symptom": "Fingers turn white or blue in the cold", "since": "last winter", "details": ""},
+    {"symptom": "Low-grade fevers", "since": "a few times since August", "details": "Around 37.8 C."},
+    {"symptom": "Ankle puffiness in the evening", "since": "about 1 month", "details": ""}
+  ],
+  "known_conditions": ["None diagnosed"],
+  "medications": [
+    {"name": "Hydrocortisone 2.5% cream", "dose": "thin layer", "how_often": "twice a day as needed", "prescribed_by": "Dr. Brooks (dermatology)", "reason": "face rash"},
+    {"name": "Triamcinolone 0.1% cream", "dose": "thin layer", "how_often": "twice a day as needed", "prescribed_by": "Dr. Brooks (dermatology)", "reason": "arm rash"},
+    {"name": "Birth control pill (levonorgestrel/ethinyl estradiol)", "dose": "0.15/0.03 mg", "how_often": "daily", "prescribed_by": "Dr. Okafor (gynecology)", "reason": "contraception"},
+    {"name": "Naproxen (over the counter)", "dose": "220-440 mg", "how_often": "3-4 times a week", "prescribed_by": "myself", "reason": "joint aches"}
+  ],
+  "allergies": ["Sulfa drugs (rash)"],
+  "doctors": [
+    {"specialty": "Primary care", "name": "Dr. James Whitaker"},
+    {"specialty": "Dermatology", "name": "Dr. Helen Brooks"},
+    {"specialty": "Nephrology", "name": "Dr. Omar Haddad"},
+    {"specialty": "Hematology", "name": "Dr. Grace Liu"},
+    {"specialty": "Gynecology", "name": "Dr. Ngozi Okafor"}
+  ],
+  "past_history": ["No surgeries", "No pregnancies"],
+  "family_history": ["Aunt: rheumatoid arthritis", "Mother: hypothyroidism"],
+  "lifestyle": {"smoking": "never", "alcohol": "occasionally", "exercise": "yoga twice a week", "diet": "no restrictions"},
+  "questions_for_panel": [
+    "Could my rash, kidney results and blood counts be related?",
+    "Is there a test I should ask about?",
+    "Is it OK to keep taking naproxen?"
+  ]
+}

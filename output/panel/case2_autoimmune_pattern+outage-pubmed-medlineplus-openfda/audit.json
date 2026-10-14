@@ -1,0 +1,457 @@
+{
+  "run_id": "run-df7d0cc04c",
+  "user_id": "cli",
+  "case_id": "case2_autoimmune_pattern",
+  "agents": [
+    {
+      "agent_id": "intake",
+      "agent": "intake",
+      "specialty": null,
+      "round": 0,
+      "inputs": [
+        "01_dermatology_note.txt",
+        "02_skin_biopsy_pathology.pdf",
+        "03_nephrology_consult_scanned.pdf",
+        "04_hematology_note.txt",
+        "05_medication_list.txt"
+      ],
+      "started": "2026-10-14T03:14:51+00:00",
+      "finished": "2026-10-14T03:14:59+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {},
+      "output_summary": "5 documents, 4 specialists"
+    },
+    {
+      "agent_id": "r1.rheumatology",
+      "agent": "specialist",
+      "specialty": "rheumatology",
+      "round": 1,
+      "inputs": [
+        "02_skin_biopsy_pathology.pdf",
+        "03_nephrology_consult_scanned.pdf",
+        "04_hematology_note.txt",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:15:02+00:00",
+      "finished": "2026-10-14T03:15:19+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "lupus",
+            "max_results": 2
+          },
+          "status": "unreachable",
+          "source": "MedlinePlus",
+          "summary": "unreachable: MedlinePlus could not be reached (simulated outage). Say so; do not invent a source.",
+          "urls": [],
+          "seconds": 0.02
+        },
+        {
+          "tool": "search_pubmed",
+          "args": {
+            "query": "glomerular hematuria proteinuria systemic autoimmune cytopenia rash",
+            "max_results": 2
+          },
+          "status": "unreachable",
+          "source": "PubMed",
+          "summary": "unreachable: PubMed could not be reached (simulated outage). Say so; do not invent a source.",
+          "urls": [],
+          "seconds": 0.02
+        }
+      ],
+      "validation": {
+        "findings_kept": 6,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 2
+      },
+      "output_summary": "6 findings"
+    },
+    {
+      "agent_id": "r1.hematology",
+      "agent": "specialist",
+      "specialty": "hematology",
+      "round": 1,
+      "inputs": [
+        "04_hematology_note.txt",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:15:02+00:00",
+      "finished": "2026-10-14T03:15:15+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "low blood counts"
+          },
+          "status": "unreachable",
+          "source": "MedlinePlus",
+          "summary": "unreachable: MedlinePlus could not be reached (simulated outage). Say so; do not invent a source.",
+          "urls": [],
+          "seconds": 0.02
+        },
+        {
+          "tool": "search_pubmed",
+          "args": {
+            "query": "systemic autoimmune disease cytopenias joint pain rash"
+          },
+          "status": "unreachable",
+          "source": "PubMed",
+          "summary": "unreachable: PubMed could not be reached (simulated outage). Say so; do not invent a source.",
+          "urls": [],
+          "seconds": 0.01
+        }
+      ],
+      "validation": {
+        "findings_kept": 5,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 2
+      },
+      "output_summary": "5 findings"
+    },
+    {
+      "agent_id": "r1.nephrology",
+      "agent": "specialist",
+      "specialty": "nephrology",
+      "round": 1,
+      "inputs": [
+        "03_nephrology_consult_scanned.pdf",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:15:02+00:00",
+      "finished": "2026-10-14T03:15:15+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "protein in urine",
+            "max_results": 2
+          },
+          "status": "unreachable",
+          "source": "MedlinePlus",
+          "summary": "unreachable: MedlinePlus could not be reached (simulated outage). Say so; do not invent a source.",
+          "urls": [],
+          "seconds": 0.2
+        }
+      ],
+      "validation": {
+        "findings_kept": 5,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 1
+      },
+      "output_summary": "5 findings"
+    },
+    {
+      "agent_id": "r1.dermatology",
+      "agent": "specialist",
+      "specialty": "dermatology",
+      "round": 1,
+      "inputs": [
+        "01_dermatology_note.txt",
+        "02_skin_biopsy_pathology.pdf",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:15:02+00:00",
+      "finished": "2026-10-14T03:15:14+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "lupus",
+            "max_results": 2
+          },
+          "status": "unreachable",
+          "source": "MedlinePlus",
+          "summary": "unreachable: MedlinePlus could not be reached (simulated outage). Say so; do not invent a source.",
+          "urls": [],
+          "seconds": 0.01
+        },
+        {
+          "tool": "search_pubmed",
+          "args": {
+            "query": "interface dermatitis dermal mucin clinical serologic correlation cutaneous lupus dermatomyositis",
+            "max_results": 2
+          },
+          "status": "unreachable",
+          "source": "PubMed",
+          "summary": "unreachable: PubMed could not be reached (simulated outage). Say so; do not invent a source.",
+          "urls": [],
+          "seconds": 0.01
+        }
+      ],
+      "validation": {
+        "findings_kept": 3,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 2
+      },
+      "output_summary": "3 findings"
+    },
+    {
+      "agent_id": "r1.clinical_pharmacist",
+      "agent": "pharmacist",
+      "specialty": "clinical_pharmacist",
+      "round": 1,
+      "inputs": [
+        "intake medication summary",
+        "relevant labs",
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:15:02+00:00",
+      "finished": "2026-10-14T03:15:15+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "fda_label_search",
+          "args": {
+            "drug": "naproxen",
+            "terms": [
+              "lisinopril",
+              "kidney",
+              "renal"
+            ]
+          },
+          "status": "unreachable",
+          "source": "openFDA",
+          "summary": "unreachable: openFDA could not be reached (simulated outage). Say so; do not invent a source.",
+          "urls": [],
+          "seconds": 0.01
+        },
+        {
+          "tool": "fda_label_search",
+          "args": {
+            "drug": "lisinopril",
+            "terms": [
+              "naproxen",
+              "NSAID",
+              "renal"
+            ]
+          },
+          "status": "unreachable",
+          "source": "openFDA",
+          "summary": "unreachable: openFDA could not be reached (simulated outage). Say so; do not invent a source.",
+          "urls": [],
+          "seconds": 0.02
+        },
+        {
+          "tool": "fda_label_search",
+          "args": {
+            "drug": "levonorgestrel and ethinyl estradiol",
+            "terms": [
+              "kidney",
+              "renal",
+              "lupus"
+            ]
+          },
+          "status": "unreachable",
+          "source": "openFDA",
+          "summary": "unreachable: openFDA could not be reached (simulated outage). Say so; do not invent a source.",
+          "urls": [],
+          "seconds": 0.02
+        }
+      ],
+      "validation": {
+        "issues_kept": 4,
+        "dropped": [],
+        "tool_calls": 3
+      },
+      "output_summary": "4 issues"
+    },
+    {
+      "agent_id": "r2.dermatology",
+      "agent": "specialist",
+      "specialty": "dermatology",
+      "round": 2,
+      "inputs": [
+        "round-1 report of nephrology",
+        "round-1 report of hematology",
+        "round-1 report of rheumatology"
+      ],
+      "started": "2026-10-14T03:15:19+00:00",
+      "finished": "2026-10-14T03:15:28+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "connections_kept": 2,
+        "dropped": []
+      },
+      "output_summary": "2 connections, 0 disagreements"
+    },
+    {
+      "agent_id": "r2.nephrology",
+      "agent": "specialist",
+      "specialty": "nephrology",
+      "round": 2,
+      "inputs": [
+        "round-1 report of dermatology",
+        "round-1 report of hematology",
+        "round-1 report of rheumatology"
+      ],
+      "started": "2026-10-14T03:15:19+00:00",
+      "finished": "2026-10-14T03:15:25+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "connections_kept": 2,
+        "dropped": []
+      },
+      "output_summary": "2 connections, 0 disagreements"
+    },
+    {
+      "agent_id": "r2.hematology",
+      "agent": "specialist",
+      "specialty": "hematology",
+      "round": 2,
+      "inputs": [
+        "round-1 report of dermatology",
+        "round-1 report of nephrology",
+        "round-1 report of rheumatology"
+      ],
+      "started": "2026-10-14T03:15:19+00:00",
+      "finished": "2026-10-14T03:15:27+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "connections_kept": 2,
+        "dropped": []
+      },
+      "output_summary": "2 connections, 0 disagreements"
+    },
+    {
+      "agent_id": "r2.rheumatology",
+      "agent": "specialist",
+      "specialty": "rheumatology",
+      "round": 2,
+      "inputs": [
+        "round-1 report of dermatology",
+        "round-1 report of nephrology",
+        "round-1 report of hematology"
+      ],
+      "started": "2026-10-14T03:15:19+00:00",
+      "finished": "2026-10-14T03:15:26+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "connections_kept": 2,
+        "dropped": []
+      },
+      "output_summary": "2 connections, 0 disagreements"
+    },
+    {
+      "agent_id": "coordinator.consult",
+      "agent": "coordinator",
+      "specialty": "internal_medicine",
+      "round": null,
+      "inputs": [
+        "round-1 summaries"
+      ],
+      "started": "2026-10-14T03:15:28+00:00",
+      "finished": "2026-10-14T03:15:31+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {},
+      "output_summary": "consult: obstetrics_gynecology (Rheumatology specifically raised reviewing the clotting-risk implications of the patient's estrogen-containing contracep)"
+    },
+    {
+      "agent_id": "consult.obstetrics_gynecology",
+      "agent": "specialist",
+      "specialty": "obstetrics_gynecology",
+      "round": 1,
+      "inputs": [
+        "questionnaire"
+      ],
+      "started": "2026-10-14T03:15:31+00:00",
+      "finished": "2026-10-14T03:15:41+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [
+        {
+          "tool": "search_medlineplus",
+          "args": {
+            "query": "birth control pills",
+            "max_results": 2
+          },
+          "status": "unreachable",
+          "source": "MedlinePlus",
+          "summary": "unreachable: MedlinePlus could not be reached (simulated outage). Say so; do not invent a source.",
+          "urls": [],
+          "seconds": 0.01
+        }
+      ],
+      "validation": {
+        "findings_kept": 3,
+        "dropped": [],
+        "sources_dropped": [],
+        "tool_calls": 1
+      },
+      "output_summary": "3 findings"
+    },
+    {
+      "agent_id": "coordinator.synthesis",
+      "agent": "coordinator",
+      "specialty": "internal_medicine",
+      "round": null,
+      "inputs": [
+        "reports of dermatology, nephrology, hematology, rheumatology, obstetrics_gynecology",
+        "pharmacist",
+        "round 2",
+        "document summaries"
+      ],
+      "started": "2026-10-14T03:15:41+00:00",
+      "finished": "2026-10-14T03:15:58+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {
+        "dropped": []
+      },
+      "output_summary": "5 findings, 4 connections"
+    },
+    {
+      "agent_id": "safety_reviewer",
+      "agent": "safety_reviewer",
+      "specialty": null,
+      "round": null,
+      "inputs": [
+        "summary items",
+        "urgent concerns",
+        "intake signals"
+      ],
+      "started": "2026-10-14T03:15:58+00:00",
+      "finished": "2026-10-14T03:16:02+00:00",
+      "status": "completed",
+      "stop_reason": "completed",
+      "tool_calls": [],
+      "validation": {},
+      "output_summary": "0 edits, 0 missed red flags added"
+    }
+  ],
+  "tool_calls_total": 11,
+  "stop_reason": "completed: conference ended after round 2 (hard stop), summary reviewed",
+  "status": "complete",
+  "budget": {
+    "spent_usd": 0.011757,
+    "run_limit_usd": 0.05,
+    "limit_usd": 0.05,
+    "remaining_usd": 0.038243
+  }
+}

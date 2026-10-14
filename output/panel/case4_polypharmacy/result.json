@@ -1,0 +1,3017 @@
+{
+  "run_id": "run-d4e75e4df6",
+  "case_id": "case4_polypharmacy",
+  "status": "complete",
+  "stop_reason": "completed: conference ended after round 2 (hard stop), summary reviewed",
+  "seconds": 82.2,
+  "modes": {
+    "age_years": 78.0,
+    "age_group": "adult",
+    "pediatric": false,
+    "pregnancy": false,
+    "coordinator": "internal_medicine",
+    "coordinator_name": "Internal medicine",
+    "pharmacist_active": true
+  },
+  "emergency": {
+    "active": true,
+    "crisis": false,
+    "reasons": [
+      "The INR is above the stated goal and he currently reports large bruises and bleeding gums. Contact the anticoagulation clinic or prescribing clinician today for guidance."
+    ],
+    "actions": [
+      "Contact the anticoagulation clinic or prescribing clinician today. Seek emergency care for heavy or persistent bleeding, or after any head impact from a fall or severe new symptoms."
+    ],
+    "message": "If symptoms are severe or getting worse, or this feels like an emergency, call 911 (or your local emergency number) or go to the nearest emergency department."
+  },
+  "summary": {
+    "plain_language_summary": "Several important items need to be reviewed together because Harold takes medicines from several doctors and his medication lists may not match. His INR is above the stated warfarin goal, and he reports large bruises and bleeding gums, so the anticoagulation clinic or prescribing clinician should be contacted today. His blood count is lower than before, and his kidney results have worsened, with potassium also above the lab range. Dizziness when standing and a nighttime fall may relate to his overall medication and blood-pressure plan; nighttime urination adds to the number of trips he makes at night. The lists show two cholesterol medicines and two medicines that can lower blood pressure, and his thigh aches occur alongside a mildly elevated muscle enzyme result. The doctors should reconcile the complete medication list together; this summary does not determine which medicines he should take.",
+    "key_findings": [
+      {
+        "text": "INR is 3.9, above the report's stated warfarin goal of 2.0\u20133.0, with reported large bruises and bleeding gums.",
+        "finding_refs": [
+          "hematology.F1",
+          "hematology.F4"
+        ]
+      },
+      {
+        "text": "Hemoglobin is below the listed adult male range and has fallen from the prior result; tiredness and reported bleeding are relevant context.",
+        "finding_refs": [
+          "hematology.F2",
+          "nephrology.F4"
+        ]
+      },
+      {
+        "text": "Kidney filtration has decreased compared with the prior panel, and potassium is above the lab range.",
+        "finding_refs": [
+          "nephrology.F1",
+          "nephrology.F2"
+        ]
+      },
+      {
+        "text": "The record lists both simvastatin and atorvastatin; thigh aches and a mildly elevated CK make it important to reconcile which cholesterol medicine is current.",
+        "finding_refs": [
+          "cardiology.F3",
+          "cardiology.F4",
+          "endocrinology.F2"
+        ]
+      },
+      {
+        "text": "He reports dizziness on standing and a nighttime fall; the records do not include standing blood pressure or a heart-rhythm check during symptoms.",
+        "finding_refs": [
+          "cardiology.F5"
+        ]
+      },
+      {
+        "text": "The urology note records waking three to four times nightly to urinate, and the questionnaire lists both doxazosin and tamsulosin while he reports standing dizziness.",
+        "finding_refs": [
+          "urology.F1",
+          "urology.F2"
+        ]
+      }
+    ],
+    "connections": [
+      {
+        "text": "The above-goal INR and bleeding symptoms connect with the reported use of warfarin, naproxen, and aspirin; the lower hemoglobin and tiredness add context. Ask the clinicians to coordinate a prompt review of the bleeding and medication list.",
+        "finding_refs": [
+          "hematology.F1",
+          "hematology.F2",
+          "hematology.F4",
+          "pharmacist.I1"
+        ]
+      },
+      {
+        "text": "Reduced kidney filtration and elevated potassium make the reported naproxen use with kidney disease and lisinopril important to review together, including whether follow-up blood tests are needed.",
+        "finding_refs": [
+          "nephrology.F1",
+          "nephrology.F2",
+          "nephrology.F3"
+        ]
+      },
+      {
+        "text": "Dizziness on standing and the nighttime fall connect with the listed doxazosin and tamsulosin, both blood-pressure-lowering medicines, and with nighttime trips to urinate. The heart-rate and blood-pressure plan should also be reviewed; standing measurements are not in the records.",
+        "finding_refs": [
+          "cardiology.F5",
+          "urology.F1",
+          "urology.F2",
+          "pharmacist.I3"
+        ]
+      },
+      {
+        "text": "The two statin entries connect with thigh aches and the mildly elevated CK, so clinicians should clarify what he is actually taking and review the symptoms together.",
+        "finding_refs": [
+          "cardiology.F3",
+          "cardiology.F4",
+          "endocrinology.F2",
+          "pharmacist.I2"
+        ]
+      },
+      {
+        "text": "Reduced kidney filtration is relevant to reviewing the diabetes treatment plan, including metformin; the records do not state an individualized HbA1c goal.",
+        "finding_refs": [
+          "endocrinology.F1",
+          "endocrinology.F3",
+          "nephrology.F1"
+        ]
+      }
+    ],
+    "questions_for_doctors": [
+      {
+        "doctor": "Primary care (Dr. Robert Alvarez)",
+        "questions": [
+          "Can you coordinate a complete medication reconciliation with his other prescribers, including confirming which statin and which prostate/blood-pressure medicines are intended?",
+          "Could the standing dizziness and nighttime fall be assessed with lying and standing blood pressure and a review of his pulse and medicines?",
+          "How soon should kidney function, potassium, and hemoglobin be rechecked, and does kidney function affect review of his metformin plan?",
+          "What HbA1c goal is appropriate for him given his age, kidney function, and other health conditions?"
+        ]
+      },
+      {
+        "doctor": "Cardiology (Dr. Sunita Rao) / anticoagulation clinic",
+        "questions": [
+          "Given the INR above the stated goal along with bruising and bleeding gums, what follow-up is needed and when should the INR be checked again?",
+          "What should the family do if the bruising or gum bleeding continues, and what symptoms require emergency care?",
+          "Can you confirm the intended cholesterol medicine and review the thigh aches and CK result?",
+          "Could the dizziness and fall relate to his heart-rate or blood-pressure plan, and can that be assessed?"
+        ]
+      },
+      {
+        "doctor": "Orthopedic surgery (Dr. Kevin O'Brien)",
+        "questions": [
+          "Is he still meant to take naproxen twice daily, or has the intended course changed?",
+          "How should his knee pain be managed given the kidney results and the reported bleeding while taking warfarin and aspirin?",
+          "Could the thigh aches and mildly elevated CK be reviewed alongside the two statin entries with his other prescribers?"
+        ]
+      },
+      {
+        "doctor": "Urology (Dr. Michael Stein)",
+        "questions": [
+          "Are doxazosin and tamsulosin both intended now, or was one meant to replace the other?",
+          "Could the timing or combination of these medicines be relevant to his standing dizziness and nighttime fall?",
+          "What follow-up or practical steps may help with waking three to four times nightly to urinate?"
+        ]
+      }
+    ],
+    "medication_discussion": [
+      {
+        "text": "Discuss the reported warfarin, naproxen, and aspirin combination promptly with the anticoagulation clinic and prescribers, in view of the elevated INR, bruising, gum bleeding, and lower hemoglobin.",
+        "finding_refs": [
+          "pharmacist.I1"
+        ]
+      },
+      {
+        "text": "Confirm whether both simvastatin and atorvastatin are currently intended, and discuss the thigh aches and CK result with the prescribers.",
+        "finding_refs": [
+          "pharmacist.I2"
+        ]
+      },
+      {
+        "text": "Review the listed doxazosin and tamsulosin together in light of standing dizziness and the nighttime fall.",
+        "finding_refs": [
+          "pharmacist.I3"
+        ]
+      },
+      {
+        "text": "Review naproxen use with the prescribers given his age, kidney disease, and recent kidney results.",
+        "finding_refs": [
+          "pharmacist.I4"
+        ]
+      },
+      {
+        "text": "Clarify whether the orthopedic plan for naproxen was twice daily for four weeks and then as needed, since the patient reports continued twice-daily use.",
+        "finding_refs": [
+          "pharmacist.I5"
+        ]
+      },
+      {
+        "text": "Make sure all prescribers know about the self-reported over-the-counter aspirin and acetaminophen/diphenhydramine use.",
+        "finding_refs": [
+          "pharmacist.I6"
+        ]
+      }
+    ],
+    "suggested_specialists": [],
+    "red_flags": [
+      {
+        "flag": "The INR is above the stated goal and he currently reports large bruises and bleeding gums. Contact the anticoagulation clinic or prescribing clinician today for guidance.",
+        "urgency": "urgent",
+        "present_now": true,
+        "what_to_do": "Contact the anticoagulation clinic or prescribing clinician today. Seek emergency care for heavy or persistent bleeding, or after any head impact from a fall or severe new symptoms.",
+        "finding_refs": [
+          "hematology.F1",
+          "hematology.F4",
+          "cardiology.F2"
+        ]
+      },
+      {
+        "flag": "His hemoglobin is below the listed range and has fallen from the previous result, alongside reported bleeding and increased tiredness.",
+        "urgency": "soon",
+        "present_now": true,
+        "what_to_do": "Ask his primary-care clinician promptly whether repeat blood counts or further assessment are needed.",
+        "finding_refs": [
+          "hematology.F2",
+          "nephrology.F4"
+        ]
+      },
+      {
+        "flag": "Kidney filtration has worsened and potassium is above the lab range.",
+        "urgency": "soon",
+        "present_now": true,
+        "what_to_do": "Contact his primary-care clinician soon to review these results, his medicines, and the timing of repeat blood tests.",
+        "finding_refs": [
+          "nephrology.F1",
+          "nephrology.F2"
+        ]
+      }
+    ],
+    "body_regions": [
+      {
+        "region": "blood",
+        "severity": "urgent",
+        "reason": "Above-goal INR with current bruising and gum bleeding; hemoglobin is also low and has fallen.",
+        "finding_refs": [
+          "hematology.F1",
+          "hematology.F2",
+          "hematology.F4"
+        ]
+      },
+      {
+        "region": "kidneys",
+        "severity": "discuss",
+        "reason": "Kidney filtration has decreased and potassium is above the lab range; review medicines and follow-up testing with his clinician.",
+        "finding_refs": [
+          "nephrology.F1",
+          "nephrology.F2",
+          "nephrology.F3"
+        ]
+      },
+      {
+        "region": "bones_joints",
+        "severity": "discuss",
+        "reason": "Thigh aches occur with a mildly elevated CK and two statin entries; knee osteoarthritis is also recorded.",
+        "finding_refs": [
+          "endocrinology.F2",
+          "cardiology.F4"
+        ]
+      },
+      {
+        "region": "bladder_prostate",
+        "severity": "discuss",
+        "reason": "Nighttime urination contributes to repeated nighttime trips; the listed prostate medicines should be reconciled in light of dizziness and a fall.",
+        "finding_refs": [
+          "urology.F1",
+          "urology.F2"
+        ]
+      },
+      {
+        "region": "heart",
+        "severity": "discuss",
+        "reason": "Atrial fibrillation is treated with warfarin and metoprolol; standing dizziness and a fall warrant review of blood pressure, pulse/rhythm, and the full medication plan.",
+        "finding_refs": [
+          "cardiology.F1",
+          "cardiology.F5"
+        ]
+      }
+    ],
+    "limitations": [
+      "The records do not include standing blood-pressure readings or a heart-rhythm check during dizziness.",
+      "The medication lists may not reflect what he is currently taking; the over-the-counter products were reported by the patient and should be confirmed.",
+      "The records do not establish an individualized INR target beyond the stated 2.0\u20133.0 goal or an individualized HbA1c goal.",
+      "The supplied information does not establish the cause of the bruising, bleeding, lower hemoglobin, dizziness, or thigh aches."
+    ]
+  },
+  "specialists": {
+    "hematology": {
+      "specialty": "hematology",
+      "name": "Hematology",
+      "documents": [
+        "05_lab_panel.pdf"
+      ],
+      "findings": [
+        {
+          "statement": "The INR is above the stated warfarin goal, and the reported easy bruising and gum bleeding make this important to discuss promptly with the anticoagulation team.",
+          "document": "05_lab_panel.pdf",
+          "quote": "INR                            3.9       H      2.0 - 3.0 (goal) ratio",
+          "significance": "abnormal",
+          "region": "blood",
+          "id": "hematology.F1"
+        },
+        {
+          "statement": "Hemoglobin is below the listed adult male range and has fallen from the previous result, which is relevant alongside the reported bleeding and increased tiredness.",
+          "document": "05_lab_panel.pdf",
+          "quote": "Previous (04/22/2026): Hemoglobin 13.4",
+          "significance": "abnormal",
+          "region": "blood",
+          "id": "hematology.F2"
+        },
+        {
+          "statement": "The platelet count is within the report\u2019s reference range, so this result does not show a low platelet count as an explanation for the reported bruising.",
+          "document": "05_lab_panel.pdf",
+          "quote": "Platelets                      214              150 - 400",
+          "significance": "normal_but_relevant",
+          "region": "blood",
+          "id": "hematology.F3"
+        },
+        {
+          "statement": "The questionnaire reports large bruises and gum bleeding; with the elevated INR, these symptoms deserve prompt attention.",
+          "document": "questionnaire",
+          "quote": "Large bruises on arms; gums bleed when brushing.",
+          "significance": "abnormal",
+          "region": "blood",
+          "id": "hematology.F4"
+        }
+      ],
+      "abnormal_values": [
+        {
+          "test": "INR",
+          "value": "3.9",
+          "unit": "ratio",
+          "reference_used": "Warfarin goal listed in the report: 2.0\u20133.0; the reported value is above this goal.",
+          "interpretation": "high",
+          "document": "05_lab_panel.pdf"
+        },
+        {
+          "test": "Hemoglobin",
+          "value": "11.9",
+          "unit": "g/dL",
+          "reference_used": "Adult male range from the profile: 13.5\u201317.5 g/dL; age 78, not pediatric or pregnancy mode.",
+          "interpretation": "low",
+          "document": "05_lab_panel.pdf"
+        },
+        {
+          "test": "Creatine kinase (CK)",
+          "value": "236",
+          "unit": "U/L",
+          "reference_used": "Report range: 40\u2013200 U/L.",
+          "interpretation": "high",
+          "document": "05_lab_panel.pdf"
+        }
+      ],
+      "concerns": [
+        {
+          "concern": "Contact the anticoagulation clinic or prescribing doctor urgently today about the above-goal INR together with bruising and gum bleeding. Do not change warfarin based on this report alone. If bleeding will not stop, seek emergency care; after a fall, seek emergency care for any head impact or new severe headache, confusion, vomiting, or weakness.",
+          "urgency": "urgent",
+          "based_on": "INR 3.9 against a stated goal of 2.0\u20133.0, plus questionnaire-reported large bruises and gum bleeding."
+        },
+        {
+          "concern": "Ask the doctor promptly to review the lower hemoglobin and whether further blood-count or bleeding evaluation is needed.",
+          "urgency": "soon",
+          "based_on": "Hemoglobin 11.9 g/dL, compared with 13.4 g/dL on 04/22/2026; reported tiredness and bleeding symptoms."
+        }
+      ],
+      "questions_for_specialists": [
+        {
+          "to_specialty": "cardiology",
+          "question": "Given the elevated INR and reported bruising and gum bleeding, what follow-up should occur with the anticoagulation clinic, and what INR goal is intended for him?"
+        }
+      ],
+      "questions_for_doctor": [
+        "Could the lower hemoglobin and bleeding symptoms require repeat blood counts or other tests to look for blood loss?",
+        "How soon should the INR be rechecked, and whom should we contact if bruising or gum bleeding continues?",
+        "Does the mildly high CK relate to his thigh aches, and should it be followed up?",
+        "What symptoms after his fall or with bleeding mean he should seek emergency care?"
+      ],
+      "sources": [
+        {
+          "title": "Blood Thinners",
+          "url": "https://medlineplus.gov/bloodthinners.html",
+          "used_for": "General patient information about blood-thinning medicines and why follow-up matters."
+        },
+        {
+          "title": "Bleeding",
+          "url": "https://medlineplus.gov/bleeding.html",
+          "used_for": "General information about bleeding and when it may need medical attention."
+        }
+      ],
+      "source_note": null,
+      "confidence": "high",
+      "insufficient_information": true,
+      "missing_information": [
+        "No blood smear, reticulocyte count, iron studies, or other tests to clarify the low hemoglobin are provided.",
+        "The record does not include the anticoagulation clinic\u2019s follow-up plan or the intended INR target confirmation.",
+        "The questionnaire does not say whether the fall involved a head impact or whether there is ongoing bleeding."
+      ],
+      "consult": false
+    },
+    "endocrinology": {
+      "specialty": "endocrinology",
+      "name": "Endocrinology",
+      "documents": [
+        "01_primary_care_visit_summary.txt",
+        "02_cardiology_discharge_summary.pdf",
+        "05_lab_panel.pdf"
+      ],
+      "findings": [
+        {
+          "statement": "The latest HbA1c is 7.0%; this is above the usual non-diabetes range, and the record does not provide an individualized target for him.",
+          "document": "05_lab_panel.pdf",
+          "quote": "HbA1c                          7.0       H      <5.7            %",
+          "significance": "abnormal",
+          "region": null,
+          "id": "endocrinology.F1"
+        },
+        {
+          "statement": "The record shows a mild CK elevation alongside thigh muscle aching and reports of both simvastatin and atorvastatin, so the medication list and muscle symptoms are worth reviewing with his clinicians.",
+          "document": "05_lab_panel.pdf",
+          "quote": "Creatine kinase (CK)           236       H      40 - 200        U/L",
+          "significance": "abnormal",
+          "region": "bones_joints",
+          "id": "endocrinology.F2"
+        },
+        {
+          "statement": "Kidney function is lower than on the earlier panel, a relevant consideration for reviewing his diabetes treatment and overall medication plan.",
+          "document": "05_lab_panel.pdf",
+          "quote": "Creatinine                     1.7       H      0.7 - 1.3       mg/dL",
+          "significance": "abnormal",
+          "region": "kidneys",
+          "id": "endocrinology.F3"
+        }
+      ],
+      "abnormal_values": [
+        {
+          "test": "HbA1c",
+          "value": "7.0",
+          "unit": "%",
+          "reference_used": "Report reference <5.7%; the report does not specify an individualized diabetes goal for a 78-year-old adult.",
+          "interpretation": "high",
+          "document": "05_lab_panel.pdf"
+        },
+        {
+          "test": "Creatine kinase (CK)",
+          "value": "236",
+          "unit": "U/L",
+          "reference_used": "Report reference 40-200 U/L; adult reference printed on report.",
+          "interpretation": "high",
+          "document": "05_lab_panel.pdf"
+        },
+        {
+          "test": "Creatinine",
+          "value": "1.7",
+          "unit": "mg/dL",
+          "reference_used": "Report reference 0.7-1.3 mg/dL; adult reference printed on report.",
+          "interpretation": "high",
+          "document": "05_lab_panel.pdf"
+        },
+        {
+          "test": "eGFR",
+          "value": "40",
+          "unit": "mL/min/1.73m2",
+          "reference_used": "Report reference >60 mL/min/1.73m2; adult reference printed on report.",
+          "interpretation": "low",
+          "document": "05_lab_panel.pdf"
+        }
+      ],
+      "concerns": [
+        {
+          "concern": "Ask the diabetes prescriber to interpret the HbA1c in light of his age, kidney function, and personal treatment goals; do not infer a target from the lab flag alone.",
+          "urgency": "routine",
+          "based_on": "HbA1c 7.0% in 05_lab_panel.pdf; creatinine 1.7 and eGFR 40 in 05_lab_panel.pdf."
+        },
+        {
+          "concern": "Review the thigh aches and mildly high CK with the prescribers, including whether the reported two statins reflect an outdated medication list or overlapping use. Do not change medicines based on this report.",
+          "urgency": "soon",
+          "based_on": "CK 236 U/L in 05_lab_panel.pdf; questionnaire reports aching thigh muscles and simvastatin plus atorvastatin."
+        },
+        {
+          "concern": "The kidney results have worsened from the prior panel and should be considered during the medication review, including the ongoing metformin plan.",
+          "urgency": "soon",
+          "based_on": "Creatinine 1.7 and eGFR 40, compared with creatinine 1.5 and eGFR 47 in 05_lab_panel.pdf."
+        }
+      ],
+      "questions_for_specialists": [
+        {
+          "to_specialty": "clinical_pharmacist",
+          "question": "Can you reconcile whether simvastatin and atorvastatin are both currently being taken, and review the full medication list for possible contributions to muscle aches, dizziness, bruising, or kidney strain?"
+        },
+        {
+          "to_specialty": "internal_medicine",
+          "question": "Given eGFR 40 and HbA1c 7.0%, what individualized glucose-control goal and metformin safety review are appropriate?"
+        }
+      ],
+      "questions_for_doctor": [
+        "What HbA1c goal is appropriate for him given his age, kidney function, and other health conditions?",
+        "Could his thigh aches and CK result be related to the reported statin list, and should CK be rechecked?",
+        "Can we confirm which cholesterol medicine is current and ensure the old prescription is no longer listed as active?",
+        "Does his reduced eGFR change how his diabetes treatment should be reviewed?"
+      ],
+      "sources": [
+        {
+          "title": "Diabetes",
+          "url": "https://medlineplus.gov/diabetes.html",
+          "used_for": "General background on blood glucose and diabetes; not used to set an individualized HbA1c goal."
+        },
+        {
+          "title": "Effect of statin therapy on muscle symptoms: an individual participant data meta-analysis of large-scale, randomised, double-blind trials.",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/36049498/",
+          "used_for": "Background for discussing muscle symptoms alongside statin exposure; does not establish the cause of this patient's symptoms."
+        }
+      ],
+      "source_note": null,
+      "confidence": "medium",
+      "insufficient_information": true,
+      "missing_information": [
+        "No thyroid or other endocrine hormone tests are provided.",
+        "No current glucose readings, individualized HbA1c goal, or diabetes-related symptom review is provided.",
+        "The records do not confirm whether the patient is currently taking both listed statins or provide a complete medication reconciliation."
+      ],
+      "consult": false
+    },
+    "nephrology": {
+      "specialty": "nephrology",
+      "name": "Nephrology",
+      "documents": [
+        "01_primary_care_visit_summary.txt",
+        "05_lab_panel.pdf"
+      ],
+      "findings": [
+        {
+          "statement": "The September results show reduced kidney filtration compared with April, which is important to review alongside his medicines and recent symptoms.",
+          "document": "05_lab_panel.pdf",
+          "quote": "Previous (04/22/2026): Hemoglobin 13.4, creatinine 1.5, eGFR 47, potassium 4.8.",
+          "significance": "abnormal",
+          "region": "kidneys",
+          "id": "nephrology.F1"
+        },
+        {
+          "statement": "Potassium is above the lab range, so it deserves timely review, particularly while he is taking lisinopril and has reduced kidney filtration.",
+          "document": "05_lab_panel.pdf",
+          "quote": "Potassium                      5.3       H      3.5 - 5.1",
+          "significance": "abnormal",
+          "region": "kidneys",
+          "id": "nephrology.F2"
+        },
+        {
+          "statement": "Naproxen use is listed alongside kidney disease and lisinopril; this combination is worth promptly reviewing with his clinicians because it may affect kidney function and potassium.",
+          "document": "questionnaire",
+          "quote": "Naproxen; 500 mg; twice a day with food",
+          "significance": "normal_but_relevant",
+          "region": "kidneys",
+          "id": "nephrology.F3"
+        },
+        {
+          "statement": "The September lab panel shows lower hemoglobin than in April, a change worth discussing given his reported fatigue and easy bleeding.",
+          "document": "05_lab_panel.pdf",
+          "quote": "Previous (04/22/2026): Hemoglobin 13.4",
+          "significance": "abnormal",
+          "region": "blood",
+          "id": "nephrology.F4"
+        }
+      ],
+      "abnormal_values": [
+        {
+          "test": "Creatinine",
+          "value": "1.7",
+          "unit": "mg/dL",
+          "reference_used": "Adult male lab reference range 0.7-1.3 mg/dL printed on the September report; prior result was 1.5 mg/dL.",
+          "interpretation": "high",
+          "document": "05_lab_panel.pdf"
+        },
+        {
+          "test": "eGFR",
+          "value": "40",
+          "unit": "mL/min/1.73m2",
+          "reference_used": "Adult lab reference >60 mL/min/1.73m2 printed on the September report; prior result was 47.",
+          "interpretation": "low",
+          "document": "05_lab_panel.pdf"
+        },
+        {
+          "test": "Potassium",
+          "value": "5.3",
+          "unit": "mmol/L",
+          "reference_used": "Adult lab reference 3.5-5.1 mmol/L printed on the September report.",
+          "interpretation": "high",
+          "document": "05_lab_panel.pdf"
+        }
+      ],
+      "concerns": [
+        {
+          "concern": "Contact his primary-care clinician soon to review the rise in creatinine, lower eGFR, and elevated potassium, and whether repeat blood testing is needed.",
+          "urgency": "soon",
+          "based_on": "Creatinine 1.7 versus 1.5 previously, eGFR 40 versus 47, and potassium 5.3 in 05_lab_panel.pdf."
+        },
+        {
+          "concern": "His reported naproxen use with kidney disease and lisinopril deserves prompt medication review with the prescribers; the different clinicians should reconcile his full medication list.",
+          "urgency": "soon",
+          "based_on": "Questionnaire lists naproxen twice daily, lisinopril, and kidney disease; September panel shows worsening kidney measures and high potassium."
+        }
+      ],
+      "questions_for_specialists": [],
+      "questions_for_doctor": [
+        "Could naproxen be affecting his kidney function or potassium, given the recent lab changes and lisinopril use?",
+        "When should his creatinine, eGFR, and potassium be checked again?",
+        "Could his kidney function affect the safety or dosing review of his current medicines, including metformin?",
+        "Would urine testing for protein or blood help assess his kidney status?"
+      ],
+      "sources": [
+        {
+          "title": "Chronic Kidney Disease",
+          "url": "https://medlineplus.gov/chronickidneydisease.html",
+          "used_for": "General patient information about kidney function and chronic kidney disease."
+        }
+      ],
+      "source_note": null,
+      "confidence": "medium",
+      "insufficient_information": true,
+      "missing_information": [
+        "No urine testing, urine protein results, or kidney imaging were provided.",
+        "No follow-up kidney or electrolyte results after September are available.",
+        "The record does not establish whether the changes are temporary or persistent."
+      ],
+      "consult": false
+    },
+    "cardiology": {
+      "specialty": "cardiology",
+      "name": "Cardiology",
+      "documents": [
+        "01_primary_care_visit_summary.txt",
+        "02_cardiology_discharge_summary.pdf",
+        "05_lab_panel.pdf"
+      ],
+      "findings": [
+        {
+          "statement": "The hospital record shows atrial fibrillation treated with metoprolol and warfarin, with an ejection fraction of 55%; this is important context for reviewing his heart medicines and anticoagulation.",
+          "document": "02_cardiology_discharge_summary.pdf",
+          "quote": "Anticoagulation started with warfarin; INR 2.1 at discharge.",
+          "significance": "normal_but_relevant",
+          "region": "heart",
+          "id": "cardiology.F1"
+        },
+        {
+          "statement": "The September INR is above the stated treatment goal, and the questionnaire reports easy bruising and bleeding gums, so his anticoagulation needs prompt review by his anticoagulation clinic or prescriber.",
+          "document": "05_lab_panel.pdf",
+          "quote": "INR                            3.9       H      2.0 - 3.0 (goal) ratio",
+          "significance": "abnormal",
+          "region": "blood",
+          "id": "cardiology.F2"
+        },
+        {
+          "statement": "The medication lists show both simvastatin and atorvastatin, despite the discharge summary saying the statin was changed; the family should ask his prescribers to reconcile which one is intended.",
+          "document": "02_cardiology_discharge_summary.pdf",
+          "quote": "Statin changed to atorvastatin for cardiovascular risk reduction.",
+          "significance": "unclear",
+          "region": "heart",
+          "id": "cardiology.F3"
+        },
+        {
+          "statement": "The September report shows a mildly elevated CK while he reports aching thigh muscles and the questionnaire lists two statins; this combination is worth reviewing with his prescribers.",
+          "document": "05_lab_panel.pdf",
+          "quote": "Creatine kinase (CK)           236       H      40 - 200",
+          "significance": "abnormal",
+          "region": "bones_joints",
+          "id": "cardiology.F4"
+        },
+        {
+          "statement": "He reports dizziness on standing and a fall while taking several medicines that his doctors should review together; the records provided do not include standing blood pressure or a heart rhythm check during symptoms.",
+          "document": "questionnaire",
+          "quote": "Dizziness when standing up (since about 3 months)",
+          "significance": "unclear",
+          "region": "heart",
+          "id": "cardiology.F5"
+        }
+      ],
+      "abnormal_values": [
+        {
+          "test": "INR",
+          "value": "3.9",
+          "unit": "ratio",
+          "reference_used": "2.0\u20133.0 treatment goal printed on the September 2026 report for warfarin; 3.9 is above goal.",
+          "interpretation": "high",
+          "document": "05_lab_panel.pdf"
+        },
+        {
+          "test": "Creatine kinase (CK)",
+          "value": "236",
+          "unit": "U/L",
+          "reference_used": "40\u2013200 U/L reference range printed on the September 2026 report; 236 is above that range.",
+          "interpretation": "high",
+          "document": "05_lab_panel.pdf"
+        },
+        {
+          "test": "Hemoglobin",
+          "value": "11.9",
+          "unit": "g/dL",
+          "reference_used": "13.5\u201317.5 g/dL reference range printed on the September 2026 report; 11.9 is below that range.",
+          "interpretation": "low",
+          "document": "05_lab_panel.pdf"
+        }
+      ],
+      "concerns": [
+        {
+          "concern": "Because he reports bruising and gum bleeding while taking warfarin and his INR is above the stated goal, contact his anticoagulation clinic or prescribing clinician promptly today for guidance. Seek emergency care for bleeding that is heavy or will not stop, a head injury, or new severe symptoms. Do not make medication changes based on this report.",
+          "urgency": "urgent",
+          "based_on": "INR 3.9 against goal 2.0\u20133.0; questionnaire reports large bruises, bleeding gums, and a fall."
+        },
+        {
+          "concern": "Ask the clinicians managing his cholesterol to reconcile the simvastatin and atorvastatin entries and review the muscle aches and elevated CK.",
+          "urgency": "soon",
+          "based_on": "The primary-care medication list includes simvastatin; the cardiology discharge summary says the statin was changed to atorvastatin; questionnaire reports thigh aches and September CK is 236 U/L."
+        },
+        {
+          "concern": "His standing dizziness and fall merit a timely review of blood pressure, pulse/rhythm, and the full medication list across prescribers.",
+          "urgency": "soon",
+          "based_on": "Questionnaire reports dizziness on standing and a fall; no standing measurements or rhythm evaluation during symptoms are included."
+        }
+      ],
+      "questions_for_specialists": [],
+      "questions_for_doctor": [
+        "What INR follow-up or other assessment is needed given the result above goal and the bruising and gum bleeding?",
+        "Could his dizziness and fall relate to his heart rate or blood pressure, and can these be checked lying and standing?",
+        "Which cholesterol medicine is intended now, and should the muscle aches and CK result be reviewed together?",
+        "What is the plan to coordinate his heart medicines with the medicines prescribed by his other doctors?"
+      ],
+      "sources": [
+        {
+          "title": "Blood Thinners",
+          "url": "https://medlineplus.gov/bloodthinners.html",
+          "used_for": "General background on blood-thinning medicines and the importance of discussing their use with clinicians."
+        },
+        {
+          "title": "Bleeding",
+          "url": "https://medlineplus.gov/bleeding.html",
+          "used_for": "General background on bleeding symptoms."
+        }
+      ],
+      "source_note": null,
+      "confidence": "medium",
+      "insufficient_information": true,
+      "missing_information": [
+        "A current medication reconciliation confirming what he is actually taking, including whether both statins are being used.",
+        "Recent INR trend and anticoagulation-clinic instructions, and details about the amount and timing of bleeding and bruising.",
+        "Blood pressure and pulse lying and standing, plus heart rhythm information during dizziness.",
+        "The records do not establish the cause of the leg aches or dizziness."
+      ],
+      "consult": false
+    },
+    "urology": {
+      "specialty": "urology",
+      "name": "Urology",
+      "documents": [
+        "01_primary_care_visit_summary.txt",
+        "04_urology_note_scanned.jpg"
+      ],
+      "findings": [
+        {
+          "statement": "The urology note records waking three to four times nightly to urinate and a weak stream, which may contribute to nighttime trips and fall risk.",
+          "document": "04_urology_note_scanned.jpg",
+          "quote": "waking 3-4 times a night to urinate and a weak stream",
+          "significance": "abnormal",
+          "region": "bladder_prostate",
+          "id": "urology.F1"
+        },
+        {
+          "statement": "The urology note says tamsulosin was started for prostate-related urinary symptoms; with the questionnaire's report of doxazosin use and standing dizziness, the combination is important to review promptly with the prescribers.",
+          "document": "04_urology_note_scanned.jpg",
+          "quote": "Start tamsulosin 0.4 mg once daily",
+          "significance": "abnormal",
+          "region": "bladder_prostate",
+          "id": "urology.F2"
+        },
+        {
+          "statement": "The recorded post-void residual is 90 mL, documenting some urine remaining after urination; the note does not state how the clinician interpreted this measurement.",
+          "document": "04_urology_note_scanned.jpg",
+          "quote": "Post-void residual by bladder scan: 90 mL.",
+          "significance": "unclear",
+          "region": "bladder_prostate",
+          "id": "urology.F3"
+        },
+        {
+          "statement": "The urology note reports a stable PSA compared with the prior year, which is useful context for follow-up.",
+          "document": "04_urology_note_scanned.jpg",
+          "quote": "PSA 3.1 ng/mL (stable compared with 2.9 in 2025).",
+          "significance": "normal_but_relevant",
+          "region": "bladder_prostate",
+          "id": "urology.F4"
+        }
+      ],
+      "abnormal_values": [],
+      "concerns": [
+        {
+          "concern": "Because the questionnaire reports standing dizziness and a nighttime fall, ask the urologist and primary-care prescriber soon to reconcile whether doxazosin and tamsulosin are both currently intended. Both can lower blood pressure; do not make medication changes based on this report.",
+          "urgency": "soon",
+          "based_on": "Questionnaire lists doxazosin 4 mg at bedtime and tamsulosin 0.4 mg daily; the urology note says to start tamsulosin, and questionnaire reports dizziness and a fall."
+        },
+        {
+          "concern": "Nighttime urination three to four times nightly is relevant to the reported nighttime fall; discuss symptom management and practical fall-safety steps with the treating clinicians.",
+          "urgency": "routine",
+          "based_on": "04_urology_note_scanned.jpg reports waking 3-4 times nightly; questionnaire reports a nighttime fall while getting up to urinate."
+        }
+      ],
+      "questions_for_specialists": [
+        {
+          "to_specialty": "cardiology",
+          "question": "Given the reported standing dizziness and nighttime fall, could the overall blood-pressure and heart-rate medication plan be reviewed alongside the two listed prostate medicines?"
+        }
+      ],
+      "questions_for_doctor": [
+        "Are doxazosin and tamsulosin both intended to be taken now, or was one meant to replace the other?",
+        "Could the timing or combination of the prostate medicines be contributing to dizziness when standing?",
+        "Is the 90 mL post-void residual significant for him, and should it be rechecked?",
+        "What follow-up is appropriate for the nighttime urination and weak stream?"
+      ],
+      "sources": [
+        {
+          "title": "Enlarged Prostate (BPH)",
+          "url": "https://medlineplus.gov/enlargedprostatebph.html",
+          "used_for": "General patient information about enlarged prostate and urinary symptoms."
+        }
+      ],
+      "source_note": null,
+      "confidence": "medium",
+      "insufficient_information": true,
+      "missing_information": [
+        "The available urology note does not confirm whether doxazosin was stopped when tamsulosin was started.",
+        "No urology follow-up note or updated urinary symptom assessment is available.",
+        "No written interpretation or reference range is provided for the post-void residual."
+      ],
+      "consult": false
+    }
+  },
+  "pharmacist": {
+    "specialty": "clinical_pharmacist",
+    "name": "Clinical pharmacist",
+    "combined_list": [
+      {
+        "medication": "Lisinopril",
+        "dose_and_schedule": "20 mg once daily",
+        "prescriber": "Dr. Alvarez (primary care)",
+        "reason": "High blood pressure",
+        "sources": [
+          "questionnaire",
+          "01_primary_care_visit_summary.txt",
+          "02_cardiology_discharge_summary.pdf",
+          "03_orthopedics_note.txt",
+          "04_urology_note_scanned.jpg"
+        ]
+      },
+      {
+        "medication": "Doxazosin",
+        "dose_and_schedule": "4 mg at bedtime",
+        "prescriber": "Dr. Alvarez (primary care)",
+        "reason": "High blood pressure",
+        "sources": [
+          "questionnaire",
+          "01_primary_care_visit_summary.txt",
+          "02_cardiology_discharge_summary.pdf"
+        ]
+      },
+      {
+        "medication": "Simvastatin",
+        "dose_and_schedule": "40 mg at bedtime",
+        "prescriber": "Dr. Alvarez (primary care)",
+        "reason": "High cholesterol",
+        "sources": [
+          "questionnaire",
+          "01_primary_care_visit_summary.txt",
+          "02_cardiology_discharge_summary.pdf"
+        ]
+      },
+      {
+        "medication": "Metformin",
+        "dose_and_schedule": "1000 mg twice daily",
+        "prescriber": "Dr. Alvarez (primary care)",
+        "reason": "Type 2 diabetes",
+        "sources": [
+          "questionnaire",
+          "01_primary_care_visit_summary.txt",
+          "02_cardiology_discharge_summary.pdf",
+          "03_orthopedics_note.txt",
+          "04_urology_note_scanned.jpg"
+        ]
+      },
+      {
+        "medication": "Omeprazole",
+        "dose_and_schedule": "20 mg once daily",
+        "prescriber": "Dr. Alvarez (primary care)",
+        "reason": "Acid reflux",
+        "sources": [
+          "questionnaire",
+          "01_primary_care_visit_summary.txt",
+          "02_cardiology_discharge_summary.pdf"
+        ]
+      },
+      {
+        "medication": "Warfarin",
+        "dose_and_schedule": "5 mg once daily; clinic adjusts",
+        "prescriber": "Dr. Rao (cardiology)/anticoagulation clinic",
+        "reason": "Atrial fibrillation",
+        "sources": [
+          "questionnaire",
+          "02_cardiology_discharge_summary.pdf",
+          "04_urology_note_scanned.jpg"
+        ]
+      },
+      {
+        "medication": "Metoprolol succinate",
+        "dose_and_schedule": "50 mg once daily",
+        "prescriber": "Dr. Rao (cardiology)",
+        "reason": "Heart rate control",
+        "sources": [
+          "questionnaire",
+          "02_cardiology_discharge_summary.pdf"
+        ]
+      },
+      {
+        "medication": "Atorvastatin",
+        "dose_and_schedule": "40 mg once daily",
+        "prescriber": "Dr. Rao (cardiology)",
+        "reason": "Cholesterol/heart",
+        "sources": [
+          "questionnaire",
+          "02_cardiology_discharge_summary.pdf"
+        ]
+      },
+      {
+        "medication": "Naproxen",
+        "dose_and_schedule": "500 mg twice daily with food for 4 weeks, then as needed per orthopedics note; patient reports twice daily",
+        "prescriber": "Dr. O'Brien (orthopedics)",
+        "reason": "Knee arthritis/pain",
+        "sources": [
+          "questionnaire",
+          "03_orthopedics_note.txt"
+        ]
+      },
+      {
+        "medication": "Tamsulosin",
+        "dose_and_schedule": "0.4 mg once daily after dinner",
+        "prescriber": "Dr. Stein (urology)",
+        "reason": "Enlarged prostate",
+        "sources": [
+          "questionnaire",
+          "04_urology_note_scanned.jpg"
+        ]
+      },
+      {
+        "medication": "Aspirin",
+        "dose_and_schedule": "81 mg once daily",
+        "prescriber": "Self-directed OTC use",
+        "reason": "Heart (patient-reported)",
+        "sources": [
+          "questionnaire"
+        ]
+      },
+      {
+        "medication": "Acetaminophen/diphenhydramine (Acetaminophen PM)",
+        "dose_and_schedule": "500 mg/25 mg per tablet; 1\u20132 tablets most nights",
+        "prescriber": "Self-directed OTC use",
+        "reason": "Sleep and knee pain",
+        "sources": [
+          "questionnaire"
+        ]
+      }
+    ],
+    "issues": [
+      {
+        "kind": "interaction",
+        "medications": [
+          "Warfarin",
+          "Naproxen",
+          "Aspirin"
+        ],
+        "explanation": "Warfarin together with naproxen and aspirin can raise bleeding risk. The patient reports easy bruising and gum bleeding, with INR 3.9 and hemoglobin 11.9 on the September lab panel. These signs and results warrant prompt clinical review.",
+        "discuss_with": [
+          "Dr. Rao (cardiology)/anticoagulation clinic",
+          "Dr. O'Brien (orthopedics)",
+          "Dr. Alvarez (primary care)"
+        ],
+        "urgency": "urgent",
+        "source_urls": [
+          "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=0cbce382-9c88-4f58-ae0f-532a841e8f95",
+          "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=000155a8-709c-44e5-a75f-cd890f3a7caf"
+        ],
+        "id": "pharmacist.I1"
+      },
+      {
+        "kind": "duplication",
+        "medications": [
+          "Simvastatin",
+          "Atorvastatin"
+        ],
+        "explanation": "Both are statins used for cholesterol management, and the lists show both as currently taken. The thigh aching and mildly elevated CK are also important to review in light of statin-associated muscle concerns, age, and kidney disease.",
+        "discuss_with": [
+          "Dr. Alvarez (primary care)",
+          "Dr. Rao (cardiology)"
+        ],
+        "urgency": "soon",
+        "source_urls": [
+          "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=00896fff-081d-4553-be8c-1999a8a73dda",
+          "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=00afce9b-48c9-487a-a738-e359c005c707"
+        ],
+        "id": "pharmacist.I2"
+      },
+      {
+        "kind": "overlap",
+        "medications": [
+          "Doxazosin",
+          "Tamsulosin"
+        ],
+        "explanation": "These are both alpha-blockers: doxazosin is listed for blood pressure and tamsulosin for prostate symptoms. Their combined blood-pressure effects may be relevant to dizziness on standing and the nighttime fall. The doxazosin label notes postural hypotension with or without dizziness.",
+        "discuss_with": [
+          "Dr. Alvarez (primary care)",
+          "Dr. Stein (urology)"
+        ],
+        "urgency": "soon",
+        "source_urls": [
+          "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=08521333-ff21-45ad-b99e-1f43d945d24d"
+        ],
+        "id": "pharmacist.I3"
+      },
+      {
+        "kind": "label_caution",
+        "medications": [
+          "Naproxen"
+        ],
+        "explanation": "The naproxen label advises monitoring kidney function in people with renal impairment and notes higher renal and other serious adverse-reaction risks in older adults. This is relevant with age 78, stage 3 kidney disease, eGFR 40, and creatinine 1.7.",
+        "discuss_with": [
+          "Dr. O'Brien (orthopedics)",
+          "Dr. Alvarez (primary care)"
+        ],
+        "urgency": "soon",
+        "source_urls": [
+          "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=000155a8-709c-44e5-a75f-cd890f3a7caf"
+        ],
+        "id": "pharmacist.I4"
+      },
+      {
+        "kind": "list_discrepancy",
+        "medications": [
+          "Naproxen"
+        ],
+        "explanation": "The orthopedics note describes twice-daily use for 4 weeks, then as needed, while the patient reports taking it twice daily. Clarify the intended current plan with the orthopedics prescriber.",
+        "discuss_with": [
+          "Dr. O'Brien (orthopedics)"
+        ],
+        "urgency": "routine",
+        "source_urls": [],
+        "id": "pharmacist.I5"
+      },
+      {
+        "kind": "otc_unknown_to_doctors",
+        "medications": [
+          "Aspirin",
+          "Acetaminophen/diphenhydramine (Acetaminophen PM)"
+        ],
+        "explanation": "These OTC products appear in the patient questionnaire but not in the prescribers' records. Make sure all prescribers know about them; aspirin is especially relevant to the reported bleeding while taking warfarin and naproxen.",
+        "discuss_with": [
+          "Dr. Rao (cardiology)/anticoagulation clinic",
+          "Dr. Alvarez (primary care)",
+          "Dr. O'Brien (orthopedics)"
+        ],
+        "urgency": "soon",
+        "source_urls": [
+          "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=0cbce382-9c88-4f58-ae0f-532a841e8f95",
+          "https://dailymed.nlm.nih.gov/dailymed/lookup.cfm?setid=000155a8-709c-44e5-a75f-cd890f3a7caf"
+        ],
+        "id": "pharmacist.I6"
+      }
+    ],
+    "questions_for_doctor": [
+      "Could the current bleeding symptoms, INR 3.9, and lower hemoglobin be reviewed promptly with the anticoagulation clinic/cardiology team?",
+      "Are both simvastatin and atorvastatin intended to be on the current medication list, and could the thigh aching and CK result be related?",
+      "Could doxazosin together with tamsulosin be contributing to the standing dizziness and fall, and how should the intended prescriber plan be coordinated?",
+      "Is naproxen still intended to be taken twice daily, given the orthopedics note's 4-week course followed by as-needed use, kidney disease, and concurrent warfarin and aspirin?",
+      "Have all prescribers been told about the OTC aspirin and Acetaminophen PM use?"
+    ],
+    "source_note": null,
+    "confidence": "high"
+  },
+  "round2": {
+    "hematology": {
+      "specialty": "hematology",
+      "agreements": [
+        {
+          "with_specialty": "cardiology",
+          "point": "I agree the above-goal INR together with bruising and gum bleeding needs prompt review by the anticoagulation clinic or prescribing clinician."
+        },
+        {
+          "with_specialty": "nephrology",
+          "point": "I agree the falling hemoglobin and reported bleeding symptoms deserve timely clinical review."
+        },
+        {
+          "with_specialty": "clinical_pharmacist",
+          "point": "I agree the reported warfarin, naproxen, and aspirin combination alongside bruising, gum bleeding, and the elevated INR merits prompt review with the prescribers."
+        },
+        {
+          "with_specialty": "endocrinology",
+          "point": "I agree the mild CK elevation and thigh aches should be reviewed with clinicians in the context of the medication-list discrepancy."
+        }
+      ],
+      "disagreements": [],
+      "connections": [
+        {
+          "connection": "The elevated INR and bleeding symptoms noted by cardiology align with the pharmacist's concern about the reported combination of warfarin, naproxen, and aspirin; together these reinforce the need for prompt prescriber review.",
+          "specialties": [
+            "cardiology",
+            "clinical_pharmacist"
+          ],
+          "finding_refs": [
+            "hematology.F1",
+            "hematology.F4",
+            "cardiology.F2"
+          ]
+        },
+        {
+          "connection": "The lower hemoglobin noted in the kidney review adds context to the hematology finding of a decline in hemoglobin alongside reported bleeding symptoms.",
+          "specialties": [
+            "nephrology"
+          ],
+          "finding_refs": [
+            "hematology.F2",
+            "nephrology.F4"
+          ]
+        },
+        {
+          "connection": "Cardiology and endocrinology also note a mildly elevated CK, thigh aches, and two statin entries, making medication-list reconciliation relevant across specialties.",
+          "specialties": [
+            "cardiology",
+            "endocrinology"
+          ],
+          "finding_refs": [
+            "cardiology.F4",
+            "endocrinology.F2"
+          ]
+        }
+      ],
+      "answers": [
+        {
+          "from_specialty": "cardiology",
+          "question": "Given the elevated INR and reported bruising and gum bleeding, what follow-up should occur with the anticoagulation clinic, and what INR goal is intended for him?",
+          "answer": "The September report's stated warfarin goal is 2.0\u20133.0, and the reported INR is 3.9. He should contact his anticoagulation clinic or prescribing clinician promptly for guidance about follow-up and the intended goal for his circumstances. Do not make medication changes based on this report alone; seek emergency care for bleeding that will not stop or a head injury."
+        }
+      ],
+      "revised_concerns": []
+    },
+    "nephrology": {
+      "specialty": "nephrology",
+      "agreements": [
+        {
+          "with_specialty": "endocrinology",
+          "point": "Agree that the lower kidney function should be considered when clinicians review his diabetes treatment and overall medication plan."
+        },
+        {
+          "with_specialty": "cardiology",
+          "point": "Agree that the medication list and reported standing dizziness and fall warrant timely review across his prescribers."
+        },
+        {
+          "with_specialty": "hematology",
+          "point": "Agree that the above-goal INR with bruising and gum bleeding needs urgent contact with the anticoagulation team, and that the lower hemoglobin deserves prompt review."
+        },
+        {
+          "with_specialty": "clinical_pharmacist",
+          "point": "Agree that naproxen use alongside reduced kidney function and lisinopril deserves prompt prescriber review; the discrepancy about how often he is taking it should be clarified."
+        }
+      ],
+      "disagreements": [],
+      "connections": [
+        {
+          "connection": "The reduced kidney filtration and elevated potassium I noted make the pharmacist's concern about naproxen use especially relevant; both warrant coordinated medication and lab review.",
+          "specialties": [
+            "nephrology",
+            "clinical_pharmacist"
+          ],
+          "finding_refs": [
+            "nephrology.F1",
+            "nephrology.F2"
+          ]
+        },
+        {
+          "connection": "The reported naproxen and aspirin use alongside warfarin connects the kidney medication-review concern with the bleeding concern noted by cardiology and hematology.",
+          "specialties": [
+            "nephrology",
+            "clinical_pharmacist",
+            "cardiology",
+            "hematology"
+          ],
+          "finding_refs": [
+            "nephrology.F3",
+            "cardiology.F2",
+            "hematology.F1"
+          ]
+        },
+        {
+          "connection": "The standing dizziness and fall noted by cardiology connect with the pharmacist's concern about overlapping alpha-blockers; this is relevant to a coordinated medication and fall-risk review.",
+          "specialties": [
+            "cardiology",
+            "clinical_pharmacist"
+          ],
+          "finding_refs": [
+            "cardiology.F5"
+          ]
+        }
+      ],
+      "answers": [],
+      "revised_concerns": [
+        {
+          "concern": "His above-goal INR with bruising and gum bleeding needs urgent contact with the anticoagulation clinic or prescribing clinician today. The reported warfarin, naproxen, and aspirin combination, along with the lower hemoglobin, adds importance to that review. Seek emergency care for heavy or persistent bleeding, head impact after a fall, or new severe symptoms.",
+          "urgency": "urgent",
+          "based_on": "cardiology.F2; hematology.F1; hematology.F2; clinical_pharmacist.I1"
+        }
+      ]
+    },
+    "endocrinology": {
+      "specialty": "endocrinology",
+      "agreements": [
+        {
+          "with_specialty": "cardiology",
+          "point": "The duplicate simvastatin and atorvastatin entries, thigh aching, and mildly elevated CK merit review with the prescribers; the records do not establish whether both are being taken."
+        },
+        {
+          "with_specialty": "nephrology",
+          "point": "The reduced kidney filtration compared with the prior result deserves timely review alongside the medication list, including the reported naproxen use."
+        },
+        {
+          "with_specialty": "hematology",
+          "point": "The above-goal INR together with bruising and gum bleeding warrants prompt contact with the anticoagulation clinic or prescriber."
+        },
+        {
+          "with_specialty": "clinical_pharmacist",
+          "point": "The possible statin duplication and muscle symptoms warrant medication reconciliation, and the full medication list should be reviewed in light of the reported dizziness and fall."
+        }
+      ],
+      "disagreements": [],
+      "connections": [
+        {
+          "connection": "The reported duplicate statin entries and thigh aching connect with the mildly elevated CK; prescribers should reconcile the list and review the symptoms together.",
+          "specialties": [
+            "cardiology",
+            "clinical_pharmacist"
+          ],
+          "finding_refs": [
+            "endocrinology.F2",
+            "cardiology.F4"
+          ]
+        },
+        {
+          "connection": "The reduced kidney filtration makes the medication review raised by nephrology especially relevant to the reported metformin plan; the record alone does not establish an individualized glucose target or medication safety decision.",
+          "specialties": [
+            "nephrology",
+            "internal_medicine"
+          ],
+          "finding_refs": [
+            "endocrinology.F1",
+            "endocrinology.F3",
+            "nephrology.F1"
+          ]
+        },
+        {
+          "connection": "The elevated INR and reported bleeding symptoms are additional reasons for prompt medication review, including the pharmacist's noted warfarin, naproxen, and aspirin combination.",
+          "specialties": [
+            "hematology",
+            "cardiology",
+            "clinical_pharmacist"
+          ],
+          "finding_refs": [
+            "cardiology.F2",
+            "hematology.F1",
+            "hematology.F4"
+          ]
+        }
+      ],
+      "answers": [],
+      "revised_concerns": [
+        {
+          "concern": "Contact the anticoagulation clinic or prescribing clinician promptly today about the above-goal INR together with bruising and gum bleeding. Seek emergency care for heavy or persistent bleeding, or after any head impact from the fall.",
+          "urgency": "urgent",
+          "based_on": "Cardiology.F2 and hematology.F1/F4; pharmacist.I1"
+        },
+        {
+          "concern": "The medication review should include the reported combination of naproxen with reduced kidney filtration and lisinopril, as well as the possible aspirin and warfarin combination in the setting of bleeding symptoms.",
+          "urgency": "soon",
+          "based_on": "Nephrology.F1/F3; pharmacist.I1"
+        }
+      ]
+    },
+    "cardiology": {
+      "specialty": "cardiology",
+      "agreements": [
+        {
+          "with_specialty": "hematology",
+          "point": "I agree that the above-goal INR together with bruising and gum bleeding needs prompt contact with the anticoagulation clinic or prescribing clinician. The stated warfarin goal in the reports is 2.0\u20133.0."
+        },
+        {
+          "with_specialty": "endocrinology",
+          "point": "I agree that the thigh aches and mildly elevated CK warrant review alongside the two statin entries, without assuming from the list whether both are being taken."
+        },
+        {
+          "with_specialty": "nephrology",
+          "point": "I agree that the lower hemoglobin alongside reported bleeding and fatigue merits prompt clinician review."
+        }
+      ],
+      "disagreements": [],
+      "connections": [
+        {
+          "connection": "The above-goal INR and reported bleeding symptoms noted by both specialties support prompt anticoagulation-clinic review. The lower hemoglobin also makes it important for the treating clinicians to assess the bleeding context.",
+          "specialties": [
+            "cardiology",
+            "hematology"
+          ],
+          "finding_refs": [
+            "cardiology.F2",
+            "hematology.F1",
+            "hematology.F2",
+            "hematology.F4"
+          ]
+        },
+        {
+          "connection": "The thigh aches and elevated CK are relevant to the medication-list discrepancy showing both simvastatin and atorvastatin; clinicians can reconcile what is actually being taken.",
+          "specialties": [
+            "cardiology",
+            "endocrinology"
+          ],
+          "finding_refs": [
+            "cardiology.F3",
+            "cardiology.F4",
+            "endocrinology.F2"
+          ]
+        },
+        {
+          "connection": "The reported standing dizziness and fall may be worth reviewing alongside the reported overlapping blood-pressure and prostate medicines, as well as the overall heart-rate and blood-pressure plan.",
+          "specialties": [
+            "cardiology",
+            "urology",
+            "clinical_pharmacist"
+          ],
+          "finding_refs": [
+            "cardiology.F5"
+          ]
+        }
+      ],
+      "answers": [
+        {
+          "from_specialty": "cardiology",
+          "question": "Given the elevated INR and reported bruising and gum bleeding, what follow-up should occur with the anticoagulation clinic, and what INR goal is intended for him?",
+          "answer": "Contact the anticoagulation clinic or prescribing clinician promptly today for individualized guidance and confirmation of the intended target. The supplied reports state a warfarin goal of 2.0\u20133.0; his INR is 3.9. The record does not establish whether a different individual target was intended. Do not make medication changes based on this summary. Seek emergency care for heavy or persistent bleeding, or after a head impact or severe new symptoms."
+        },
+        {
+          "from_specialty": "cardiology",
+          "question": "Given the reported standing dizziness and nighttime fall, could the overall blood-pressure and heart-rate medication plan be reviewed alongside the two listed prostate medicines?",
+          "answer": "Yes. The standing dizziness and fall warrant timely review of the complete medication list across prescribers, including the heart-rate and blood-pressure plan and the two listed prostate medicines. The records provided do not include standing blood pressure or a heart-rhythm check during symptoms."
+        }
+      ],
+      "revised_concerns": []
+    }
+  },
+  "consult": null,
+  "safety": {
+    "model_edits": [],
+    "missed_red_flags_added": [],
+    "code_blocked": [],
+    "crisis_mentions": []
+  },
+  "intake": {
+    "case_label": "case4_polypharmacy",
+    "modes": {
+      "age_years": 78.0,
+      "age_group": "adult",
+      "pediatric": false,
+      "pregnancy": false,
+      "coordinator": "internal_medicine",
+      "coordinator_name": "Internal medicine",
+      "pharmacist_active": true
+    },
+    "documents": [
+      {
+        "filename": "01_primary_care_visit_summary.txt",
+        "sha256": "9667d0d8e50e589e15859da61c59b643f05a9fb2066fa3dc0c48cad68aca4aab",
+        "kind": "text",
+        "read_by": "text",
+        "page_count": 1,
+        "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nOAKWOOD INTERNAL MEDICINE - VISIT SUMMARY\nPatient: Harold Pike    DOB: 02/17/1948    Date of visit: 05/06/2026\nClinician: Robert Alvarez, MD (Internal Medicine, primary care)\n\nPROBLEM LIST\nHypertension. Type 2 diabetes. High cholesterol. Acid reflux (GERD).\nChronic kidney disease, stage 3a. Enlarged prostate (seen by urology).\n\nVITAL SIGNS\nBP 132/78 seated   HR 74   Weight 84 kg\n\nRECENT LABS (04/22/2026)\nHbA1c 7.1%   Creatinine 1.5 mg/dL   eGFR 47   Potassium 4.8\nHemoglobin 13.4 g/dL   LDL 88 mg/dL\n\nMEDICATIONS PRESCRIBED BY THIS OFFICE\nLisinopril 20 mg - 1 tablet daily (blood pressure)\nDoxazosin 4 mg - 1 tablet at bedtime (blood pressure, added 2025)\nSimvastatin 40 mg - 1 tablet at bedtime (cholesterol)\nMetformin 1000 mg - 1 tablet twice daily (diabetes)\nOmeprazole 20 mg - 1 capsule daily (reflux)\n\nPLAN\nContinue current medications. Labs and visit in 6 months.\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+        "hidden_text": [],
+        "notes": [],
+        "extraction": {
+          "doc_type": "visit_note",
+          "date": "2026-05-06",
+          "source": "Oakwood Internal Medicine (Robert Alvarez, MD)",
+          "specialties": [
+            "internal_medicine",
+            "endocrinology",
+            "nephrology",
+            "cardiology",
+            "gastroenterology",
+            "urology",
+            "clinical_pharmacist"
+          ],
+          "summary": "Primary care visit lists hypertension, type 2 diabetes, high cholesterol, GERD, stage 3a chronic kidney disease, and enlarged prostate; recent labs and current medications are recorded.",
+          "patient_name_on_document": "Harold Pike",
+          "patient_dob_on_document": "1948-02-17",
+          "patient_sex_on_document": null,
+          "labs": [
+            {
+              "test": "BP",
+              "value": "132/78",
+              "unit": null,
+              "reference_range": null,
+              "flag": "none",
+              "date": "2026-05-06"
+            },
+            {
+              "test": "HR",
+              "value": "74",
+              "unit": null,
+              "reference_range": null,
+              "flag": "none",
+              "date": "2026-05-06"
+            },
+            {
+              "test": "Weight",
+              "value": "84",
+              "unit": "kg",
+              "reference_range": null,
+              "flag": "none",
+              "date": "2026-05-06"
+            },
+            {
+              "test": "HbA1c",
+              "value": "7.1",
+              "unit": "%",
+              "reference_range": null,
+              "flag": "none",
+              "date": "2026-04-22"
+            },
+            {
+              "test": "Creatinine",
+              "value": "1.5",
+              "unit": "mg/dL",
+              "reference_range": null,
+              "flag": "none",
+              "date": "2026-04-22"
+            },
+            {
+              "test": "eGFR",
+              "value": "47",
+              "unit": null,
+              "reference_range": null,
+              "flag": "none",
+              "date": "2026-04-22"
+            },
+            {
+              "test": "Potassium",
+              "value": "4.8",
+              "unit": null,
+              "reference_range": null,
+              "flag": "none",
+              "date": "2026-04-22"
+            },
+            {
+              "test": "Hemoglobin",
+              "value": "13.4",
+              "unit": "g/dL",
+              "reference_range": null,
+              "flag": "none",
+              "date": "2026-04-22"
+            },
+            {
+              "test": "LDL",
+              "value": "88",
+              "unit": "mg/dL",
+              "reference_range": null,
+              "flag": "none",
+              "date": "2026-04-22"
+            }
+          ],
+          "medications": [
+            {
+              "name": "Lisinopril",
+              "generic_name": "lisinopril",
+              "dose": "20 mg",
+              "frequency": "1 tablet daily",
+              "prescriber": "Robert Alvarez, MD",
+              "status": "taking"
+            },
+            {
+              "name": "Doxazosin",
+              "generic_name": "doxazosin",
+              "dose": "4 mg",
+              "frequency": "1 tablet at bedtime",
+              "prescriber": "Robert Alvarez, MD",
+              "status": "taking"
+            },
+            {
+              "name": "Simvastatin",
+              "generic_name": "simvastatin",
+              "dose": "40 mg",
+              "frequency": "1 tablet at bedtime",
+              "prescriber": "Robert Alvarez, MD",
+              "status": "taking"
+            },
+            {
+              "name": "Metformin",
+              "generic_name": "metformin",
+              "dose": "1000 mg",
+              "frequency": "1 tablet twice daily",
+              "prescriber": "Robert Alvarez, MD",
+              "status": "taking"
+            },
+            {
+              "name": "Omeprazole",
+              "generic_name": "omeprazole",
+              "dose": "20 mg",
+              "frequency": "1 capsule daily",
+              "prescriber": "Robert Alvarez, MD",
+              "status": "taking"
+            }
+          ],
+          "mentions_possible_malignancy": false,
+          "mentions_self_harm": false,
+          "instructions_to_ai": []
+        },
+        "raw_image": false,
+        "error": null
+      },
+      {
+        "filename": "02_cardiology_discharge_summary.pdf",
+        "sha256": "2fe93dfde3da5907249862dbce25228eef6ec61d8ec2ef2d5f16413689f4e5fe",
+        "kind": "pdf",
+        "read_by": "text",
+        "page_count": 1,
+        "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nST. BRENDAN REGIONAL HOSPITAL - DISCHARGE SUMMARY\nPatient: Harold Pike          DOB: 02/17/1948      Sex: M\nAdmitted: 06/10/2026          Discharged: 06/14/2026\nAttending: Sunita Rao, MD (Cardiology)\n\nREASON FOR ADMISSION\nNew atrial fibrillation with rapid heart rate (HR 138), shortness of\nbreath on exertion.\n\nHOSPITAL COURSE\nRate controlled with metoprolol. Echocardiogram: mildly enlarged left\natrium, ejection fraction 55%. Stroke-risk score (CHA2DS2-VASc) 4.\nAnticoagulation started with warfarin; INR 2.1 at discharge.\nStatin changed to atorvastatin for cardiovascular risk reduction.\n\nHOME MEDICATION HISTORY\nLimited: patient unsure of all home medications. Doxazosin and\nsimvastatin were not reported on admission.\n\nDISCHARGE MEDICATIONS\nWarfarin 5 mg daily (dose adjusted by anticoagulation clinic)  NEW\nMetoprolol succinate 50 mg daily                               NEW\nAtorvastatin 40 mg daily                                       NEW\nLisinopril 20 mg daily                                         continue\nMetformin 1000 mg twice daily                                  continue\nOmeprazole 20 mg daily                                         continue\n\nFOLLOW-UP\nAnticoagulation clinic in 1 week (INR goal 2.0-3.0).\nCardiology clinic in 4 weeks.\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+        "hidden_text": [],
+        "notes": [],
+        "extraction": {
+          "doc_type": "discharge_summary",
+          "date": "2026-06-14",
+          "source": "Cardiology - St. Brendan Regional Hospital (Sunita Rao, MD)",
+          "specialties": [
+            "cardiology",
+            "clinical_pharmacist",
+            "internal_medicine",
+            "endocrinology"
+          ],
+          "summary": "Hospitalized for new atrial fibrillation with rapid heart rate; rate controlled, echocardiogram showed ejection fraction 55%, and warfarin was started.",
+          "patient_name_on_document": "Harold Pike",
+          "patient_dob_on_document": "1948-02-17",
+          "patient_sex_on_document": "male",
+          "labs": [
+            {
+              "test": "HR",
+              "value": "138",
+              "unit": null,
+              "reference_range": null,
+              "flag": "none",
+              "date": null
+            },
+            {
+              "test": "Ejection fraction",
+              "value": "55%",
+              "unit": null,
+              "reference_range": null,
+              "flag": "none",
+              "date": null
+            },
+            {
+              "test": "CHA2DS2-VASc",
+              "value": "4",
+              "unit": null,
+              "reference_range": null,
+              "flag": "none",
+              "date": null
+            },
+            {
+              "test": "INR",
+              "value": "2.1",
+              "unit": null,
+              "reference_range": null,
+              "flag": "none",
+              "date": null
+            }
+          ],
+          "medications": [
+            {
+              "name": "metoprolol",
+              "generic_name": "metoprolol",
+              "dose": null,
+              "frequency": null,
+              "prescriber": null,
+              "status": "mentioned_only"
+            },
+            {
+              "name": "warfarin",
+              "generic_name": "warfarin",
+              "dose": "5 mg",
+              "frequency": "daily",
+              "prescriber": null,
+              "status": "started"
+            },
+            {
+              "name": "metoprolol succinate",
+              "generic_name": "metoprolol",
+              "dose": "50 mg",
+              "frequency": "daily",
+              "prescriber": null,
+              "status": "started"
+            },
+            {
+              "name": "atorvastatin",
+              "generic_name": "atorvastatin",
+              "dose": "40 mg",
+              "frequency": "daily",
+              "prescriber": null,
+              "status": "started"
+            },
+            {
+              "name": "lisinopril",
+              "generic_name": "lisinopril",
+              "dose": "20 mg",
+              "frequency": "daily",
+              "prescriber": null,
+              "status": "taking"
+            },
+            {
+              "name": "metformin",
+              "generic_name": "metformin",
+              "dose": "1000 mg",
+              "frequency": "twice daily",
+              "prescriber": null,
+              "status": "taking"
+            },
+            {
+              "name": "omeprazole",
+              "generic_name": "omeprazole",
+              "dose": "20 mg",
+              "frequency": "daily",
+              "prescriber": null,
+              "status": "taking"
+            },
+            {
+              "name": "doxazosin",
+              "generic_name": "doxazosin",
+              "dose": null,
+              "frequency": null,
+              "prescriber": null,
+              "status": "mentioned_only"
+            },
+            {
+              "name": "simvastatin",
+              "generic_name": "simvastatin",
+              "dose": null,
+              "frequency": null,
+              "prescriber": null,
+              "status": "mentioned_only"
+            }
+          ],
+          "mentions_possible_malignancy": false,
+          "mentions_self_harm": false,
+          "instructions_to_ai": []
+        },
+        "raw_image": false,
+        "error": null
+      },
+      {
+        "filename": "03_orthopedics_note.txt",
+        "sha256": "e2cf639a88766992c0537b0a0f8ecbfefbda753b121e51d31c86fa2d289c2400",
+        "kind": "text",
+        "read_by": "text",
+        "page_count": 1,
+        "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nSUMMIT ORTHOPEDICS - CLINIC NOTE\nPatient: Harold Pike    DOB: 02/17/1948    Date of visit: 08/05/2026\nClinician: Kevin O'Brien, MD (Orthopedic Surgery)\n\nHISTORY\nBilateral knee pain for 2 years, right worse than left, worse on stairs.\nFell 3 weeks ago when getting up at night to use the bathroom; felt\ndizzy on standing. Bruised left hip, no fracture on hip X-ray at the\ntime.\n\nMedications per patient: lisinopril, metformin, \"a heart pill\" and\n\"a cholesterol pill\". Unsure of names.\n\nKNEE X-RAYS (standing, both knees)\nModerate narrowing of the inner joint space on both sides, right worse.\nBone spurs present. No fracture.\n\nASSESSMENT\nModerate osteoarthritis of both knees.\n\nPLAN\n1. Naproxen 500 mg by mouth twice daily with food for 4 weeks, then as\n   needed.\n2. Physical therapy referral.\n3. Consider a steroid injection if not improved in 6 weeks.\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+        "hidden_text": [],
+        "notes": [],
+        "extraction": {
+          "doc_type": "consult_note",
+          "date": "2026-08-05",
+          "source": "Summit Orthopedics - Kevin O'Brien, MD (Orthopedic Surgery)",
+          "specialties": [
+            "orthopedics",
+            "internal_medicine",
+            "clinical_pharmacist"
+          ],
+          "summary": "Knee X-rays show bilateral joint-space narrowing and bone spurs; the note assesses moderate osteoarthritis in both knees and plans naproxen and physical therapy.",
+          "patient_name_on_document": "Harold Pike",
+          "patient_dob_on_document": "1948-02-17",
+          "patient_sex_on_document": null,
+          "labs": [],
+          "medications": [
+            {
+              "name": "lisinopril",
+              "generic_name": "lisinopril",
+              "dose": null,
+              "frequency": null,
+              "prescriber": null,
+              "status": "taking"
+            },
+            {
+              "name": "metformin",
+              "generic_name": "metformin",
+              "dose": null,
+              "frequency": null,
+              "prescriber": null,
+              "status": "taking"
+            },
+            {
+              "name": "a heart pill",
+              "generic_name": "",
+              "dose": null,
+              "frequency": null,
+              "prescriber": null,
+              "status": "taking"
+            },
+            {
+              "name": "a cholesterol pill",
+              "generic_name": "",
+              "dose": null,
+              "frequency": null,
+              "prescriber": null,
+              "status": "taking"
+            },
+            {
+              "name": "Naproxen",
+              "generic_name": "naproxen",
+              "dose": "500 mg",
+              "frequency": "by mouth twice daily with food for 4 weeks, then as needed",
+              "prescriber": "Kevin O'Brien, MD",
+              "status": "started"
+            }
+          ],
+          "mentions_possible_malignancy": false,
+          "mentions_self_harm": false,
+          "instructions_to_ai": []
+        },
+        "raw_image": false,
+        "error": null
+      },
+      {
+        "filename": "04_urology_note_scanned.jpg",
+        "sha256": "239bc83ea4c025635923239a65cee6871db5fb84a8f8998aec141cacb41de8dc",
+        "kind": "image",
+        "read_by": "vision",
+        "page_count": 1,
+        "text": "SYNTHETIC TEST DOCUMENT \u2013 FICTIONAL PATIENT \u2013 NOT REAL MEDICAL DATA\n\nRIVERSIDE UROLOGY \u2013 CLINIC NOTE\nPatient: Harold Pike\tDOB: 02/17/1948\tDate of visit: 07/15/2026\nClinician: Michael Stein, MD (Urology)\n\nHISTORY\nEnlarged prostate with waking 3-4 times a night to urinate and a weak stream. Previously managed with watchful waiting.\nCurrent medications per patient: lisinopril, metformin, warfarin.\n\nEXAM\nSmoothly enlarged prostate, no nodules.\n\nTESTS\nPSA 3.1 ng/mL (stable compared with 2.9 in 2025).\nPost-void residual by bladder scan: 90 mL.\n\nASSESSMENT\nBenign prostatic enlargement with nighttime urination.\n\nPLAN\nStart tamsulosin 0.4 mg once daily, 30 minutes after the same meal each day. Return in 3 months.\n\nSYNTHETIC TEST DOCUMENT \u2013 FICTIONAL PATIENT \u2013 NOT REAL MEDICAL DATA",
+        "hidden_text": [],
+        "notes": [],
+        "extraction": {
+          "doc_type": "consult_note",
+          "date": "2026-07-15",
+          "source": "Urology - Riverside Urology (Michael Stein, MD)",
+          "specialties": [
+            "urology",
+            "internal_medicine",
+            "clinical_pharmacist"
+          ],
+          "summary": "Enlarged prostate with nighttime urination; PSA 3.1 ng/mL and post-void residual 90 mL. Tamsulosin started.",
+          "patient_name_on_document": "Harold Pike",
+          "patient_dob_on_document": "1948-02-17",
+          "patient_sex_on_document": "male",
+          "labs": [
+            {
+              "test": "PSA",
+              "value": "3.1",
+              "unit": "ng/mL",
+              "reference_range": null,
+              "flag": "none",
+              "date": "2026-07-15"
+            },
+            {
+              "test": "PSA",
+              "value": "2.9",
+              "unit": null,
+              "reference_range": null,
+              "flag": "none",
+              "date": "2025"
+            },
+            {
+              "test": "Post-void residual by bladder scan",
+              "value": "90",
+              "unit": "mL",
+              "reference_range": null,
+              "flag": "none",
+              "date": "2026-07-15"
+            }
+          ],
+          "medications": [
+            {
+              "name": "lisinopril",
+              "generic_name": "lisinopril",
+              "dose": null,
+              "frequency": null,
+              "prescriber": null,
+              "status": "taking"
+            },
+            {
+              "name": "metformin",
+              "generic_name": "metformin",
+              "dose": null,
+              "frequency": null,
+              "prescriber": null,
+              "status": "taking"
+            },
+            {
+              "name": "warfarin",
+              "generic_name": "warfarin",
+              "dose": null,
+              "frequency": null,
+              "prescriber": null,
+              "status": "taking"
+            },
+            {
+              "name": "tamsulosin",
+              "generic_name": "tamsulosin",
+              "dose": "0.4 mg",
+              "frequency": "once daily, 30 minutes after the same meal each day",
+              "prescriber": "Michael Stein, MD",
+              "status": "started"
+            }
+          ],
+          "mentions_possible_malignancy": false,
+          "mentions_self_harm": false,
+          "instructions_to_ai": []
+        },
+        "raw_image": false,
+        "error": null
+      },
+      {
+        "filename": "05_lab_panel.pdf",
+        "sha256": "4466226ba12c61d859a4fa872aa9d649219dee93da0ca94189c92670c7bffa0c",
+        "kind": "pdf",
+        "read_by": "text",
+        "page_count": 1,
+        "text": "SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA\n\nOAKWOOD INTERNAL MEDICINE - LABORATORY RESULTS\nPatient: Harold Pike          DOB: 02/17/1948      Sex: M\nCollected: 09/08/2026         Ordering: Anticoagulation clinic / R. Alvarez, MD\n\nTEST                          RESULT    FLAG   REFERENCE        UNITS\nINR                            3.9       H      2.0 - 3.0 (goal) ratio\nHemoglobin                     11.9      L      13.5 - 17.5     g/dL\nPlatelets                      214              150 - 400       x10^3/uL\nCreatinine                     1.7       H      0.7 - 1.3       mg/dL\neGFR                           40        L      >60             mL/min/1.73m2\nPotassium                      5.3       H      3.5 - 5.1       mmol/L\nSodium                         137              135 - 145       mmol/L\nHbA1c                          7.0       H      <5.7            %\nALT                            28               7 - 55          U/L\nAST                            31               8 - 48          U/L\nCreatine kinase (CK)           236       H      40 - 200        U/L\nLDL cholesterol                58               <100            mg/dL\n\nPrevious (04/22/2026): Hemoglobin 13.4, creatinine 1.5, eGFR 47,\npotassium 4.8.\n\nSYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA",
+        "hidden_text": [],
+        "notes": [],
+        "extraction": {
+          "doc_type": "lab_report",
+          "date": "2026-09-08",
+          "source": "Oakwood Internal Medicine - Laboratory Results (Ordering: Anticoagulation clinic / R. Alvarez, MD)",
+          "specialties": [
+            "internal_medicine",
+            "hematology",
+            "nephrology",
+            "endocrinology",
+            "cardiology"
+          ],
+          "summary": "Laboratory panel shows flagged INR, hemoglobin, kidney measures, potassium, HbA1c, and creatine kinase; platelets, sodium, liver enzymes, and LDL are unflagged.",
+          "patient_name_on_document": "Harold Pike",
+          "patient_dob_on_document": "1948-02-17",
+          "patient_sex_on_document": "male",
+          "labs": [
+            {
+              "test": "INR",
+              "value": "3.9",
+              "unit": "ratio",
+              "reference_range": "2.0 - 3.0 (goal)",
+              "flag": "high",
+              "date": "2026-09-08"
+            },
+            {
+              "test": "Hemoglobin",
+              "value": "11.9",
+              "unit": "g/dL",
+              "reference_range": "13.5 - 17.5",
+              "flag": "low",
+              "date": "2026-09-08"
+            },
+            {
+              "test": "Platelets",
+              "value": "214",
+              "unit": "x10^3/uL",
+              "reference_range": "150 - 400",
+              "flag": "none",
+              "date": "2026-09-08"
+            },
+            {
+              "test": "Creatinine",
+              "value": "1.7",
+              "unit": "mg/dL",
+              "reference_range": "0.7 - 1.3",
+              "flag": "high",
+              "date": "2026-09-08"
+            },
+            {
+              "test": "eGFR",
+              "value": "40",
+              "unit": "mL/min/1.73m2",
+              "reference_range": ">60",
+              "flag": "low",
+              "date": "2026-09-08"
+            },
+            {
+              "test": "Potassium",
+              "value": "5.3",
+              "unit": "mmol/L",
+              "reference_range": "3.5 - 5.1",
+              "flag": "high",
+              "date": "2026-09-08"
+            },
+            {
+              "test": "Sodium",
+              "value": "137",
+              "unit": "mmol/L",
+              "reference_range": "135 - 145",
+              "flag": "none",
+              "date": "2026-09-08"
+            },
+            {
+              "test": "HbA1c",
+              "value": "7.0",
+              "unit": "%",
+              "reference_range": "<5.7",
+              "flag": "high",
+              "date": "2026-09-08"
+            },
+            {
+              "test": "ALT",
+              "value": "28",
+              "unit": "U/L",
+              "reference_range": "7 - 55",
+              "flag": "none",
+              "date": "2026-09-08"
+            },
+            {
+              "test": "AST",
+              "value": "31",
+              "unit": "U/L",
+              "reference_range": "8 - 48",
+              "flag": "none",
+              "date": "2026-09-08"
+            },
+            {
+              "test": "Creatine kinase (CK)",
+              "value": "236",
+              "unit": "U/L",
+              "reference_range": "40 - 200",
+              "flag": "high",
+              "date": "2026-09-08"
+            },
+            {
+              "test": "LDL cholesterol",
+              "value": "58",
+              "unit": "mg/dL",
+              "reference_range": "<100",
+              "flag": "none",
+              "date": "2026-09-08"
+            },
+            {
+              "test": "Hemoglobin (previous)",
+              "value": "13.4",
+              "unit": null,
+              "reference_range": null,
+              "flag": "none",
+              "date": "2026-04-22"
+            },
+            {
+              "test": "Creatinine (previous)",
+              "value": "1.5",
+              "unit": null,
+              "reference_range": null,
+              "flag": "none",
+              "date": "2026-04-22"
+            },
+            {
+              "test": "eGFR (previous)",
+              "value": "47",
+              "unit": null,
+              "reference_range": null,
+              "flag": "none",
+              "date": "2026-04-22"
+            },
+            {
+              "test": "Potassium (previous)",
+              "value": "4.8",
+              "unit": null,
+              "reference_range": null,
+              "flag": "none",
+              "date": "2026-04-22"
+            }
+          ],
+          "medications": [],
+          "mentions_possible_malignancy": false,
+          "mentions_self_harm": false,
+          "instructions_to_ai": []
+        },
+        "raw_image": false,
+        "error": null
+      }
+    ],
+    "active_specialists": [
+      {
+        "specialty": "hematology",
+        "name": "Hematology",
+        "relevance": 5,
+        "documents": [
+          "05_lab_panel.pdf"
+        ],
+        "symptoms": [
+          "Easy bruising",
+          "More tired"
+        ],
+        "reason": "Easy bruising and gum bleeding with a high INR and low hemoglobin are central findings requiring review.",
+        "why_active": "documents+symptoms"
+      },
+      {
+        "specialty": "cardiology",
+        "name": "Cardiology",
+        "relevance": 4,
+        "documents": [
+          "01_primary_care_visit_summary.txt",
+          "02_cardiology_discharge_summary.pdf",
+          "05_lab_panel.pdf"
+        ],
+        "symptoms": [
+          "Dizziness when standing up",
+          "Fall"
+        ],
+        "reason": "Atrial fibrillation and the flagged INR make review of his cardiac and anticoagulation regimen important, alongside standing dizziness and a fall.",
+        "why_active": "documents+symptoms"
+      },
+      {
+        "specialty": "nephrology",
+        "name": "Nephrology",
+        "relevance": 4,
+        "documents": [
+          "01_primary_care_visit_summary.txt",
+          "05_lab_panel.pdf"
+        ],
+        "symptoms": [],
+        "reason": "Stage 3 kidney disease with elevated creatinine, reduced eGFR, and high potassium is relevant to medication safety and the current concerns.",
+        "why_active": "documents"
+      },
+      {
+        "specialty": "endocrinology",
+        "name": "Endocrinology",
+        "relevance": 2,
+        "documents": [
+          "01_primary_care_visit_summary.txt",
+          "02_cardiology_discharge_summary.pdf",
+          "05_lab_panel.pdf"
+        ],
+        "symptoms": [],
+        "reason": "The records include type 2 diabetes and a flagged HbA1c, though this is not the main concern.",
+        "why_active": "documents"
+      },
+      {
+        "specialty": "urology",
+        "name": "Urology",
+        "relevance": 2,
+        "documents": [
+          "01_primary_care_visit_summary.txt",
+          "04_urology_note_scanned.jpg"
+        ],
+        "symptoms": [
+          "Waking 3-4 times a night to urinate"
+        ],
+        "reason": "Enlarged prostate and persistent nighttime urination are documented, and getting up at night is relevant to the fall.",
+        "why_active": "documents+symptoms"
+      }
+    ],
+    "consider_seeing": [
+      {
+        "specialty": "orthopedics",
+        "name": "Orthopedics and traumatology",
+        "reason": "The knee osteoarthritis and recent fall with hip bruising are within orthopedic scope; the thigh aching is also relevant to review in context."
+      }
+    ],
+    "unassigned_documents": [
+      "03_orthopedics_note.txt"
+    ],
+    "conflicts": [
+      {
+        "kind": "medication_not_in_records",
+        "document": null,
+        "item": "Aspirin (over the counter)",
+        "message": "Aspirin (over the counter) is on your list but does not appear in any uploaded record. That is normal for over-the-counter products; please confirm you take it as listed."
+      },
+      {
+        "kind": "medication_not_in_records",
+        "document": null,
+        "item": "Acetaminophen PM (acetaminophen 500 mg + diphenhydramine 25 mg, over the counter)",
+        "message": "Acetaminophen PM (acetaminophen 500 mg + diphenhydramine 25 mg, over the counter) is on your list but does not appear in any uploaded record. That is normal for over-the-counter products; please confirm you take it as listed."
+      }
+    ],
+    "medications": [
+      {
+        "generic_name": "lisinopril",
+        "names_seen": [
+          "Lisinopril",
+          "lisinopril"
+        ],
+        "sources": [
+          "questionnaire",
+          "01_primary_care_visit_summary.txt",
+          "02_cardiology_discharge_summary.pdf",
+          "03_orthopedics_note.txt",
+          "04_urology_note_scanned.jpg"
+        ],
+        "doses": [
+          "20 mg once a day",
+          "20 mg 1 tablet daily",
+          "20 mg daily"
+        ],
+        "prescribers": [
+          "Dr. Alvarez (primary care)",
+          "Robert Alvarez, MD"
+        ],
+        "statuses": [
+          "taking (per patient)",
+          "taking"
+        ]
+      },
+      {
+        "generic_name": "doxazosin",
+        "names_seen": [
+          "Doxazosin",
+          "doxazosin"
+        ],
+        "sources": [
+          "questionnaire",
+          "01_primary_care_visit_summary.txt",
+          "02_cardiology_discharge_summary.pdf"
+        ],
+        "doses": [
+          "4 mg at bedtime",
+          "4 mg 1 tablet at bedtime"
+        ],
+        "prescribers": [
+          "Dr. Alvarez (primary care)",
+          "Robert Alvarez, MD"
+        ],
+        "statuses": [
+          "taking (per patient)",
+          "taking",
+          "mentioned_only"
+        ]
+      },
+      {
+        "generic_name": "simvastatin",
+        "names_seen": [
+          "Simvastatin",
+          "simvastatin"
+        ],
+        "sources": [
+          "questionnaire",
+          "01_primary_care_visit_summary.txt",
+          "02_cardiology_discharge_summary.pdf"
+        ],
+        "doses": [
+          "40 mg at bedtime",
+          "40 mg 1 tablet at bedtime"
+        ],
+        "prescribers": [
+          "Dr. Alvarez (primary care)",
+          "Robert Alvarez, MD"
+        ],
+        "statuses": [
+          "taking (per patient)",
+          "taking",
+          "mentioned_only"
+        ]
+      },
+      {
+        "generic_name": "metformin",
+        "names_seen": [
+          "Metformin",
+          "metformin"
+        ],
+        "sources": [
+          "questionnaire",
+          "01_primary_care_visit_summary.txt",
+          "02_cardiology_discharge_summary.pdf",
+          "03_orthopedics_note.txt",
+          "04_urology_note_scanned.jpg"
+        ],
+        "doses": [
+          "1000 mg twice a day",
+          "1000 mg 1 tablet twice daily",
+          "1000 mg twice daily"
+        ],
+        "prescribers": [
+          "Dr. Alvarez (primary care)",
+          "Robert Alvarez, MD"
+        ],
+        "statuses": [
+          "taking (per patient)",
+          "taking"
+        ]
+      },
+      {
+        "generic_name": "omeprazole",
+        "names_seen": [
+          "Omeprazole",
+          "omeprazole"
+        ],
+        "sources": [
+          "questionnaire",
+          "01_primary_care_visit_summary.txt",
+          "02_cardiology_discharge_summary.pdf"
+        ],
+        "doses": [
+          "20 mg once a day",
+          "20 mg 1 capsule daily",
+          "20 mg daily"
+        ],
+        "prescribers": [
+          "Dr. Alvarez (primary care)",
+          "Robert Alvarez, MD"
+        ],
+        "statuses": [
+          "taking (per patient)",
+          "taking"
+        ]
+      },
+      {
+        "generic_name": "warfarin",
+        "names_seen": [
+          "Warfarin",
+          "warfarin"
+        ],
+        "sources": [
+          "questionnaire",
+          "02_cardiology_discharge_summary.pdf",
+          "04_urology_note_scanned.jpg"
+        ],
+        "doses": [
+          "5 mg once a day (clinic adjusts)",
+          "5 mg daily"
+        ],
+        "prescribers": [
+          "Dr. Rao (cardiology)"
+        ],
+        "statuses": [
+          "taking (per patient)",
+          "started",
+          "taking"
+        ]
+      },
+      {
+        "generic_name": "metoprolol succinate",
+        "names_seen": [
+          "Metoprolol succinate",
+          "metoprolol",
+          "metoprolol succinate"
+        ],
+        "sources": [
+          "questionnaire",
+          "02_cardiology_discharge_summary.pdf"
+        ],
+        "doses": [
+          "50 mg once a day",
+          "50 mg daily"
+        ],
+        "prescribers": [
+          "Dr. Rao (cardiology)"
+        ],
+        "statuses": [
+          "taking (per patient)",
+          "mentioned_only",
+          "started"
+        ]
+      },
+      {
+        "generic_name": "atorvastatin",
+        "names_seen": [
+          "Atorvastatin",
+          "atorvastatin"
+        ],
+        "sources": [
+          "questionnaire",
+          "02_cardiology_discharge_summary.pdf"
+        ],
+        "doses": [
+          "40 mg once a day",
+          "40 mg daily"
+        ],
+        "prescribers": [
+          "Dr. Rao (cardiology)"
+        ],
+        "statuses": [
+          "taking (per patient)",
+          "started"
+        ]
+      },
+      {
+        "generic_name": "naproxen",
+        "names_seen": [
+          "Naproxen"
+        ],
+        "sources": [
+          "questionnaire",
+          "03_orthopedics_note.txt"
+        ],
+        "doses": [
+          "500 mg twice a day with food",
+          "500 mg by mouth twice daily with food for 4 weeks, then as needed"
+        ],
+        "prescribers": [
+          "Dr. O'Brien (orthopedics)",
+          "Kevin O'Brien, MD"
+        ],
+        "statuses": [
+          "taking (per patient)",
+          "started"
+        ]
+      },
+      {
+        "generic_name": "tamsulosin",
+        "names_seen": [
+          "Tamsulosin",
+          "tamsulosin"
+        ],
+        "sources": [
+          "questionnaire",
+          "04_urology_note_scanned.jpg"
+        ],
+        "doses": [
+          "0.4 mg once a day after dinner",
+          "0.4 mg once daily, 30 minutes after the same meal each day"
+        ],
+        "prescribers": [
+          "Dr. Stein (urology)",
+          "Michael Stein, MD"
+        ],
+        "statuses": [
+          "taking (per patient)",
+          "started"
+        ]
+      },
+      {
+        "generic_name": "aspirin",
+        "names_seen": [
+          "Aspirin (over the counter)"
+        ],
+        "sources": [
+          "questionnaire"
+        ],
+        "doses": [
+          "81 mg once a day"
+        ],
+        "prescribers": [
+          "himself (his brother said it's good for the heart)"
+        ],
+        "statuses": [
+          "taking (per patient)"
+        ]
+      },
+      {
+        "generic_name": "acetaminophen/diphenhydramine",
+        "names_seen": [
+          "Acetaminophen PM (acetaminophen 500 mg + diphenhydramine 25 mg, over the counter)"
+        ],
+        "sources": [
+          "questionnaire"
+        ],
+        "doses": [
+          "1-2 tablets most nights"
+        ],
+        "prescribers": [
+          "himself"
+        ],
+        "statuses": [
+          "taking (per patient)"
+        ]
+      }
+    ],
+    "labs": [
+      {
+        "document": "01_primary_care_visit_summary.txt",
+        "test": "BP",
+        "value": "132/78",
+        "unit": null,
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-05-06"
+      },
+      {
+        "document": "01_primary_care_visit_summary.txt",
+        "test": "HR",
+        "value": "74",
+        "unit": null,
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-05-06"
+      },
+      {
+        "document": "01_primary_care_visit_summary.txt",
+        "test": "Weight",
+        "value": "84",
+        "unit": "kg",
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-05-06"
+      },
+      {
+        "document": "01_primary_care_visit_summary.txt",
+        "test": "HbA1c",
+        "value": "7.1",
+        "unit": "%",
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-04-22"
+      },
+      {
+        "document": "01_primary_care_visit_summary.txt",
+        "test": "Creatinine",
+        "value": "1.5",
+        "unit": "mg/dL",
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-04-22"
+      },
+      {
+        "document": "01_primary_care_visit_summary.txt",
+        "test": "eGFR",
+        "value": "47",
+        "unit": null,
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-04-22"
+      },
+      {
+        "document": "01_primary_care_visit_summary.txt",
+        "test": "Potassium",
+        "value": "4.8",
+        "unit": null,
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-04-22"
+      },
+      {
+        "document": "01_primary_care_visit_summary.txt",
+        "test": "Hemoglobin",
+        "value": "13.4",
+        "unit": "g/dL",
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-04-22"
+      },
+      {
+        "document": "01_primary_care_visit_summary.txt",
+        "test": "LDL",
+        "value": "88",
+        "unit": "mg/dL",
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-04-22"
+      },
+      {
+        "document": "02_cardiology_discharge_summary.pdf",
+        "test": "HR",
+        "value": "138",
+        "unit": null,
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-06-14"
+      },
+      {
+        "document": "02_cardiology_discharge_summary.pdf",
+        "test": "Ejection fraction",
+        "value": "55%",
+        "unit": null,
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-06-14"
+      },
+      {
+        "document": "02_cardiology_discharge_summary.pdf",
+        "test": "CHA2DS2-VASc",
+        "value": "4",
+        "unit": null,
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-06-14"
+      },
+      {
+        "document": "02_cardiology_discharge_summary.pdf",
+        "test": "INR",
+        "value": "2.1",
+        "unit": null,
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-06-14"
+      },
+      {
+        "document": "04_urology_note_scanned.jpg",
+        "test": "PSA",
+        "value": "3.1",
+        "unit": "ng/mL",
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-07-15"
+      },
+      {
+        "document": "04_urology_note_scanned.jpg",
+        "test": "PSA",
+        "value": "2.9",
+        "unit": null,
+        "reference_range": null,
+        "flag": "none",
+        "date": "2025"
+      },
+      {
+        "document": "04_urology_note_scanned.jpg",
+        "test": "Post-void residual by bladder scan",
+        "value": "90",
+        "unit": "mL",
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-07-15"
+      },
+      {
+        "document": "05_lab_panel.pdf",
+        "test": "INR",
+        "value": "3.9",
+        "unit": "ratio",
+        "reference_range": "2.0 - 3.0 (goal)",
+        "flag": "high",
+        "date": "2026-09-08"
+      },
+      {
+        "document": "05_lab_panel.pdf",
+        "test": "Hemoglobin",
+        "value": "11.9",
+        "unit": "g/dL",
+        "reference_range": "13.5 - 17.5",
+        "flag": "low",
+        "date": "2026-09-08"
+      },
+      {
+        "document": "05_lab_panel.pdf",
+        "test": "Platelets",
+        "value": "214",
+        "unit": "x10^3/uL",
+        "reference_range": "150 - 400",
+        "flag": "none",
+        "date": "2026-09-08"
+      },
+      {
+        "document": "05_lab_panel.pdf",
+        "test": "Creatinine",
+        "value": "1.7",
+        "unit": "mg/dL",
+        "reference_range": "0.7 - 1.3",
+        "flag": "high",
+        "date": "2026-09-08"
+      },
+      {
+        "document": "05_lab_panel.pdf",
+        "test": "eGFR",
+        "value": "40",
+        "unit": "mL/min/1.73m2",
+        "reference_range": ">60",
+        "flag": "low",
+        "date": "2026-09-08"
+      },
+      {
+        "document": "05_lab_panel.pdf",
+        "test": "Potassium",
+        "value": "5.3",
+        "unit": "mmol/L",
+        "reference_range": "3.5 - 5.1",
+        "flag": "high",
+        "date": "2026-09-08"
+      },
+      {
+        "document": "05_lab_panel.pdf",
+        "test": "Sodium",
+        "value": "137",
+        "unit": "mmol/L",
+        "reference_range": "135 - 145",
+        "flag": "none",
+        "date": "2026-09-08"
+      },
+      {
+        "document": "05_lab_panel.pdf",
+        "test": "HbA1c",
+        "value": "7.0",
+        "unit": "%",
+        "reference_range": "<5.7",
+        "flag": "high",
+        "date": "2026-09-08"
+      },
+      {
+        "document": "05_lab_panel.pdf",
+        "test": "ALT",
+        "value": "28",
+        "unit": "U/L",
+        "reference_range": "7 - 55",
+        "flag": "none",
+        "date": "2026-09-08"
+      },
+      {
+        "document": "05_lab_panel.pdf",
+        "test": "AST",
+        "value": "31",
+        "unit": "U/L",
+        "reference_range": "8 - 48",
+        "flag": "none",
+        "date": "2026-09-08"
+      },
+      {
+        "document": "05_lab_panel.pdf",
+        "test": "Creatine kinase (CK)",
+        "value": "236",
+        "unit": "U/L",
+        "reference_range": "40 - 200",
+        "flag": "high",
+        "date": "2026-09-08"
+      },
+      {
+        "document": "05_lab_panel.pdf",
+        "test": "LDL cholesterol",
+        "value": "58",
+        "unit": "mg/dL",
+        "reference_range": "<100",
+        "flag": "none",
+        "date": "2026-09-08"
+      },
+      {
+        "document": "05_lab_panel.pdf",
+        "test": "Hemoglobin (previous)",
+        "value": "13.4",
+        "unit": null,
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-04-22"
+      },
+      {
+        "document": "05_lab_panel.pdf",
+        "test": "Creatinine (previous)",
+        "value": "1.5",
+        "unit": null,
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-04-22"
+      },
+      {
+        "document": "05_lab_panel.pdf",
+        "test": "eGFR (previous)",
+        "value": "47",
+        "unit": null,
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-04-22"
+      },
+      {
+        "document": "05_lab_panel.pdf",
+        "test": "Potassium (previous)",
+        "value": "4.8",
+        "unit": null,
+        "reference_range": null,
+        "flag": "none",
+        "date": "2026-04-22"
+      }
+    ],
+    "safety_signals": []
+  },
+  "usage": {
+    "price_source": "gpt-6-luna, OpenAI standard pricing per 1M tokens (MGT 409 Lecture 11)",
+    "totals": {
+      "requests": 25,
+      "input_tokens": 105425,
+      "cached_input_tokens": 71663,
+      "cache_write_tokens": 33687,
+      "output_tokens": 18066,
+      "reasoning_tokens": 1195,
+      "cost_usd": 0.013968,
+      "model_calls": 19,
+      "cache_hits": 0,
+      "failed_calls": 0
+    },
+    "by_agent": {
+      "intake_extract": {
+        "calls": 5,
+        "input_tokens": 14015,
+        "cached_input_tokens": 13746,
+        "output_tokens": 2701,
+        "cost_usd": 0.001521
+      },
+      "intake_vision": {
+        "calls": 1,
+        "input_tokens": 3266,
+        "cached_input_tokens": 3263,
+        "output_tokens": 290,
+        "cost_usd": 0.000178
+      },
+      "intake_route": {
+        "calls": 1,
+        "input_tokens": 2568,
+        "cached_input_tokens": 1487,
+        "output_tokens": 1107,
+        "cost_usd": 0.000703
+      },
+      "specialist_r1": {
+        "calls": 5,
+        "input_tokens": 44528,
+        "cached_input_tokens": 38512,
+        "output_tokens": 6137,
+        "cost_usd": 0.004205
+      },
+      "pharmacist": {
+        "calls": 1,
+        "input_tokens": 12091,
+        "cached_input_tokens": 5068,
+        "output_tokens": 2627,
+        "cost_usd": 0.002242
+      },
+      "specialist_r2": {
+        "calls": 4,
+        "input_tokens": 18333,
+        "cached_input_tokens": 8204,
+        "output_tokens": 2252,
+        "cost_usd": 0.002474
+      },
+      "coordinator": {
+        "calls": 1,
+        "input_tokens": 7326,
+        "cached_input_tokens": 1383,
+        "output_tokens": 2651,
+        "cost_usd": 0.002082
+      },
+      "safety_reviewer": {
+        "calls": 1,
+        "input_tokens": 3298,
+        "cached_input_tokens": 0,
+        "output_tokens": 301,
+        "cost_usd": 0.000563
+      }
+    },
+    "calls": [
+      {
+        "agent": "intake_extract",
+        "label": "03_orthopedics_note.txt",
+        "requests": 1,
+        "input_tokens": 2766,
+        "cached_input_tokens": 2763,
+        "cache_write_tokens": 0,
+        "output_tokens": 314,
+        "reasoning_tokens": 0,
+        "seconds": 3.73,
+        "cost_usd": 0.00018493,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_vision",
+        "label": "04_urology_note_scanned.jpg",
+        "requests": 1,
+        "input_tokens": 3266,
+        "cached_input_tokens": 3263,
+        "cache_write_tokens": 0,
+        "output_tokens": 290,
+        "reasoning_tokens": 0,
+        "seconds": 3.83,
+        "cost_usd": 0.00017793,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_extract",
+        "label": "01_primary_care_visit_summary.txt",
+        "requests": 1,
+        "input_tokens": 2816,
+        "cached_input_tokens": 2813,
+        "cache_write_tokens": 0,
+        "output_tokens": 652,
+        "reasoning_tokens": 0,
+        "seconds": 4.23,
+        "cost_usd": 0.00035443,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_extract",
+        "label": "02_cardiology_discharge_summary.pdf",
+        "requests": 1,
+        "input_tokens": 2850,
+        "cached_input_tokens": 2847,
+        "cache_write_tokens": 0,
+        "output_tokens": 564,
+        "reasoning_tokens": 0,
+        "seconds": 5.5,
+        "cost_usd": 0.00031077,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_extract",
+        "label": "04_urology_note_scanned.jpg",
+        "requests": 1,
+        "input_tokens": 2721,
+        "cached_input_tokens": 2464,
+        "cache_write_tokens": 254,
+        "output_tokens": 390,
+        "reasoning_tokens": 0,
+        "seconds": 3.8,
+        "cost_usd": 0.00025169,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_extract",
+        "label": "05_lab_panel.pdf",
+        "requests": 1,
+        "input_tokens": 2862,
+        "cached_input_tokens": 2859,
+        "cache_write_tokens": 0,
+        "output_tokens": 781,
+        "reasoning_tokens": 0,
+        "seconds": 4.91,
+        "cost_usd": 0.00041939,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "intake_route",
+        "label": "case4_polypharmacy",
+        "requests": 1,
+        "input_tokens": 2568,
+        "cached_input_tokens": 1487,
+        "cache_write_tokens": 1078,
+        "output_tokens": 1107,
+        "reasoning_tokens": 274,
+        "seconds": 8.25,
+        "cost_usd": 0.00070342,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "specialist_r1",
+        "label": "r1.hematology",
+        "requests": 2,
+        "input_tokens": 7941,
+        "cached_input_tokens": 7935,
+        "cache_write_tokens": 0,
+        "output_tokens": 1414,
+        "reasoning_tokens": 222,
+        "seconds": 11.7,
+        "cost_usd": 0.00078695,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "specialist_r1",
+        "label": "r1.endocrinology",
+        "requests": 2,
+        "input_tokens": 10160,
+        "cached_input_tokens": 9132,
+        "cache_write_tokens": 1022,
+        "output_tokens": 1135,
+        "reasoning_tokens": 0,
+        "seconds": 11.86,
+        "cost_usd": 0.00078717,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "specialist_r1",
+        "label": "r1.nephrology",
+        "requests": 2,
+        "input_tokens": 8696,
+        "cached_input_tokens": 8358,
+        "cache_write_tokens": 332,
+        "output_tokens": 1076,
+        "reasoning_tokens": 0,
+        "seconds": 12.45,
+        "cost_usd": 0.00066368,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "specialist_r1",
+        "label": "r1.cardiology",
+        "requests": 2,
+        "input_tokens": 9427,
+        "cached_input_tokens": 9100,
+        "cache_write_tokens": 321,
+        "output_tokens": 1561,
+        "reasoning_tokens": 166,
+        "seconds": 14.0,
+        "cost_usd": 0.000912225,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "pharmacist",
+        "label": "r1.clinical_pharmacist",
+        "requests": 2,
+        "input_tokens": 12091,
+        "cached_input_tokens": 5068,
+        "cache_write_tokens": 7017,
+        "output_tokens": 2627,
+        "reasoning_tokens": 131,
+        "seconds": 22.49,
+        "cost_usd": 0.002241905,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "specialist_r1",
+        "label": "r1.urology",
+        "requests": 2,
+        "input_tokens": 8304,
+        "cached_input_tokens": 3987,
+        "cache_write_tokens": 4311,
+        "output_tokens": 951,
+        "reasoning_tokens": 0,
+        "seconds": 35.69,
+        "cost_usd": 0.001054845,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "specialist_r2",
+        "label": "r2.hematology",
+        "requests": 1,
+        "input_tokens": 4418,
+        "cached_input_tokens": 2051,
+        "cache_write_tokens": 2364,
+        "output_tokens": 493,
+        "reasoning_tokens": 0,
+        "seconds": 4.62,
+        "cost_usd": 0.00056281,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "specialist_r2",
+        "label": "r2.nephrology",
+        "requests": 1,
+        "input_tokens": 4645,
+        "cached_input_tokens": 2051,
+        "cache_write_tokens": 2591,
+        "output_tokens": 500,
+        "reasoning_tokens": 0,
+        "seconds": 5.25,
+        "cost_usd": 0.000594685,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "specialist_r2",
+        "label": "r2.endocrinology",
+        "requests": 1,
+        "input_tokens": 4607,
+        "cached_input_tokens": 2051,
+        "cache_write_tokens": 2553,
+        "output_tokens": 528,
+        "reasoning_tokens": 0,
+        "seconds": 5.3,
+        "cost_usd": 0.000603935,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "specialist_r2",
+        "label": "r2.cardiology",
+        "requests": 1,
+        "input_tokens": 4663,
+        "cached_input_tokens": 2051,
+        "cache_write_tokens": 2609,
+        "output_tokens": 731,
+        "reasoning_tokens": 0,
+        "seconds": 5.81,
+        "cost_usd": 0.000712435,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "coordinator",
+        "label": "coordinator.synthesis",
+        "requests": 1,
+        "input_tokens": 7326,
+        "cached_input_tokens": 1383,
+        "cache_write_tokens": 5940,
+        "output_tokens": 2651,
+        "reasoning_tokens": 168,
+        "seconds": 16.05,
+        "cost_usd": 0.00208213,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      },
+      {
+        "agent": "safety_reviewer",
+        "label": "safety_reviewer",
+        "requests": 1,
+        "input_tokens": 3298,
+        "cached_input_tokens": 0,
+        "cache_write_tokens": 3295,
+        "output_tokens": 301,
+        "reasoning_tokens": 234,
+        "seconds": 3.64,
+        "cost_usd": 0.000562675,
+        "ok": true,
+        "error": null,
+        "from_cache": false
+      }
+    ]
+  },
+  "budget": {
+    "spent_usd": 0.013968,
+    "run_limit_usd": 0.05,
+    "limit_usd": 0.05,
+    "remaining_usd": 0.036032
+  }
+}

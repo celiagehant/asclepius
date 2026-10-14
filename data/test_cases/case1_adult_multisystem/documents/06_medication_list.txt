@@ -1,0 +1,21 @@
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA
+
+PATIENT PORTAL - CURRENT MEDICATIONS (printed 09/10/2026)
+Patient: Dana Whitfield    DOB: 03/12/1984
+Pharmacy on file: Corner Street Pharmacy
+
+MEDICATION                          DIRECTIONS                     PRESCRIBER
+Propranolol 10 mg tablet            1 tab up to twice daily as     A. Rhodes, MD
+                                    needed for palpitations        (Cardiology)
+                                    Started 07/29/2026
+Omeprazole 40 mg capsule            1 cap daily before breakfast   M. Feld, MD
+                                    for 8 weeks                    (Gastroenterology)
+                                    Started 09/02/2026
+Norgestimate/ethinyl estradiol      1 tab daily                    S. Patel, MD
+0.25 mg/0.035 mg tablet             Long-term                      (OB/GYN)
+Ibuprofen 200 mg tablet (OTC)       2 tabs up to 3 times daily     Self-reported
+                                    for headaches                  (over the counter)
+
+Allergies: No known drug allergies.
+
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA

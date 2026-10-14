@@ -1,0 +1,38 @@
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA
+
+NORTHSIDE URGENT CARE - VISIT NOTE
+Patient: Theo Lindqvist    DOB: 04/02/2019 (7 y)    Visit: 09/20/2026
+Clinician: Jordan Kim, PA-C
+Accompanied by: father (Erik Lindqvist)
+
+CHIEF COMPLAINT
+Headaches for 2 weeks; tired.
+
+HISTORY (per father)
+Frontal headaches most mornings for 2 weeks. More tired than usual, less
+interested in playing. Drinking a lot of water, waking at night to pass
+urine, and two recent bedwetting episodes after being dry for years.
+Eating less. No vomiting, no fever, no vision changes, no head injury.
+
+VITAL SIGNS
+Temp 36.9 C   HR 92   BP 122/80   RR 20   SpO2 99%
+Weight 20.1 kg   Height 116 cm
+
+EXAM
+Well appearing, somewhat pale. Neurologic exam normal; no neck stiffness.
+Throat and ears normal. Heart and lungs normal.
+
+LABS: Drawn today, see lab report. Alkaline phosphatase and phosphorus
+flagged high by the lab; likely normal for a growing child. Hemoglobin
+mildly low; suggested iron-rich foods. Kidney function within normal
+limits. Urine dilute.
+
+ASSESSMENT
+Headache, likely tension-type or viral. Blood pressure within normal
+limits.
+
+PLAN
+Ibuprofen 200 mg by mouth every 6-8 hours as needed for headache.
+Encourage fluids. Follow up with pediatrician if not improved in 1 week.
+
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA
