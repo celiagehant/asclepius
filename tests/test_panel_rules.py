@@ -16,7 +16,7 @@ from backend import budget as budget_mod, safety  # noqa: E402
 from backend.events import RunEvents  # noqa: E402
 from backend.llm import CallRecord, UsageMeter  # noqa: E402
 from backend.panel import (  # noqa: E402
-    AgentDeps, code_safety_pass, documents_for, plan_round2, validate_specialist, validate_summary,
+    AgentDeps, code_safety_pass, documents_for, validate_specialist, validate_summary,
 )
 from backend.schemas import (  # noqa: E402
     ActiveSpecialist, CaseSummaryOutput, DocumentExtractionOutput, DocumentRecord, IntakeResult, Modes,
@@ -57,7 +57,8 @@ def report(findings: list[dict], sources: list[dict] | None = None) -> Specialis
 
 
 def finding(document: str, quote: str, statement: str = "The heart rate was fast.", region: str | None = "heart") -> dict:
-    return {"statement": statement, "document": document, "quote": quote, "significance": "abnormal", "region": region}
+    return {"statement": statement, "document": document, "quote": quote, "significance": "abnormal", "region": region,
+            "board_line": statement, "system": "cardiovascular", "symptoms": ["palpitations"]}
 
 
 def test_specialists_only_get_documents_routed_to_them():
@@ -106,52 +107,13 @@ def test_raw_images_only_give_unverified_impressions():
     assert f["significance"] == "unclear" and rep["confidence"] == "low"
 
 
-def _r(name: str, regions: list[str], tests: list[str], asks: list[str] | None = None, significance: str = "abnormal") -> dict:
-    return {"name": name, "confidence": "high", "findings": [{"id": f"{name}.F{i}", "region": r, "significance": significance,
-                                                              "statement": "s", "document": "d"} for i, r in enumerate(regions, 1)],
-            "abnormal_values": [{"test": t, "value": "1", "unit": None, "interpretation": "high", "reference_used": "r"} for t in tests],
-            "concerns": [], "questions_for_specialists": [{"to_specialty": a, "question": "q?"} for a in (asks or [])]}
-
-
-def test_round2_is_targeted_not_everyone():
-    reports = {"cardiology": _r("cardiology", ["heart"], []), "hematology": _r("hematology", ["blood"], ["Hemoglobin"]),
-               "gastroenterology": _r("gastroenterology", ["stomach"], ["hemoglobin"]),
-               "dermatology": _r("dermatology", ["skin"], [], asks=["rheumatology"]),
-               "endocrinology": _r("endocrinology", ["thyroid"], [], asks=["cardiology"])}
-    plan = plan_round2(reports, None, {})
-    assert set(plan["hematology"]["peers"]) == {"gastroenterology"}          # shared abnormal value
-    assert set(plan["cardiology"]["peers"]) == {"endocrinology"}             # must answer endocrinology's question
-    assert plan["cardiology"]["questions"] == [{"from": "endocrinology", "question": "q?"}]
-    assert plan["endocrinology"]["peers"] == {}                               # asking does not earn the other's report
-    assert plan["dermatology"]["peers"] == {}                                 # nobody shares anything: skipped
-    pair_count = sum(len(p["peers"]) for p in plan.values())
-    assert pair_count < len(reports) * (len(reports) - 1)                     # fewer than all-to-all
-
-
-def test_peers_are_capped_strongest_first_and_questions_limited():
-    from backend.panel import MAX_PEERS, _limit_questions
+def test_panel_questions_are_limited():
+    from backend.panel import _limit_questions
     from backend.schemas import QuestionForSpecialist
-    reports = {"hematology": _r("hematology", ["blood"], ["Hemoglobin", "INR"])}
-    for s, tests_ in (("cardiology", ["INR"]), ("nephrology", ["hemoglobin"]), ("gastroenterology", []),
-                      ("endocrinology", []), ("urology", [])):
-        reports[s] = _r(s, ["blood"], tests_, asks=["hematology"])
-    plan = plan_round2(reports, None, {})
-    assert len(plan["hematology"]["peers"]) == MAX_PEERS
-    assert list(plan["hematology"]["peers"])[:2] == ["cardiology", "nephrology"]  # shared values rank first
-    assert len(plan["hematology"]["questions"]) == 5                             # every question still answered
     qs = [QuestionForSpecialist(to_specialty=t, question="q") for t in
           ("cardiology", "nephrology", "urology", "internal_medicine", "clinical_pharmacist", "hematology")]
     kept = [q["to_specialty"] for q in _limit_questions("hematology", qs)]
     assert kept == ["cardiology", "nephrology", "internal_medicine", "clinical_pharmacist"]
-
-
-def test_shared_region_needs_abnormal_findings_on_both_sides():
-    reports = {"hematology": _r("hematology", ["blood"], []),
-               "cardiology": _r("cardiology", ["blood"], [], significance="normal_but_relevant"),
-               "nephrology": _r("nephrology", ["blood"], [], significance="borderline")}
-    plan = plan_round2(reports, None, {})
-    assert set(plan["hematology"]["peers"]) == {"nephrology"}   # abnormal + borderline: talk
-    assert plan["cardiology"]["peers"] == {}                    # only a normal finding there: skip
 
 
 def test_summary_points_must_cite_existing_findings():

@@ -62,6 +62,11 @@ Read only your documents, the questionnaire and your profile, then return:
   significance and the body region it concerns (from the fixed list, or null). Prefer
   3-7 findings that matter over a long list. Include normal results only when they are
   relevant to the patient's concerns (for example "the heart ultrasound was normal").
+  Each finding is also posted on the shared case board that the whole panel reads, so
+  give it: board_line (the fact in at most 15 words, values included, no advice), system
+  (one tag from the fixed list below) and symptoms (up to 3 short lowercase tags such as
+  "fatigue" or "palpitations" that the finding may relate to; empty if none). Good tags
+  let other specialists see connections across body systems.
 - abnormal_values: values that are abnormal for THIS patient (age, sex, pregnancy), with
   the range you used. Include values flagged on the document that you judge normal for
   this patient, marked normal_despite_flag.
@@ -80,17 +85,37 @@ Read only your documents, the questionnaire and your profile, then return:
   unreachable or returns nothing useful, say so in source_note and do not cite it.
 - confidence and insufficient_information (with what is missing).
 
-# Round 2: the targeted conference
+# Round 2: the connection round
 
-You receive your round-1 report, the round-1 reports of the specialists who share a
-question, an abnormal value or a body region with you, and any questions addressed to
-you. You have no tools in round 2. Return:
-- agreements and disagreements with specific peers (with a reason for each disagreement),
-- connections between your findings and theirs, citing finding ids exactly as shown
-  (for example "hematology.F2"),
-- answers to the questions addressed to you,
-- revised_concerns: only concerns that are new or changed after reading your peers.
-Be brief. Do not repeat your round-1 report. The conference ends after round 2.
+After round 1, every finding of the panel is posted on the shared case board: one line per
+post with its id, body system, symptom tags, significance and region. You receive the
+whole board, your own round-1 report and any questions addressed to you. You have no tools.
+
+Look across body systems for findings that could share one explanation. That is the
+point of the conference: specialists who never talk to each other each see one piece.
+Use the pattern library as a starting point, not a limit. Return:
+- connections: at most 2, strongest first. Each links at least 2 board posts from at least
+  2 body systems, citing post ids exactly as shown (posts from other specialists, the
+  pharmacist and intake count, and are often the most useful). Give:
+  - title: the pattern in plain words, phrased as something that COULD connect the
+    findings ("Iron loss from slow bleeding in the gut could connect the tiredness, racing
+    heart and low ferritin"). Never "you have", "this is" or "confirms".
+  - pattern_id: the library id, or "panel-proposed".
+  - why_it_fits: 1-3 bullets, each naming the posts it rests on.
+  - would_help_tell: 1-2 things the patient could ask about that would support or rule
+    out the pattern.
+  Propose nothing rather than a weak link. Respect the mode: use pediatric ranges in
+  pediatric mode, pregnancy patterns only in pregnancy mode.
+- answers: answers to the questions addressed to you.
+
+# Round 3: the debate
+
+You receive the board and the candidate connections, each with the skeptic's challenge.
+You have no tools. For candidates you proposed, answer the skeptic: "defend" (with the
+posts that answer the challenge) or "concede" (if the challenge is right; conceding a weak
+link is good medicine). For other candidates, add "support" or "challenge" only where your
+specialty has something specific to say, with the posts your reason rests on. Skip the
+rest. Be brief.
 
 # Style
 
@@ -101,3 +126,9 @@ explanation. No alarmism, no false reassurance.
 
 brain, eyes, ent, thyroid, heart, lungs, stomach, liver, intestines, kidneys,
 bladder_prostate, reproductive, blood, bones_joints, skin, mind
+
+# Body systems for the case board (fixed list)
+
+cardiovascular, respiratory, digestive, liver, kidney_urinary, endocrine_metabolic, blood,
+immune_joints, nervous_system, mental_health, skin, musculoskeletal, reproductive, eyes,
+ear_nose_throat, medication, lifestyle, general

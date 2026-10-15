@@ -23,7 +23,7 @@ from pydantic_ai.models import ModelRequestParameters  # noqa: E402
 
 from backend import db, llm  # noqa: E402
 from backend.main import app  # noqa: E402
-from backend.panel import member_of, plan_round2  # noqa: E402
+from backend.panel import member_of  # noqa: E402
 
 
 def test_cost_formula_uses_the_published_prices():
@@ -61,16 +61,18 @@ def test_caching_off_puts_a_fresh_random_string_first_on_every_request():
     llm.set_prompt_cache(True)
 
 
-def test_round2_targeted_vs_everyone():
-    def r(name, regions, tests):
-        return {"name": name, "confidence": "high", "concerns": [], "questions_for_specialists": [],
-                "findings": [{"id": f"{name}.F1", "region": x, "significance": "abnormal", "statement": "s", "document": "d"} for x in regions],
-                "abnormal_values": [{"test": t, "value": "1", "unit": None, "interpretation": "high", "reference_used": "r"} for t in tests]}
-    reports = {"a": r("a", ["blood"], ["hb"]), "b": r("b", ["blood"], ["hb"]), "c": r("c", ["skin"], []), "d": r("d", ["eyes"], [])}
-    targeted = plan_round2(reports, None, {})
-    everyone = plan_round2(reports, None, {}, everyone=True)
-    assert sum(len(p["peers"]) for p in targeted.values()) == 2       # only a<->b share anything
-    assert sum(len(p["peers"]) for p in everyone.values()) == 12      # 4 x 3
+def test_round2_reads_one_shared_board_not_every_report():
+    """Round 2 hands every reader the same board block first in the message (cacheable),
+    instead of N-1 peer reports each; new members are metered under their own names."""
+    from backend import board, patterns
+    posts = [{"id": f"m{i}.F1", "by": f"m{i}", "system": "blood", "symptoms": ["fatigue"], "line": "Hb 10", "significance": "abnormal",
+              "region": "blood"} for i in range(5)]
+    assert board.render(posts) == board.render([dict(p) for p in posts])     # identical for every reader
+    assert len(board.render(posts)) < 600                                     # about 25 tokens per post
+    assert patterns.library_block().startswith("# Pattern library")           # the shared cached prefix
+    assert member_of("specialist_r3", "r3.skeptic") == "skeptic"
+    assert member_of("lifestyle", "r4.lifestyle") == "lifestyle"
+    assert member_of("specialist_r2", "r2.hematology (retry 1)") == "hematology"
 
 
 def test_usage_log_is_private_and_deleted_with_the_data():

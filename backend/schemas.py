@@ -274,12 +274,25 @@ Urgency = Literal["routine", "soon", "urgent"]
 Severity = Literal["watch", "discuss", "urgent"]
 
 
+# Body-system tags for the shared case board (fixed list).
+SystemTag = Literal[
+    "cardiovascular", "respiratory", "digestive", "liver", "kidney_urinary", "endocrine_metabolic", "blood",
+    "immune_joints", "nervous_system", "mental_health", "skin", "musculoskeletal", "reproductive", "eyes",
+    "ear_nose_throat", "medication", "lifestyle", "general",
+]
+
+
 class Finding(BaseModel):
     statement: str = Field(description="One plain-language sentence: what the record shows and why it matters to you. No diagnosis.")
     document: str = Field(description="File name of one of YOUR documents, or 'questionnaire'.")
     quote: str = Field(description="A short exact quote (3-25 words) copied from that document that supports the statement.")
     significance: Literal["abnormal", "borderline", "normal_but_relevant", "unclear"]
     region: Region | None
+    board_line: str = Field(description="The finding as one compact line for the shared case board, at most 15 words, "
+                            "facts only (e.g. 'Ferritin 6, low; hemoglobin 10.1, low').")
+    system: SystemTag = Field(description="The body system this finding belongs to.")
+    symptoms: list[str] = Field(description="Up to 3 short lowercase symptom tags this finding relates to "
+                                "(e.g. 'fatigue', 'palpitations'). Empty if none.")
 
 
 class AbnormalValue(BaseModel):
@@ -335,6 +348,8 @@ class MedicationIssue(BaseModel):
     explanation: str = Field(description="Plain language. Never advise starting, stopping or changing anything.")
     discuss_with: list[str] = Field(description="Which prescriber(s) or specialty to discuss it with.")
     urgency: Urgency
+    board_line: str = Field(description="The issue as one compact line for the shared case board, at most 15 words.")
+    symptoms: list[str] = Field(description="Up to 3 short lowercase symptom tags it could relate to (e.g. 'dizziness'). Empty if none.")
     source_urls: list[str] = Field(description="Label or MedlinePlus links returned by your tools in this conversation.")
 
 
@@ -346,35 +361,59 @@ class PharmacistReportOutput(BaseModel):
     confidence: Confidence
 
 
-class Agreement(BaseModel):
-    with_specialty: SpecialtyId
-    point: str
-
-
-class Disagreement(BaseModel):
-    with_specialty: SpecialtyId
-    point: str
-    reason: str
-
-
-class Connection(BaseModel):
-    connection: str = Field(description="A link between your findings and another specialist's, in plain language. No diagnosis.")
-    specialties: list[SpecialtyId]
-    finding_refs: list[str] = Field(description="Ids of the findings it links, e.g. 'cardiology.F1', 'hematology.F2'.")
-
-
 class Answer(BaseModel):
     from_specialty: SpecialtyId
     question: str
     answer: str
 
 
-class Round2Output(BaseModel):
-    agreements: list[Agreement]
-    disagreements: list[Disagreement]
-    connections: list[Connection]
-    answers: list[Answer]
-    revised_concerns: list[Concern] = Field(description="Only concerns that changed or are new after reading your peers.")
+# ---- the four-round conference: connections, skeptic, panel response ---------------------
+
+
+class ProposedConnection(BaseModel):
+    title: str = Field(description="The pattern in plain words, at most 30 words, phrased as something that COULD connect the "
+                       "findings (e.g. 'Iron loss from slow bleeding in the gut could connect the tiredness, racing heart and "
+                       "low ferritin'). Never 'you have'.")
+    board_refs: list[str] = Field(description="Ids of the case-board posts it links, exactly as shown (e.g. 'hematology.F2'). "
+                                  "At least 2, from at least 2 body systems.")
+    pattern_id: str = Field(description="Id from the pattern library (e.g. 'P01'), or 'panel-proposed' if it is not listed.")
+    why_it_fits: list[str] = Field(description="1-3 short bullets, each naming the board posts it rests on.")
+    would_help_tell: list[str] = Field(description="1-2 things the patient could ask their doctor about that would support "
+                                       "or rule out this pattern. Never an order, never a medication change.")
+
+
+class ConnectionRoundOutput(BaseModel):
+    connections: list[ProposedConnection] = Field(description="At most 2, strongest first. Empty if the board shows no real link.")
+    answers: list[Answer] = Field(description="Answers to the questions addressed to you.")
+
+
+class SkepticChallenge(BaseModel):
+    candidate: str = Field(description="Candidate id, e.g. 'C1'.")
+    verdict: Literal["keep", "weaken", "drop"]
+    simpler_explanations: list[str] = Field(description="Other explanations that fit the same posts: a medicine effect, "
+                                            "normal variation, age-specific ranges, a lab or timing artifact, lifestyle, coincidence.")
+    unsupported_refs: list[str] = Field(description="Cited posts that do not actually support the claim.")
+    missing: list[str] = Field(description="What is missing before this pattern could be taken seriously.")
+    reason: str = Field(description="One or two sentences explaining the verdict.")
+
+
+class SkepticOutput(BaseModel):
+    challenges: list[SkepticChallenge] = Field(description="One per candidate.")
+    alternative: ProposedConnection | None = Field(description="At most one simpler or overlooked connection the panel missed, "
+                                                   "citing board posts. Null if none.")
+
+
+class Stance(BaseModel):
+    candidate: str = Field(description="Candidate id, e.g. 'C2'.")
+    stance: Literal["defend", "concede", "support", "challenge"] = Field(
+        description="defend or concede: only for candidates you proposed, answering the skeptic. "
+        "support or challenge: for any other candidate where your specialty has something to add.")
+    reason: str = Field(description="One or two sentences.")
+    board_refs: list[str] = Field(description="Board posts your reason rests on.")
+
+
+class PanelResponseOutput(BaseModel):
+    stances: list[Stance]
 
 
 class ConsultDecisionOutput(BaseModel):

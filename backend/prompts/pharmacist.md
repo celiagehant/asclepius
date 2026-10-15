@@ -41,3 +41,7 @@ prescribing doctors:
    example a high INR with bleeding); "soon" for clear interactions or duplications;
    "routine" otherwise.
 6. In PEDIATRIC MODE consider pediatric use; in PREGNANCY MODE check pregnancy cautions.
+7. Each issue is also posted on the shared case board that the whole panel reads: give a
+   board_line (the issue in at most 15 words, drug names included, no advice) and up to 3
+   lowercase symptom tags it could relate to (for example "dizziness", "bruising",
+   "stomach pain"), so specialists can connect medicines to symptoms.

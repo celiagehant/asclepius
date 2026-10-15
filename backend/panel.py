@@ -1,12 +1,18 @@
-"""The case conference: specialists, pharmacist, two rounds, an optional consult, the
-coordinator and the safety reviewer.
+"""The case conference: specialists, pharmacist, lifestyle agent, a shared case board,
+four rounds (independent review, connections, debate with a skeptic, recommendations), an
+optional consult, the coordinator and the safety reviewer.
 
 Flow for one case run:
-  intake -> round 1 (every active specialist + the pharmacist, in parallel, with tools)
-         -> round 2 (targeted: each specialist reads only peers it shares a question,
-            abnormal value or body region with; no tools) -> HARD STOP of the conference
-         -> optional consult (one extra specialist, only if the cap allows)
-         -> coordinator synthesis -> safety review (model + code) -> final
+  intake -> round 1: independent review (every active specialist + the pharmacist + the
+            lifestyle agent, in parallel, with tools)
+         -> the shared case board (built in code from validated findings)
+         -> optional consult (one extra specialist, only if the cap allows; joins the board)
+         -> round 2: connection round (members with abnormal posts read the whole board and
+            propose up to 2 connections each; code merges them into candidates)
+         -> round 3: debate (the skeptic challenges every candidate, the involved members
+            defend, concede, support or challenge; code scores them) -> HARD STOP
+            (the lifestyle agent writes self-care steps in parallel with round 3)
+         -> round 4: recommendations (coordinator) -> safety review (model + code) -> final
 
 What the server controls, never the model:
   - which patient, which specialty and which documents an agent sees (documents_for)
@@ -34,14 +40,15 @@ from typing import Any
 from pydantic_ai import Agent, NativeOutput, RunContext
 from pydantic_ai.mcp import MCPToolset, StdioTransport
 
-from . import config, defenses, llm, safety, traps
+from . import board, conference, config, defenses, llm, patterns, safety, traps
 from .budget import Budget, DailyBudgetExceeded
 from .events import RunEvents
 from .intake import run_intake
 from .registry import BY_ID, MAX_ACTIVE_SPECIALISTS, PANEL_IDS, PHARMACIST_ID
 from .schemas import (
     REGION_LABELS, CaseSummaryOutput, ConsultDecisionOutput, DocumentRecord, IntakeResult, Modes,
-    PharmacistReportOutput, Questionnaire, Round2Output, SafetyReviewOutput, SpecialistReportOutput,
+    ConnectionRoundOutput, PanelResponseOutput, PharmacistReportOutput, Questionnaire, SafetyReviewOutput, SkepticOutput,
+    SpecialistReportOutput,
 )
 
 HERE = Path(__file__).resolve().parent
@@ -52,6 +59,7 @@ SPECIALIST_PROMPT_RAW = (PROMPTS / "specialist_base.md").read_text()
 PHARMACIST_PROMPT_RAW = (PROMPTS / "pharmacist.md").read_text()
 COORDINATOR_PROMPT_RAW = (PROMPTS / "coordinator.md").read_text()
 SAFETY_PROMPT_RAW = (PROMPTS / "safety.md").read_text()
+SKEPTIC_PROMPT_RAW = (PROMPTS / "skeptic.md").read_text()
 SAFETY_PROMPT = defenses.prompt_text(SAFETY_PROMPT_RAW)  # production version, used by chat
 MCP_SERVER = config.REPO_ROOT / "mcp_server" / "server.py"
 
@@ -59,10 +67,9 @@ SPECIALIST_TOOLS = {"search_pubmed", "search_medlineplus"}
 PHARMACIST_TOOLS = {"fda_label_search", "search_medlineplus"}
 TOOL_CAP = {"specialist": 2, "consult": 2, "pharmacist": 6}
 MAX_PANEL_QUESTIONS = 2   # questions one specialist may put to other panel specialists
-MAX_PEERS = 3             # round-2 reports one specialist reads
 AGENT_TIMEOUT_S = 180
-MAX_TOKENS = {"specialist": 3500, "pharmacist": 4000, "round2": 2000, "consult_decision": 600,
-              "coordinator": 6000, "safety": 3000}
+MAX_TOKENS = {"specialist": 3500, "pharmacist": 4000, "round2": 2000, "skeptic": 3000, "round3": 1500,
+              "consult_decision": 600, "coordinator": 7000, "safety": 3000}
 KEY_LAB_WORDS = ("creatinine", "egfr", "gfr", "potassium", "inr", "alt", "ast", "hemoglobin", "platelet",
                  "glucose", "a1c", "sodium", "ck", "creatine kinase", "tsh", "bun", "ferritin")
 
@@ -76,7 +83,7 @@ def member_of(agent: str, label: str) -> str:
     if agent in ("safety_reviewer", "chat_safety"):
         return "safety_reviewer"
     head = label.split(" (retry")[0]
-    if "." in head and head.split(".")[0] in ("r1", "r2", "consult", "chat"):
+    if "." in head and head.split(".")[0] in ("r1", "r2", "r3", "r4", "consult", "chat"):
         return head.split(".", 1)[1]
     return agent
 
@@ -371,86 +378,6 @@ def validate_pharmacist(out: PharmacistReportOutput, deps: AgentDeps) -> tuple[d
     return report, {"issues_kept": len(issues), "dropped": dropped, "tool_calls": deps.tool_calls}
 
 
-# ---- round 2 targeting -------------------------------------------------------------------
-
-def _test_key(name: str) -> str:
-    return re.sub(r"[^a-z0-9]", "", name.lower())
-
-
-def plan_round2(reports: dict[str, dict[str, Any]], pharmacist: dict[str, Any] | None,
-                doc_text: dict[str, str], *, everyone: bool = False) -> dict[str, dict[str, Any]]:
-    """For each specialist: the few peers worth reading (not everyone), the questions
-    addressed to it, and relevant pharmacist issues.
-
-    A peer qualifies by, in order of strength: a shared abnormal value (2 points), a body
-    region where BOTH found something abnormal or borderline (1), or having asked this
-    specialist a question it must answer (1). Asking a question does not give the asker
-    the other's report; the coordinator sees the answer. At most MAX_PEERS peers, strongest
-    first, so the number of reads grows with the panel size, not its square."""
-    specs = list(reports)
-    regions = {s: {f["region"] for f in reports[s]["findings"]
-                   if f.get("region") and f.get("significance") in ("abnormal", "borderline")} for s in specs}
-    tests = {s: {_test_key(a["test"]) for a in reports[s]["abnormal_values"]} for s in specs}
-    asked = {(s, q["to_specialty"]) for s in specs for q in reports[s]["questions_for_specialists"]}
-    plan: dict[str, dict[str, Any]] = {}
-    for a in specs:
-        scored: list[tuple[int, str, list[str]]] = []
-        for b in specs:
-            if a == b:
-                continue
-            why, score = [], 0
-            if tests[a] & tests[b]:
-                why.append("abnormal value: " + ", ".join(sorted(tests[a] & tests[b])))
-                score += 2
-            if regions[a] & regions[b]:
-                why.append("region: " + ", ".join(sorted(REGION_LABELS[r] for r in regions[a] & regions[b])))
-                score += 1
-            if (b, a) in asked:
-                why.append("asked you a question")
-                score += 1
-            if score:
-                scored.append((score, b, why))
-        scored.sort(key=lambda x: (-x[0], x[1]))
-        peers = {b: why for _, b, why in scored[:MAX_PEERS]}
-        if everyone:  # comparison mode: every specialist reads every other report
-            peers = {b: dict((x[1], x[2]) for x in scored).get(b, ["all-to-all"]) for b in specs if b != a}
-        questions = [{"from": b, "question": q["question"]} for b in specs if b != a
-                     for q in reports[b]["questions_for_specialists"] if q["to_specialty"] == a]
-        issues = []
-        if pharmacist:
-            text = doc_text.get(a, "").lower() + " " + compact_report(reports[a]).lower()
-            name = BY_ID[a].name.lower()
-            issues = [i for i in pharmacist["issues"]
-                      if any(m.split()[0].lower() in text for m in i["medications"] if m.strip())
-                      or any(name.split()[0] in w.lower() for w in i["discuss_with"])]
-        plan[a] = {"peers": peers, "questions": questions, "pharmacist_issues": issues}
-    return plan
-
-
-def validate_round2(specialty: str, out: Round2Output, valid_refs: set[str]) -> tuple[dict[str, Any], dict[str, Any]]:
-    dropped: list[dict] = []
-    connections = []
-    for c in out.connections:
-        item = c.model_dump()
-        item["finding_refs"] = [r for r in c.finding_refs if r in valid_refs]
-        if not item["finding_refs"]:
-            dropped.append({"item": c.connection[:160], "reason": "connection cites no existing finding"})
-            continue
-        if safety.violations(c.connection):
-            dropped.append({"item": c.connection[:160], "reason": "forbidden language"})
-            continue
-        connections.append(item)
-    data = {
-        "specialty": specialty,
-        "agreements": [a.model_dump() for a in out.agreements if a.with_specialty != specialty],
-        "disagreements": [d.model_dump() for d in out.disagreements if d.with_specialty != specialty],
-        "connections": connections,
-        "answers": [a.model_dump() for a in out.answers if not safety.violations(a.answer)],
-        "revised_concerns": _clean_items([c.model_dump() for c in out.revised_concerns], "concern", dropped, specialty),
-    }
-    return data, {"connections_kept": len(connections), "dropped": dropped}
-
-
 # ---- coordinator output validation and safety -------------------------------------------
 
 def validate_summary(out: CaseSummaryOutput, valid_refs: set[str]) -> tuple[dict[str, Any], list[dict]]:
@@ -659,11 +586,14 @@ async def _run_case(
 
     events.emit("run_started", case_id=case_id, documents=[n for n, _ in files], budget=budget.status(),
                 settings={"prompt_cache": llm._prompt_cache_enabled, "pass_full_documents": pass_full_documents, "round2_mode": round2_mode})
-    stop_reason = "completed: conference ended after round 2 (hard stop), summary reviewed"
+    stop_reason = "completed: conference ended after the debate (round 3, hard stop), recommendations reviewed"
     intake: IntakeResult | None = None
     r1: dict[str, dict] = {}
     pharm: dict | None = None
     r2: dict[str, dict] = {}
+    board_posts: list[dict] = []
+    candidates: list[dict] = []
+    debate: dict | None = None
     consult: dict | None = None
     summary: dict | None = None
     safety_info: dict[str, Any] = {}
@@ -702,12 +632,19 @@ async def _run_case(
         # tools. The trap tools stand in for "real" actions; with the design layer on they exist only
         # for round 2, which reads agent reports only. With it off (tests only), every agent has them.
         raw_reader_traps = [] if d_set.design else [traps.trap_toolset()]
-        specialist_prompt = defenses.prompt_text(SPECIALIST_PROMPT_RAW)
+        # Every panel agent's instructions open with the same pattern library, so they share one
+        # cached prompt prefix (written once per run, then read at the cached-token price).
+        library = patterns.library_block()
+        specialist_prompt = library + defenses.prompt_text(SPECIALIST_PROMPT_RAW)
         specialist_agent = Agent(m, deps_type=AgentDeps, instructions=specialist_prompt,
                                  output_type=NativeOutput(SpecialistReportOutput), toolsets=[*specialist_tools, *raw_reader_traps], retries=1)
-        round2_agent = Agent(m, instructions=specialist_prompt, output_type=NativeOutput(Round2Output),
+        # Rounds 2 and 3 read the case board and agent outputs only (no patient text), so with the
+        # design layer on they are the only agents that hold the (harmless) trap tools.
+        round2_agent = Agent(m, instructions=specialist_prompt, output_type=NativeOutput(ConnectionRoundOutput),
                              toolsets=[traps.trap_toolset()], retries=1)
-        pharmacist_agent = Agent(m, deps_type=AgentDeps, instructions=defenses.prompt_text(PHARMACIST_PROMPT_RAW),
+        round3_agent = Agent(m, instructions=specialist_prompt, output_type=NativeOutput(PanelResponseOutput),
+                             toolsets=[traps.trap_toolset()], retries=1)
+        pharmacist_agent = Agent(m, deps_type=AgentDeps, instructions=library + defenses.prompt_text(PHARMACIST_PROMPT_RAW),
                                  output_type=NativeOutput(PharmacistReportOutput), toolsets=[*pharmacist_tools, *raw_reader_traps], retries=1)
         doc_text = {a.specialty: "\n".join(d.text for d in documents_for(intake, a.specialty)) for a in intake.active_specialists}
         all_docs_block = "\n\n".join(defenses.wrap("document", d.text, name=d.filename) for d in intake.documents if d.extraction)
@@ -739,6 +676,8 @@ async def _run_case(
                         sources=len(report["sources"]), dropped=len(validation["dropped"]),
                         insufficient=report["insufficient_information"],
                         headline=report["findings"][0]["statement"] if report["findings"] else None)
+            for post in board.posts_from_report(report):
+                events.emit("board_post", **post)
             if consult_mode:
                 nonlocal consult
                 consult = report
@@ -775,6 +714,8 @@ async def _run_case(
             if out is None:
                 return
             pharm, validation = validate_pharmacist(out, deps)
+            for post in board.posts_from_pharmacist(pharm):
+                events.emit("board_post", **post)
             events.agent_finished(agent_id, "completed", "completed", f"{len(pharm['issues'])} issues", validation)
             events.emit("specialist_done", agent=agent_id, specialty=PHARMACIST_ID, name="Clinical pharmacist", round=1,
                         findings=len(pharm["issues"]), confidence=pharm["confidence"], dropped=len(validation["dropped"]),
@@ -791,104 +732,186 @@ async def _run_case(
                 await asyncio.gather(*[run_specialist(s) for s in active],
                                      *([run_pharmacist()] if modes.pharmacist_active else []))
                 events.emit("conference_round", round=1, status="done", reports=len(r1) + (1 if pharm else 0))
+            # ---- the shared case board: built in code from validated round-1 outputs ----
+            covered = " ".join(f"{a['test']} {f['quote']}" for r in r1.values() for a in r["abnormal_values"]
+                               for f in r["findings"]) + " " + " ".join(f["quote"] for r in r1.values() for f in r["findings"])
+            intake_posts = board.posts_from_intake_labs(intake.labs, covered, modes.pediatric)
+            for post in intake_posts:
+                events.emit("board_post", **post)
+            board_posts = ([p_ for s_ in active if s_ in r1 for p_ in board.posts_from_report(r1[s_])]
+                           + (board.posts_from_pharmacist(pharm) if pharm else []) + intake_posts)
+            events.emit("board_ready", posts=len(board_posts),
+                        systems=sorted({p_["system"] for p_ in board_posts}))
 
-            # ---- round 2: targeted, no tools, then hard stop ----
-            if r1 and budget.can_start("round2", len(r1)):
-                plan = plan_round2(r1, pharm, doc_text, everyone=round2_mode == "all")
-                valid_refs = {f["id"] for r in r1.values() for f in r["findings"]} | {i["id"] for i in (pharm or {}).get("issues", [])}
-                talking = {s: p for s, p in plan.items() if p["peers"] or p["questions"]}
-                events.emit("conference_round", round=2, status="started",
-                            pairs={s: sorted(p["peers"]) for s, p in talking.items()},
-                            skipped=[s for s in plan if s not in talking])
-
-                async def run_round2(spec: str) -> None:
-                    p = plan[spec]
-                    agent_id = f"r2.{spec}"
-                    events.emit("specialist_started", agent=agent_id, specialty=spec, name=BY_ID[spec].name, round=2,
-                                peers=sorted(p["peers"]))
-                    peers = "\n\n".join(
-                        f'<peer specialty="{b}" shares="{"; ".join(why)}">\n{compact_report(r1[b])}'
-                        + (f"\n<peer_documents>\n{doc_text.get(b, '')}\n</peer_documents>" if pass_full_documents else "")
-                        + "\n</peer>" for b, why in p["peers"].items())
-                    qs = "\n".join(f"- from {x['from']}: {x['question']}" for x in p["questions"])
-                    issues = "\n".join(f"- {i['id']} [{i['kind']}] {', '.join(i['medications'])}: {i['explanation']}"
-                                       for i in p["pharmacist_issues"])
-                    prompt = "\n\n".join([
-                        f"<profile>\n{profile(spec)}\n</profile>", f"<mode>\n{m_text}\n</mode>",
-                        f"<your_round1>\n{compact_report(r1[spec], with_questions=True)}\n</your_round1>",
-                        peers or "<peers>(none)</peers>",
-                        f"<pharmacist_issues>\n{issues or '(none relevant)'}\n</pharmacist_issues>",
-                        f"<questions_for_you>\n{qs or '(none)'}\n</questions_for_you>",
-                        "Task: Round 2, the targeted conference. Return your comments.",
-                    ])
-                    out, err = await _run_logged(events, round2_agent, prompt, meter=meter, agent_id=agent_id,
-                                                 agent_kind="specialist", specialty=spec, round_=2,
-                                                 inputs=[f"round-1 report of {b}" for b in p["peers"]],
-                                                 max_tokens=MAX_TOKENS["round2"], request_limit=2, attempts=2)
-                    if out is None:
-                        return
-                    data, validation = validate_round2(spec, out, valid_refs)
-                    r2[spec] = data
-                    events.agent_finished(agent_id, "completed", "completed",
-                                          f"{len(data['connections'])} connections, {len(data['disagreements'])} disagreements",
-                                          validation)
-                    for a_ in data["agreements"]:
-                        events.emit("comment", round=2, from_=spec, to=a_["with_specialty"], kind="agrees", text=a_["point"])
-                    for d_ in data["disagreements"]:
-                        events.emit("comment", round=2, from_=spec, to=d_["with_specialty"], kind="disagrees",
-                                    text=f"{d_['point']} ({d_['reason']})")
-                    for c_ in data["connections"]:
-                        events.emit("comment", round=2, from_=spec, to=",".join(c_["specialties"]), kind="connection",
-                                    text=c_["connection"], refs=c_["finding_refs"])
-                    for a_ in data["answers"]:
-                        events.emit("comment", round=2, from_=spec, to=a_["from_specialty"], kind="answer", text=a_["answer"])
-                    events.emit("specialist_done", agent=agent_id, specialty=spec, name=BY_ID[spec].name, round=2,
-                                connections=len(data["connections"]), disagreements=len(data["disagreements"]))
-
-                await asyncio.gather(*[run_round2(s) for s in talking])
-                for s in plan:
-                    if s not in talking:
-                        events.agent_started(f"r2.{s}", "specialist", s, 2, [])
-                        events.agent_finished(f"r2.{s}", "skipped", "no peer shares a question, value or region")
-                events.emit("conference_round", round=2, status="done", comments=sum(
-                    len(d["agreements"]) + len(d["disagreements"]) + len(d["connections"]) + len(d["answers"]) for d in r2.values()),
-                    note="hard stop: the conference ends after round 2")
-            elif r1:
-                stop_reason = "stopped: run budget reached before round 2; summary built from round 1"
-
-            # ---- optional consult: one extra specialist, only within the cap ----
-            candidates = sorted(
+            # ---- optional consult: one extra specialist, only within the cap; its findings join the board ----
+            candidates_c = sorted(
                 ({q["to_specialty"] for r in r1.values() for q in r["questions_for_specialists"]}
                  | {c.specialty for c in intake.consider_seeing}) & set(PANEL_IDS) - set(r1))
-            if r1 and candidates and len(intake.active_specialists) < MAX_ACTIVE_SPECIALISTS and budget.can_start("consult"):
-                events.emit("coordinator_thinking", stage="consult", candidates=candidates)
-                coordinator_agent_a = Agent(m, instructions=defenses.prompt_text(COORDINATOR_PROMPT_RAW), output_type=NativeOutput(ConsultDecisionOutput))
+            if r1 and candidates_c and len(intake.active_specialists) < MAX_ACTIVE_SPECIALISTS and budget.can_start("consult"):
+                events.emit("coordinator_thinking", stage="consult", candidates=candidates_c)
+                coordinator_agent_a = Agent(m, instructions=library + defenses.prompt_text(COORDINATOR_PROMPT_RAW), output_type=NativeOutput(ConsultDecisionOutput))
                 asked = "\n".join(f"- {r['name']} asked {q['to_specialty']}: {q['question']}" for r in r1.values()
-                                  for q in r["questions_for_specialists"] if q["to_specialty"] in candidates)
+                                  for q in r["questions_for_specialists"] if q["to_specialty"] in candidates_c)
                 prompt = "\n\n".join([
                     f"<profile>\n{profile(modes.coordinator)}\n</profile>",
-                    "<round1>\n" + "\n\n".join(compact_report(r) for r in r1.values()) + "\n</round1>",
+                    board.render(board_posts),
                     f"<questions_to_specialties_not_on_panel>\n{asked or '(none)'}\n</questions_to_specialties_not_on_panel>",
                     "<consider_seeing>\n" + ("\n".join(f"- {c.specialty}: {c.reason}" for c in intake.consider_seeing) or "(none)")
                     + "\n</consider_seeing>",
-                    f"Candidates you may choose from: {', '.join(candidates)}.",
+                    f"Candidates you may choose from: {', '.join(candidates_c)}.",
                     "Task A: consult decision.",
                 ])
                 decision, err = await _run_logged(events, coordinator_agent_a, prompt, meter=meter, agent_id="coordinator.consult",
                                                   agent_kind="coordinator", specialty=modes.coordinator, round_=None,
-                                                  inputs=["round-1 summaries"], max_tokens=MAX_TOKENS["consult_decision"],
+                                                  inputs=["case board"], max_tokens=MAX_TOKENS["consult_decision"],
                                                   request_limit=2)
                 if decision is not None:
-                    chosen = decision.consult if decision.consult in candidates else None
+                    chosen = decision.consult if decision.consult in candidates_c else None
                     events.agent_finished("coordinator.consult", "completed", "completed",
                                           f"consult: {chosen or 'none'} ({decision.reason[:120]})")
                     events.emit("coordinator_thinking", stage="consult_decision", consult=chosen, reason=decision.reason)
                     if chosen:
                         qs = "\n".join(f"- from {r['name']}: {q['question']}" for r in r1.values()
                                        for q in r["questions_for_specialists"] if q["to_specialty"] == chosen)
-                        extra = ("<panel_findings>\n" + "\n\n".join(compact_report(r) for r in r1.values())
-                                 + "\n</panel_findings>\n\n" + f"<questions_for_you>\n{qs or '(none)'}\n</questions_for_you>")
+                        extra = (board.render(board_posts) + "\n\n" + f"<questions_for_you>\n{qs or '(none)'}\n</questions_for_you>")
                         await run_specialist(chosen, consult_mode=True, extra=extra)
+                        if consult:
+                            board_posts = board_posts + board.posts_from_report(consult)
+
+            posts = board.index(board_posts)
+            reports = dict(r1, **({consult["specialty"]: consult} if consult else {}))
+            own_text = {s_: compact_report(r, with_questions=True) for s_, r in reports.items()}
+            if pharm:
+                own_text[PHARMACIST_ID] = compact_pharmacist(pharm)
+            board_block = board.render(board_posts)
+
+            # ---- round 2: connection round (everyone reads the whole board; no tools) ----
+            # Only members with something abnormal or borderline on the board take part.
+            talking = [s_ for s_ in own_text if any(p_["by"] == s_ and p_["significance"] in ("abnormal", "borderline")
+                                                   for p_ in board_posts)]
+            if talking and budget.can_start("round2", len(talking)):
+                events.emit("conference_round", round=2, status="started", name="connection round", participants=talking,
+                            skipped=[s_ for s_ in own_text if s_ not in talking])
+
+                async def run_connections(spec: str) -> None:
+                    agent_id = f"r2.{spec}"
+                    name = board.member_name(spec)
+                    events.emit("specialist_started", agent=agent_id, specialty=spec, name=name, round=2)
+                    qs = "\n".join(f"- from {r['name']}: {q['question']}" for b_, r in reports.items() if b_ != spec
+                                   for q in r["questions_for_specialists"] if q["to_specialty"] == spec)
+                    peers = ""
+                    if round2_mode == "all":  # comparison mode: full peer reports instead of the board alone
+                        peers = "\n\n".join(f'<peer specialty="{b_}">\n{t_}' + (f"\n<peer_documents>\n{doc_text.get(b_, '')}\n</peer_documents>"
+                                            if pass_full_documents else "") + "\n</peer>" for b_, t_ in own_text.items() if b_ != spec)
+                    prompt = "\n\n".join(x for x in [
+                        board_block,  # first, identical for every reader: part of the cached prefix
+                        f"<profile>\n{profile(spec)}\n</profile>", f"<mode>\n{m_text}\n</mode>",
+                        f"<your_round1>\n{own_text[spec]}\n</your_round1>", peers,
+                        f"<questions_for_you>\n{qs or '(none)'}\n</questions_for_you>",
+                        "Task: Round 2, the connection round. Return your connections.",
+                    ] if x)
+                    out, err = await _run_logged(events, round2_agent, prompt, meter=meter, agent_id=agent_id,
+                                                 agent_kind="specialist", specialty=spec, round_=2, inputs=["case board"],
+                                                 max_tokens=MAX_TOKENS["round2"], request_limit=2, attempts=2)
+                    if out is None:
+                        return
+                    cards, dropped = conference.validate_connections(spec, out.connections, posts)
+                    answers = [a.model_dump() for a in out.answers if not safety.violations(a.answer)]
+                    r2[spec] = {"specialty": spec, "connections": cards, "answers": answers}
+                    events.agent_finished(agent_id, "completed", "completed", f"{len(cards)} connections",
+                                          {"connections_kept": len(cards), "dropped": dropped})
+                    for c_ in cards:
+                        events.emit("connection", round=2, from_=spec, title=c_["title"], refs=c_["refs"],
+                                    members=sorted({posts[r_]["by"] for r_ in c_["refs"]} - {spec}),
+                                    pattern_id=c_["pattern_id"])
+                    for a_ in answers:
+                        events.emit("comment", round=2, from_=spec, to=a_["from_specialty"], kind="answer", text=a_["answer"])
+                    events.emit("specialist_done", agent=agent_id, specialty=spec, name=name, round=2,
+                                connections=len(cards), disagreements=0)
+
+                await asyncio.gather(*[run_connections(s_) for s_ in talking])
+                candidates = conference.merge_candidates([c_ for s_ in talking for c_ in (r2.get(s_) or {}).get("connections", [])], posts)
+                events.emit("conference_round", round=2, status="done", connections=sum(len(d["connections"]) for d in r2.values()),
+                            candidates=[{"id": c_["id"], "title": c_["title"], "refs": c_["refs"], "proposers": c_["proposers"]}
+                                        for c_ in candidates])
+            elif talking:
+                stop_reason = "stopped: run budget reached before the connection round; summary built from the board"
+
+            # ---- round 3: debate (the skeptic challenges, the involved members answer) ----
+            if candidates and budget.can_start("skeptic"):
+                events.emit("conference_round", round=3, status="started", name="debate", candidates=len(candidates))
+                skeptic_agent = Agent(m, instructions=library + defenses.prompt_text(SKEPTIC_PROMPT_RAW),
+                                      output_type=NativeOutput(SkepticOutput), toolsets=[traps.trap_toolset()], retries=1)
+                prompt = "\n\n".join([
+                    board_block, f"<mode>\n{m_text}\n</mode>", conference.render_candidates(candidates),
+                    f"<pharmacist>\n{compact_pharmacist(pharm) if pharm else '(no medication review)'}\n</pharmacist>",
+                    "Task: challenge every candidate.",
+                ])
+                sk, err = await _run_logged(events, skeptic_agent, prompt, meter=meter, agent_id="r3.skeptic",
+                                            agent_kind="skeptic", specialty=None, round_=3, inputs=["case board", "candidates"],
+                                            max_tokens=MAX_TOKENS["skeptic"], request_limit=2, attempts=2)
+                challenges: dict[str, dict] = {}
+                if sk is not None:
+                    challenges, alternative, sk_dropped = conference.validate_skeptic(sk, candidates, posts)
+                    if alternative and len(candidates) < conference.MAX_CANDIDATES + 1:
+                        alt = conference.merge_candidates([alternative], posts)[0]
+                        alt["id"] = f"C{len(candidates) + 1}"
+                        candidates.append(alt)
+                        challenges[alt["id"]] = {"verdict": "keep", "reason": "Proposed by the skeptic as a simpler or overlooked link.",
+                                                 "simpler_explanations": [], "unsupported_refs": [], "missing": []}
+                    events.agent_finished("r3.skeptic", "completed", "completed",
+                                          ", ".join(f"{k}: {v['verdict']}" for k, v in challenges.items()) or "no challenges",
+                                          {"dropped": sk_dropped})
+                    for c_ in candidates:
+                        ch = challenges.get(c_["id"])
+                        if ch and c_["proposers"] != ["skeptic"]:
+                            events.emit("challenge", round=3, from_="skeptic", candidate=c_["id"], verdict=ch["verdict"],
+                                        to=sorted(set(c_["proposers"]) | set(c_["posters"])), text=ch["reason"])
+                    if alternative:
+                        events.emit("connection", round=3, from_="skeptic", title=candidates[-1]["title"], refs=candidates[-1]["refs"],
+                                    members=candidates[-1]["posters"], pattern_id=candidates[-1]["pattern_id"])
+                involved = [s_ for s_ in own_text if any(s_ in c_["proposers"] or s_ in c_["posters"] for c_ in candidates)]
+                stances: list[dict] = []
+                if involved and budget.can_start("round3", len(involved)):
+                    cand_block = conference.render_candidates(candidates, challenges)
+
+                    async def run_response(spec: str) -> None:
+                        agent_id = f"r3.{spec}"
+                        name = board.member_name(spec)
+                        events.emit("specialist_started", agent=agent_id, specialty=spec, name=name, round=3)
+                        mine = [c_["id"] for c_ in candidates if spec in c_["proposers"]]
+                        prompt = "\n\n".join([
+                            board_block, cand_block,
+                            f"<profile>\n{profile(spec)}\n</profile>", f"<mode>\n{m_text}\n</mode>",
+                            f"<your_round1>\n{own_text[spec]}\n</your_round1>",
+                            f"You proposed: {', '.join(mine) or 'none'}.",
+                            "Task: Round 3, the debate. Return your stances.",
+                        ])
+                        out, err = await _run_logged(events, round3_agent, prompt, meter=meter, agent_id=agent_id,
+                                                     agent_kind="specialist", specialty=spec, round_=3,
+                                                     inputs=["case board", "candidates with the skeptic's challenges"],
+                                                     max_tokens=MAX_TOKENS["round3"], request_limit=2, attempts=2)
+                        if out is None:
+                            return
+                        mine_st = conference.validate_stances(spec, out.stances, candidates, posts)
+                        stances.extend(mine_st)
+                        events.agent_finished(agent_id, "completed", "completed",
+                                              ", ".join(f"{x['candidate']}: {x['stance']}" for x in mine_st) or "no stances")
+                        cand_by = {c_["id"]: c_ for c_ in candidates}
+                        for x in mine_st:
+                            c_ = cand_by[x["candidate"]]
+                            events.emit("stance", round=3, from_=spec, candidate=x["candidate"], stance=x["stance"],
+                                        to=sorted((set(c_["proposers"]) | set(c_["posters"])) - {spec}), text=x["reason"])
+                        events.emit("specialist_done", agent=agent_id, specialty=spec, name=name, round=3, stances=len(mine_st))
+
+                    await asyncio.gather(*[run_response(s_) for s_ in involved])
+                scored = conference.score_candidates(candidates, challenges, stances)
+                debate = {"candidates": scored, "stances": stances}
+                events.emit("conference_round", round=3, status="done", note="hard stop: the conference ends after the debate",
+                            scored=[{"id": c_["id"], "title": c_["title"], "score": c_["score"], "strength": c_["strength"],
+                                     "removed": c_["removed"]} for c_ in scored])
+            elif candidates:
+                stop_reason = "stopped: run budget reached before the debate; summary built from the connection round"
 
         # ---- coordinator synthesis ----
         if r1 and budget.can_start("coordinator"):
@@ -896,10 +919,9 @@ async def _run_case(
             all_reports = dict(r1, **({consult["specialty"]: consult} if consult else {}))
             valid_refs = {f["id"] for r in all_reports.values() for f in r["findings"]} | {i["id"] for i in (pharm or {}).get("issues", [])}
             r2_text = "\n".join(
-                [f"- {s} connection ({', '.join(c['finding_refs'])}): {c['connection']}" for s, d in r2.items() for c in d["connections"]]
-                + [f"- {s} disagrees with {x['with_specialty']}: {x['point']} ({x['reason']})" for s, d in r2.items() for x in d["disagreements"]]
-                + [f"- {s} answers {x['from_specialty']}: {x['answer']}" for s, d in r2.items() for x in d["answers"]]
-                + [f"- {s} revised concern [{c['urgency']}]: {c['concern']}" for s, d in r2.items() for c in d["revised_concerns"]])
+                [f"- {c['id']} [{c['strength']} match, score {c['score']}{', REMOVED: ' + c['removed'] if c['removed'] else ''}] "
+                 f"{c['title']} (posts: {', '.join(c['refs'])})" for c in (debate or {}).get("candidates", [])]
+                + [f"- {s} answers {x['from_specialty']}: {x['answer']}" for s, d in r2.items() for x in d["answers"]])
             docs_text = "\n".join(f"- {d.filename}: {d.extraction.summary}" for d in intake.documents if d.extraction)
             failed_reviews = [f"- The {BY_ID[a.specialty].name} review failed and is missing from this summary; list it under limitations."
                               for a in events.agents.values() if a.status == "failed" and a.specialty in BY_ID]
@@ -920,7 +942,7 @@ async def _run_case(
                 f"<safety_signals>\n{signals or '(none)'}\n</safety_signals>",
                 "Task B: the case summary.",
             ])
-            coordinator_agent = Agent(m, instructions=defenses.prompt_text(COORDINATOR_PROMPT_RAW), output_type=NativeOutput(CaseSummaryOutput),
+            coordinator_agent = Agent(m, instructions=library + defenses.prompt_text(COORDINATOR_PROMPT_RAW), output_type=NativeOutput(CaseSummaryOutput),
                                       toolsets=[] if defenses.current().design else [traps.trap_toolset()], retries=1)
             out, err = await _run_logged(events, coordinator_agent, prompt, meter=meter, agent_id="coordinator.synthesis",
                                          agent_kind="coordinator", specialty=modes.coordinator, round_=None,
@@ -951,8 +973,6 @@ async def _run_case(
             all_reports = dict(r1, **({consult["specialty"]: consult} if consult else {}))
             concerns = [f"- {r['name']} [{c['urgency']}]: {c['concern']}" for r in all_reports.values() for c in r["concerns"]
                         if c["urgency"] != "routine"]
-            concerns += [f"- {s} [{c['urgency']}]: {c['concern']}" for s, d in r2.items() for c in d["revised_concerns"]
-                         if c["urgency"] != "routine"]
             concerns += [f"- pharmacist {i['id']} [{i['urgency']}]: {i['explanation']}" for i in (pharm or {}).get("issues", [])
                          if i["urgency"] != "routine"]
             crisis = safety.crisis_mentions(q_text + "\n" + "\n".join(d.text for d in intake.documents))
@@ -1033,7 +1053,8 @@ async def _run_case(
         "summary_before_safety": locals().get("summary_before_safety"),
         "trap_calls": traps.calls_for_run(events.run_id),
         "defenses": {"tag": defenses.current().tag, "label": defenses.current().label},
-        "specialists": r1, "pharmacist": pharm, "round2": r2, "consult": consult,
+        "specialists": r1, "pharmacist": pharm, "round2": r2, "consult": consult, "board": board_posts,
+        "candidates": candidates, "debate": debate,
         "safety": safety_info,
         "intake": intake.model_dump(exclude={"usage"}) if intake else None,
         "usage": meter.as_dict(), "budget": budget.status() if budget else None,
