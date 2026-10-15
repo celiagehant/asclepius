@@ -205,3 +205,70 @@ def top_candidates(scored: list[dict], n: int = TOP_N) -> list[dict]:
 def regions_for(refs: list[str], posts: dict[str, dict]) -> list[str]:
     """Body regions of a card come from its posts (set in code), never from a model."""
     return list(dict.fromkeys(posts[r]["region"] for r in refs if r in posts and posts[r].get("region")))
+
+
+# ---- round 4: the coordinator's cards, finished in code ------------------------------------
+
+def render_top(top: list[dict], removed: list[dict]) -> str:
+    """What the coordinator sees: the surviving top candidates with the full debate record."""
+    lines = []
+    for c in top:
+        lib = pattern_by_id().get(c["pattern_id"])
+        sk = c.get("skeptic") or {}
+        lines.append(f"{c['id']} [{c['strength']} match] {c['title']}\n  posts: {', '.join(c['refs'])}\n  pattern: "
+                     + (f"{c['pattern_id']} {lib['name']}" if lib else "panel-proposed")
+                     + f"\n  proposed by: {', '.join(c['proposers'])}"
+                     + "".join(f"\n  fits: {w}" for w in c["why_it_fits"])
+                     + "".join(f"\n  could help tell: {w}" for w in c["would_help_tell"])
+                     + (f"\n  skeptic ({sk.get('verdict')}): {sk.get('reason', '')}" if sk else "")
+                     + "".join(f"\n  simpler explanation: {x}" for x in sk.get("simpler_explanations", []))
+                     + "".join(f"\n  {x['by']} supports: {x['reason']}" for x in c.get("supports", []))
+                     + "".join(f"\n  {x['by']} challenges: {x['reason']}" for x in c.get("challenges", [])))
+    text = "<top_candidates>\n" + ("\n".join(lines) or "(none survived the debate)") + "\n</top_candidates>"
+    if removed:
+        text += "\n<removed_in_debate>\n" + "\n".join(f"- {c['id']} {c['title']} ({c['removed']})" for c in removed) + "\n</removed_in_debate>"
+    return text
+
+
+def build_cards(out_cards: list[dict], top: list[dict], posts: dict[str, dict], names: dict[str, str]) -> tuple[list[dict], list[dict]]:
+    """Patient-facing cards: the coordinator's wording on the debate's facts. Strength, regions,
+    label, specialists and the source come from code. A top candidate the coordinator left
+    out still gets a card from the debate record; a card for anything else is dropped."""
+    by_id = {c["id"]: c for c in top}
+    written = {}
+    dropped = []
+    for oc in out_cards:
+        if oc["candidate"] not in by_id:
+            dropped.append({"section": "explanations", "item": oc["title"][:160], "reason": "not a top candidate from the debate"})
+            continue
+        written.setdefault(oc["candidate"], oc)
+    cards = []
+    for c in top:
+        oc = written.get(c["id"])
+        why = []
+        for pt in (oc or {}).get("why_it_fits", []):
+            refs = [r for r in pt["finding_refs"] if r in posts]
+            if refs:
+                why.append({"text": pt["text"], "finding_refs": refs})
+        if not why:
+            why = [{"text": w, "finding_refs": c["refs"]} for w in c["why_it_fits"][:3]]
+        sk = c.get("skeptic") or {}
+        against = _clean_list((oc or {}).get("argues_against", []), 3) or _clean_list(
+            sk.get("simpler_explanations", []) + [x["reason"] for x in c.get("challenges", [])], 3)
+        refs = list(dict.fromkeys(c["refs"] + [r for w in why for r in w["finding_refs"]]))
+        lib = pattern_by_id().get(c["pattern_id"])
+        members = list(dict.fromkeys(c["proposers"] + [posts[r]["by"] for r in refs if r in posts]))
+        cards.append({
+            "id": c["id"], "title": (oc or {}).get("title") or c["title"], "label": NOT_A_DIAGNOSIS,
+            "strength": c["strength"], "score": c["score"],
+            "why_it_fits": why, "argues_against": against,
+            "would_help_tell": _clean_list((oc or {}).get("would_help_tell", []), 3) or c["would_help_tell"],
+            "refs": refs, "regions": regions_for(refs, posts),
+            "specialists": [{"id": m, "name": names.get(m, m)} for m in members if m not in ("intake", "skeptic")],
+            "pattern": {"id": lib["id"], "name": lib["name"], "source": lib["source"]} if lib else None,
+            "debate": {"skeptic_verdict": sk.get("verdict"), "skeptic_reason": sk.get("reason"),
+                       "supports": len(c.get("supports", [])), "challenges": len(c.get("challenges", [])),
+                       "defended_by": c.get("defended_by", []), "conceded_by": c.get("conceded_by", [])},
+            "written_by": "coordinator" if oc else "debate record",
+        })
+    return cards, dropped

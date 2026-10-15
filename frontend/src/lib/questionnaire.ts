@@ -12,7 +12,7 @@ export const STEP_INFO: Record<StepId, { title: string; why: string }> = {
   allergies: { title: "Allergies", why: "Allergies matter whenever a doctor considers a medicine or test." },
   conditions: { title: "Known conditions and past surgeries", why: "Existing conditions change what a result means and which findings connect." },
   family: { title: "Family history", why: "Family history changes which findings deserve a closer look." },
-  habits: { title: "Tobacco and alcohol", why: "Both affect many lab results, medicines and risks." },
+  habits: { title: "Tobacco, alcohol and daily habits", why: "They affect many lab results, medicines and risks, and help the lifestyle agent suggest safe self-care steps." },
   concern: { title: "What worries you today?", why: "This tells the panel what to focus on." },
   review: { title: "Review your answers", why: "You can change any answer now or later from your profile." },
 };
@@ -49,7 +49,7 @@ export function emptyProfile(forWhom: "self" | "care" = "self"): ProfileData {
     for_whom: forWhom, name: "", relationship: null, date_of_birth: null, age_years: null, sex_at_birth: "" as ProfileData["sex_at_birth"],
     gender_identity: "", pregnancy: null, medications_status: "listed", medications: [], allergies_status: "listed", allergies: [],
     conditions_status: "listed", conditions: [], conditions_other: "", surgeries: "", family_status: "listed", family_history: [],
-    family_other: "", tobacco: "" as ProfileData["tobacco"], alcohol: "" as ProfileData["alcohol"], main_concern: "", main_concern_withheld: false, doctors: [],
+    family_other: "", tobacco: "" as ProfileData["tobacco"], alcohol: "" as ProfileData["alcohol"], habits: "", main_concern: "", main_concern_withheld: false, doctors: [],
   };
 }
 

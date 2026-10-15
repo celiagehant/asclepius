@@ -21,7 +21,7 @@ from typing import Any, Callable, Literal
 EventType = Literal[
     "run_started", "document_routed", "panel_selected", "specialist_started", "tool_call", "specialist_done",
     "conference_round", "comment", "coordinator_thinking", "safety_check", "spend", "final", "error",
-    "board_post", "board_ready",
+    "board_post", "board_ready", "connection", "challenge", "stance", "explanations",
 ]
 
 

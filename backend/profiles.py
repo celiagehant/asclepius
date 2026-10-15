@@ -75,6 +75,8 @@ def to_questionnaire(p: ProfileData, main_concern: str | None = None) -> Questio
         lifestyle["tobacco"] = TOBACCO[p.tobacco]
     if p.alcohol in ALCOHOL:
         lifestyle["alcohol"] = ALCOHOL[p.alcohol]
+    if p.habits.strip():
+        lifestyle["daily habits"] = p.habits.strip()
     doctors = []
     for d in p.doctors:
         specialty, _, name = d.partition("-")
@@ -113,6 +115,8 @@ def from_demo(profile_json: dict) -> tuple[ProfileData, str]:
     alcohol_text = profile_json.get("lifestyle", {}).get("alcohol", "").lower()
     alcohol = ("most_days" if "most" in alcohol_text or "evening" in alcohol_text else "weekly" if "week" in alcohol_text
                else "occasionally" if "occasion" in alcohol_text else "none" if "n/a" in alcohol_text else "prefer_not_to_say")
+    habits = "; ".join(f"{k}: {v}" for k, v in profile_json.get("lifestyle", {}).items()
+                       if k not in ("smoking", "alcohol") and v and v.lower() != "n/a")
     conditions = [c for c in profile_json.get("known_conditions", []) if c.lower() != "none diagnosed"]
     symptoms = "; ".join(f"{s['symptom']}" + (f" ({s['since']})" if s.get("since") else "")
                          + (f": {s['details']}" if s.get("details") else "") for s in profile_json.get("symptoms", []))
@@ -132,7 +136,7 @@ def from_demo(profile_json: dict) -> tuple[ProfileData, str]:
         conditions_status="listed" if conditions or profile_json.get("past_history") else "none",
         conditions=[], conditions_other="; ".join(conditions), surgeries="; ".join(profile_json.get("past_history", [])),
         family_status="listed" if family or family_other else "none_known", family_history=family,
-        family_other="; ".join(family_other), tobacco=tobacco, alcohol=alcohol, main_concern=concern[:3000],
+        family_other="; ".join(family_other), tobacco=tobacco, alcohol=alcohol, habits=habits[:500], main_concern=concern[:3000],
         doctors=[f"{d['specialty']} - {d['name']}" if d.get("name") else d["specialty"] for d in profile_json.get("doctors", [])],
     )
     return validate_profile(data), concern[:3000]

@@ -264,6 +264,10 @@ export default function Questionnaire({ profileId, forWhom, firstTime, onSaved }
             <Choice name="tobacco" value={p.tobacco} options={["never", "former", "current", PREFER] as const} labels={LABELS} onChange={(v) => set({ tobacco: v })} />
             <h3 className="sub">Alcohol</h3>
             <Choice name="alcohol" value={p.alcohol} options={["none", "occasionally", "weekly", "most_days", PREFER] as const} labels={LABELS} onChange={(v) => set({ alcohol: v })} />
+            <label className="field">
+              <span>Daily habits (optional): activity, sleep, eating pattern, coffee or energy drinks</span>
+              <textarea rows={2} maxLength={500} value={p.habits ?? ""} onChange={(e) => set({ habits: e.target.value })}
+                placeholder="e.g. sleep about 5 hours; 4 coffees a day; walk 20 minutes most days" /></label>
           </>
         )}
 
@@ -313,7 +317,7 @@ function Review({ p, steps, jump, onDoctors }: { p: ProfileData; steps: StepId[]
     ["allergies", "Allergies", p.allergies_status === "listed" ? p.allergies.join(", ") : show(p.allergies_status === "none" ? "No known allergies" : p.allergies_status)],
     ["conditions", "Conditions & surgeries", p.conditions_status === "listed" ? [...p.conditions, p.conditions_other, p.surgeries && `Surgeries: ${p.surgeries}`].filter(Boolean).join("; ") : show(p.conditions_status)],
     ["family", "Family history", p.family_status === "listed" ? [...p.family_history, p.family_other].filter(Boolean).join("; ") : show(p.family_status)],
-    ["habits", "Tobacco · alcohol", `${show(p.tobacco)} · ${show(p.alcohol)}`],
+    ["habits", "Tobacco · alcohol · habits", `${show(p.tobacco)} · ${show(p.alcohol)}${p.habits ? ` · ${p.habits}` : ""}`],
     ["concern", "What worries you", p.main_concern_withheld ? "Prefer not to say" : p.main_concern],
   ];
   return (

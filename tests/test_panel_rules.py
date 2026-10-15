@@ -118,21 +118,21 @@ def test_panel_questions_are_limited():
 
 def test_summary_points_must_cite_existing_findings():
     out = CaseSummaryOutput.model_validate({
-        "plain_language_summary": "s", "questions_for_doctors": [], "suggested_specialists": [], "limitations": [],
+        "plain_language_summary": "s", "questions_for_doctors": [], "explanations": [], "see_first": [], "limitations": [],
         "key_findings": [{"text": "real", "finding_refs": ["hematology.F1"]}, {"text": "invented", "finding_refs": ["neurology.F9"]}],
-        "connections": [{"text": "no refs", "finding_refs": []}], "medication_discussion": [],
+        "medication_discussion": [{"text": "no refs", "finding_refs": []}],
         "red_flags": [], "body_regions": [{"region": "blood", "severity": "watch", "reason": "a", "finding_refs": ["hematology.F1"]},
                                           {"region": "blood", "severity": "discuss", "reason": "b", "finding_refs": ["hematology.F1"]}]})
     s, dropped = validate_summary(out, {"hematology.F1"})
-    assert [k["text"] for k in s["key_findings"]] == ["real"] and s["connections"] == []
+    assert [k["text"] for k in s["key_findings"]] == ["real"] and s["medication_discussion"] == []
     assert len(dropped) == 2
     assert s["body_regions"] == [{"region": "blood", "severity": "discuss", "reason": "b", "finding_refs": ["hematology.F1"]}]
 
 
 def test_present_flags_that_say_today_are_urgent():
     out = CaseSummaryOutput.model_validate({
-        "plain_language_summary": "s", "key_findings": [], "connections": [], "medication_discussion": [], "questions_for_doctors": [],
-        "suggested_specialists": [], "body_regions": [], "limitations": [],
+        "plain_language_summary": "s", "key_findings": [], "explanations": [], "see_first": [], "medication_discussion": [],
+        "questions_for_doctors": [], "body_regions": [], "limitations": [],
         "red_flags": [{"flag": "INR above goal with bruising", "urgency": "soon", "present_now": True, "what_to_do": "Call the clinic today.", "finding_refs": ["x.F1"]},
                       {"flag": "If bleeding starts", "urgency": "soon", "present_now": False, "what_to_do": "Seek care today if it happens.", "finding_refs": ["x.F1"]},
                       {"flag": "Kidney results", "urgency": "soon", "present_now": True, "what_to_do": "Ask at your next visit.", "finding_refs": ["x.F1"]}]})
@@ -144,8 +144,8 @@ def test_code_safety_pass_blocks_what_slips_through():
     s = {"plain_language_summary": "Your iron is low. You have iron deficiency anemia. Ask about the colonoscopy.",
          "key_findings": [{"text": "You should stop taking ibuprofen.", "finding_refs": ["x"]},
                           {"text": "Low ferritin.", "finding_refs": ["x"]}],
-         "connections": [], "medication_discussion": [], "questions_for_doctors": [{"doctor": "GI", "questions": ["Is it cancer?"]}],
-         "suggested_specialists": [], "body_regions": [], "limitations": [],
+         "medication_discussion": [], "questions_for_doctors": [{"doctor": "GI", "questions": ["Is it cancer?"], "related_to": []}],
+         "explanations": [], "see_first": [], "body_regions": [], "limitations": [],
          "red_flags": [{"flag": "The ulcer biopsy may show a malignancy.", "urgency": "soon", "what_to_do": "Ask.", "finding_refs": ["x"]}]}
     out, blocked = code_safety_pass(s)
     assert out["plain_language_summary"] == "Your iron is low. Ask about the colonoscopy."

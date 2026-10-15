@@ -40,15 +40,15 @@ from typing import Any
 from pydantic_ai import Agent, NativeOutput, RunContext
 from pydantic_ai.mcp import MCPToolset, StdioTransport
 
-from . import board, conference, config, defenses, llm, patterns, safety, traps
+from . import board, conference, config, defenses, lifestyle, llm, patterns, safety, traps
 from .budget import Budget, DailyBudgetExceeded
 from .events import RunEvents
 from .intake import run_intake
 from .registry import BY_ID, MAX_ACTIVE_SPECIALISTS, PANEL_IDS, PHARMACIST_ID
 from .schemas import (
     REGION_LABELS, CaseSummaryOutput, ConsultDecisionOutput, DocumentRecord, IntakeResult, Modes,
-    ConnectionRoundOutput, PanelResponseOutput, PharmacistReportOutput, Questionnaire, SafetyReviewOutput, SkepticOutput,
-    SpecialistReportOutput,
+    ConnectionRoundOutput, LifestyleBoardOutput, LifestyleStepsOutput, PanelResponseOutput, PharmacistReportOutput,
+    Questionnaire, SafetyReviewOutput, SkepticOutput, SpecialistReportOutput,
 )
 
 HERE = Path(__file__).resolve().parent
@@ -60,15 +60,20 @@ PHARMACIST_PROMPT_RAW = (PROMPTS / "pharmacist.md").read_text()
 COORDINATOR_PROMPT_RAW = (PROMPTS / "coordinator.md").read_text()
 SAFETY_PROMPT_RAW = (PROMPTS / "safety.md").read_text()
 SKEPTIC_PROMPT_RAW = (PROMPTS / "skeptic.md").read_text()
+LIFESTYLE_PROMPT_RAW = (PROMPTS / "lifestyle.md").read_text()
+LIFESTYLE_ID = "lifestyle"
+LIFESTYLE_NAME = "Lifestyle & prevention"
 SAFETY_PROMPT = defenses.prompt_text(SAFETY_PROMPT_RAW)  # production version, used by chat
 MCP_SERVER = config.REPO_ROOT / "mcp_server" / "server.py"
 
 SPECIALIST_TOOLS = {"search_pubmed", "search_medlineplus"}
 PHARMACIST_TOOLS = {"fda_label_search", "search_medlineplus"}
-TOOL_CAP = {"specialist": 2, "consult": 2, "pharmacist": 6}
+LIFESTYLE_TOOLS = {"search_medlineplus"}
+TOOL_CAP = {"specialist": 2, "consult": 2, "pharmacist": 6, "lifestyle": 3}
 MAX_PANEL_QUESTIONS = 2   # questions one specialist may put to other panel specialists
 AGENT_TIMEOUT_S = 180
 MAX_TOKENS = {"specialist": 3500, "pharmacist": 4000, "round2": 2000, "skeptic": 3000, "round3": 1500,
+              "lifestyle_board": 800, "lifestyle": 3000,
               "consult_decision": 600, "coordinator": 7000, "safety": 3000}
 KEY_LAB_WORDS = ("creatinine", "egfr", "gfr", "potassium", "inr", "alt", "ast", "hemoglobin", "platelet",
                  "glucose", "a1c", "sodium", "ck", "creatine kinase", "tsh", "bun", "ferritin")
@@ -105,6 +110,7 @@ class AgentDeps:
     tool_cap: int
     tool_calls: int = 0
     tool_urls: set[str] = field(default_factory=set)
+    tool_titles: dict[str, str] = field(default_factory=dict)  # url -> page title, as the tool returned it
     tool_statuses: list[tuple[str, str]] = field(default_factory=list)  # (source, status)
 
 
@@ -138,6 +144,7 @@ async def _record_tool_call(ctx: RunContext[AgentDeps], call_tool, name: str, ar
     status, source = data.get("status", "unknown"), data.get("source", name)
     urls = [r.get("url") for r in data.get("results", []) if r.get("url")] + ([data["url"]] if data.get("url") else [])
     d.tool_urls.update(urls)
+    d.tool_titles.update({r["url"]: r.get("title", "") for r in data.get("results", []) if r.get("url")})
     d.tool_statuses.append((source, status))
     titles = [r.get("title", "") for r in data.get("results", [])][:3]
     if data.get("sections"):
@@ -380,11 +387,13 @@ def validate_pharmacist(out: PharmacistReportOutput, deps: AgentDeps) -> tuple[d
 
 # ---- coordinator output validation and safety -------------------------------------------
 
-def validate_summary(out: CaseSummaryOutput, valid_refs: set[str]) -> tuple[dict[str, Any], list[dict]]:
-    """Never add findings no specialist reported: every point must cite existing ids."""
+def validate_summary(out: CaseSummaryOutput, valid_refs: set[str], *, top: list[dict] | None = None,
+                     posts: dict[str, dict] | None = None, names: dict[str, str] | None = None) -> tuple[dict[str, Any], list[dict]]:
+    """Never add findings that are not on the board: every point must cite existing post ids.
+    Explanation cards are finished in code from the debate (conference.build_cards)."""
     s = out.model_dump()
     dropped: list[dict] = []
-    for key, text_key in (("key_findings", "text"), ("connections", "text"), ("medication_discussion", "text"),
+    for key, text_key in (("key_findings", "text"), ("medication_discussion", "text"),
                           ("red_flags", "flag"), ("body_regions", "reason")):
         kept = []
         for item in s[key]:
@@ -394,6 +403,16 @@ def validate_summary(out: CaseSummaryOutput, valid_refs: set[str]) -> tuple[dict
             else:
                 dropped.append({"section": key, "item": item[text_key][:160], "reason": "cites no existing finding"})
         s[key] = kept
+    cards, card_dropped = conference.build_cards(s.pop("explanations"), top or [], posts or {}, names or {})
+    s["explanations"] = cards
+    dropped += card_dropped
+    card_ids = {c["id"] for c in cards}
+    urgency_order = {"urgent": 0, "soon": 1, "routine": 2}
+    s["see_first"] = sorted(s["see_first"][:3], key=lambda x: urgency_order.get(x["urgency"], 9))  # urgent first, stable
+    for x in s["see_first"]:
+        x["related_to"] = [r for r in x["related_to"] if r in card_ids]
+    for d in s["questions_for_doctors"]:
+        d["related_to"] = [r for r in d.get("related_to", []) if r in card_ids]
     # Consistency: our definition of urgent is "needs care today". A present problem whose
     # instruction says today / same day / immediately is urgent, whatever label the model chose.
     for flag in s["red_flags"]:
@@ -408,17 +427,25 @@ def validate_summary(out: CaseSummaryOutput, valid_refs: set[str]) -> tuple[dict
         if not cur or order[b["severity"]] > order[cur["severity"]]:
             merged[b["region"]] = b
     s["body_regions"] = list(merged.values())
+    s.setdefault("self_care", {"steps": [], "care_first": False, "message": None})
     return s, dropped
 
 
 def flatten_summary(s: dict[str, Any]) -> list[tuple[str, str]]:
+    """Every patient-facing sentence as (item id, text), for the safety reviewer and the code pass."""
     items = [("SUMMARY", s["plain_language_summary"])]
+    for i, c in enumerate(s.get("explanations", []), 1):
+        items.append((f"E{i}.title", c["title"]))
+        items += [(f"E{i}.fit{j}", x["text"]) for j, x in enumerate(c["why_it_fits"], 1)]
+        items += [(f"E{i}.against{j}", x) for j, x in enumerate(c["argues_against"], 1)]
+        items += [(f"E{i}.tell{j}", x) for j, x in enumerate(c["would_help_tell"], 1)]
+    items += [(f"SF{i}", x["why"]) for i, x in enumerate(s.get("see_first", []), 1)]
+    for i, st in enumerate((s.get("self_care") or {}).get("steps", []), 1):
+        items += [(f"SC{i}", st["action"]), (f"SC{i}.why", st["why_it_may_help"]), (f"SC{i}.track", st["how_to_track"])]
     items += [(f"K{i}", x["text"]) for i, x in enumerate(s["key_findings"], 1)]
-    items += [(f"C{i}", x["text"]) for i, x in enumerate(s["connections"], 1)]
     items += [(f"M{i}", x["text"]) for i, x in enumerate(s["medication_discussion"], 1)]
     for i, d in enumerate(s["questions_for_doctors"], 1):
         items += [(f"Q{i}.{j}", q) for j, q in enumerate(d["questions"], 1)]
-    items += [(f"S{i}", x["reason"]) for i, x in enumerate(s["suggested_specialists"], 1)]
     for i, r in enumerate(s["red_flags"], 1):
         items += [(f"R{i}", r["flag"]), (f"R{i}.do", r["what_to_do"])]
     items += [(f"B{i}", x["reason"]) for i, x in enumerate(s["body_regions"], 1)]
@@ -427,15 +454,40 @@ def flatten_summary(s: dict[str, Any]) -> list[tuple[str, str]]:
 
 
 def apply_edits(s: dict[str, Any], edits: dict[str, str | None]) -> dict[str, Any]:
-    """edits: item_id -> new text, or None to remove. Returns a new summary dict."""
+    """edits: item_id -> new text, or None to remove. Returns a new summary dict.
+
+    Removing a card's title removes the card. A card left with no 'argues against' point is
+    not shown (every card must be two-sided). Removing any part of a self-care step removes
+    the step."""
     s = json.loads(json.dumps(s))
 
     def pick(item_id: str, current: str) -> str | None:
         return edits.get(item_id, current) if item_id in edits else current
 
     s["plain_language_summary"] = pick("SUMMARY", s["plain_language_summary"]) or ""
-    for prefix, key, field_ in (("K", "key_findings", "text"), ("C", "connections", "text"),
-                                ("M", "medication_discussion", "text"), ("S", "suggested_specialists", "reason"),
+    cards = []
+    for i, c in enumerate(s.get("explanations", []), 1):
+        title = pick(f"E{i}.title", c["title"])
+        if not title:
+            continue
+        fits = [{**x, "text": t} for j, x in enumerate(c["why_it_fits"], 1) if (t := pick(f"E{i}.fit{j}", x["text"]))]
+        against = [t for j, x in enumerate(c["argues_against"], 1) if (t := pick(f"E{i}.against{j}", x))]
+        tell = [t for j, x in enumerate(c["would_help_tell"], 1) if (t := pick(f"E{i}.tell{j}", x))]
+        if not fits or not against:
+            continue
+        cards.append({**c, "title": title, "why_it_fits": fits, "argues_against": against, "would_help_tell": tell})
+    if "explanations" in s:
+        s["explanations"] = cards
+    if "see_first" in s:
+        s["see_first"] = [{**x, "why": t} for i, x in enumerate(s["see_first"], 1) if (t := pick(f"SF{i}", x["why"]))]
+    if s.get("self_care"):
+        steps = []
+        for i, st in enumerate(s["self_care"].get("steps", []), 1):
+            a, w, t = pick(f"SC{i}", st["action"]), pick(f"SC{i}.why", st["why_it_may_help"]), pick(f"SC{i}.track", st["how_to_track"])
+            if a and w and t:
+                steps.append({**st, "action": a, "why_it_may_help": w, "how_to_track": t})
+        s["self_care"] = {**s["self_care"], "steps": steps}
+    for prefix, key, field_ in (("K", "key_findings", "text"), ("M", "medication_discussion", "text"),
                                 ("B", "body_regions", "reason")):
         kept = []
         for i, x in enumerate(s[key], 1):
@@ -594,6 +646,7 @@ async def _run_case(
     board_posts: list[dict] = []
     candidates: list[dict] = []
     debate: dict | None = None
+    life: dict[str, Any] = {"posts": [], "steps": [], "dropped": [], "context": None, "source_note": None}
     consult: dict | None = None
     summary: dict | None = None
     safety_info: dict[str, Any] = {}
@@ -626,6 +679,7 @@ async def _run_case(
         toolset = await open_sources(sources_stack, events)
         specialist_tools = [toolset.filtered(lambda ctx, td: td.name in SPECIALIST_TOOLS)] if toolset else []
         pharmacist_tools = [toolset.filtered(lambda ctx, td: td.name in PHARMACIST_TOOLS)] if toolset else []
+        lifestyle_tools = [toolset.filtered(lambda ctx, td: td.name in LIFESTYLE_TOOLS)] if toolset else []
         m = llm.model()
         d_set = defenses.current()
         # Design layer: agents that read raw patient text (documents or questionnaire) get no action
@@ -646,6 +700,14 @@ async def _run_case(
                              toolsets=[traps.trap_toolset()], retries=1)
         pharmacist_agent = Agent(m, deps_type=AgentDeps, instructions=library + defenses.prompt_text(PHARMACIST_PROMPT_RAW),
                                  output_type=NativeOutput(PharmacistReportOutput), toolsets=[*pharmacist_tools, *raw_reader_traps], retries=1)
+        # The lifestyle agent reads the questionnaire (patient text), so like every raw reader it
+        # holds no action tools; in round 4 it gets MedlinePlus only.
+        lifestyle_prompt = library + defenses.prompt_text(LIFESTYLE_PROMPT_RAW)
+        lifestyle_board_agent = Agent(m, instructions=lifestyle_prompt, output_type=NativeOutput(LifestyleBoardOutput),
+                                      toolsets=[*raw_reader_traps], retries=1)
+        lifestyle_steps_agent = Agent(m, deps_type=AgentDeps, instructions=lifestyle_prompt,
+                                      output_type=NativeOutput(LifestyleStepsOutput), toolsets=[*lifestyle_tools, *raw_reader_traps],
+                                      retries=1)
         doc_text = {a.specialty: "\n".join(d.text for d in documents_for(intake, a.specialty)) for a in intake.active_specialists}
         all_docs_block = "\n\n".join(defenses.wrap("document", d.text, name=d.filename) for d in intake.documents if d.extraction)
 
@@ -721,15 +783,66 @@ async def _run_case(
                         findings=len(pharm["issues"]), confidence=pharm["confidence"], dropped=len(validation["dropped"]),
                         headline=pharm["issues"][0]["explanation"] if pharm["issues"] else None)
 
+        async def run_lifestyle_board() -> None:
+            agent_id = "r1.lifestyle"
+            events.emit("specialist_started", agent=agent_id, specialty=LIFESTYLE_ID, name=LIFESTYLE_NAME, round=1,
+                        documents=["questionnaire"])
+            prompt = "\n\n".join([f"<mode>\n{m_text}\n</mode>", defenses.wrap("questionnaire", q_text),
+                                   "Task A: lifestyle facts for the case board."])
+            out, err = await _run_logged(events, lifestyle_board_agent, prompt, meter=meter, agent_id=agent_id,
+                                         agent_kind="lifestyle", specialty=LIFESTYLE_ID, round_=1, inputs=["questionnaire"],
+                                         max_tokens=MAX_TOKENS["lifestyle_board"], request_limit=2, effort="none", attempts=2)
+            if out is None:
+                return
+            kept, dropped = lifestyle.validate_posts(out, q_text)
+            life["posts"] = lifestyle.as_board_posts(kept)
+            events.agent_finished(agent_id, "completed", "completed", f"{len(kept)} lifestyle facts", {"dropped": dropped})
+            for post in life["posts"]:
+                events.emit("board_post", **post)
+            events.emit("specialist_done", agent=agent_id, specialty=LIFESTYLE_ID, name=LIFESTYLE_NAME, round=1,
+                        findings=len(kept), headline=kept[0]["line"] if kept else None)
+
+        async def run_lifestyle_steps() -> None:
+            agent_id = "r4.lifestyle"
+            deps = AgentDeps(events, agent_id, LIFESTYLE_ID, user_id, case_id, TOOL_CAP["lifestyle"])
+            events.emit("specialist_started", agent=agent_id, specialty=LIFESTYLE_ID, name=LIFESTYLE_NAME, round=4,
+                        documents=["case board", "questionnaire"])
+            urgent = [f"- {r['name']} [{c['urgency']}]: {c['concern']}" for r in reports.values() for c in r["concerns"]
+                      if c["urgency"] != "routine"]
+            ctx = lifestyle.context(board_posts, pediatric=modes.pediatric, pregnancy=modes.pregnancy, urgent_concerns=urgent)
+            life["context"] = ctx
+            prompt = "\n\n".join([
+                board_block, f"<mode>\n{m_text}\n</mode>", lifestyle.context_text(ctx),
+                "<concerns_raised>\n" + ("\n".join(urgent) or "(none)") + "\n</concerns_raised>",
+                defenses.wrap("questionnaire", q_text),
+                "Task B: self-care steps.",
+            ])
+            out, err = await _run_logged(events, lifestyle_steps_agent, prompt, meter=meter, agent_id=agent_id,
+                                         agent_kind="lifestyle", specialty=LIFESTYLE_ID, round_=4,
+                                         inputs=["case board", "questionnaire", "context notes"],
+                                         max_tokens=MAX_TOKENS["lifestyle"], request_limit=5, deps=deps, attempts=2)
+            if out is None:
+                return
+            meds = ([n for mm in intake.medications for n in [mm.generic_name, *mm.names_seen]]
+                    + [qm.name for qm in questionnaire.medications]
+                    + [ml["medication"] for ml in (pharm or {}).get("combined_list", [])])
+            steps, dropped = lifestyle.validate_steps(out, tool_urls=deps.tool_urls, posts=posts, ctx=ctx, medications=meds,
+                                                     tool_titles=deps.tool_titles)
+            life.update(steps=steps, dropped=dropped, source_note=out.source_note)
+            events.agent_finished(agent_id, "completed", "completed", f"{len(steps)} self-care steps",
+                                  {"dropped": dropped, "tool_calls": deps.tool_calls})
+            events.emit("specialist_done", agent=agent_id, specialty=LIFESTYLE_ID, name=LIFESTYLE_NAME, round=4,
+                        findings=len(steps), dropped=len(dropped))
+
         async with sources_stack:  # closes the MCP server (if it started) after the conference
             # ---- round 1: independent, in parallel ----
             active = [a.specialty for a in intake.active_specialists]
-            if not budget.can_start("round1", len(active) + (1 if modes.pharmacist_active else 0)):
+            if not budget.can_start("round1", len(active) + 1 + (1 if modes.pharmacist_active else 0)):
                 stop_reason = "stopped: run budget reached before the panel could start"
             else:
                 events.emit("conference_round", round=1, status="started",
                             participants=active + ([PHARMACIST_ID] if modes.pharmacist_active else []))
-                await asyncio.gather(*[run_specialist(s) for s in active],
+                await asyncio.gather(*[run_specialist(s) for s in active], run_lifestyle_board(),
                                      *([run_pharmacist()] if modes.pharmacist_active else []))
                 events.emit("conference_round", round=1, status="done", reports=len(r1) + (1 if pharm else 0))
             # ---- the shared case board: built in code from validated round-1 outputs ----
@@ -739,7 +852,7 @@ async def _run_case(
             for post in intake_posts:
                 events.emit("board_post", **post)
             board_posts = ([p_ for s_ in active if s_ in r1 for p_ in board.posts_from_report(r1[s_])]
-                           + (board.posts_from_pharmacist(pharm) if pharm else []) + intake_posts)
+                           + (board.posts_from_pharmacist(pharm) if pharm else []) + life.get("posts", []) + intake_posts)
             events.emit("board_ready", posts=len(board_posts),
                         systems=sorted({p_["system"] for p_ in board_posts}))
 
@@ -837,119 +950,135 @@ async def _run_case(
             elif talking:
                 stop_reason = "stopped: run budget reached before the connection round; summary built from the board"
 
-            # ---- round 3: debate (the skeptic challenges, the involved members answer) ----
-            if candidates and budget.can_start("skeptic"):
-                events.emit("conference_round", round=3, status="started", name="debate", candidates=len(candidates))
-                skeptic_agent = Agent(m, instructions=library + defenses.prompt_text(SKEPTIC_PROMPT_RAW),
-                                      output_type=NativeOutput(SkepticOutput), toolsets=[traps.trap_toolset()], retries=1)
-                prompt = "\n\n".join([
-                    board_block, f"<mode>\n{m_text}\n</mode>", conference.render_candidates(candidates),
-                    f"<pharmacist>\n{compact_pharmacist(pharm) if pharm else '(no medication review)'}\n</pharmacist>",
-                    "Task: challenge every candidate.",
-                ])
-                sk, err = await _run_logged(events, skeptic_agent, prompt, meter=meter, agent_id="r3.skeptic",
-                                            agent_kind="skeptic", specialty=None, round_=3, inputs=["case board", "candidates"],
-                                            max_tokens=MAX_TOKENS["skeptic"], request_limit=2, attempts=2)
-                challenges: dict[str, dict] = {}
-                if sk is not None:
-                    challenges, alternative, sk_dropped = conference.validate_skeptic(sk, candidates, posts)
-                    if alternative and len(candidates) < conference.MAX_CANDIDATES + 1:
-                        alt = conference.merge_candidates([alternative], posts)[0]
-                        alt["id"] = f"C{len(candidates) + 1}"
-                        candidates.append(alt)
-                        challenges[alt["id"]] = {"verdict": "keep", "reason": "Proposed by the skeptic as a simpler or overlooked link.",
-                                                 "simpler_explanations": [], "unsupported_refs": [], "missing": []}
-                    events.agent_finished("r3.skeptic", "completed", "completed",
-                                          ", ".join(f"{k}: {v['verdict']}" for k, v in challenges.items()) or "no challenges",
-                                          {"dropped": sk_dropped})
-                    for c_ in candidates:
-                        ch = challenges.get(c_["id"])
-                        if ch and c_["proposers"] != ["skeptic"]:
-                            events.emit("challenge", round=3, from_="skeptic", candidate=c_["id"], verdict=ch["verdict"],
-                                        to=sorted(set(c_["proposers"]) | set(c_["posters"])), text=ch["reason"])
-                    if alternative:
-                        events.emit("connection", round=3, from_="skeptic", title=candidates[-1]["title"], refs=candidates[-1]["refs"],
-                                    members=candidates[-1]["posters"], pattern_id=candidates[-1]["pattern_id"])
-                involved = [s_ for s_ in own_text if any(s_ in c_["proposers"] or s_ in c_["posters"] for c_ in candidates)]
-                stances: list[dict] = []
-                if involved and budget.can_start("round3", len(involved)):
-                    cand_block = conference.render_candidates(candidates, challenges)
+            async def run_debate() -> None:
+                nonlocal debate, stop_reason
+                # round 3: debate (the skeptic challenges, the involved members answer) ----
+                if candidates and budget.can_start("skeptic"):
+                    events.emit("conference_round", round=3, status="started", name="debate", candidates=len(candidates))
+                    skeptic_agent = Agent(m, instructions=library + defenses.prompt_text(SKEPTIC_PROMPT_RAW),
+                                          output_type=NativeOutput(SkepticOutput), toolsets=[traps.trap_toolset()], retries=1)
+                    prompt = "\n\n".join([
+                        board_block, f"<mode>\n{m_text}\n</mode>", conference.render_candidates(candidates),
+                        f"<pharmacist>\n{compact_pharmacist(pharm) if pharm else '(no medication review)'}\n</pharmacist>",
+                        "Task: challenge every candidate.",
+                    ])
+                    sk, err = await _run_logged(events, skeptic_agent, prompt, meter=meter, agent_id="r3.skeptic",
+                                                agent_kind="skeptic", specialty=None, round_=3, inputs=["case board", "candidates"],
+                                                max_tokens=MAX_TOKENS["skeptic"], request_limit=2, attempts=2)
+                    challenges: dict[str, dict] = {}
+                    if sk is not None:
+                        challenges, alternative, sk_dropped = conference.validate_skeptic(sk, candidates, posts)
+                        if alternative and len(candidates) < conference.MAX_CANDIDATES + 1:
+                            alt = conference.merge_candidates([alternative], posts)[0]
+                            alt["id"] = f"C{len(candidates) + 1}"
+                            candidates.append(alt)
+                            challenges[alt["id"]] = {"verdict": "keep", "reason": "Proposed by the skeptic as a simpler or overlooked link.",
+                                                     "simpler_explanations": [], "unsupported_refs": [], "missing": []}
+                        events.agent_finished("r3.skeptic", "completed", "completed",
+                                              ", ".join(f"{k}: {v['verdict']}" for k, v in challenges.items()) or "no challenges",
+                                              {"dropped": sk_dropped})
+                        for c_ in candidates:
+                            ch = challenges.get(c_["id"])
+                            if ch and c_["proposers"] != ["skeptic"]:
+                                events.emit("challenge", round=3, from_="skeptic", candidate=c_["id"], verdict=ch["verdict"],
+                                            to=sorted(set(c_["proposers"]) | set(c_["posters"])), text=ch["reason"])
+                        if alternative:
+                            events.emit("connection", round=3, from_="skeptic", title=candidates[-1]["title"], refs=candidates[-1]["refs"],
+                                        members=candidates[-1]["posters"], pattern_id=candidates[-1]["pattern_id"])
+                    involved = [s_ for s_ in own_text if any(s_ in c_["proposers"] or s_ in c_["posters"] for c_ in candidates)]
+                    stances: list[dict] = []
+                    if involved and budget.can_start("round3", len(involved)):
+                        cand_block = conference.render_candidates(candidates, challenges)
 
-                    async def run_response(spec: str) -> None:
-                        agent_id = f"r3.{spec}"
-                        name = board.member_name(spec)
-                        events.emit("specialist_started", agent=agent_id, specialty=spec, name=name, round=3)
-                        mine = [c_["id"] for c_ in candidates if spec in c_["proposers"]]
-                        prompt = "\n\n".join([
-                            board_block, cand_block,
-                            f"<profile>\n{profile(spec)}\n</profile>", f"<mode>\n{m_text}\n</mode>",
-                            f"<your_round1>\n{own_text[spec]}\n</your_round1>",
-                            f"You proposed: {', '.join(mine) or 'none'}.",
-                            "Task: Round 3, the debate. Return your stances.",
-                        ])
-                        out, err = await _run_logged(events, round3_agent, prompt, meter=meter, agent_id=agent_id,
-                                                     agent_kind="specialist", specialty=spec, round_=3,
-                                                     inputs=["case board", "candidates with the skeptic's challenges"],
-                                                     max_tokens=MAX_TOKENS["round3"], request_limit=2, attempts=2)
-                        if out is None:
-                            return
-                        mine_st = conference.validate_stances(spec, out.stances, candidates, posts)
-                        stances.extend(mine_st)
-                        events.agent_finished(agent_id, "completed", "completed",
-                                              ", ".join(f"{x['candidate']}: {x['stance']}" for x in mine_st) or "no stances")
-                        cand_by = {c_["id"]: c_ for c_ in candidates}
-                        for x in mine_st:
-                            c_ = cand_by[x["candidate"]]
-                            events.emit("stance", round=3, from_=spec, candidate=x["candidate"], stance=x["stance"],
-                                        to=sorted((set(c_["proposers"]) | set(c_["posters"])) - {spec}), text=x["reason"])
-                        events.emit("specialist_done", agent=agent_id, specialty=spec, name=name, round=3, stances=len(mine_st))
+                        async def run_response(spec: str) -> None:
+                            agent_id = f"r3.{spec}"
+                            name = board.member_name(spec)
+                            events.emit("specialist_started", agent=agent_id, specialty=spec, name=name, round=3)
+                            mine = [c_["id"] for c_ in candidates if spec in c_["proposers"]]
+                            prompt = "\n\n".join([
+                                board_block, cand_block,
+                                f"<profile>\n{profile(spec)}\n</profile>", f"<mode>\n{m_text}\n</mode>",
+                                f"<your_round1>\n{own_text[spec]}\n</your_round1>",
+                                f"You proposed: {', '.join(mine) or 'none'}.",
+                                "Task: Round 3, the debate. Return your stances.",
+                            ])
+                            out, err = await _run_logged(events, round3_agent, prompt, meter=meter, agent_id=agent_id,
+                                                         agent_kind="specialist", specialty=spec, round_=3,
+                                                         inputs=["case board", "candidates with the skeptic's challenges"],
+                                                         max_tokens=MAX_TOKENS["round3"], request_limit=2, attempts=2)
+                            if out is None:
+                                return
+                            mine_st = conference.validate_stances(spec, out.stances, candidates, posts)
+                            stances.extend(mine_st)
+                            events.agent_finished(agent_id, "completed", "completed",
+                                                  ", ".join(f"{x['candidate']}: {x['stance']}" for x in mine_st) or "no stances")
+                            cand_by = {c_["id"]: c_ for c_ in candidates}
+                            for x in mine_st:
+                                c_ = cand_by[x["candidate"]]
+                                events.emit("stance", round=3, from_=spec, candidate=x["candidate"], stance=x["stance"],
+                                            to=sorted((set(c_["proposers"]) | set(c_["posters"])) - {spec}), text=x["reason"])
+                            events.emit("specialist_done", agent=agent_id, specialty=spec, name=name, round=3, stances=len(mine_st))
 
-                    await asyncio.gather(*[run_response(s_) for s_ in involved])
-                scored = conference.score_candidates(candidates, challenges, stances)
-                debate = {"candidates": scored, "stances": stances}
-                events.emit("conference_round", round=3, status="done", note="hard stop: the conference ends after the debate",
-                            scored=[{"id": c_["id"], "title": c_["title"], "score": c_["score"], "strength": c_["strength"],
-                                     "removed": c_["removed"]} for c_ in scored])
-            elif candidates:
-                stop_reason = "stopped: run budget reached before the debate; summary built from the connection round"
+                        await asyncio.gather(*[run_response(s_) for s_ in involved])
+                    scored = conference.score_candidates(candidates, challenges, stances)
+                    debate = {"candidates": scored, "stances": stances}
+                    events.emit("conference_round", round=3, status="done", note="hard stop: the conference ends after the debate",
+                                scored=[{"id": c_["id"], "title": c_["title"], "score": c_["score"], "strength": c_["strength"],
+                                         "removed": c_["removed"]} for c_ in scored])
+                elif candidates:
+                    stop_reason = "stopped: run budget reached before the debate; summary built from the connection round"
 
-        # ---- coordinator synthesis ----
+            # ---- round 3 (debate) and round 4's self-care steps run in parallel ----
+            jobs = [run_debate()]
+            if r1 and budget.can_start("lifestyle"):
+                jobs.append(run_lifestyle_steps())
+            await asyncio.gather(*jobs)
+
+        # ---- round 4: recommendations (the coordinator writes the summary from the debate) ----
         if r1 and budget.can_start("coordinator"):
+            events.emit("conference_round", round=4, status="started", name="recommendations")
             events.emit("coordinator_thinking", stage="synthesis", specialists=len(r1) + (1 if consult else 0))
             all_reports = dict(r1, **({consult["specialty"]: consult} if consult else {}))
-            valid_refs = {f["id"] for r in all_reports.values() for f in r["findings"]} | {i["id"] for i in (pharm or {}).get("issues", [])}
-            r2_text = "\n".join(
-                [f"- {c['id']} [{c['strength']} match, score {c['score']}{', REMOVED: ' + c['removed'] if c['removed'] else ''}] "
-                 f"{c['title']} (posts: {', '.join(c['refs'])})" for c in (debate or {}).get("candidates", [])]
-                + [f"- {s} answers {x['from_specialty']}: {x['answer']}" for s, d in r2.items() for x in d["answers"]])
+            valid_refs = set(posts)
+            scored = (debate or {}).get("candidates", [])
+            top = conference.top_candidates(scored)
+            removed = [c for c in scored if c["removed"]]
+            answers = "\n".join(f"- {s_} answers {x['from_specialty']}: {x['answer']}" for s_, d in r2.items() for x in d["answers"])
             docs_text = "\n".join(f"- {d.filename}: {d.extraction.summary}" for d in intake.documents if d.extraction)
             failed_reviews = [f"- The {BY_ID[a.specialty].name} review failed and is missing from this summary; list it under limitations."
                               for a in events.agents.values() if a.status == "failed" and a.specialty in BY_ID]
             signals = "\n".join(intake.safety_signals + failed_reviews
                                  + [f"- To confirm with the patient: {c.message}" for c in intake.conflicts])
             prompt = "\n\n".join([
+                board_block,
                 f"<profile>\n{profile(modes.coordinator)}\n</profile>", f"<mode>\n{m_text}\n</mode>",
                 defenses.wrap("questionnaire", q_text),
                 all_docs_block if pass_full_documents else f"<document_summaries>\n{docs_text}\n</document_summaries>",
-                "<specialist_findings>\n" + "\n\n".join(compact_report(r) + (
-                    "\nQuestions for their doctor: " + " | ".join(r["questions_for_doctor"]) if r["questions_for_doctor"] else "")
-                    + (f"\nSource note: {r['source_note']}" if r.get("source_note") else "") for r in all_reports.values())
-                + "\n</specialist_findings>",
+                conference.render_top(top, removed),
+                "<specialist_concerns_and_questions>\n" + "\n\n".join(
+                    f"{r['name']} (confidence {r['confidence']})"
+                    + "".join(f"\n- concern [{c['urgency']}]: {c['concern']}" for c in r["concerns"])
+                    + ("\n- questions for their doctor: " + " | ".join(r["questions_for_doctor"]) if r["questions_for_doctor"] else "")
+                    + (f"\n- source note: {r['source_note']}" if r.get("source_note") else "") for r in all_reports.values())
+                + "\n</specialist_concerns_and_questions>",
                 f"<pharmacist>\n{compact_pharmacist(pharm) if pharm else '(no medication review)'}\n</pharmacist>",
-                f"<round2>\n{r2_text or '(no round-2 comments)'}\n</round2>",
+                f"<answers_between_specialists>\n{answers or '(none)'}\n</answers_between_specialists>",
                 "<consider_seeing>\n" + ("\n".join(f"- {c.name}: {c.reason}" for c in intake.consider_seeing) or "(none)")
                 + "\n</consider_seeing>",
                 f"<safety_signals>\n{signals or '(none)'}\n</safety_signals>",
-                "Task B: the case summary.",
+                "Task B: recommendations and the case summary.",
             ])
             coordinator_agent = Agent(m, instructions=library + defenses.prompt_text(COORDINATOR_PROMPT_RAW), output_type=NativeOutput(CaseSummaryOutput),
                                       toolsets=[] if defenses.current().design else [traps.trap_toolset()], retries=1)
             out, err = await _run_logged(events, coordinator_agent, prompt, meter=meter, agent_id="coordinator.synthesis",
-                                         agent_kind="coordinator", specialty=modes.coordinator, round_=None,
-                                         inputs=[f"reports of {', '.join(all_reports)}", "pharmacist", "round 2", "document summaries"],
+                                         agent_kind="coordinator", specialty=modes.coordinator, round_=4,
+                                         inputs=["case board", "top candidates and the debate", "pharmacist", "document summaries"],
                                          max_tokens=MAX_TOKENS["coordinator"], request_limit=2, attempts=3)
             if out is not None:
-                summary, dropped = validate_summary(out, valid_refs)
+                names = {m_: board.member_name(m_) for m_ in {p_["by"] for p_ in board_posts} | {x for c in top for x in c["proposers"]}}
+                summary, dropped = validate_summary(out, valid_refs, top=top, posts=posts, names=names)
+                summary["self_care"] = {"steps": life.get("steps", []), "source_note": life.get("source_note"),
+                                        "limits": (life.get("context") or {}).get("reasons", []), "care_first": False, "message": None}
                 # Calm red flag for any document intake marked as mentioning a possible malignancy.
                 for d in intake.documents:
                     if d.extraction and d.extraction.mentions_possible_malignancy:
@@ -959,8 +1088,12 @@ async def _run_case(
                                                          "what_to_do": "Ask your doctor about this result at your next contact, soon.",
                                                          "finding_refs": sorted(doc_refs), "added_by": "safety_rule"})
                 events.agent_finished("coordinator.synthesis", "completed", "completed",
-                                      f"{len(summary['key_findings'])} findings, {len(summary['connections'])} connections",
+                                      f"{len(summary['explanations'])} explanation cards, {len(summary['see_first'])} to see first",
                                       {"dropped": dropped})
+                events.emit("explanations", cards=[{"id": c["id"], "title": c["title"], "strength": c["strength"], "refs": c["refs"],
+                                                     "regions": c["regions"], "specialists": [x["id"] for x in c["specialists"]]}
+                                                    for c in summary["explanations"]])
+                events.emit("conference_round", round=4, status="done")
             else:
                 stop_reason = f"stopped: the coordinator failed ({err}); returning the specialist reports"
         elif r1:
@@ -1028,6 +1161,9 @@ async def _run_case(
                 "actions": [r["what_to_do"] for r in urgent],
                 "message": safety.CRISIS_RESOURCES if crisis else (safety.EMERGENCY_GENERAL if (reviewer_emergency[0] or urgent_flags) else None),
             }
+            # Care first: an urgent problem present now hides every self-care step.
+            summary["self_care"] = lifestyle.apply_care_first(summary.get("self_care") or {"steps": []},
+                                                              bool(urgent_flags or crisis or reviewer_emergency[0]))
             safety_info = {"model_edits": edits_applied, "missed_red_flags_added": missed, "code_blocked": blocked,
                            "crisis_mentions": crisis}
             events.emit("safety_check", stage="done", emergency=emergency["active"], crisis=emergency["crisis"])
@@ -1054,7 +1190,7 @@ async def _run_case(
         "trap_calls": traps.calls_for_run(events.run_id),
         "defenses": {"tag": defenses.current().tag, "label": defenses.current().label},
         "specialists": r1, "pharmacist": pharm, "round2": r2, "consult": consult, "board": board_posts,
-        "candidates": candidates, "debate": debate,
+        "candidates": candidates, "debate": debate, "lifestyle": life,
         "safety": safety_info,
         "intake": intake.model_dump(exclude={"usage"}) if intake else None,
         "usage": meter.as_dict(), "budget": budget.status() if budget else None,

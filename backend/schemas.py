@@ -416,6 +416,37 @@ class PanelResponseOutput(BaseModel):
     stances: list[Stance]
 
 
+# ---- lifestyle and prevention agent --------------------------------------------------------
+
+SelfCareCategory = Literal["sleep", "activity", "eating_pattern", "hydration", "symptom_tracking", "stress",
+                           "avoid_known_trigger", "visit_preparation"]
+
+
+class LifestylePost(BaseModel):
+    board_line: str = Field(description="A lifestyle fact in at most 15 words (e.g. 'Sleeps about 5 hours; 4 coffees a day').")
+    symptoms: list[str] = Field(description="Up to 3 lowercase symptom tags it could relate to. Empty if none.")
+    quote: str = Field(description="A short exact quote (3-25 words) from the questionnaire that states this fact.")
+
+
+class LifestyleBoardOutput(BaseModel):
+    posts: list[LifestylePost] = Field(description="At most 3 lifestyle facts relevant to the patient's concerns. Empty if none.")
+
+
+class SelfCareStep(BaseModel):
+    category: SelfCareCategory
+    action: str = Field(description="One concrete, low-risk action in one sentence, phrased as an option ('You could ...').")
+    why_it_may_help: str = Field(description="One sentence linking the step to the board posts it relates to. Never 'treats' or 'cures'.")
+    board_refs: list[str] = Field(description="Board post ids this step relates to.")
+    how_to_track: str = Field(description="One sentence: how the patient can notice whether it helps, or what to bring to the doctor.")
+    check_first_if: str = Field(description="When to ask a doctor before trying it (e.g. 'if you get dizzy when standing').")
+    source_url: str = Field(description="A MedlinePlus URL returned by search_medlineplus in this conversation.")
+
+
+class LifestyleStepsOutput(BaseModel):
+    steps: list[SelfCareStep] = Field(description="At most 5 steps, most useful first.")
+    source_note: str | None = Field(description="Say here if MedlinePlus could not be reached or returned nothing useful.")
+
+
 class ConsultDecisionOutput(BaseModel):
     consult: PanelSpecialtyId | None = Field(description="One extra specialist to call in, or null.")
     reason: str
@@ -423,18 +454,30 @@ class ConsultDecisionOutput(BaseModel):
 
 class SummaryPoint(BaseModel):
     text: str
-    finding_refs: list[str] = Field(description="Ids of specialist findings this rests on, e.g. 'hematology.F1'. At least one.")
+    finding_refs: list[str] = Field(description="Ids of case-board posts this rests on, e.g. 'hematology.F1'. At least one.")
 
 
 class DoctorQuestions(BaseModel):
     doctor: str = Field(description="Specialty or the patient's named doctor, e.g. 'Gastroenterology (Dr. Feld)'.")
     questions: list[str]
+    related_to: list[str] = Field(description="Explanation card ids these questions relate to (e.g. 'C1'). Empty if none.")
 
 
-class SuggestedSpecialist(BaseModel):
-    specialty: str
-    reason: str
+class ExplanationCardOutput(BaseModel):
+    candidate: str = Field(description="The candidate id from <top_candidates>, e.g. 'C1'.")
+    title: str = Field(description="The pattern in plain words for the patient, at most 30 words, as something that COULD "
+                       "connect their findings. Never 'you have', 'this is' or 'confirms'.")
+    why_it_fits: list[SummaryPoint] = Field(description="1-3 points, each citing the board post ids it rests on.")
+    argues_against: list[str] = Field(description="1-3 short points from the skeptic and the debate: what else could explain "
+                                      "the same findings, or what does not fit. Never empty.")
+    would_help_tell: list[str] = Field(description="1-3 things to ask the doctor about that could support or rule it out.")
+
+
+class SeeFirst(BaseModel):
+    who: str = Field(description="A specialty or the patient's named doctor, e.g. 'Gastroenterology (Dr. Feld)'.")
+    why: str = Field(description="One sentence: what to bring up with them first.")
     urgency: Urgency
+    related_to: list[str] = Field(description="Explanation card ids (e.g. 'C1') this visit relates to. Empty if none.")
 
 
 class RedFlag(BaseModel):
@@ -455,11 +498,11 @@ class BodyRegion(BaseModel):
 
 class CaseSummaryOutput(BaseModel):
     plain_language_summary: str = Field(description="4-8 sentences for the patient. No diagnosis, no medication advice.")
+    explanations: list[ExplanationCardOutput] = Field(description="One card per candidate in <top_candidates>, same order.")
+    see_first: list[SeeFirst] = Field(description="Who to see first: at most 3, in the order the patient should go.")
     key_findings: list[SummaryPoint]
-    connections: list[SummaryPoint]
     questions_for_doctors: list[DoctorQuestions]
     medication_discussion: list[SummaryPoint] = Field(description="Pharmacist items to discuss with prescribers; refs like 'pharmacist.I1'.")
-    suggested_specialists: list[SuggestedSpecialist]
     red_flags: list[RedFlag]
     body_regions: list[BodyRegion]
     limitations: list[str]
@@ -527,6 +570,7 @@ class ProfileData(BaseModel):
     family_other: str = Field(default="", max_length=400)
     tobacco: Literal["never", "former", "current", "prefer_not_to_say"] = "prefer_not_to_say"
     alcohol: Literal["none", "occasionally", "weekly", "most_days", "prefer_not_to_say"] = "prefer_not_to_say"
+    habits: str = Field(default="", max_length=500)  # optional: activity, sleep, eating pattern, caffeine
     main_concern: str = Field(default="", max_length=3000)
     main_concern_withheld: bool = False
     doctors: list[str] = Field(default=[], max_length=20)             # optional, from the profile page

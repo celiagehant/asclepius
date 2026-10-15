@@ -23,6 +23,7 @@ export interface ProfileData {
   family_other: string;
   tobacco: "never" | "former" | "current" | "prefer_not_to_say";
   alcohol: "none" | "occasionally" | "weekly" | "most_days" | "prefer_not_to_say";
+  habits?: string;
   main_concern: string;
   main_concern_withheld: boolean;
   doctors: string[];
