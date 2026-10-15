@@ -29,7 +29,7 @@ RUN_BUDGET_USD = float(os.environ.get("CC_RUN_BUDGET_USD", "0.05"))
 DAILY_BUDGET_USD = float(os.environ.get("CC_DAILY_BUDGET_USD", "0.50"))
 GLOBAL_DAILY_BUDGET_USD = float(os.environ.get("CC_GLOBAL_DAILY_BUDGET_USD", "5.00"))
 GLOBAL = "__all_users__"
-LEDGER_DIR = config.REPO_ROOT / "storage" / "budget"
+LEDGER_DIR = Path(os.environ.get("CC_BUDGET_DIR") or config.REPO_ROOT / "storage" / "budget")
 
 # Worst-case cost of a step, used to decide whether to start it. Rounds run their agents in
 # parallel, so they reserve per agent: a round only starts if all of its agents fit.

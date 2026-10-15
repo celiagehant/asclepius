@@ -50,6 +50,18 @@ export class ApiError extends Error {
   constructor(public status: number, message: string) { super(message); }
 }
 
+const OFFLINE = "Can't reach the Case Conference server. Check your connection, wait a moment and try again. "
+  + "If you are running it yourself, make sure `python run.py` is still running.";
+
+/** fetch, but a dropped connection becomes a readable message instead of the browser's "Load failed" / "NetworkError". */
+async function send(path: string, init: RequestInit): Promise<Response> {
+  try {
+    return await fetch(path, init);
+  } catch {
+    throw new ApiError(0, OFFLINE);
+  }
+}
+
 async function call<T>(method: string, path: string, body?: unknown): Promise<T> {
   const init: RequestInit = { method, credentials: "same-origin", headers: {} };
   if (body instanceof FormData) init.body = body;
@@ -57,10 +69,14 @@ async function call<T>(method: string, path: string, body?: unknown): Promise<T>
     init.body = JSON.stringify(body);
     (init.headers as Record<string, string>)["Content-Type"] = "application/json";
   }
-  const res = await fetch(path, init);
+  const res = await send(path, init);
   const text = await res.text();
-  const data = text ? JSON.parse(text) : null;
-  if (!res.ok) throw new ApiError(res.status, (data && (data.detail || data.message)) || `Request failed (${res.status})`);
+  let data = null;
+  try { data = text ? JSON.parse(text) : null; } catch { /* an HTML error page from a proxy, e.g. while the host wakes up */ }
+  if (!res.ok) {
+    const fallback = res.status >= 502 ? "The server is starting up or busy. Please try again in a minute." : `Request failed (${res.status})`;
+    throw new ApiError(res.status, (data && (data.detail || data.message)) || fallback);
+  }
   return data as T;
 }
 
@@ -92,7 +108,7 @@ export const api = {
   chatHistory: (caseId: number) => call<{ messages: ChatMessage[]; available: boolean; members: string[]; busy: boolean }>("GET", `/api/cases/${caseId}/chat`),
   /** Ask the panel; events stream in as the coordinator routes, specialists answer and the safety reviewer checks. */
   askChat: async (caseId: number, message: string, onEvent: (e: ChatEvent) => void): Promise<void> => {
-    const res = await fetch(`/api/cases/${caseId}/chat`, { method: "POST", credentials: "same-origin",
+    const res = await send(`/api/cases/${caseId}/chat`, { method: "POST", credentials: "same-origin",
       headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message }) });
     if (!res.ok || !res.body) {
       const data = await res.json().catch(() => null);
