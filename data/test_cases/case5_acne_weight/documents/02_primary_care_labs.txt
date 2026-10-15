@@ -1,0 +1,26 @@
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA
+
+LAKESIDE FAMILY MEDICINE - LABORATORY REPORT
+Patient: Maya Lindqvist    DOB: 03/14/2002    Sex: F
+Ordering clinician: Ellen Shaw, MD    Collected: 08/19/2026 08:10 (fasting)
+
+TEST                          RESULT    FLAG   REFERENCE RANGE    UNITS
+Hemoglobin A1c                5.9       H      4.0 - 5.6          %
+Glucose, fasting              104       H      70 - 99            mg/dL
+Insulin, fasting              28        H      2.6 - 24.9         uIU/mL
+Testosterone, total           78        H      8 - 60             ng/dL
+DHEA-S                        310              98 - 340           ug/dL
+TSH                           1.8              0.4 - 4.5          mIU/L
+Prolactin                     14               4.8 - 23.3         ng/mL
+Triglycerides                 210       H      <150               mg/dL
+HDL cholesterol               38        L      >45                mg/dL
+LDL cholesterol               118              <130               mg/dL
+ALT                           41        H      7 - 35             U/L
+
+Vitals at visit: weight 84 kg, BMI 30.9, waist 97 cm,
+blood pressure 132/84.
+
+Clinician comment: Prediabetes range A1c and fasting glucose. Elevated
+testosterone. Discuss diet and activity; recheck in 3 months.
+
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA

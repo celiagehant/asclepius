@@ -3,7 +3,10 @@
 For each question:
   1. emergency check in code (no model): an emergency gets crisis or 911 guidance at once
   2. the coordinator routes it to the one or two most relevant panel members (pharmacist
-     for medication questions); code enforces "only this case's panel, at most two"
+     for medication questions); code enforces "only this case's panel, at most two".
+     A connection question ("why are my acne and my weight related?") goes to the
+     specialists who posted those findings on the case board plus the skeptic; code checks
+     whether the board really links the two things, and says so if it does not
   3. those specialists answer in their own voice, in parallel, with their own memory of
      this chat and the trusted-source tools
   4. the coordinator adds a short wrap-up
@@ -34,13 +37,13 @@ from pydantic_ai.messages import (
     ModelMessage, ModelMessagesTypeAdapter, ModelRequest, ToolCallPart, ToolReturnPart, UserPromptPart,
 )
 
-from . import db, defenses, llm, safety
+from . import board, db, defenses, llm, safety
 from .budget import Budget, DailyBudgetExceeded
 from .events import RunEvents
 from .intake import decide_modes
 from .panel import (
-    AgentDeps, PHARMACIST_TOOLS, SAFETY_PROMPT, SPECIALIST_TOOLS, compact_pharmacist, compact_report, member_of, mode_text,
-    open_sources, profile, questionnaire_text,
+    LIFESTYLE_TOOLS, AgentDeps, PHARMACIST_TOOLS, SAFETY_PROMPT, SPECIALIST_TOOLS, compact_pharmacist, compact_report, member_of,
+    mode_text, open_sources, profile, questionnaire_text,
 )
 from .profiles import to_questionnaire
 from .registry import BY_ID, PHARMACIST_ID
@@ -53,12 +56,17 @@ WRAPUP_PROMPT = defenses.prompt_text((PROMPTS / "chat_wrapup.md").read_text())
 
 MAX_QUESTION_CHARS = 1500
 MAX_ANSWERERS = 2
+SKEPTIC = "skeptic"
+LIFESTYLE = "lifestyle"
 MEMORY_CHAR_BUDGET = 14_000      # per panel member, about 3,500 tokens of earlier turns
 DIGEST_TURNS = 4                 # recent turns the coordinator sees
 QUESTION_BUDGET_USD = 0.03
 TOOL_CAP = {"specialist": 2, PHARMACIST_ID: 3}
 MED_WORDS = re.compile(r"\b(medic\w*|pill\w*|dose|dosage|drug\w*|tablet\w*|interact\w*|side effects?|prescri\w*|supplement\w*|"
                        r"vitamin\w*|statin\w*|warfarin|naproxen|ibuprofen|aspirin|metformin|taking|refill)\b", re.I)
+
+
+REF_IN_TEXT = re.compile(r"\s*\((?:\s*[a-z_]+\.[A-Z]\d+\s*,?)+\)")
 
 
 class ChatError(RuntimeError):
@@ -130,18 +138,80 @@ def panel_members(result: dict[str, Any]) -> list[str]:
         members.append(result["consult"]["specialty"])
     if result.get("pharmacist"):
         members.append(PHARMACIST_ID)
+    life = result.get("lifestyle") or {}
+    if life.get("posts") or life.get("steps"):
+        members.append(LIFESTYLE)
     return members
+
+
+def name_of(member: str) -> str:
+    return board.member_name(member)
+
+
+def connection_plan(route: ChatRouteOutput | None, result: dict[str, Any], members: list[str]) -> dict[str, Any] | None:
+    """For a connection question: who answers (the members who posted the findings, at most
+    two, plus the skeptic) and whether the board really links the two things. Decided in
+    code from the board and the explanation cards, never by the model alone."""
+    if not route or not route.connection_question:
+        return None
+    posts = board.index(result.get("board") or [])
+    a = [r for r in dict.fromkeys(route.posts_a) if r in posts]
+    b = [r for r in dict.fromkeys(route.posts_b) if r in posts]
+
+    def best(refs: list[str], exclude: set[str]) -> str | None:
+        count: dict[str, int] = {}
+        for r in refs:
+            who = posts[r]["by"]
+            if who in members and who not in exclude:
+                count[who] = count.get(who, 0) + 1
+        return max(count, key=lambda k: (count[k], -members.index(k))) if count else None
+
+    first = best(a, set()) or best(b, set())
+    second = best(b, {first} if first else set()) or best(a + b, {first} if first else set())
+    answerers = [x for x in (first, second) if x][:MAX_ANSWERERS]
+    if not answerers:
+        answerers = [m for m in members if m != PHARMACIST_ID][:1]
+    cards = [c for c in ((result.get("summary") or {}).get("explanations") or [])
+             if set(c["refs"]) & set(a) and set(c["refs"]) & set(b)]
+    if cards:
+        status = "linked"
+    elif a and b:
+        status = "both_on_board_no_card"
+    else:
+        status = "not_on_board"
+    return {"topic_a": route.topic_a or "the first thing", "topic_b": route.topic_b or "the second thing",
+            "posts_a": a, "posts_b": b, "cards": [c["id"] for c in cards], "status": status,
+            "answerers": answerers + [SKEPTIC]}
+
+
+def connection_block(plan: dict[str, Any], result: dict[str, Any]) -> str:
+    posts = board.index(result.get("board") or [])
+    cards = {c["id"]: c for c in ((result.get("summary") or {}).get("explanations") or [])}
+    line = lambda r: f"- {r}: {posts[r]['line']} ({posts[r]['system']})"  # noqa: E731
+    status = {
+        "linked": "The panel's explanation cards DO link these two things: " + "; ".join(
+            f"{cid} '{cards[cid]['title']}' (argues against: {' / '.join(cards[cid]['argues_against'][:2])})" for cid in plan["cards"]),
+        "both_on_board_no_card": "Both things are on the case board, but NO explanation card links them. Say that the panel "
+                                 "did not find a supported link, and what could help tell; do not invent one.",
+        "not_on_board": "The case board has nothing about " + " and ".join(
+            t for t, refs in ((plan["topic_a"], plan["posts_a"]), (plan["topic_b"], plan["posts_b"])) if not refs)
+            + ". Say plainly that the panel did not find a link in these records; do not invent one.",
+    }[plan["status"]]
+    lines_a = "\n".join(line(r) for r in plan["posts_a"]) or "(none)"
+    lines_b = "\n".join(line(r) for r in plan["posts_b"]) or "(none)"
+    return (f"<connection_question>\nThe patient asks how '{plan['topic_a']}' and '{plan['topic_b']}' are related.\n"
+            f"Posts about {plan['topic_a']}:\n{lines_a}\nPosts about {plan['topic_b']}:\n{lines_b}\n{status}\n</connection_question>")
 
 
 def enforce_route(route: ChatRouteOutput | None, question: str, members: list[str]) -> tuple[list[str], str]:
     """Only this case's panel, at most two, pharmacist for medication questions."""
-    picked = [s for s in dict.fromkeys(route.specialists if route else []) if s in members]
+    picked = [s for s in dict.fromkeys(route.specialists if route else []) if s in members and s != SKEPTIC]
     reason = route.reason if route else "Routed by keywords (the coordinator was unavailable)."
     medication = (route.medication_question if route else False) or bool(MED_WORDS.search(question))
     if medication and PHARMACIST_ID in members and PHARMACIST_ID not in picked:
         picked = [PHARMACIST_ID] + picked
     if not picked:
-        named = [m for m in members if BY_ID[m].name.lower().split()[0] in question.lower()]
+        named = [m for m in members if name_of(m).lower().split()[0] in question.lower()]
         picked = named or [m for m in members if m != PHARMACIST_ID][:1] or members[:1]
     return picked[:MAX_ANSWERERS], reason
 
@@ -165,10 +235,16 @@ def case_context(spec: str, result: dict[str, Any], q_text: str, m_text: str) ->
     summary = result.get("summary") or {}
     parts = [f"<profile>\n{profile(spec)}\n</profile>", f"<mode>\n{m_text}\n</mode>",
              defenses.wrap("questionnaire", q_text)]
+    if result.get("board"):
+        parts.append(board.render(result["board"]))
     if summary:
+        cards = summary.get("explanations")
+        links = ("\nPossible explanations the panel discussed (patterns, not diagnoses):\n" + "\n".join(
+            f"- {c['id']} [{c['strength']} match] {c['title']} (posts: {', '.join(c['refs'])}; argues against: "
+            f"{' / '.join(c['argues_against'][:2])})" for c in cards)) if cards is not None else ("\nConnections:\n" + "\n".join(
+            f"- {k['text']} [{', '.join(k['finding_refs'])}]" for k in summary.get("connections", [])))
         parts.append("<case_summary>\n" + summary.get("plain_language_summary", "") + "\nKey findings:\n" + "\n".join(
-            f"- {k['text']} [{', '.join(k['finding_refs'])}]" for k in summary.get("key_findings", [])) + "\nConnections:\n" + "\n".join(
-            f"- {k['text']} [{', '.join(k['finding_refs'])}]" for k in summary.get("connections", [])) + "\n</case_summary>")
+            f"- {k['text']} [{', '.join(k['finding_refs'])}]" for k in summary.get("key_findings", [])) + links + "\n</case_summary>")
     report = (result.get("specialists") or {}).get(spec) or (result.get("consult") if (result.get("consult") or {}).get("specialty") == spec else None)
     if spec == PHARMACIST_ID and result.get("pharmacist"):
         parts.append(f"<your_report>\n{compact_pharmacist(result['pharmacist'])}\n</your_report>")
@@ -178,8 +254,17 @@ def case_context(spec: str, result: dict[str, Any], q_text: str, m_text: str) ->
     r2 = (result.get("round2") or {}).get(spec)
     if r2:
         parts.append("<your_conference_comments>\n" + "\n".join(
-            [f"- connection: {c['connection']}" for c in r2.get("connections", [])]
+            [f"- proposed: {c['title']}" if "title" in c else f"- connection: {c['connection']}" for c in r2.get("connections", [])]
             + [f"- disagreed with {d['with_specialty']}: {d['point']}" for d in r2.get("disagreements", [])]) + "\n</your_conference_comments>")
+    debate = result.get("debate") or {}
+    if spec == SKEPTIC and debate.get("candidates"):
+        parts.append("<your_debate_challenges>\n" + "\n".join(
+            f"- {c['id']} {c['title']}: {(c.get('skeptic') or {}).get('verdict', '?')}, {(c.get('skeptic') or {}).get('reason', '')}"
+            for c in debate["candidates"]) + "\n</your_debate_challenges>")
+    life = result.get("lifestyle") or {}
+    if spec == LIFESTYLE and (life.get("steps") or life.get("posts")):
+        parts.append("<your_self_care_steps>\n" + "\n".join(f"- [{st['category']}] {st['action']} (source: {st['source_url']})"
+                                                          for st in life.get("steps", [])) + "\n</your_self_care_steps>")
     return "<case_context>\n" + "\n\n".join(parts) + "\n</case_context>"
 
 
@@ -244,6 +329,8 @@ async def answer_question(*, user_id: int, case_id: int, question: str, events: 
             if s == PHARMACIST_ID:
                 issues = (result.get("pharmacist") or {}).get("issues", [])
                 member_lines.append(f"- {s}: Clinical pharmacist. Items: " + "; ".join(i["explanation"][:120] for i in issues[:3]))
+            elif s == LIFESTYLE:
+                member_lines.append(f"- {s}: Lifestyle & prevention. Self-care steps and lifestyle facts.")
             else:
                 rep = (result.get("specialists") or {}).get(s) or result.get("consult") or {}
                 member_lines.append(f"- {s}: {BY_ID[s].name}. Findings: " + "; ".join(f["statement"][:100] for f in rep.get("findings", [])[:6])
@@ -253,13 +340,20 @@ async def answer_question(*, user_id: int, case_id: int, question: str, events: 
         try:
             route = await llm.run_agent(router, "\n\n".join([
                 "<panel_members>\n" + "\n".join(member_lines) + "\n</panel_members>",
+                board.render(result.get("board") or []),
                 f"<recent_conversation>\n{digest(history)}\n</recent_conversation>",
                 f"<question>\n{question}\n</question>"]), meter=meter, agent_name="chat_router", label="route",
                 model_settings=llm.settings(600, "none", trace))
         except Exception:
             pass  # enforce_route falls back to keywords
         answerers, reason = enforce_route(route, question, members)
-        events.emit("chat_routed", specialists=answerers, names=[BY_ID[s].name for s in answerers], reason=reason)
+        plan = connection_plan(route, result, members)
+        if plan:
+            answerers = plan["answerers"]
+            reason = (f"Connection question ({plan['topic_a']} and {plan['topic_b']}): the specialists who posted those findings, "
+                      f"plus the skeptic. Board link: {plan['status'].replace('_', ' ')}.")
+        events.emit("chat_routed", specialists=answerers, names=[name_of(s) for s in answerers], reason=reason,
+                    connection=plan)
 
         # 3. answers, in parallel, each with its own trimmed memory
         sources_stack = contextlib.AsyncExitStack()
@@ -268,13 +362,15 @@ async def answer_question(*, user_id: int, case_id: int, question: str, events: 
         valid_refs = {f["id"] for r in (result.get("specialists") or {}).values() for f in r["findings"]}
         valid_refs |= {f["id"] for f in (result.get("consult") or {}).get("findings", [])}
         valid_refs |= {i["id"] for i in (result.get("pharmacist") or {}).get("issues", [])}
+        valid_refs |= {p_["id"] for p_ in result.get("board") or []}
 
         async def answer(spec: str) -> None:
             agent_id = f"chat.{spec}"
             events.agent_started(agent_id, "chat_specialist", spec, None, ["case context", "chat memory"])
-            events.emit("specialist_started", agent=agent_id, specialty=spec, name=BY_ID[spec].name, round="chat")
-            tools = ([toolset.filtered(lambda ctx, td: td.name in (PHARMACIST_TOOLS if spec == PHARMACIST_ID else SPECIALIST_TOOLS))]
-                     if toolset else [])
+            events.emit("specialist_started", agent=agent_id, specialty=spec, name=name_of(spec), round="chat")
+            allowed = (PHARMACIST_TOOLS if spec == PHARMACIST_ID else LIFESTYLE_TOOLS if spec == LIFESTYLE
+                       else set() if spec == SKEPTIC else SPECIALIST_TOOLS)
+            tools = [toolset.filtered(lambda ctx, td: td.name in allowed)] if toolset and allowed else []
             agent = Agent(m, deps_type=AgentDeps, instructions=CHAT_PROMPT, output_type=NativeOutput(ChatAnswerOutput),
                           toolsets=tools, retries=1)
             deps = AgentDeps(events, agent_id, spec, str(user_id), str(case_id), TOOL_CAP.get(spec, TOOL_CAP["specialist"]))
@@ -283,7 +379,8 @@ async def answer_question(*, user_id: int, case_id: int, question: str, events: 
             started = time.perf_counter()
             try:
                 run = await asyncio.wait_for(agent.run(
-                    f"The patient asks: {question}", message_history=[context, *memory], deps=deps,
+                    (connection_block(plan, result) + "\n\n" if plan else "") + f"The patient asks: {question}",
+                    message_history=[context, *memory], deps=deps,
                     model_settings=llm.settings(1500, "low", f"{trace}-{spec}"),
                     usage_limits=UsageLimits(request_limit=4)), timeout=120)
             except Exception as exc:
@@ -295,16 +392,18 @@ async def answer_question(*, user_id: int, case_id: int, question: str, events: 
                                      round(time.perf_counter() - started, 2), llm.cost_usd(usage[1], usage[2], usage[3], usage[4]), True))
             save_memory(user_id, case_id, spec, [*memory, *run.new_messages()])
             out: ChatAnswerOutput = run.output
+            # Ids belong in finding_refs; strip any the model wrote into the text, e.g. "(gastroenterology.F1, hematology.F2)".
+            out.answer = REF_IN_TEXT.sub("", out.answer)
             unreachable = sorted({src for src, st in deps.tool_statuses if st == "unreachable"})
             answers.append({
-                "specialty": spec, "name": BY_ID[spec].name, "text": out.answer.strip(),
+                "specialty": spec, "name": name_of(spec), "text": out.answer.strip(),
                 "finding_refs": [r for r in out.finding_refs if r in valid_refs],
                 "sources": [s.model_dump() for s in out.sources if s.url in deps.tool_urls],
                 "ask_your_doctor": out.ask_your_doctor, "confidence": out.confidence,
                 "source_note": f"{' and '.join(unreachable)} could not be reached." if unreachable else None,
             })
             events.agent_finished(agent_id, "completed", "completed", out.answer[:120])
-            events.emit("specialist_done", agent=agent_id, specialty=spec, name=BY_ID[spec].name, round="chat")
+            events.emit("specialist_done", agent=agent_id, specialty=spec, name=name_of(spec), round="chat")
 
         async with sources_stack:
             await asyncio.gather(*[answer(s) for s in answerers])
@@ -369,7 +468,7 @@ async def answer_question(*, user_id: int, case_id: int, question: str, events: 
         events.emit("safety_check", stage="done", edits=len(edits_applied), blocked=len(blocked))
 
         # 6. save
-        meta = {"answers": answers, "wrap_up": wrap_up, "routed": answerers, "route_reason": reason,
+        meta = {"answers": answers, "wrap_up": wrap_up, "routed": answerers, "route_reason": reason, "connection": plan,
                 "coordinator": coordinator, "safety": {"edits": edits_applied, "blocked": blocked},
                 "emergency": {"emergency": True, "kind": "medical", "matches": [], "message": safety.EMERGENCY_GENERAL} if emergency_flag else None,
                 "usage": meter.totals()}

@@ -1,0 +1,27 @@
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA
+
+NORTHGATE DERMATOLOGY - CLINIC NOTE
+Patient: Maya Lindqvist    DOB: 03/14/2002    Date of visit: 07/08/2026
+Clinician: Luis Rivera, MD (Dermatology)
+
+HISTORY
+24-year-old woman with 12 months of worsening acne along the jawline and
+chin. Adapalene 0.1% gel nightly for 6 months with little change.
+Reports new coarse dark hairs on the chin and upper lip. Periods are
+irregular per the patient.
+
+EXAM
+Inflammatory papules and nodules along the jawline and chin; scattered
+comedones on the forehead. Coarse terminal hairs on the chin and upper
+lip. Velvety darkened skin on the back of the neck and both underarms.
+
+ASSESSMENT
+Moderate inflammatory acne with a lower-face distribution, hirsutism and
+darkened velvety skin in the folds. Hormonal contribution possible.
+
+PLAN
+1. Start doxycycline 100 mg daily for 3 months; continue adapalene.
+2. Suggest the primary care doctor check hormone and blood sugar tests.
+3. Recheck in 12 weeks.
+
+SYNTHETIC TEST DOCUMENT - FICTIONAL PATIENT - NOT REAL MEDICAL DATA

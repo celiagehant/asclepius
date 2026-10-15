@@ -52,9 +52,9 @@ def test_memory_is_trimmed_by_whole_turns_and_keeps_tool_pairs():
 
 def test_routing_is_enforced_in_code():
     members = ["hematology", "cardiology", "nephrology", "clinical_pharmacist"]
-    r = ChatRouteOutput(specialists=["cardiology", "oncology", "hematology", "nephrology"], medication_question=False, reason="r")
+    r = ChatRouteOutput(specialists=["cardiology", "oncology", "hematology", "nephrology"], medication_question=False, connection_question=False, topic_a=None, topic_b=None, posts_a=[], posts_b=[], reason="r")
     assert chat.enforce_route(r, "Why is my heart racing?", members)[0] == ["cardiology", "hematology"]   # panel only, max two
-    r = ChatRouteOutput(specialists=["nephrology"], medication_question=False, reason="r")
+    r = ChatRouteOutput(specialists=["nephrology"], medication_question=False, connection_question=False, topic_a=None, topic_b=None, posts_a=[], posts_b=[], reason="r")
     assert chat.enforce_route(r, "Should he keep taking naproxen?", members)[0] == ["clinical_pharmacist", "nephrology"]
     assert chat.enforce_route(None, "What about my kidneys? nephrology", members)[0] == ["nephrology"]   # router down: keywords
     assert chat.enforce_route(None, "What now?", members)[0] == ["hematology"]
@@ -112,6 +112,30 @@ def test_chat_needs_a_finished_case_and_delete_removes_it():
     assert removed["chat_messages"] >= 2
     with db.connect() as conn:
         assert conn.execute("SELECT COUNT(*) FROM chat_memory WHERE user_id = ?", (uid,)).fetchone()[0] == 0
+
+
+def test_connection_questions_go_to_the_posters_and_the_skeptic():
+    from backend.chat import connection_plan
+    from backend.schemas import ChatRouteOutput
+    result = {
+        "board": [{"id": "dermatology.F1", "by": "dermatology", "system": "skin", "line": "Jawline acne", "symptoms": ["acne"]},
+                  {"id": "endocrinology.F1", "by": "endocrinology", "system": "endocrine_metabolic", "line": "Testosterone 78 high", "symptoms": []},
+                  {"id": "endocrinology.F2", "by": "endocrinology", "system": "endocrine_metabolic", "line": "Weight gain 12 kg", "symptoms": ["weight gain"]},
+                  {"id": "intake.L1", "by": "intake", "system": "liver", "line": "ALT 41 high", "symptoms": []}],
+        "summary": {"explanations": [{"id": "C1", "title": "A hormone pattern could connect these", "refs": ["dermatology.F1", "endocrinology.F2"],
+                                      "argues_against": ["Acne is common"]}]}}
+    members = ["dermatology", "endocrinology", "clinical_pharmacist"]
+    route = lambda a, b: ChatRouteOutput(specialists=["skeptic"], medication_question=False, connection_question=True,  # noqa: E731
+                                         topic_a="acne", topic_b="weight", posts_a=a, posts_b=b, reason="r")
+    plan = connection_plan(route(["dermatology.F1"], ["endocrinology.F2", "made-up.F9"]), result, members)
+    assert plan["answerers"] == ["dermatology", "endocrinology", "skeptic"] and plan["status"] == "linked" and plan["cards"] == ["C1"]
+    plan = connection_plan(route(["dermatology.F1"], ["intake.L1"]), result, members)
+    assert plan["status"] == "both_on_board_no_card" and "intake" not in plan["answerers"]   # intake is not a panel member
+    plan = connection_plan(route(["dermatology.F1"], []), result, members)
+    assert plan["status"] == "not_on_board" and plan["answerers"][-1] == "skeptic"
+    plain = ChatRouteOutput(specialists=["dermatology"], medication_question=False, connection_question=False, topic_a=None,
+                            topic_b=None, posts_a=[], posts_b=[], reason="r")
+    assert connection_plan(plain, result, members) is None
 
 
 if __name__ == "__main__":

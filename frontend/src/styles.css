@@ -579,3 +579,5 @@ textarea { resize: vertical; width: 100%; }
 .stage-area.crowded .doctor.is-front .doctor-name strong { font-size: 0.78rem; }
 .stage-area.crowded ~ .case-board, .panel-layout:has(.crowded) .case-board { max-height: 760px; }
 .panel-layout .doctor.is-front { width: clamp(110px, 9.4vw, 140px); }
+.connection-note { border-radius: 10px; padding: 0.5rem 0.75rem; font-size: 0.86rem; margin-bottom: 0.5rem; background: #effbf9; border: 1px solid #b9dfd9; }
+.connection-note.link-both_on_board_no_card, .connection-note.link-not_on_board { background: #fff6e5; border-color: #f2c98a; }

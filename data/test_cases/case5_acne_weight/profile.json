@@ -1,0 +1,44 @@
+{
+  "case_id": "case5_acne_weight",
+  "synthetic": true,
+  "case_title": "Acne, weight gain and irregular periods",
+  "case_summary_for_demo": "24-year-old woman seeing dermatology for acne, primary care for weight and labs, and gynecology for irregular periods. Each treats one piece.",
+  "completed_by": "patient",
+  "completed_on": "2026-10-02",
+  "patient": {
+    "name": "Maya Lindqvist",
+    "date_of_birth": "2002-03-14",
+    "age_years": 24,
+    "sex_at_birth": "female",
+    "pregnant": false,
+    "height_cm": 165,
+    "weight_kg": 84
+  },
+  "main_concern": "My acne got much worse over the last year even with treatment, I gained about 12 kg without changing much, and my periods come every two to three months. Three doctors are each treating one thing.",
+  "symptoms": [
+    {"symptom": "Acne on the jaw and chin", "since": "about 1 year", "details": "Not improving with creams."},
+    {"symptom": "Weight gain", "since": "about 18 months", "details": "About 12 kg, mostly around the waist."},
+    {"symptom": "Irregular periods", "since": "about 2 years", "details": "Every 2 to 3 months."},
+    {"symptom": "Extra hair on the chin and upper lip", "since": "about 1 year", "details": ""},
+    {"symptom": "Tired in the afternoons", "since": "about 6 months", "details": ""}
+  ],
+  "known_conditions": ["None diagnosed"],
+  "medications": [
+    {"name": "Adapalene 0.1% gel", "dose": "thin layer", "how_often": "nightly", "prescribed_by": "Dr. Rivera (dermatology)", "reason": "acne"},
+    {"name": "Doxycycline", "dose": "100 mg", "how_often": "daily", "prescribed_by": "Dr. Rivera (dermatology)", "reason": "acne"}
+  ],
+  "allergies": ["No known allergies"],
+  "doctors": [
+    {"specialty": "Primary care", "name": "Dr. Ellen Shaw"},
+    {"specialty": "Dermatology", "name": "Dr. Luis Rivera"},
+    {"specialty": "Gynecology", "name": "Dr. Hannah Cole"}
+  ],
+  "past_history": ["No surgeries"],
+  "family_history": ["Mother: type 2 diabetes"],
+  "lifestyle": {"smoking": "never", "alcohol": "occasionally", "exercise": "walks to work, 15 minutes", "diet": "often skips breakfast; snacks late", "sleep": "about 6 hours on work nights"},
+  "questions_for_panel": [
+    "Why are my acne and my weight related?",
+    "Could my periods be part of the same thing?",
+    "Which doctor should I see first?"
+  ]
+}

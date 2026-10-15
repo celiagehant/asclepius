@@ -1,0 +1,14 @@
+{
+  "case_id": "case5_acne_weight",
+  "synthetic": true,
+  "note": "Answer key for automated evaluation. Never shown to the agents. Added for the four-round conference (cross-specialty pattern: acne, weight and cycles).",
+  "mode": "adult",
+  "expected_specialists": {"must": ["dermatology", "endocrinology", "obstetrics_gynecology"], "likely": [], "may": []},
+  "must_find": [
+    {"id": "high_testosterone", "description": "Total testosterone above range with hirsutism.", "keywords": ["testosterone"]},
+    {"id": "insulin_resistance", "description": "Prediabetes-range A1c, fasting glucose and high fasting insulin; darkened skin folds.", "keywords": ["a1c", "insulin"]},
+    {"id": "ovaries", "description": "Ovaries with more than 20 small follicles; periods every 60-90 days.", "keywords": ["follicle", "period"]}
+  ],
+  "expected_patterns": ["P06", "P07"],
+  "expected_connection": "Acne, hirsutism, weight gain, irregular periods and insulin resistance could share one pattern (PCOS-like, P06) with a metabolic side (P07)."
+}

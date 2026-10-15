@@ -593,6 +593,12 @@ class ProfileData(BaseModel):
 class ChatRouteOutput(BaseModel):
     specialists: list[str] = Field(description="Ids of the one or two panel members who should answer, most relevant first.")
     medication_question: bool
+    connection_question: bool = Field(description="True if the patient asks why or whether two things are related "
+                                      "(e.g. 'why are my acne and my weight related?').")
+    topic_a: str | None = Field(description="Connection questions only: the first thing, in the patient's words (e.g. 'acne').")
+    topic_b: str | None = Field(description="Connection questions only: the second thing (e.g. 'weight').")
+    posts_a: list[str] = Field(description="Connection questions only: case-board post ids about topic_a. Empty if none.")
+    posts_b: list[str] = Field(description="Connection questions only: case-board post ids about topic_b. Empty if none.")
     reason: str
 
 

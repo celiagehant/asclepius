@@ -141,6 +141,14 @@ export function Message({ m, names, coordinatorId }: { m: ChatMessage; names: Re
   return (
     <div className="msg-panel">
       {m.meta.emergency && <EmergencyBanner emergency={{ kind: "medical", message: m.meta.emergency.message }} />}
+      {m.meta.connection && (
+        <div className={`connection-note link-${m.meta.connection.status}`}>
+          <strong>How are “{m.meta.connection.topic_a}” and “{m.meta.connection.topic_b}” related?</strong>{" "}
+          {m.meta.connection.status === "linked" ? `The panel linked them in ${m.meta.connection.cards.join(", ")}. The skeptic adds what else could explain it.`
+            : m.meta.connection.status === "both_on_board_no_card" ? "Both are in your records, but the panel did not find a supported link between them."
+            : "The panel did not find a link between these in your records."}
+        </div>
+      )}
       {(m.meta.answers ?? []).map((a) => (
         <div key={a.specialty} className="answer" style={{ ["--c" as string]: colorOf(a.specialty) }}>
           <span className="avatar">{SPECIALTY_ICONS[a.specialty] ?? "•"}</span>
