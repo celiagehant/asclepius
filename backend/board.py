@@ -139,10 +139,12 @@ def posts_from_intake_labs(labs: list[Any], covered_text: str, pediatric: bool =
         seen.add(key)
         unit = f" {lab.unit}" if lab.unit else ""
         rng = f" (range {lab.reference_range})" if lab.reference_range else ""
+        # A child's report may print adult ranges, so a printed flag no specialist confirmed stays "unclear".
+        line = f"{lab.test} {lab.value}{unit}, flagged {lab.flag}{rng}" + ("; printed range may be adult, check for age" if pediatric else "")
         posts.append({
             "id": f"intake.L{len(posts) + 1}", "by": "intake", "by_name": "Intake", "system": lab_system(lab.test, pediatric),
-            "symptoms": [], "line": f"{lab.test} {lab.value}{unit}, flagged {lab.flag}{rng}",
-            "significance": "abnormal", "region": None, "document": lab.document,
+            "symptoms": [], "line": line, "significance": "unclear" if pediatric else "abnormal", "region": None,
+            "document": lab.document,
         })
         if len(posts) >= MAX_INTAKE_POSTS:
             break

@@ -59,7 +59,11 @@ def printer(e: dict) -> None:
                    + (f", {e['dropped']} dropped by validation" if e.get("dropped") else "")
                    + (f" | {e['headline'][:60]}" if e.get("headline") else ""))
         else:
-            msg = f"DONE   {e['agent']:<26} {e['connections']} connections, {e['disagreements']} disagreements"
+            msg = f"DONE   {e['agent']:<26} round {e['round']}: " + json.dumps({k: v for k, v in e.items() if k in ('connections', 'stances', 'findings')})
+    elif ty == "board_post":
+        msg = f"  board {e['id']:<24} {e['system']:<20} {e['line'][:70]}"
+    elif ty in ("connection", "challenge", "stance"):
+        msg = f"  {ty} {e['from_']} -> {e.get('to') or e.get('members')}: {(e.get('title') or e.get('text') or '')[:80]}"
     elif ty == "conference_round":
         msg = f"== ROUND {e['round']} {e['status'].upper()} " + json.dumps({k: v for k, v in e.items() if k not in ('seq', 'type', 't', 'round', 'status')})[:150]
     elif ty == "comment":
@@ -93,8 +97,25 @@ def print_summary(res: dict) -> None:
         print(f"No summary ({res['stop_reason']}). Specialist reports available: {', '.join(res['specialists'])}")
         return
     print("CASE SUMMARY\n" + wrap(s["plain_language_summary"], ""))
-    for title, key, field in (("KEY FINDINGS", "key_findings", "text"), ("CONNECTIONS", "connections", "text"),
-                              ("MEDICATIONS TO DISCUSS", "medication_discussion", "text")):
+    for c in s.get("explanations", []):
+        print(f"\nPOSSIBLE EXPLANATION {c['id']} [{c['strength']} match] ({c['label']})")
+        print(wrap(c["title"]))
+        for w in c["why_it_fits"]:
+            print(wrap(f"+ {w['text']}  [{', '.join(w['finding_refs'])}]"))
+        for w in c["argues_against"]:
+            print(wrap(f"- {w}"))
+    if s.get("see_first"):
+        print("\nWHO TO SEE FIRST")
+        for x in s["see_first"]:
+            print(wrap(f"- [{x['urgency']}] {x['who']}: {x['why']}"))
+    sc = s.get("self_care") or {}
+    if sc.get("care_first"):
+        print("\nWHAT YOU CAN DO NOW: " + sc["message"])
+    elif sc.get("steps"):
+        print("\nWHAT YOU CAN DO NOW")
+        for st in sc["steps"]:
+            print(wrap(f"- [{st['category']}] {st['action']} ({st['source_url']})"))
+    for title, key, field in (("KEY FINDINGS", "key_findings", "text"), ("MEDICATIONS TO DISCUSS", "medication_discussion", "text")):
         if s[key]:
             print(f"\n{title}")
             for x in s[key]:
@@ -108,8 +129,6 @@ def print_summary(res: dict) -> None:
         print(f"  {d['doctor']}")
         for q in d["questions"]:
             print(wrap(f"- {q}", "      "))
-    if s["suggested_specialists"]:
-        print("\nSUGGESTED SPECIALISTS: " + "; ".join(f"{x['specialty']} ({x['urgency']})" for x in s["suggested_specialists"]))
     print("\nBODY MAP: " + ", ".join(f"{REGION_LABELS[b['region']]}={b['severity']}" for b in s["body_regions"]))
     if s["limitations"]:
         print("LIMITATIONS: " + " | ".join(s["limitations"]))

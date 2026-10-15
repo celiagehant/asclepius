@@ -29,7 +29,7 @@ def test_synthetic_cases_have_no_hidden_text_and_route_to_the_right_reader():
         else:
             assert not doc.needs_vision, f"{path.name} should be read locally"
             assert "SYNTHETIC TEST DOCUMENT" in doc.text and len(doc.text) > 200
-    assert seen == 20
+    assert seen == 23  # 5 synthetic cases (case 5, three text records, added with the four-round conference)
 
 
 def test_text_pdf_keeps_table_columns():

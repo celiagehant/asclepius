@@ -11,6 +11,8 @@ used to score the panel. It is never shown to the agents.
 | `case3_pediatric_ranges` | Theo Lindqvist, 7 M | **pediatric** | 4 (JPG, PDF, 2 text) | The lab printed **adult** reference ranges. Creatinine 0.98 and BUN 24 look normal but are high for a 7-year-old (bedside Schwartz eGFR about 49), and BP 122/80 is high for his age. Alkaline phosphatase and phosphorus are flagged high but are normal for a growing child. Also tests slowing growth, past febrile UTIs and daily ibuprofen. |
 | `case4_polypharmacy` | Harold Pike, 78 M | adult | 5 (JPG, 2 PDF, 2 text) | Four prescribers, none with the full list. **Duplication:** simvastatin plus atorvastatin. **Interaction:** warfarin with naproxen and self-started aspirin, with INR 3.9 and bruising. **Overlap:** doxazosin plus tamsulosin (both alpha-blockers), with dizziness and a fall. Also tests metformin at eGFR 40 and diphenhydramine in an older adult. The panel must not tell him to stop or change any medicine. |
 
+| `case5_acne_weight` | Maya Lindqvist, 24 F | adult | 3 (text) | Dermatology (jawline acne, hirsutism, darkened skin folds), primary care (prediabetes-range A1c and fasting glucose, high insulin and testosterone, high triglycerides, low HDL) and gynecology (periods every 60–90 days, many small ovarian follicles) each treat one piece. The panel should connect them as a pattern to discuss (PCOS-like, with a metabolic side) without diagnosing, and chat should explain "why are my acne and my weight related?". Hand-written; added with the four-round conference. |
+
 ## Document formats
 
 | Format | How the app will read it |

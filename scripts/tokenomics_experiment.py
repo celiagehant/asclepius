@@ -7,12 +7,13 @@ summaries get worse.
 
 Settings (every run uses fresh intake calls, so nothing comes from the app's file cache):
   cache_on        production design: prompt caching on, summaries passed between agents,
-                  targeted round 2
+                  round 2 reads the shared case board (one block for everyone)
   cache_off       a unique random string starts every request's instructions, so nothing can
                   be read from the prompt cache (must show zero cached tokens)
   full_documents  hand-offs carry the full documents instead of only summaries
                   (round-2 peers, pharmacist, coordinator)
-  round2_all      round 2 where every specialist reads every other specialist
+  round2_all      round 2 where every specialist also reads every other specialist's full
+                  report, instead of the shared board alone
 
 Quality is scored two ways against each case's answer key (data/test_cases/*/expected.json):
   keyword coverage  share of expected findings whose keywords appear in the summary
@@ -42,7 +43,7 @@ from pydantic import BaseModel, Field  # noqa: E402
 from pydantic_ai import Agent, NativeOutput  # noqa: E402
 
 from backend import config, llm  # noqa: E402
-from backend.panel import new_run, run_case  # noqa: E402
+from backend.panel import flatten_summary, new_run, run_case  # noqa: E402
 from backend.schemas import Questionnaire  # noqa: E402
 
 OUT = ROOT / "output" / "tokenomics"
@@ -53,21 +54,21 @@ SETTINGS = {
     "round2_all": {"prompt_cache": True, "pass_full_documents": False, "round2_mode": "all"},
 }
 LABELS = {"cache_on": "Caching on (production)", "cache_off": "Caching off", "full_documents": "Full documents instead of summaries",
-          "round2_all": "Round 2: everyone reads everyone"}
+          "round2_all": "Round 2: full peer reports, not just the board"}
 
 
 # ---- quality ------------------------------------------------------------------------------
 
 def summary_text(summary: dict | None) -> str:
+    """Every patient-facing sentence of a summary (explanation cards, who to see first,
+    self-care steps, findings, questions, red flags...), as the safety reviewer sees it."""
     if not summary:
         return ""
-    parts = [summary.get("plain_language_summary", "")]
-    for key, field in (("key_findings", "text"), ("connections", "text"), ("medication_discussion", "text"),
-                       ("red_flags", "flag"), ("red_flags", "what_to_do"), ("body_regions", "reason")):
-        parts += [x.get(field, "") for x in summary.get(key, [])]
-    parts += [q for d in summary.get("questions_for_doctors", []) for q in d.get("questions", [])]
+    parts = [t for _, t in flatten_summary(summary)]
+    parts += [x.get("who", "") for x in summary.get("see_first", [])]
+    parts += [x.get("text", "") for x in summary.get("connections", [])]                       # cases saved before the upgrade
     parts += [x.get("specialty", "") + " " + x.get("reason", "") for x in summary.get("suggested_specialists", [])]
-    return "\n".join(parts)
+    return "\n".join(p for p in parts if p)
 
 
 def keyword_coverage(summary: dict | None, expected: dict) -> tuple[float, list[str]]:
@@ -133,7 +134,8 @@ async def judge(summary: dict | None, expected: dict, meter: llm.UsageMeter) -> 
 # ---- runs ---------------------------------------------------------------------------------
 
 def round2_usage(usage: dict) -> dict:
-    calls = [c for c in usage["calls"] if c["agent"] == "specialist_r2" and not c["from_cache"]]
+    """The conference itself: rounds 2 and 3 (connections, skeptic, panel response)."""
+    calls = [c for c in usage["calls"] if c["agent"] in ("specialist_r2", "specialist_r3", "skeptic") and not c["from_cache"]]
     return {"calls": len(calls), "input_tokens": sum(c["input_tokens"] for c in calls),
             "output_tokens": sum(c["output_tokens"] for c in calls), "cost_usd": round(sum(c["cost_usd"] for c in calls), 6)}
 
@@ -156,7 +158,9 @@ async def run_one(setting: str, case_dir: Path, usage_log: Path) -> dict:
     return {"setting": setting, "case": case_dir.name, "run_id": events.run_id, "status": res["status"],
             "stop_reason": res["stop_reason"], "seconds": round(time.perf_counter() - started, 1),
             "totals": res["usage"]["totals"], "by_member": res["usage"].get("by_member", {}), "round2": round2_usage(res["usage"]),
-            "round2_pairs": plan.get("pairs", {}), "summary": res.get("summary"),
+            "round2_pairs": plan.get("pairs") or {p: (["all peers"] * (len(plan.get("participants", [])) - 1) if cfg["round2_mode"] == "all"
+                                                     else ["board"]) for p in plan.get("participants", [])},
+            "summary": res.get("summary"),
             "emergency": (res.get("emergency") or {}).get("active")}
 
 
@@ -267,8 +271,8 @@ def write_report(results: list[dict]) -> None:
                      f"{t['cache_write_tokens']:,} | {t['output_tokens']:,} | {r['round2']['calls']} | ${r['round2']['cost_usd']:.4f} | "
                      f"{r['keyword_coverage']:.0%} | {(j.get('score') or 0):.0%} | {j.get('usefulness', '—')} |")
     if by["cache_on"] and by["round2_all"]:
-        lines += ["", "## Targeted round 2 vs everyone reads everyone", "",
-                  "| Case | Targeted: peer reads | Targeted: round-2 input | Targeted: round-2 cost | All: peer reads | All: round-2 input | All: round-2 cost |",
+        lines += ["", "## Round 2: shared board vs full peer reports (cost of rounds 2-3)", "",
+                  "| Case | Board: reads | Board: input | Board: cost | Full reports: reads | Full reports: input | Full reports: cost |",
                   "|---|---|---|---|---|---|---|"]
         for a in by["cache_on"]:
             b = next((x for x in by["round2_all"] if x["case"] == a["case"]), None)
@@ -286,7 +290,7 @@ def write_report(results: list[dict]) -> None:
         for m, xs in sorted(members.items(), key=lambda kv: -_avg(kv[1])):
             lines.append(f"| {m} | ${_avg(xs):.5f} | {len(xs)} |")
         per_case = base_cost or 0
-        per_question = 0.0011  # measured chat cost per question (Phase 6 runs, usage log)
+        per_question = 0.0020  # measured chat cost per question after the panel upgrade (connection questions $0.0013-0.0025)
         monthly = 2 * per_case + 15 * per_question
         lines += ["", "## Projection (production design)", "",
                   f"Assumption: a user reviews 2 cases a month and asks 15 chat questions (measured ${per_question:.4f} per question).", "",

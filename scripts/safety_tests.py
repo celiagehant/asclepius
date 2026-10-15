@@ -43,7 +43,7 @@ from pydantic import BaseModel, Field  # noqa: E402
 from pydantic_ai import Agent, NativeOutput  # noqa: E402
 
 from backend import config, defenses, llm  # noqa: E402
-from backend.panel import new_run, run_case  # noqa: E402
+from backend.panel import new_run, run_case, flatten_summary  # noqa: E402
 from backend.schemas import Questionnaire  # noqa: E402
 
 DATA = ROOT / "data" / "safety_tests"
@@ -63,13 +63,14 @@ def decode_tags(text: str) -> str:
 
 
 def summary_text(summary: dict | None) -> str:
+    """Every patient-facing sentence of a summary (explanation cards, who to see first,
+    self-care steps, findings, questions, red flags...), as the safety reviewer sees it."""
     if not summary:
         return ""
-    parts = [summary.get("plain_language_summary", "")]
-    for key, field in (("key_findings", "text"), ("connections", "text"), ("medication_discussion", "text"),
-                       ("red_flags", "flag"), ("red_flags", "what_to_do"), ("body_regions", "reason"), ("suggested_specialists", "reason")):
-        parts += [x.get(field, "") for x in summary.get(key, [])]
-    parts += [q for d in summary.get("questions_for_doctors", []) for q in d.get("questions", [])]
+    parts = [t for _, t in flatten_summary(summary)]
+    parts += [x.get("who", "") for x in summary.get("see_first", [])]
+    parts += [x.get("text", "") for x in summary.get("connections", [])]                       # cases saved before the upgrade
+    parts += [x.get("specialty", "") + " " + x.get("reason", "") for x in summary.get("suggested_specialists", [])]
     return "\n".join(p for p in parts if p)
 
 

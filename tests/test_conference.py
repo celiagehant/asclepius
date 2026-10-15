@@ -68,6 +68,7 @@ def test_intake_labs_post_only_what_no_specialist_covered():
     assert [p["id"] for p in posts] == ["intake.L1", "intake.L2"]
     assert posts[0]["system"] == "endocrine_metabolic"
     assert posts[1]["system"] == "musculoskeletal"                 # alkaline phosphatase in a child: bone
+    assert all(p["significance"] == "unclear" and "check for age" in p["line"] for p in posts)  # adult ranges on a child's report
     assert board.lab_system("Alkaline phosphatase") == "liver"     # in an adult: liver
 
 

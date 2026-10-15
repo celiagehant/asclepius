@@ -7,10 +7,11 @@ Case Conference simulates a hospital multidisciplinary case conference for patie
 see several specialists who never talk to each other. The app **does not diagnose and does
 not prescribe**. Every agent is an AI specialist agent, never a real or licensed physician.
 
-> **Status: Phase 8 (safety tests).** A layered defense against prompt injection (code,
-> design, prompt), with trap tools, 7 attacks, 4 clean look-alikes, an answer key, and a
-> script that measures it with defenses off and on. Earlier phases built tokenomics, chat,
-> the panel view, the 3D body, accounts and the questionnaire.
+> **Status: panel upgrade (four-round conference).** The specialists now work as a team:
+> a shared case board, a pattern library, a connection round, a debate with a skeptic, a
+> lifestyle and prevention agent, and a summary that leads with possible-explanation
+> cards (never a diagnosis). Earlier phases built the safety tests, tokenomics, chat, the
+> panel view, the 3D body, accounts and the questionnaire.
 
 ## Try it
 
@@ -19,7 +20,8 @@ not prescribe**. Every agent is an AI specialist agent, never a real or licensed
   gpt-6-luna calls. To deploy it, see [Deploy it online](#deploy-it-online-a-link-anyone-can-try).
 - **Offline replay:** [case_conference_demo.html](case_conference_demo.html) is a single
   file that replays recorded runs of the four demo patients without a server or key. Use
-  it as a backup if the live app is asleep or down.
+  it as a backup if the live app is asleep or down. It was recorded before the panel
+  upgrade, so it shows the earlier two-round conference.
 
 ---
 
@@ -124,7 +126,7 @@ Results are saved in `output/intake/`.
 | Fresh model calls (ignores the per-document cache) | `.venv/bin/python scripts/run_intake.py --all --no-cache` |
 | Hidden-text defense demo | `.venv/bin/python scripts/run_intake.py case1 --add data/attack_samples/hidden_text_lab_report.pdf --add data/attack_samples/hidden_unicode_note.txt` |
 
-### 7. Run the whole panel on a demo case (about 1–2 minutes, about $0.015)
+### 7. Run the whole panel on a demo case (about 1–2 minutes, about $0.02)
 
 ```bash
 .venv/bin/python scripts/run_case.py case1
@@ -134,13 +136,13 @@ The run prints every live event as it happens:
 - documents routed
 - specialists started and finished
 - each tool call to PubMed, MedlinePlus or openFDA
-- both conference rounds and every round-2 comment
+- every case-board post, proposed connection, skeptic challenge and debate stance
 - the coordinator and the safety checks
 - spend after every model call
 
-It then prints the final case summary: any emergency banner first, then key findings,
-connections, medications to discuss, red flags, questions for each doctor, suggested
-specialists, the body map and limitations.
+It then prints the final case summary: any emergency banner first, then the possible
+explanation cards, who to see first, what you can do now, key findings, medications to
+discuss, red flags, questions for each doctor, the body map and limitations.
 
 Each run is saved in `output/panel/<case>/`:
 - `result.json`
@@ -164,7 +166,12 @@ Each run is saved in `output/panel/<case>/`:
 .venv/bin/python tests/test_chat.py
 .venv/bin/python tests/test_tokenomics.py
 .venv/bin/python tests/test_safety_layers.py
+.venv/bin/python tests/test_conference.py
+.venv/bin/python tests/test_lifestyle.py
+.venv/bin/python tests/test_explanation_safety.py
 ```
+
+72 tests in total.
 
 ---
 
@@ -372,7 +379,11 @@ Each question goes through these steps:
    right now" get crisis or 911 guidance immediately, with no model call.
 2. **Routing.** The coordinator picks the one or two most relevant panel members, and the
    pharmacist for medicine questions. Code makes sure only this case's panel can answer,
-   never more than two members.
+   never more than two members. **Connection questions** ("why are my acne and my weight
+   related?") go to the specialists who posted those findings on the case board plus the
+   skeptic, who adds what else could explain the link. Code checks whether an explanation
+   card really links the two things. If none does, the panel says it found no link
+   instead of inventing one (about $0.0013–0.0025 per question).
 3. **Answers.** The chosen specialists answer in their own voice, in parallel. Each uses
    its earlier report, the case summary, the profile and the trusted-source tools (at most
    2 calls). They light up on the panel table while answering, and show a speech bubble
@@ -444,27 +455,66 @@ A typical answer costs about $0.001 and takes 10–20 seconds.
   deletes the account.
 - The disclaimer bar is on every screen.
 
-## The panel (Phase 3)
+## The panel: a four-round case conference
 
 ```
-intake ─► ROUND 1 (parallel, independent)          ─► ROUND 2 (targeted, no tools) ─► HARD STOP
-          · one generic specialist agent × each        · each specialist reads only peers it
-            active profile (max 5), MCP tools:           shares a question, abnormal value or
-            PubMed + MedlinePlus                          body region with; agrees, disagrees,
-          · clinical pharmacist, MCP tools:               connects, answers
-            openFDA labels + MedlinePlus
-        ─► optional consult (1 more specialist, only within the cap)
-        ─► coordinator (internal medicine or pediatrics) ─► safety reviewer (model) ─► code safety pass ─► final
+intake ─► ROUND 1 · independent review (parallel)
+          · one generic specialist agent × each active profile (max 5), MCP: PubMed + MedlinePlus
+          · clinical pharmacist, MCP: openFDA labels + MedlinePlus
+          · lifestyle & prevention agent (always on): lifestyle facts from the questionnaire
+        ─► SHARED CASE BOARD (built in code from validated findings, read by the whole panel)
+        ─► optional consult (1 more specialist, only within the cap; its findings join the board)
+        ─► ROUND 2 · connection round (parallel, no tools)
+          · every member with an abnormal post reads the whole board + the pattern library and
+            proposes up to 2 connections across body systems; code merges them into candidates
+        ─► ROUND 3 · debate (no tools) ─► HARD STOP
+          · the skeptic challenges every candidate (keep / weaken / drop, simpler explanations)
+          · the involved members defend, concede, support or challenge; code scores the result
+          · in parallel: the lifestyle agent writes self-care steps (MedlinePlus only)
+        ─► ROUND 4 · recommendations: coordinator (internal medicine or pediatrics)
+        ─► safety reviewer (model) ─► code safety pass ─► final
 ```
 
-- **Targeted round 2.** Each specialist reads at most 3 peers, strongest first:
-  - a shared abnormal value
-  - a body region where both found something abnormal
-  - a peer that asked it a question it must answer
-
-  Asking a question does not earn the asker the other's report, and each specialist may
-  put at most 2 questions to other panel specialists. Reads therefore grow with the panel
-  size, not its square. Specialists with no peer and no question skip round 2.
+- **Shared case board** (`backend/board.py`). After round 1 every validated finding becomes
+  one line, about 25 tokens, tagged by body system (fixed list of 18) and up to 3 symptom
+  tags. The pharmacist's issues, lifestyle facts and flagged labs that no specialist
+  covered are posted too. No model writes to the board directly, so every post traces back
+  to a finding whose quote was found in the cited document. The board is the same block
+  for every reader and comes first in the message, so it is cached, and it replaces the
+  N−1 peer reports each specialist used to read.
+- **Pattern library** (`backend/patterns/patterns.json`). 26 well-known cross-specialty
+  patterns, for example iron loss from the gut, PCOS, lupus-like, NSAID kidney strain and
+  medication cascades. Each has clues, the specialties involved, what it is often confused
+  with, what doctors may check, and one checked MedlinePlus link. There are no cancer
+  patterns. It opens the instructions of every panel agent, so it is one shared cached
+  prefix (about 3,700 tokens), and it is a starting point, not a limit.
+- **Connections are checked in code** (`backend/conference.py`):
+  - **Validity:** a connection needs at least 2 existing posts from at least 2 body systems.
+  - **Merging:** cards naming the same library pattern merge; different library patterns
+    never do.
+  - **Strength:** stronger, possible or weaker match comes from arithmetic on the debate
+    (proposers, supports, challenges, the skeptic's verdict), never from a model and never
+    as a percentage. A skeptic "drop" that the proposer concedes removes the card.
+  - **Shortlist:** the top 3 surviving candidates go to the coordinator, and the list is
+    never padded.
+- **Explanation cards.** The coordinator writes the patient-facing wording for each top
+  candidate. Code adds the strength, the fixed label "Possible explanation to discuss with
+  your doctor, not a diagnosis.", the source, the specialists and the body regions (from
+  the cited posts, never from the model). Every card shows what argues against it, and a
+  one-sided card is not shown.
+- **Lifestyle and prevention agent** (`backend/lifestyle.py`). Self-care steps follow fixed
+  rules, checked in code before the safety reviewer:
+  - every step cites a MedlinePlus page returned in this run
+  - no medicine, supplement or dose
+  - no diets, fasting or weight targets, and no weight advice for a child
+  - no activity step after falls, dizziness, chest pain, heart warning signs or in
+    pregnancy unless it says to ask the doctor first
+  - no "drink more" with kidney, heart or swelling findings, and no salt or potassium
+    advice with kidney findings
+  - an urgent problem present now hides every step ("get care first")
+- **The summary leads with** the explanation cards, then who to see first, what you can do
+  now, questions for each doctor and medicines to discuss. The plain-language summary, the
+  key findings, the safety net and the limits come after.
 - **One specialist agent, many profiles.** Each specialty is a 150–250-word profile in
   `backend/profiles/`, and the roster is in `backend/registry.py`. All specialists share
   one long base prompt (`backend/prompts/specialist_base.md`), placed first so it can be
@@ -488,8 +538,10 @@ intake ─► ROUND 1 (parallel, independent)          ─► ROUND 2 (targeted,
   - every summary point must cite an existing finding id, so the coordinator cannot add
     findings
 - **Safety:**
-  - The safety reviewer rewrites or removes diagnoses, medication changes, unsourced
-    claims, cancer speculation and alarming wording, and adds missed red flags.
+  - The safety reviewer allows possible explanations written as patterns to discuss, and
+    rewrites or removes "you have" language, odds or percentages, medication changes,
+    self-care steps that break the rules, unsourced claims, cancer speculation and alarming
+    wording. It also adds missed red flags.
   - A code pass then blocks anything still breaking a rule.
   - Emergencies (including any sign of self-harm, with crisis resources) set a banner that
     the UI shows first.
@@ -503,7 +555,7 @@ intake ─► ROUND 1 (parallel, independent)          ─► ROUND 2 (targeted,
 | Endpoint | What it does |
 |---|---|
 | `POST /api/cases/{id}/convene` | starts a run (logged in, own case only) |
-| `GET /api/cases/{id}/events` | streams events: `document_routed`, `specialist_started`/`done`, `tool_call`, `conference_round`, `comment`, `coordinator_thinking`, `safety_check`, `spend`, `final`, `error` |
+| `GET /api/cases/{id}/events` | streams events: `document_routed`, `specialist_started`/`done`, `tool_call`, `board_post`, `connection`, `challenge`, `stance`, `conference_round`, `comment`, `coordinator_thinking`, `explanations`, `safety_check`, `spend`, `final`, `error` |
 
 ---
 
@@ -551,7 +603,7 @@ files are listed in `.gitignore` and are never committed.
 
 ## Test data
 
-`data/test_cases/` holds four **synthetic** patients. All names, clinicians, clinics and
+`data/test_cases/` holds five **synthetic** patients. All names, clinicians, clinics and
 results are invented, and no real medical records are used anywhere. Each case has:
 
 - `profile.json`: a completed health questionnaire (age, sex, pregnancy, symptoms,
@@ -561,8 +613,10 @@ results are invented, and no real medical records are used anywhere. Each case h
 - `expected.json`: an answer key for automated evaluation, never shown to the agents
 
 See [data/test_cases/README.md](data/test_cases/README.md) for what each case tests. The
-documents are generated from `scripts/synthetic_documents.py`. After editing that file,
-rebuild them with `.venv/bin/python scripts/make_test_cases.py`.
+documents of cases 1–4 are generated from `scripts/synthetic_documents.py`. After editing
+that file, rebuild them with `.venv/bin/python scripts/make_test_cases.py`. Case 5 (acne,
+weight gain and irregular periods) has three hand-written text records and exercises the
+cross-specialty patterns and chat connection questions.
 
 ## Project layout
 
