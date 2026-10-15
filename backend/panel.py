@@ -512,12 +512,28 @@ def apply_edits(s: dict[str, Any], edits: dict[str, str | None]) -> dict[str, An
     return s
 
 
-def code_safety_pass(s: dict[str, Any]) -> tuple[dict[str, Any], list[dict]]:
-    """Last line of defense: anything still breaking a rule after the reviewer is blocked."""
+def code_safety_pass(s: dict[str, Any], *, medications: list[str] | None = None,
+                     self_care_ctx: dict[str, Any] | None = None) -> tuple[dict[str, Any], list[dict]]:
+    """Last line of defense: anything still breaking a rule after the reviewer is blocked.
+
+    Beyond forbidden language everywhere, explanation cards always carry the fixed
+    "not a diagnosis" label (restored if missing) and must stay two-sided, and self-care
+    steps are re-checked against the lifestyle rules after any rewrite."""
     blocked: list[dict] = []
     edits: dict[str, str | None] = {}
+    s = json.loads(json.dumps(s))
+    for c in s.get("explanations", []):
+        if c.get("label") != conference.NOT_A_DIAGNOSIS:
+            blocked.append({"item_id": f"card {c['id']}", "problems": ["missing_label"], "action": "label restored",
+                            "original": c.get("label")})
+            c["label"] = conference.NOT_A_DIAGNOSIS
     for item_id, text in flatten_summary(s):
         bad = safety.violations(text)
+        if re.fullmatch(r"SC\d+", item_id) and self_care_ctx is not None:  # once per step, on all of its text
+            st = s["self_care"]["steps"][int(item_id[2:]) - 1]
+            bad += lifestyle.text_problems(f"{st['action']} {st['why_it_may_help']} {st['how_to_track']}",
+                                           category=st["category"], action=st["action"], ctx=self_care_ctx,
+                                           medications=medications or [])
         if not bad:
             continue
         if item_id == "SUMMARY":
@@ -531,8 +547,17 @@ def code_safety_pass(s: dict[str, Any]) -> tuple[dict[str, Any], list[dict]]:
             blocked.append({"item_id": item_id, "problems": bad, "action": "rewritten calmly", "original": text})
         else:
             edits[item_id] = None
-            blocked.append({"item_id": item_id, "problems": bad, "action": "removed", "original": text})
-    return (apply_edits(s, edits) if edits else s), blocked
+            action = ("removed the card" if re.fullmatch(r"E\d+\.title", item_id)
+                      else "removed the step" if item_id.startswith("SC") else "removed")
+            blocked.append({"item_id": item_id, "problems": bad, "action": action, "original": text})
+    before = {c["id"] for c in s.get("explanations", [])}
+    out = apply_edits(s, edits)  # always: it also hides cards left one-sided
+    for c in s.get("explanations", []):
+        if c["id"] in before - {x["id"] for x in out.get("explanations", [])} and not any(
+                b["item_id"].startswith(f"E{s['explanations'].index(c) + 1}.title") for b in blocked):
+            blocked.append({"item_id": f"card {c['id']}", "problems": ["one_sided_or_empty"], "action": "card hidden",
+                            "original": c["title"]})
+    return out, blocked
 
 
 def _similar(a: str, b: str) -> bool:
@@ -1147,7 +1172,10 @@ async def _run_case(
                     stop_reason = f"completed with code-only safety check (the safety reviewer failed: {err})"
             else:
                 stop_reason = "completed with code-only safety check (run budget reached before the safety reviewer)"
-            summary, blocked = code_safety_pass(summary)
+            meds_all = ([n for mm in intake.medications for n in [mm.generic_name, *mm.names_seen]]
+                        + [qm.name for qm in questionnaire.medications]
+                        + [ml["medication"] for ml in (pharm or {}).get("combined_list", [])])
+            summary, blocked = code_safety_pass(summary, medications=meds_all, self_care_ctx=life.get("context") or {})
             events.emit("safety_check", stage="code", blocked=len(blocked),
                         details=[f"{b['item_id']}: {', '.join(b['problems'])} -> {b['action']}" for b in blocked])
             # Only problems present now raise the banner; "if X happens" advice is shown as a safety net.

@@ -510,7 +510,8 @@ class CaseSummaryOutput(BaseModel):
 
 class SafetyEdit(BaseModel):
     item_id: str
-    problem: Literal["definitive_diagnosis", "medication_change", "unsourced_claim", "cancer_speculation", "alarming_tone", "other"]
+    problem: Literal["diagnosis_language", "medication_change", "unsafe_self_care", "unsourced_claim", "cancer_speculation",
+                     "alarming_tone", "other"]
     action: Literal["rewrite", "remove"]
     new_text: str | None = Field(description="Replacement text when action is 'rewrite'.")
 

@@ -63,26 +63,36 @@ MED_CHANGE = re.compile(
     r"|\b(do not|don't|never)\s+take\b",
     re.I,
 )
+CONDITION = (r"(disease|syndrome|disorder|lupus|anemia|anaemia|cancer|diabetes|failure|infection|deficiency|apnea|celiac|"
+             r"pcos|hypothyroidism|hyperthyroidism|hemochromatosis|overload|preeclampsia|ulcer|colitis|crohn'?s)")
 DIAGNOSIS = re.compile(
-    r"\byou (have|are suffering from|suffer from)\s+(an?\s+)?(\w+\s+){0,3}(disease|syndrome|disorder|lupus|anemia|cancer|diabetes|failure|infection)\b"
-    r"|\b(diagnosed with|diagnosis of|this confirms|confirms (that|a|an))\b"
-    r"|\b(he|she|they|your child) (has|have)\s+(an?\s+)?(\w+\s+){0,3}(disease|syndrome|disorder|lupus|failure)\b",
+    rf"\byou(?:'ve| have| are suffering from| suffer from)\s+(got\s+)?(an?\s+)?(\w+\s+){{0,3}}{CONDITION}\b"
+    r"|\b(diagnosed with|diagnosis of|this confirms|confirms (that|a|an)|this is (a |an )?(clear |classic |definite )?case of)\b"
+    rf"|\b(he|she|they|your child) (has|have)\s+(got\s+)?(an?\s+)?(\w+\s+){{0,3}}{CONDITION}\b"
+    rf"|\byour (pcos|lupus|celiac disease|hypothyroidism|hyperthyroidism|sleep apnea|hemochromatosis|diabetes)\b",
     re.I,
 )
+# Odds for an explanation ("a 70% chance", "probability of lupus"). Lab values like "saturation 6%" are fine.
+PROBABILITY = re.compile(r"\b\d{1,3}\s*%\s*(chance|likel\w*|probab\w*|certain\w*|sure)\b|\b(odds|probability|likelihood) (of|that|is)\b"
+                         r"|\b(very|highly|most) likely (to be|that you have|you have)\b", re.I)
+CONDITIONAL = re.compile(r"\b(if|whether|in case|when)\s+[^.;!?]{0,25}$", re.I)
 
 
 NEGATED = re.compile(r"\b(don'?t|do not|does not|doesn'?t|did not|not|never|can'?t|cannot|won'?t|without|no|isn'?t)\b[^.;!?\n]{0,45}$", re.I)
 
 
-def _affirmed(pattern: re.Pattern, text: str) -> bool:
+def _affirmed(pattern: re.Pattern, text: str, *, conditional_ok: bool = False) -> bool:
     """True if the pattern matches somewhere that is not negated ("don't change the
     medication", "does not establish a diagnosis of" are safe). Orders that are negative
-    by themselves ("do not take X") always count."""
+    by themselves ("do not take X") always count. With conditional_ok, "ask whether you
+    have..." and "if you have..." are safe too (a question, not a statement)."""
     for m in pattern.finditer(text):
         if re.match(r"(do not|don't|never)\s+take", m.group(0), re.I):
             return True
-        if not NEGATED.search(text[max(0, m.start() - 60): m.start()]):
-            return True
+        before = text[max(0, m.start() - 60): m.start()]
+        if NEGATED.search(before) or (conditional_ok and CONDITIONAL.search(before)):
+            continue
+        return True
     return False
 
 
@@ -93,8 +103,10 @@ def violations(text: str) -> list[str]:
         found.append("cancer_speculation")
     if _affirmed(MED_CHANGE, text):
         found.append("medication_change")
-    if _affirmed(DIAGNOSIS, text):
-        found.append("definitive_diagnosis")
+    if _affirmed(DIAGNOSIS, text, conditional_ok=True):
+        found.append("diagnosis_language")
+    if PROBABILITY.search(text):
+        found.append("probability_language")
     return found
 
 

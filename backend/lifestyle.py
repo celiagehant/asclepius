@@ -123,29 +123,36 @@ def _names(medications: list[str]) -> list[re.Pattern]:
     return [re.compile(rf"\b{re.escape(w)}\b", re.I) for w in sorted(words)]
 
 
+def text_problems(text: str, *, category: str, action: str, ctx: dict[str, Any], medications: list[str]) -> list[str]:
+    """Rules 3-5 on a step's text. Used when the step is first checked and again after the
+    safety reviewer has rewritten it (a rewrite must not bring a broken rule back)."""
+    problems = []
+    supplement = SUPPLEMENT.search(text) and not (category == "visit_preparation" and BRING.search(action))
+    if any(p.search(text) for p in _names(medications)) or supplement or DOSE.search(text):
+        problems.append("rule 3: mentions a medicine, supplement or dose")
+    if DIET.search(text) or WEIGHT_TARGET.search(text):
+        problems.append("rule 4: diet, fasting, calorie or weight target")
+    if ctx.get("pediatric") and WEIGHT_ANY.search(text):
+        problems.append("rule 4: weight or diet advice for a child")
+    if category == "activity" and ctx.get("activity_needs_doctor") and not ASK_FIRST.search(action):
+        problems.append("rule 5: activity step without 'ask your doctor first' (" + "; ".join(ctx.get("reasons", [])) + ")")
+    if ctx.get("no_extra_fluids") and (category == "hydration" or FLUIDS_UP.search(text)):
+        problems.append("rule 5: more fluids with kidney, heart or swelling findings")
+    if ctx.get("no_salt_potassium") and SALT.search(text):
+        problems.append("rule 5: salt or potassium advice with kidney findings")
+    return problems
+
+
 def validate_steps(out: Any, *, tool_urls: set[str], posts: dict[str, dict], ctx: dict[str, Any],
                    medications: list[str], tool_titles: dict[str, str] | None = None) -> tuple[list[dict], list[dict]]:
     """Apply rules 2-6 in code. A step that breaks one is dropped, with the reason logged."""
-    med_patterns = _names(medications)
     kept, dropped = [], []
     for st in out.steps:
         text = f"{st.action} {st.why_it_may_help} {st.how_to_track}"
         problems = []
         if st.source_url not in tool_urls or "medlineplus.gov" not in st.source_url:
             problems.append("rule 2: source not returned by MedlinePlus in this run")
-        supplement = SUPPLEMENT.search(text) and not (st.category == "visit_preparation" and BRING.search(st.action))
-        if any(p.search(text) for p in med_patterns) or supplement or DOSE.search(text):
-            problems.append("rule 3: mentions a medicine, supplement or dose")
-        if DIET.search(text) or WEIGHT_TARGET.search(text):
-            problems.append("rule 4: diet, fasting, calorie or weight target")
-        if ctx["pediatric"] and WEIGHT_ANY.search(text):
-            problems.append("rule 4: weight or diet advice for a child")
-        if st.category == "activity" and ctx["activity_needs_doctor"] and not ASK_FIRST.search(st.action):
-            problems.append("rule 5: activity step without 'ask your doctor first' (" + "; ".join(ctx["reasons"]) + ")")
-        if ctx["no_extra_fluids"] and (st.category == "hydration" or FLUIDS_UP.search(text)):
-            problems.append("rule 5: more fluids with kidney, heart or swelling findings")
-        if ctx["no_salt_potassium"] and SALT.search(text):
-            problems.append("rule 5: salt or potassium advice with kidney findings")
+        problems += text_problems(text, category=st.category, action=st.action, ctx=ctx, medications=medications)
         if not st.check_first_if.strip():
             problems.append("rule 6: no 'check with a doctor first if'")
         bad_words = safety.violations(text)
