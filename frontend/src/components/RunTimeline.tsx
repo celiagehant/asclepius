@@ -5,7 +5,8 @@ import type { CaseDetail } from "../api/client";
 type Ev = Record<string, any> & { seq: number; type: string; t: number };
 
 const EVENT_TYPES = ["run_started", "document_routed", "panel_selected", "specialist_started", "tool_call", "specialist_done",
-  "conference_round", "comment", "coordinator_thinking", "safety_check", "spend", "final", "error"];
+  "conference_round", "comment", "coordinator_thinking", "safety_check", "spend", "final", "error",
+  "board_post", "board_ready", "connection", "challenge", "stance", "explanations"];
 const STAGES = ["Reading records", "Round 1: independent reviews", "Round 2: case conference", "Coordinator", "Safety review", "Done"];
 const TOOL_NAMES: Record<string, string> = { search_pubmed: "PubMed", search_medlineplus: "MedlinePlus", fda_label_search: "FDA label" };
 

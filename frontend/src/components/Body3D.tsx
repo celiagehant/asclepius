@@ -7,6 +7,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { SEVERITY_COLORS, type RegionView } from "../lib/panel";
 
 const CYAN = "#5ff3ff";
+const FOCUS = "#f2feff";
 type Vec3 = [number, number, number];
 type Part = { shape: "sphere" | "capsule" | "torus" | "tube"; pos?: Vec3; rot?: Vec3; scale?: Vec3; args: number[]; points?: Vec3[] };
 
@@ -88,23 +89,25 @@ function Shell({ color, opacity }: { color: string; opacity: number }) {
   );
 }
 
-function Region({ id, view, hovered, onHover, motion }: {
-  id: string; view?: RegionView; hovered: boolean; onHover: (id: string | null) => void; motion: boolean;
+function Region({ id, view, hovered, focused, dimmed, onHover, onSelect, motion }: {
+  id: string; view?: RegionView; hovered: boolean; focused: boolean; dimmed: boolean; onHover: (id: string | null) => void;
+  onSelect?: (id: string | null) => void; motion: boolean;
 }) {
   const group = useRef<THREE.Group>(null);
-  const color = view ? SEVERITY_COLORS[view.severity] : CYAN;
-  const opacity = view ? (hovered ? 0.98 : 0.78) : hovered ? 0.35 : 0.1;
+  // A region linked to the selected explanation card glows white-hot; the others step back.
+  const color = focused && !view ? FOCUS : view ? SEVERITY_COLORS[view.severity] : CYAN;
+  const opacity = focused ? 1 : dimmed ? (view ? 0.25 : 0.05) : view ? (hovered ? 0.98 : 0.78) : hovered ? 0.35 : 0.1;
   useFrame(({ clock }) => {
     if (!group.current) return;
-    const pulse = motion && view?.severity === "urgent" ? 1 + 0.08 * Math.sin(clock.elapsedTime * 3.2) : 1;
-    const s = (hovered ? 1.12 : 1) * pulse;
+    const pulse = motion && (focused || view?.severity === "urgent") ? 1 + (focused ? 0.14 : 0.08) * Math.sin(clock.elapsedTime * (focused ? 4.2 : 3.2)) : 1;
+    const s = (hovered || focused ? 1.12 : 1) * pulse;
     group.current.scale.lerp(new THREE.Vector3(s, s, s), 0.2);
   });
   return (
     <group ref={group}
       onPointerOver={(e) => { e.stopPropagation(); onHover(id); }}
       onPointerOut={(e) => { if (e.pointerType === "mouse") { e.stopPropagation(); onHover(null); } }}
-      onClick={(e) => { e.stopPropagation(); onHover(id); }}>
+      onClick={(e) => { e.stopPropagation(); onHover(id); onSelect?.(id); }}>
       {REGION_PARTS[id].map((p, i) => (
         <group key={i} position={p.pos} rotation={p.rot} scale={p.scale}>
           <mesh>
@@ -153,18 +156,21 @@ function Floor({ motion }: { motion: boolean }) {
   );
 }
 
-export default function Body3D({ regions, hovered, onHover, motion, children }: {
-  regions: RegionView[]; hovered: string | null; onHover: (id: string | null) => void; motion: boolean; children?: ReactNode;
+export default function Body3D({ regions, hovered, onHover, motion, focus, onSelect, children }: {
+  regions: RegionView[]; hovered: string | null; onHover: (id: string | null) => void; motion: boolean;
+  focus?: string[]; onSelect?: (id: string | null) => void; children?: ReactNode;
 }) {
+  const focused = new Set(focus ?? []);
   const byId = Object.fromEntries(regions.map((r) => [r.region, r]));
   const skin = byId.skin;
   return (
     <Canvas camera={{ position: [0, 1.55, 7.1], fov: 34 }} dpr={[1, 2]} gl={{ antialias: true, alpha: true }}
       onPointerMissed={() => onHover(null)} style={{ touchAction: "none" }}>
-      <Controls autoRotate={motion && hovered === null} />
+      <Controls autoRotate={motion && hovered === null && focused.size === 0} />
       <Shell color={skin ? SEVERITY_COLORS[skin.severity] : CYAN} opacity={skin ? (hovered === "skin" ? 0.22 : 0.15) : 0.09} />
       {Object.keys(REGION_PARTS).map((id) => (
-        <Region key={id} id={id} view={byId[id]} hovered={hovered === id} onHover={onHover} motion={motion} />
+        <Region key={id} id={id} view={byId[id]} hovered={hovered === id} focused={focused.has(id)} dimmed={focused.size > 0 && !focused.has(id)}
+          onHover={onHover} onSelect={onSelect} motion={motion} />
       ))}
       <Floor motion={motion} />
       {children}

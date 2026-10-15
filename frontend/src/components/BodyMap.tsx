@@ -19,14 +19,18 @@ class GLBoundary extends Component<{ fallback: ReactNode; children: ReactNode },
   render() { return this.state.failed ? this.props.fallback : this.props.children; }
 }
 
-export default function BodyMap({ regions, waiting, force2d }: { regions: RegionView[]; waiting?: boolean; force2d?: boolean }) {
+export default function BodyMap({ regions, waiting, force2d, focusRegions, focusLabel, onSelectRegion }: {
+  regions: RegionView[]; waiting?: boolean; force2d?: boolean; focusRegions?: string[]; focusLabel?: string | null;
+  onSelectRegion?: (region: string | null) => void;
+}) {
   const [hovered, setHovered] = useState<string | null>(null);
+  const focus = focusRegions ?? [];
   const [use3d] = useState(() => !force2d && webglAvailable());
   const motion = useMemo(() => !window.matchMedia?.("(prefers-reduced-motion: reduce)").matches, []);
   const touch = useMemo(() => !!window.matchMedia?.("(hover: none)").matches, []);
   const sorted = [...regions].sort((a, b) => ORDER[a.severity] - ORDER[b.severity]);
   const info = hovered ? regions.find((r) => r.region === hovered) : null;
-  const flat = <Body2D regions={regions} hovered={hovered} onHover={setHovered} />;
+  const flat = <Body2D regions={regions} hovered={hovered} onHover={setHovered} focus={focus} onSelect={onSelectRegion} />;
 
   return (
     <section className="card body-card" aria-label="Body map">
@@ -42,13 +46,18 @@ export default function BodyMap({ regions, waiting, force2d }: { regions: Region
         {use3d ? (
           <GLBoundary fallback={flat}>
             <Suspense fallback={<div className="holo-loading">Projecting the body…</div>}>
-              <Body3D regions={regions} hovered={hovered} onHover={setHovered} motion={motion} />
+              <Body3D regions={regions} hovered={hovered} onHover={setHovered} motion={motion} focus={focus} onSelect={onSelectRegion} />
             </Suspense>
           </GLBoundary>
         ) : flat}
       </div>
       <div className="holo-info" aria-live="polite">
-          {info ? (
+          {focus.length > 0 && !hovered && focusLabel ? (
+            <>
+              <div className="holo-title focus-title">{focusLabel}</div>
+              <p>{focus.map((r) => REGION_LABELS[r] ?? r).join(" · ")}</p>
+            </>
+          ) : info ? (
             <>
               <div className="holo-title"><i style={{ background: SEVERITY_COLORS[info.severity] }} />{REGION_LABELS[info.region]} · {info.severity}</div>
               <p>{info.reason}</p>
@@ -67,7 +76,8 @@ export default function BodyMap({ regions, waiting, force2d }: { regions: Region
         <ul className="region-legend">
           {sorted.map((r) => (
             <li key={r.region} onMouseEnter={() => setHovered(r.region)} onMouseLeave={() => setHovered(null)}
-              onFocus={() => setHovered(r.region)} onBlur={() => setHovered(null)} tabIndex={0} className={hovered === r.region ? "on" : ""}>
+              onFocus={() => setHovered(r.region)} onBlur={() => setHovered(null)} tabIndex={0}
+              onClick={() => onSelectRegion?.(r.region)} className={hovered === r.region || focus.includes(r.region) ? "on" : ""}>
               <i style={{ background: SEVERITY_COLORS[r.severity] }} />
               <strong>{REGION_LABELS[r.region]}</strong> <span className="muted small">{r.severity}</span>
             </li>
@@ -87,7 +97,9 @@ const SPOTS: Record<string, [number, number, number][]> = {
   mind: [[100, 12, 6]], blood: [[100, 120, 3], [100, 150, 3], [86, 230, 3], [114, 230, 3], [60, 110, 3], [140, 110, 3]],
 };
 
-function Body2D({ regions, hovered, onHover }: { regions: RegionView[]; hovered: string | null; onHover: (id: string | null) => void }) {
+function Body2D({ regions, hovered, onHover, focus, onSelect }: {
+  regions: RegionView[]; hovered: string | null; onHover: (id: string | null) => void; focus: string[]; onSelect?: (id: string | null) => void;
+}) {
   const byId = Object.fromEntries(regions.map((r) => [r.region, r]));
   const skin = byId.skin;
   const stroke = skin ? SEVERITY_COLORS[skin.severity] : "#5ff3ff";
@@ -107,10 +119,11 @@ function Body2D({ regions, hovered, onHover }: { regions: RegionView[]; hovered:
         const v = byId[id];
         const color = v ? SEVERITY_COLORS[v.severity] : "#5ff3ff";
         return (
-          <g key={id} onMouseEnter={() => onHover(id)} onMouseLeave={() => onHover(null)} style={{ cursor: "pointer" }}>
+          <g key={id} onMouseEnter={() => onHover(id)} onMouseLeave={() => onHover(null)} onClick={() => onSelect?.(id)} style={{ cursor: "pointer" }}>
             {spots.map(([x, y, r], i) => (
-              <circle key={i} cx={x} cy={y} r={hovered === id ? r * 1.25 : r} fill={color} fillOpacity={v ? 0.85 : 0.12}
-                className={v?.severity === "urgent" ? "pulse2d" : undefined} />
+              <circle key={i} cx={x} cy={y} r={hovered === id || focus.includes(id) ? r * 1.3 : r} fill={focus.includes(id) && !v ? "#e8fdff" : color}
+                fillOpacity={v || focus.includes(id) ? 0.9 : 0.12}
+                className={v?.severity === "urgent" || focus.includes(id) ? "pulse2d" : undefined} stroke={focus.includes(id) ? "#ffffff" : undefined} />
             ))}
             <title>{REGION_LABELS[id]}{v ? ` · ${v.severity}: ${v.reason}` : ""}</title>
           </g>
