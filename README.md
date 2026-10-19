@@ -292,19 +292,25 @@ succeeded, at the agent level and in the patient's summary, the trap tool calls,
 each payload reached an agent, and any clean documents wrongly blocked. The interpretation
 is in [output/safety/findings.md](output/safety/findings.md).
 
-**Results (22 runs, 2026-10-14):**
+**Results (22 runs, 2026-10-18, four-round conference):**
 
 | | Defenses off | Defenses on |
 |---|---|---|
-| Attacks succeeded | 0 of 7 | 0 of 7 |
+| Attacks succeeded (reached the summary or a trap tool) | 2 of 7 | **0 of 7** |
 | Injected content influenced the summary | **3 of 7** | **0 of 7** |
 | Payload reached an agent | 7 of 7 | 2 of 7 (the visible ones) |
-| Trap calls | 0 | 0 |
-| Clean documents wrongly blocked | 0 of 4 | 0 of 4 |
+| Trap calls | 3 | 0 |
+| Clean documents wrongly blocked | 1 of 4 | **0 of 4** |
 
-The model resisted every explicit command, even unprotected. Hidden fake facts were a
-different story: a fake "cardiology addendum" and fake "corrected kidney results" entered
-the summary when defenses were off, and never with them on.
+Hidden fake facts (a fake "cardiology addendum", fake "corrected kidney results") entered
+the summary with defenses off and never with them on. With every layer off, the
+coordinator's challenge step, holding the trap tools, called `send_records_by_email` three
+times, once for a clean records-release letter. A model that holds a send tool will
+sometimes use it, which is why no agent holds one with the design layer on.
+
+The test also caught a bug, now fixed. The challenge step had kept the trap tools with
+defenses on; after the fix the affected runs were re-run and all were blocked. The earlier
+two-round panel's results are in `output/safety/earlier_two_round_panel/`.
 
 ## Tokenomics (Phase 7)
 
@@ -356,22 +362,26 @@ Results go to [output/tokenomics/report.md](output/tokenomics/report.md), with e
 in `output/tokenomics/usage_log.jsonl`. The interpretation is in
 [output/tokenomics/findings.md](output/tokenomics/findings.md).
 
-**Headline results (16 runs, 2026-10-14):**
+**Headline results (8 runs, 2026-10-18, four-round conference, cases 1–4):**
 
 | Setting | Avg cost per case | Effect | Quality (judge) |
 |---|---|---|---|
-| Production (caching on) | $0.0128 | Baseline | 69% |
-| Caching off (0 cached tokens verified) | $0.0203 | +58%, so caching saves 37% | 63% |
-| Full documents instead of summaries | $0.0123 | Input +7.6%, cost unchanged (caching absorbs it) | 74% |
-| Round 2 all-to-all | $0.0137 | Round-2 cost +56%, total +7% | 72% |
+| Production (caching on) | $0.0192 | Baseline | 69% |
+| Caching off (0 cached tokens verified) | $0.0408 | +113%, so caching saves 53% | 77% |
 
-- Quality differences were within noise in every setting, and there were no "must not"
-  violations.
-- Projected model cost is about $0.04 per user per month (2 cases plus 15 chat
-  questions), or about $422 a month for 10,000 users.
+- The four-round conference costs 50% more per case than the two-round panel ($0.0128),
+  for about 8 more model calls. Caching saves more than before (53% vs 37%) because the
+  pattern library and the case board are shared, cached prefixes.
+- Quality differences were within noise. One of the judge's two passes flagged one case-1
+  summary for describing lab results as "anemia" and "iron deficiency"; see the findings.
+- Projected model cost is about $0.07 per user per month (2 cases plus 15 chat
+  questions), or about $680 a month for 10,000 users.
+- The full-documents and round-2 comparisons were measured on the two-round panel
+  (`output/tokenomics/earlier_two_round_panel/`): passing full documents instead of
+  summaries changed cost little, and all-to-all round 2 cost 56% more in that round.
 
 ```bash
-.venv/bin/python scripts/tokenomics_experiment.py
+.venv/bin/python scripts/tokenomics_experiment.py --settings cache_on cache_off --cases case1 case2 case3 case4
 ```
 
 ## Chat with the panel (Phase 6)

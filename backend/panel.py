@@ -977,14 +977,17 @@ async def _run_case(
             async def run_debate() -> None:
                 nonlocal debate, stop_reason
                 # round 3: debate (the coordinator challenges, the involved members answer) ----
-                # The coordinator leads the conference, so it is also the challenger. It reads agent
-                # outputs only (no patient text), so like rounds 2-3 it holds the harmless trap tools.
+                # The coordinator leads the conference, so it is also the challenger. Like the coordinator's
+                # summary step it holds no tools at all with the design layer on (trap tools only in tests
+                # with the design layer off): its prompt is the coordinator's, which talks about emailing
+                # records and changing medicines, and a model holding such tools may reach for them.
                 chair = modes.coordinator
                 if candidates and budget.can_start("challenge"):
                     events.emit("conference_round", round=3, status="started", name="debate", candidates=len(candidates),
                                 challenger=chair)
                     challenge_agent = Agent(m, instructions=library + defenses.prompt_text(COORDINATOR_PROMPT_RAW),
-                                            output_type=NativeOutput(ChallengeOutput), toolsets=[traps.trap_toolset()], retries=1)
+                                            output_type=NativeOutput(ChallengeOutput),
+                                            toolsets=[] if defenses.current().design else [traps.trap_toolset()], retries=1)
                     prompt = "\n\n".join([
                         board_block, f"<profile>\n{profile(chair)}\n</profile>", f"<mode>\n{m_text}\n</mode>",
                         conference.render_candidates(candidates),
