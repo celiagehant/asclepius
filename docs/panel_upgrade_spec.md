@@ -1,6 +1,9 @@
 # Panel upgrade: draft spec for review
 
-Status: **draft, nothing built yet.** Edit anything here; I build to the version you approve.
+Status: **built** (2026-10-14). **Update 2026-10-18:** at the user's request the separate skeptic
+agent was removed; the case coordinator now challenges every candidate in round 3 (same rules:
+simpler explanations, unsupported posts, keep / weaken / drop), and adds the alternatives in chat
+connection answers. Read "skeptic" below as "the coordinator's challenge".
 
 Goal: the panel works as a team. It connects findings across specialties, proposes
 possible explanations, challenges them, and gives practical next steps. It is still never

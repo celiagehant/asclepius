@@ -70,7 +70,7 @@ def test_round2_reads_one_shared_board_not_every_report():
     assert board.render(posts) == board.render([dict(p) for p in posts])     # identical for every reader
     assert len(board.render(posts)) < 600                                     # about 25 tokens per post
     assert patterns.library_block().startswith("# Pattern library")           # the shared cached prefix
-    assert member_of("specialist_r3", "r3.skeptic") == "skeptic"
+    assert member_of("coordinator", "coordinator.challenge") == "coordinator"
     assert member_of("lifestyle", "r4.lifestyle") == "lifestyle"
     assert member_of("specialist_r2", "r2.hematology (retry 1)") == "hematology"
 

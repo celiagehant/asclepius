@@ -7,7 +7,9 @@ import { EmergencyBanner } from "./Common";
 import PanelTable from "./PanelTable";
 import RunDetails from "./RunDetails";
 import { PanelActivity, useRunEvents, waitForResult } from "./RunTimeline";
-import SummaryView, { RunMeta, SpecialistReports } from "./SummaryView";
+import ConferenceDiagram from "./ConferenceDiagram";
+import FloatingChat from "./FloatingChat";
+import SummaryView, { SpecialistReports } from "./SummaryView";
 
 let rosterCache: RosterEntry[] | null = null;
 
@@ -34,6 +36,7 @@ export default function CaseRoom({ c, patientName, onFinished }: {
   const em = result?.emergency;
   const regions = regionsFromSummary(result?.summary, roster);
   const [focus, setFocus] = useState<Focus>(NO_FOCUS);
+  const [unread, setUnread] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cards: any[] = useMemo(() => result?.summary?.explanations ?? [], [result]);
   const board: BoardPost[] = useMemo(() => result?.board ?? [], [result]);
@@ -93,14 +96,14 @@ export default function CaseRoom({ c, patientName, onFinished }: {
         </div>
       </div>
 
-      {live ? (
-        <section className="card chat-slot" aria-label="Ask the panel">
-          <h2>Ask the panel</h2>
-          <p className="muted small">You can ask the panel questions as soon as the summary is ready.</p>
-        </section>
-      ) : (
-        <ChatPanel caseId={c.id} roster={roster} coordinatorId={result?.modes?.coordinator ?? "internal_medicine"} onOverlay={setOverlay} />
-      )}
+      <FloatingChat available={!live && !!result?.summary} unread={unread} onOpen={() => setUnread(false)}>
+        {live || !result ? (
+          <p className="muted small chat-intro">You can ask the panel questions as soon as the summary is ready.</p>
+        ) : (
+          <ChatPanel caseId={c.id} roster={roster} coordinatorId={result?.modes?.coordinator ?? "internal_medicine"} onOverlay={setOverlay}
+            onAnswer={() => setUnread(true)} docked />
+        )}
+      </FloatingChat>
 
       {!live && result && (
         <>
@@ -109,8 +112,8 @@ export default function CaseRoom({ c, patientName, onFinished }: {
             <summary><strong>Full conference log</strong> <span className="muted small">· every routing step, tool call and comment</span></summary>
             <PanelActivity events={events} />
           </details>
+          <ConferenceDiagram result={result} names={names} />
           <RunDetails caseId={c.id} roster={roster} />
-          <RunMeta result={result} />
         </>
       )}
     </div>

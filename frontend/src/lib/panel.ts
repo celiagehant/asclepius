@@ -8,13 +8,13 @@ export const SPECIALTY_COLORS: Record<string, string> = {
   endocrinology: "#d97a00", gastroenterology: "#8a6232", neurology: "#4f56c9", hematology: "#a8174b", nephrology: "#1c6fb0",
   rheumatology: "#b8337a", pulmonology: "#00838f", orthopedics: "#5d6b78", ophthalmology: "#3949ab",
   obstetrics_gynecology: "#c2477e", urology: "#b88a00", dermatology: "#9a6b4f", otolaryngology: "#00897b",
-  infectious_disease: "#5f8a2f", psychiatry: "#7e57c2", lifestyle: "#139a74", skeptic: "#5b6770",
+  infectious_disease: "#5f8a2f", psychiatry: "#7e57c2", lifestyle: "#139a74",
 };
 export const SPECIALTY_ICONS: Record<string, string> = {
   internal_medicine: "⚕", pediatrics: "☺", clinical_pharmacist: "💊", cardiology: "♥", endocrinology: "⚖", gastroenterology: "◒",
   neurology: "✺", hematology: "●", nephrology: "◗", rheumatology: "⟡", pulmonology: "≋", orthopedics: "⟂", ophthalmology: "◉",
   obstetrics_gynecology: "♀", urology: "◖", dermatology: "◍", otolaryngology: "◔", infectious_disease: "✣", psychiatry: "☁",
-  lifestyle: "❀", skeptic: "?",
+  lifestyle: "❀",
 };
 export function colorOf(id: string): string {
   if (SPECIALTY_COLORS[id]) return SPECIALTY_COLORS[id];
@@ -85,7 +85,7 @@ export interface PanelState {
   selected: boolean;
   medications: number | null;
   members: Record<string, MemberState>;
-  coordinator: { activity: string; done: boolean; safety: string | null };
+  coordinator: { activity: string; done: boolean; safety: string | null; bubble?: { text: string; kind: string; seq: number } };
   lastSeq: number;
   stage: "intake" | "round1" | "round2" | "round3" | "synthesis" | "safety" | "done";
   spend: { total: number; limit: number | null; byMember: Record<string, number> };
@@ -164,7 +164,7 @@ export function derivePanel(events: Ev[], fallbackCoordinator = "internal_medici
         } else {
           x.status = "working";
           x.roundLine = `${ROUND_NAMES[e.round] ?? "Round"}: working…`;
-          x.activity = e.round === 2 ? "Reading the case board for connections" : e.round === 3 ? "Answering the skeptic"
+          x.activity = e.round === 2 ? "Reading the case board for connections" : e.round === 3 ? "Answering the coordinator's challenge"
             : "Writing self-care steps";
           if (e.round === 2) s.stage = "round2";
           if (e.round === 3) s.stage = "round3";
@@ -208,11 +208,10 @@ export function derivePanel(events: Ev[], fallbackCoordinator = "internal_medici
         m(e.from_).bubble = { text: e.title, kind: "connection", seq: e.seq };
         break;
       case "challenge":
-        s.active.add("skeptic");
-        s.threads.push({ from: "skeptic", to: e.to ?? [], kind: "challenge", seq: e.seq, text: e.text, candidate: e.candidate });
-        m("skeptic").status = "done";
-        m("skeptic").bubble = { text: `${e.candidate}: ${e.verdict}. ${e.text}`, kind: e.verdict === "keep" ? "agrees" : "challenge", seq: e.seq };
-        m("skeptic").activity = "Challenged every candidate";
+        // The coordinator leads the debate and challenges every candidate (older runs had a separate skeptic).
+        s.threads.push({ from: e.from_ === "skeptic" ? s.coordinatorId : e.from_, to: e.to ?? [], kind: "challenge", seq: e.seq, text: e.text, candidate: e.candidate });
+        s.coordinator.bubble = { text: `${e.candidate}: ${e.verdict}. ${e.text}`, kind: e.verdict === "keep" ? "agrees" : "challenge", seq: e.seq };
+        s.coordinator.activity = "Challenging each candidate explanation";
         break;
       case "stance":
         if (e.stance === "support" || e.stance === "challenge") {
@@ -226,7 +225,7 @@ export function derivePanel(events: Ev[], fallbackCoordinator = "internal_medici
       case "conference_round":
         if (e.round === 2 && e.status === "started" && e.name) { s.stage = "round2"; s.coordinator.activity = "Round 2: looking for connections across the board"; }
         if (e.round === 2 && e.status === "done") s.coordinator.activity = e.candidates ? `${e.candidates.length} candidate explanation(s) for the debate` : "Conference closed after round 2";
-        if (e.round === 3 && e.status === "started") { s.stage = "round3"; s.active.add("skeptic"); m("skeptic").status = "working"; m("skeptic").activity = "Looking for simpler explanations"; s.coordinator.activity = "Round 3: the skeptic challenges each candidate"; }
+        if (e.round === 3 && e.status === "started") { s.stage = "round3"; s.coordinator.activity = "Round 3: looking for simpler explanations"; }
         if (e.round === 3 && e.status === "done") s.coordinator.activity = "Debate closed (hard stop)";
         break;
       case "coordinator_thinking":

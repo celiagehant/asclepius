@@ -14,8 +14,9 @@ function firstSentence(text: string): string {
   return (m ? m[0] : text.slice(0, 140)).trim();
 }
 
-export default function ChatPanel({ caseId, roster, coordinatorId, onOverlay }: {
+export default function ChatPanel({ caseId, roster, coordinatorId, onOverlay, onAnswer, docked }: {
   caseId: number; roster: RosterEntry[]; coordinatorId: string; onOverlay: (o: ChatOverlay | null) => void;
+  onAnswer?: () => void; docked?: boolean;
 }) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [available, setAvailable] = useState(false);
@@ -69,6 +70,7 @@ export default function ChatPanel({ caseId, roster, coordinatorId, onOverlay }: 
           if (e.message) {
             const msg = e.message as ChatMessage;
             setMessages((m) => [...m, msg]);
+            onAnswer?.();
             for (const a of msg.meta.answers ?? []) lit.members[a.specialty] = { status: "done", bubble: firstSentence(a.text) };
             lit.coordinator = msg.role === "safety" ? "Emergency guidance shown" : "Answer checked and shared";
           } else if (e.error) {
@@ -87,14 +89,19 @@ export default function ChatPanel({ caseId, roster, coordinatorId, onOverlay }: 
   };
 
   return (
-    <section className="card chat" aria-label="Ask the panel">
-      <div className="chat-head">
-        <div>
-          <h2>Ask the panel</h2>
-          <p className="muted small">The coordinator sends your question to the one or two most relevant AI specialists (or the pharmacist for
-            medicines). A safety reviewer checks every answer. Answers use only your records and profile.</p>
+    <section className={docked ? "chat docked" : "card chat"} aria-label="Ask the panel">
+      {docked ? (
+        <p className="muted small chat-intro">Your question goes to the most relevant AI specialists (or the pharmacist for medicines); ask how two
+          things are related and the coordinator adds what else could explain it. A safety reviewer checks every answer.</p>
+      ) : (
+        <div className="chat-head">
+          <div>
+            <h2>Ask the panel</h2>
+            <p className="muted small">The coordinator sends your question to the one or two most relevant AI specialists (or the pharmacist for
+              medicines). A safety reviewer checks every answer. Answers use only your records and profile.</p>
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="chat-log" aria-live="polite">
         {messages.length === 0 && available && (
@@ -144,7 +151,7 @@ export function Message({ m, names, coordinatorId }: { m: ChatMessage; names: Re
       {m.meta.connection && (
         <div className={`connection-note link-${m.meta.connection.status}`}>
           <strong>How are “{m.meta.connection.topic_a}” and “{m.meta.connection.topic_b}” related?</strong>{" "}
-          {m.meta.connection.status === "linked" ? `The panel linked them in ${m.meta.connection.cards.join(", ")}. The skeptic adds what else could explain it.`
+          {m.meta.connection.status === "linked" ? `The panel linked them in ${m.meta.connection.cards.join(", ")}. The coordinator adds what else could explain it.`
             : m.meta.connection.status === "both_on_board_no_card" ? "Both are in your records, but the panel did not find a supported link between them."
             : "The panel did not find a link between these in your records."}
         </div>
@@ -172,8 +179,7 @@ export function Message({ m, names, coordinatorId }: { m: ChatMessage; names: Re
           </div>
         </div>
       )}
-      <div className="reviewed small">🛡 Checked by the safety reviewer{edits ? ` · ${edits} part${edits > 1 ? "s" : ""} adjusted for safety` : ""}
-        {m.meta.usage ? <span className="muted"> · cost ${m.meta.usage.cost_usd.toFixed(4)}</span> : null}</div>
+      <div className="reviewed small">🛡 Checked by the safety reviewer{edits ? ` · ${edits} part${edits > 1 ? "s" : ""} adjusted for safety` : ""}</div>
     </div>
   );
 }

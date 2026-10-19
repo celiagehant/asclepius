@@ -114,7 +114,7 @@ def test_chat_needs_a_finished_case_and_delete_removes_it():
         assert conn.execute("SELECT COUNT(*) FROM chat_memory WHERE user_id = ?", (uid,)).fetchone()[0] == 0
 
 
-def test_connection_questions_go_to_the_posters_and_the_skeptic():
+def test_connection_questions_go_to_the_specialists_who_posted_the_findings():
     from backend.chat import connection_plan
     from backend.schemas import ChatRouteOutput
     result = {
@@ -125,14 +125,14 @@ def test_connection_questions_go_to_the_posters_and_the_skeptic():
         "summary": {"explanations": [{"id": "C1", "title": "A hormone pattern could connect these", "refs": ["dermatology.F1", "endocrinology.F2"],
                                       "argues_against": ["Acne is common"]}]}}
     members = ["dermatology", "endocrinology", "clinical_pharmacist"]
-    route = lambda a, b: ChatRouteOutput(specialists=["skeptic"], medication_question=False, connection_question=True,  # noqa: E731
+    route = lambda a, b: ChatRouteOutput(specialists=[], medication_question=False, connection_question=True,  # noqa: E731
                                          topic_a="acne", topic_b="weight", posts_a=a, posts_b=b, reason="r")
     plan = connection_plan(route(["dermatology.F1"], ["endocrinology.F2", "made-up.F9"]), result, members)
-    assert plan["answerers"] == ["dermatology", "endocrinology", "skeptic"] and plan["status"] == "linked" and plan["cards"] == ["C1"]
+    assert plan["answerers"] == ["dermatology", "endocrinology"] and plan["status"] == "linked" and plan["cards"] == ["C1"]
     plan = connection_plan(route(["dermatology.F1"], ["intake.L1"]), result, members)
     assert plan["status"] == "both_on_board_no_card" and "intake" not in plan["answerers"]   # intake is not a panel member
     plan = connection_plan(route(["dermatology.F1"], []), result, members)
-    assert plan["status"] == "not_on_board" and plan["answerers"][-1] == "skeptic"
+    assert plan["status"] == "not_on_board" and plan["answerers"] == ["dermatology"]
     plain = ChatRouteOutput(specialists=["dermatology"], medication_question=False, connection_question=False, topic_a=None,
                             topic_b=None, posts_a=[], posts_b=[], reason="r")
     assert connection_plan(plain, result, members) is None

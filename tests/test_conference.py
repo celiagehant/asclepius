@@ -131,7 +131,7 @@ def test_merge_keeps_different_library_patterns_apart():
     assert by_pattern["P19"]["systems"] == ["blood", "medication"]
 
 
-# ---- round 3: skeptic, stances, scoring ----------------------------------------------------
+# ---- round 3: the coordinator's challenge, stances, scoring ------------------------------------------------
 
 def _cands() -> tuple[list[dict], dict[str, dict]]:
     posts = posts_for(("a.F1", "blood", "abnormal"), ("b.F1", "digestive", "abnormal"), ("c.F1", "skin", "borderline"))
@@ -142,15 +142,15 @@ def _cands() -> tuple[list[dict], dict[str, dict]]:
     return conference.merge_candidates(cards, posts), posts
 
 
-def test_skeptic_output_is_checked_like_everyone_elses():
+def test_the_coordinators_challenge_is_checked_like_everyone_elses():
     cands, posts = _cands()
     out = NS(challenges=[NS(candidate="C1", verdict="keep", simpler_explanations=["x"], unsupported_refs=["made-up", "a.F1"],
                             missing=[], reason="ok"),
                          NS(candidate="C9", verdict="drop", simpler_explanations=[], unsupported_refs=[], missing=[], reason="?")],
              alternative=card("Simpler: one system", ["a.F1", "a.F1"]))
-    challenges, alternative, dropped = conference.validate_skeptic(out, cands, posts)
+    challenges, alternative, dropped = conference.validate_challenge(out, cands, posts, "internal_medicine")
     assert set(challenges) == {"C1"} and challenges["C1"]["unsupported_refs"] == ["a.F1"]
-    assert alternative is None and dropped                         # the skeptic's own card must follow the rules too
+    assert alternative is None and dropped                         # the coordinator's own card must follow the rules too
 
 
 def test_stances_defend_only_your_own_card():
@@ -171,7 +171,7 @@ def test_scoring_is_arithmetic_and_drops_need_a_defense():
                {"by": "a", "candidate": "C3", "stance": "defend"}, {"by": "b", "candidate": "C3", "stance": "challenge"}]
     scored = {c["id"]: c for c in conference.score_candidates(cands, challenges, stances)}
     assert scored["C1"]["score"] == 3 and scored["C1"]["strength"] == "stronger"      # 2 proposers + 1 support
-    assert scored["C2"]["removed"].startswith("skeptic: drop")                         # dropped and nobody defended
+    assert scored["C2"]["removed"].startswith("coordinator: drop")                         # dropped and nobody defended
     assert scored["C3"]["score"] == -1 and scored["C3"]["strength"] == "weaker"       # 1 - 1 challenge - 1 weaken
     top = conference.top_candidates(conference.score_candidates(cands, challenges, stances))
     assert [c["id"] for c in top] == ["C1", "C3"]                                       # no padding with removed cards

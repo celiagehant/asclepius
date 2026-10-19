@@ -5,7 +5,8 @@ For each question:
   2. the coordinator routes it to the one or two most relevant panel members (pharmacist
      for medication questions); code enforces "only this case's panel, at most two".
      A connection question ("why are my acne and my weight related?") goes to the
-     specialists who posted those findings on the case board plus the skeptic; code checks
+     specialists who posted those findings on the case board, and the coordinator (who
+     challenged every explanation in the debate) adds what else could explain it; code checks
      whether the board really links the two things, and says so if it does not
   3. those specialists answer in their own voice, in parallel, with their own memory of
      this chat and the trusted-source tools
@@ -56,7 +57,6 @@ WRAPUP_PROMPT = defenses.prompt_text((PROMPTS / "chat_wrapup.md").read_text())
 
 MAX_QUESTION_CHARS = 1500
 MAX_ANSWERERS = 2
-SKEPTIC = "skeptic"
 LIFESTYLE = "lifestyle"
 MEMORY_CHAR_BUDGET = 14_000      # per panel member, about 3,500 tokens of earlier turns
 DIGEST_TURNS = 4                 # recent turns the coordinator sees
@@ -150,7 +150,8 @@ def name_of(member: str) -> str:
 
 def connection_plan(route: ChatRouteOutput | None, result: dict[str, Any], members: list[str]) -> dict[str, Any] | None:
     """For a connection question: who answers (the members who posted the findings, at most
-    two, plus the skeptic) and whether the board really links the two things. Decided in
+    two) and whether the board really links the two things. The coordinator adds the
+    challenge in its wrap-up. Decided in
     code from the board and the explanation cards, never by the model alone."""
     if not route or not route.connection_question:
         return None
@@ -181,7 +182,19 @@ def connection_plan(route: ChatRouteOutput | None, result: dict[str, Any], membe
         status = "not_on_board"
     return {"topic_a": route.topic_a or "the first thing", "topic_b": route.topic_b or "the second thing",
             "posts_a": a, "posts_b": b, "cards": [c["id"] for c in cards], "status": status,
-            "answerers": answerers + [SKEPTIC]}
+            "answerers": answerers}
+
+
+def debate_challenges(plan: dict[str, Any], result: dict[str, Any]) -> str:
+    """The coordinator's own round-3 challenges of the cards that link the two things."""
+    cands = {c["id"]: c for c in (result.get("debate") or {}).get("candidates", [])}
+    cards = {c["id"]: c for c in ((result.get("summary") or {}).get("explanations") or [])}
+    lines = []
+    for cid in plan["cards"]:
+        ch = (cands.get(cid) or {}).get("challenge") or {}
+        lines += [f"- {cid} {cards[cid]['title']}: you said {ch.get('verdict', '?')}: {ch.get('reason', '')}"]
+        lines += [f"  simpler explanation: {x}" for x in ch.get("simpler_explanations", [])]
+    return "<your_challenges_in_the_debate>\n" + ("\n".join(lines) or "(no card links them)") + "\n</your_challenges_in_the_debate>"
 
 
 def connection_block(plan: dict[str, Any], result: dict[str, Any]) -> str:
@@ -205,7 +218,7 @@ def connection_block(plan: dict[str, Any], result: dict[str, Any]) -> str:
 
 def enforce_route(route: ChatRouteOutput | None, question: str, members: list[str]) -> tuple[list[str], str]:
     """Only this case's panel, at most two, pharmacist for medication questions."""
-    picked = [s for s in dict.fromkeys(route.specialists if route else []) if s in members and s != SKEPTIC]
+    picked = [s for s in dict.fromkeys(route.specialists if route else []) if s in members]
     reason = route.reason if route else "Routed by keywords (the coordinator was unavailable)."
     medication = (route.medication_question if route else False) or bool(MED_WORDS.search(question))
     if medication and PHARMACIST_ID in members and PHARMACIST_ID not in picked:
@@ -256,11 +269,6 @@ def case_context(spec: str, result: dict[str, Any], q_text: str, m_text: str) ->
         parts.append("<your_conference_comments>\n" + "\n".join(
             [f"- proposed: {c['title']}" if "title" in c else f"- connection: {c['connection']}" for c in r2.get("connections", [])]
             + [f"- disagreed with {d['with_specialty']}: {d['point']}" for d in r2.get("disagreements", [])]) + "\n</your_conference_comments>")
-    debate = result.get("debate") or {}
-    if spec == SKEPTIC and debate.get("candidates"):
-        parts.append("<your_debate_challenges>\n" + "\n".join(
-            f"- {c['id']} {c['title']}: {(c.get('skeptic') or {}).get('verdict', '?')}, {(c.get('skeptic') or {}).get('reason', '')}"
-            for c in debate["candidates"]) + "\n</your_debate_challenges>")
     life = result.get("lifestyle") or {}
     if spec == LIFESTYLE and (life.get("steps") or life.get("posts")):
         parts.append("<your_self_care_steps>\n" + "\n".join(f"- [{st['category']}] {st['action']} (source: {st['source_url']})"
@@ -351,7 +359,7 @@ async def answer_question(*, user_id: int, case_id: int, question: str, events: 
         if plan:
             answerers = plan["answerers"]
             reason = (f"Connection question ({plan['topic_a']} and {plan['topic_b']}): the specialists who posted those findings, "
-                      f"plus the skeptic. Board link: {plan['status'].replace('_', ' ')}.")
+                      f"with the coordinator's challenge in the wrap-up. Board link: {plan['status'].replace('_', ' ')}.")
         events.emit("chat_routed", specialists=answerers, names=[name_of(s) for s in answerers], reason=reason,
                     connection=plan)
 
@@ -369,7 +377,7 @@ async def answer_question(*, user_id: int, case_id: int, question: str, events: 
             events.agent_started(agent_id, "chat_specialist", spec, None, ["case context", "chat memory"])
             events.emit("specialist_started", agent=agent_id, specialty=spec, name=name_of(spec), round="chat")
             allowed = (PHARMACIST_TOOLS if spec == PHARMACIST_ID else LIFESTYLE_TOOLS if spec == LIFESTYLE
-                       else set() if spec == SKEPTIC else SPECIALIST_TOOLS)
+                       else SPECIALIST_TOOLS)
             tools = [toolset.filtered(lambda ctx, td: td.name in allowed)] if toolset and allowed else []
             agent = Agent(m, deps_type=AgentDeps, instructions=CHAT_PROMPT, output_type=NativeOutput(ChatAnswerOutput),
                           toolsets=tools, retries=1)
@@ -417,9 +425,11 @@ async def answer_question(*, user_id: int, case_id: int, question: str, events: 
             events.emit("coordinator_thinking", stage="wrap_up")
             wrapper = Agent(m, instructions=WRAPUP_PROMPT, output_type=NativeOutput(ChatWrapUpOutput), retries=1)
             try:
-                wrap = await llm.run_agent(wrapper, f"<question>\n{question}\n</question>\n\n<answers>\n" + "\n".join(
+                wrap = await llm.run_agent(wrapper, (connection_block(plan, result) + "\n\n" + debate_challenges(plan, result) + "\n\n"
+                                                     if plan else "")
+                    + f"<question>\n{question}\n</question>\n\n<answers>\n" + "\n".join(
                     f"- {a['name']}: {a['text']}" for a in answers) + "\n</answers>", meter=meter, agent_name="chat_wrapup",
-                    label="wrap_up", model_settings=llm.settings(400, "none", trace))
+                    label="wrap_up", model_settings=llm.settings(500, "none", trace))
                 wrap_up = wrap.wrap_up.strip()
             except Exception:
                 wrap_up = ""

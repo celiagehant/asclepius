@@ -367,7 +367,7 @@ class Answer(BaseModel):
     answer: str
 
 
-# ---- the four-round conference: connections, skeptic, panel response ---------------------
+# ---- the four-round conference: connections, the coordinator's challenge, panel response ---
 
 
 class ProposedConnection(BaseModel):
@@ -387,7 +387,7 @@ class ConnectionRoundOutput(BaseModel):
     answers: list[Answer] = Field(description="Answers to the questions addressed to you.")
 
 
-class SkepticChallenge(BaseModel):
+class CandidateChallenge(BaseModel):
     candidate: str = Field(description="Candidate id, e.g. 'C1'.")
     verdict: Literal["keep", "weaken", "drop"]
     simpler_explanations: list[str] = Field(description="Other explanations that fit the same posts: a medicine effect, "
@@ -397,8 +397,8 @@ class SkepticChallenge(BaseModel):
     reason: str = Field(description="One or two sentences explaining the verdict.")
 
 
-class SkepticOutput(BaseModel):
-    challenges: list[SkepticChallenge] = Field(description="One per candidate.")
+class ChallengeOutput(BaseModel):
+    challenges: list[CandidateChallenge] = Field(description="One per candidate.")
     alternative: ProposedConnection | None = Field(description="At most one simpler or overlooked connection the panel missed, "
                                                    "citing board posts. Null if none.")
 
@@ -406,7 +406,7 @@ class SkepticOutput(BaseModel):
 class Stance(BaseModel):
     candidate: str = Field(description="Candidate id, e.g. 'C2'.")
     stance: Literal["defend", "concede", "support", "challenge"] = Field(
-        description="defend or concede: only for candidates you proposed, answering the skeptic. "
+        description="defend or concede: only for candidates you proposed, answering the coordinator's challenge. "
         "support or challenge: for any other candidate where your specialty has something to add.")
     reason: str = Field(description="One or two sentences.")
     board_refs: list[str] = Field(description="Board posts your reason rests on.")
@@ -468,7 +468,7 @@ class ExplanationCardOutput(BaseModel):
     title: str = Field(description="The pattern in plain words for the patient, at most 30 words, as something that COULD "
                        "connect their findings. Never 'you have', 'this is' or 'confirms'.")
     why_it_fits: list[SummaryPoint] = Field(description="1-3 points, each citing the board post ids it rests on.")
-    argues_against: list[str] = Field(description="1-3 short points from the skeptic and the debate: what else could explain "
+    argues_against: list[str] = Field(description="1-3 short points from the coordinator's challenge and the debate: what else could explain "
                                       "the same findings, or what does not fit. Never empty.")
     would_help_tell: list[str] = Field(description="1-3 things to ask the doctor about that could support or rule it out.")
 
@@ -611,4 +611,4 @@ class ChatAnswerOutput(BaseModel):
 
 
 class ChatWrapUpOutput(BaseModel):
-    wrap_up: str = Field(description="1-3 sentences.")
+    wrap_up: str = Field(description="1-3 sentences (up to 4 for a connection question).")

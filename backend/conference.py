@@ -3,7 +3,7 @@
   round 2  every specialist proposes up to 2 connections between case-board posts
            -> validate_connections: refs must exist, at least 2 posts from at least 2 systems
            -> merge_candidates: overlapping cards become one candidate C1..Cn (at most 6)
-  round 3  the skeptic challenges every candidate; the involved specialists defend,
+  round 3  the coordinator challenges every candidate; the involved specialists defend,
            concede, support or challenge
            -> score_candidates: the strength label comes from this arithmetic, never from a
               model, and is never a probability
@@ -114,16 +114,16 @@ def render_candidates(candidates: list[dict], challenges: dict[str, dict] | None
                      + "".join(f"\n  fits: {w}" for w in c["why_it_fits"]))
         ch = (challenges or {}).get(c["id"])
         if ch:
-            lines.append(f"  SKEPTIC verdict {ch['verdict']}: {ch['reason']}"
+            lines.append(f"  COORDINATOR'S CHALLENGE, verdict {ch['verdict']}: {ch['reason']}"
                          + "".join(f"\n  simpler explanation: {x}" for x in ch["simpler_explanations"])
                          + "".join(f"\n  missing: {x}" for x in ch["missing"])
                          + (f"\n  posts that do not support it: {', '.join(ch['unsupported_refs'])}" if ch["unsupported_refs"] else ""))
     return "<candidates>\n" + ("\n".join(lines) or "(none)") + "\n</candidates>"
 
 
-def validate_skeptic(out: Any, candidates: list[dict], posts: dict[str, dict]) -> tuple[dict[str, dict], dict | None, list[dict]]:
+def validate_challenge(out: Any, candidates: list[dict], posts: dict[str, dict], challenger: str) -> tuple[dict[str, dict], dict | None, list[dict]]:
     """Challenges keyed by candidate id (unknown ids ignored), plus an optional alternative
-    card from the skeptic that passes the same rules as everyone else's."""
+    card from the coordinator that passes the same rules as everyone else's."""
     ids = {c["id"] for c in candidates}
     challenges: dict[str, dict] = {}
     for ch in out.challenges:
@@ -136,7 +136,7 @@ def validate_skeptic(out: Any, candidates: list[dict], posts: dict[str, dict]) -
             }
     alternative, dropped = None, []
     if out.alternative is not None:
-        kept, dropped = validate_connections("skeptic", [out.alternative], posts)
+        kept, dropped = validate_connections(challenger, [out.alternative], posts)
         alternative = kept[0] if kept else None
     return challenges, alternative, dropped
 
@@ -166,8 +166,8 @@ def validate_stances(member: str, stances: list[Any], candidates: list[dict], po
 
 
 def score_candidates(candidates: list[dict], challenges: dict[str, dict], stances: list[dict]) -> list[dict]:
-    """+1 per proposer, +1 per support, -1 per challenge, -1 for a skeptic 'weaken'.
-    A skeptic 'drop' is final if any proposer concedes or none defends; if a proposer defends,
+    """+1 per proposer, +1 per support, -1 per challenge, -1 for a 'weaken' from the coordinator.
+    A coordinator 'drop' is final if any proposer concedes or none defends; if a proposer defends,
     the card stays with -2. A proposer who concedes no longer counts as a proposer.
     Strength: 3+ stronger match, 1-2 possible match, 0 or less weaker match."""
     scored = []
@@ -185,13 +185,13 @@ def score_candidates(candidates: list[dict], challenges: dict[str, dict], stance
             score -= 1
         elif verdict == "drop":
             if conceded or not defended:
-                removed = "skeptic: drop, " + ("conceded by the proposer" if conceded else "not defended")
+                removed = "coordinator: drop, " + ("conceded by the proposer" if conceded else "not defended")
             else:
                 score -= 2
         if not proposers and not removed:
             removed = "every proposer conceded"
         strength = "stronger" if score >= 3 else "possible" if score >= 1 else "weaker"
-        scored.append({**c, "score": score, "strength": strength, "removed": removed, "skeptic": challenges.get(c["id"]),
+        scored.append({**c, "score": score, "strength": strength, "removed": removed, "challenge": challenges.get(c["id"]),
                        "supports": supports, "challenges": challenges_, "defended_by": sorted(defended),
                        "conceded_by": sorted(conceded)})
     scored.sort(key=lambda c: (c["removed"] is not None, -c["score"], -c["abnormal_refs"]))
@@ -214,13 +214,13 @@ def render_top(top: list[dict], removed: list[dict]) -> str:
     lines = []
     for c in top:
         lib = pattern_by_id().get(c["pattern_id"])
-        sk = c.get("skeptic") or {}
+        sk = c.get("challenge") or {}
         lines.append(f"{c['id']} [{c['strength']} match] {c['title']}\n  posts: {', '.join(c['refs'])}\n  pattern: "
                      + (f"{c['pattern_id']} {lib['name']}" if lib else "panel-proposed")
                      + f"\n  proposed by: {', '.join(c['proposers'])}"
                      + "".join(f"\n  fits: {w}" for w in c["why_it_fits"])
                      + "".join(f"\n  could help tell: {w}" for w in c["would_help_tell"])
-                     + (f"\n  skeptic ({sk.get('verdict')}): {sk.get('reason', '')}" if sk else "")
+                     + (f"\n  your challenge ({sk.get('verdict')}): {sk.get('reason', '')}" if sk else "")
                      + "".join(f"\n  simpler explanation: {x}" for x in sk.get("simpler_explanations", []))
                      + "".join(f"\n  {x['by']} supports: {x['reason']}" for x in c.get("supports", []))
                      + "".join(f"\n  {x['by']} challenges: {x['reason']}" for x in c.get("challenges", [])))
@@ -252,7 +252,7 @@ def build_cards(out_cards: list[dict], top: list[dict], posts: dict[str, dict], 
                 why.append({"text": pt["text"], "finding_refs": refs})
         if not why:
             why = [{"text": w, "finding_refs": c["refs"]} for w in c["why_it_fits"][:3]]
-        sk = c.get("skeptic") or {}
+        sk = c.get("challenge") or {}
         against = _clean_list((oc or {}).get("argues_against", []), 3) or _clean_list(
             sk.get("simpler_explanations", []) + [x["reason"] for x in c.get("challenges", [])], 3)
         refs = list(dict.fromkeys(c["refs"] + [r for w in why for r in w["finding_refs"]]))
@@ -264,9 +264,9 @@ def build_cards(out_cards: list[dict], top: list[dict], posts: dict[str, dict], 
             "why_it_fits": why, "argues_against": against,
             "would_help_tell": _clean_list((oc or {}).get("would_help_tell", []), 3) or c["would_help_tell"],
             "refs": refs, "regions": regions_for(refs, posts),
-            "specialists": [{"id": m, "name": names.get(m, m)} for m in members if m not in ("intake", "skeptic")],
+            "specialists": [{"id": m, "name": names.get(m, m)} for m in members if m != "intake"],
             "pattern": {"id": lib["id"], "name": lib["name"], "source": lib["source"]} if lib else None,
-            "debate": {"skeptic_verdict": sk.get("verdict"), "skeptic_reason": sk.get("reason"),
+            "debate": {"challenge_verdict": sk.get("verdict"), "challenge_reason": sk.get("reason"),
                        "supports": len(c.get("supports", [])), "challenges": len(c.get("challenges", [])),
                        "defended_by": c.get("defended_by", []), "conceded_by": c.get("conceded_by", [])},
             "written_by": "coordinator" if oc else "debate record",

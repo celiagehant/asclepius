@@ -581,3 +581,65 @@ textarea { resize: vertical; width: 100%; }
 .panel-layout .doctor.is-front { width: clamp(110px, 9.4vw, 140px); }
 .connection-note { border-radius: 10px; padding: 0.5rem 0.75rem; font-size: 0.86rem; margin-bottom: 0.5rem; background: #effbf9; border: 1px solid #b9dfd9; }
 .connection-note.link-both_on_board_no_card, .connection-note.link-not_on_board { background: #fff6e5; border-color: #f2c98a; }
+
+/* ---- how the conference ran (bottom of the case page) ---- */
+.conference-diagram h2 { margin-bottom: 0.2rem; }
+.flow { display: flex; align-items: stretch; gap: 0.75rem; margin-top: 1.1rem; padding-bottom: 0.3rem; }
+.flow > * { position: relative; }
+.flow > * + *::before { content: "→"; position: absolute; left: -0.55rem; top: 50%; transform: translate(-50%, -50%); color: #9fb3b8; font-size: 1rem; }
+.flow-mini { flex: 0 0 118px; border: 1px dashed var(--line); border-radius: 12px; padding: 0.6rem 0.7rem; background: #f8fafb; }
+.flow-mini h4 { margin: 0; font-size: 0.82rem; }
+.flow-mini p { margin: 0.25rem 0; color: var(--muted); }
+.flow-stage { flex: 1 1 0; min-width: 0; border: 1px solid var(--line); border-radius: 14px; padding: 0.7rem 0.8rem 0.6rem; background: #fff;
+  border-top: 4px solid #19c3b0; }
+.flow-stage.skipped { opacity: 0.55; border-top-color: #c9d6d9; }
+.flow-num { position: absolute; top: -0.75rem; left: 0.7rem; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: #0f3d4c; color: #fff;
+  font-size: 0.8rem; font-weight: 700; display: grid; place-items: center; }
+.flow-stage h3 { margin: 0.35rem 0 0.35rem; font-size: 0.95rem; }
+.flow-who { display: flex; flex-wrap: wrap; gap: 0.2rem; margin-bottom: 0.35rem; }
+.who-dot { width: 1.5rem; height: 1.5rem; border-radius: 50%; display: grid; place-items: center; font-size: 0.75rem; color: #fff; background: var(--c); }
+.flow-stage ul { margin: 0; padding-left: 1rem; font-size: 0.8rem; color: var(--ink); }
+.flow-stage li { margin: 0.12rem 0; }
+.flow-tokens { margin-top: 0.45rem; font-size: 0.74rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 0.35rem; }
+.flow-total { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.6rem; margin-top: 0.9rem; background: #f3f8f8; border-radius: 12px; padding: 0.7rem 0.9rem; }
+.flow-total div { display: flex; flex-direction: column; }
+.flow-total strong { font-size: 1.05rem; }
+@media (max-width: 900px) {
+  .flow { flex-direction: column; overflow: visible; }
+  .flow > * + *::before { content: "↓"; left: 50%; top: -0.5rem; }
+  .flow-mini, .flow-stage { flex: none; min-width: 0; }
+  .flow-total { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ---- floating chat (bottom-right), stays on screen while you scroll the case ---- */
+.chat-fab { position: fixed; right: 1.4rem; bottom: 1.4rem; z-index: 60; display: flex; align-items: center; gap: 0.5rem; border: none; cursor: pointer;
+  background: #0f3d4c; color: #fff; font: inherit; font-weight: 600; border-radius: 999px; padding: 0.75rem 1.1rem 0.75rem 0.9rem;
+  box-shadow: 0 10px 30px rgba(15, 61, 76, 0.35); transition: transform 0.15s ease, box-shadow 0.15s ease; }
+.chat-fab:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(15, 61, 76, 0.42); }
+.chat-fab.waiting { background: #5b6f76; }
+.fab-icon { font-size: 1.2rem; line-height: 1; }
+.fab-dot { position: absolute; top: 4px; right: 6px; width: 11px; height: 11px; border-radius: 50%; background: #ff4d5e; border: 2px solid #fff; }
+.chat-dock { position: fixed; right: 1.4rem; bottom: 1.4rem; z-index: 61; width: min(420px, calc(100vw - 2rem)); height: min(640px, calc(100vh - 6rem));
+  display: none; flex-direction: column; background: #fff; border: 1px solid var(--line); border-radius: 18px; overflow: hidden;
+  box-shadow: 0 18px 50px rgba(20, 43, 51, 0.28); }
+.chat-dock.open { display: flex; animation: dock-in 0.18s ease-out; }
+@keyframes dock-in { from { opacity: 0; transform: translateY(12px) scale(0.98); } to { opacity: 1; transform: none; } }
+.dock-head { display: flex; justify-content: space-between; align-items: center; gap: 0.6rem; padding: 0.7rem 0.9rem; background: #0f3d4c; color: #fff; }
+.dock-head strong { display: block; font-size: 0.98rem; }
+.dock-sub { display: block; font-size: 0.72rem; opacity: 0.8; }
+.dock-min { border: none; background: rgba(255, 255, 255, 0.14); color: #fff; width: 2rem; height: 2rem; border-radius: 50%; font-size: 1.2rem;
+  line-height: 1; cursor: pointer; }
+.dock-min:hover { background: rgba(255, 255, 255, 0.26); }
+.dock-body { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 0.6rem 0.8rem 0.7rem; }
+.chat.docked { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.chat.docked .chat-log { flex: 1; max-height: none; margin: 0.4rem 0 0.6rem; }
+.chat-intro { margin: 0 0 0.3rem; }
+.chat.docked .starters { display: flex; flex-direction: column; gap: 0.4rem; }
+.chat.docked .msg-user .msg-bubble { max-width: 85%; }
+.chat.docked .chat-foot { font-size: 0.7rem; }
+@media (max-width: 640px) {
+  .chat-dock { right: 0; bottom: 0; width: 100vw; height: 100dvh; border-radius: 0; }
+  .chat-fab { right: 1rem; bottom: 1rem; }
+  .fab-text { display: none; }
+}
+@media print { .chat-fab, .chat-dock { display: none !important; } }

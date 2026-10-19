@@ -33,7 +33,7 @@ LEDGER_DIR = Path(os.environ.get("CC_BUDGET_DIR") or config.REPO_ROOT / "storage
 
 # Worst-case cost of a step, used to decide whether to start it. Rounds run their agents in
 # parallel, so they reserve per agent: a round only starts if all of its agents fit.
-RESERVE_USD = {"round1": 0.0025, "round2": 0.0012, "skeptic": 0.0015, "round3": 0.0008, "lifestyle": 0.0015,
+RESERVE_USD = {"round1": 0.0025, "round2": 0.0012, "challenge": 0.0015, "round3": 0.0008, "lifestyle": 0.0015,
                "consult": 0.003, "coordinator": 0.005, "safety": 0.002}
 PER_AGENT = {"round1", "round2", "round3"}
 

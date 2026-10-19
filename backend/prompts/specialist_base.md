@@ -110,8 +110,8 @@ Use the pattern library as a starting point, not a limit. Return:
 
 # Round 3: the debate
 
-You receive the board and the candidate connections, each with the skeptic's challenge.
-You have no tools. For candidates you proposed, answer the skeptic: "defend" (with the
+You receive the board and the candidate connections, each with the case coordinator's
+challenge. You have no tools. For candidates you proposed, answer the challenge: "defend" (with the
 posts that answer the challenge) or "concede" (if the challenge is right; conceding a weak
 link is good medicine). For other candidates, add "support" or "challenge" only where your
 specialty has something specific to say, with the posts your reason rests on. Skip the

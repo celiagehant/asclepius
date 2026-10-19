@@ -7,7 +7,7 @@ type Ev = Record<string, any> & { seq: number; type: string; t: number };
 const EVENT_TYPES = ["run_started", "document_routed", "panel_selected", "specialist_started", "tool_call", "specialist_done",
   "conference_round", "comment", "coordinator_thinking", "safety_check", "spend", "final", "error",
   "board_post", "board_ready", "connection", "challenge", "stance", "explanations"];
-const STAGES = ["Reading records", "Round 1: independent reviews", "Round 2: case conference", "Coordinator", "Safety review", "Done"];
+const STAGES = ["Reading records", "Round 1: individual review", "Round 2: joint review", "Round 3: challenge", "Round 4: recommendations", "Safety review", "Done"];
 const TOOL_NAMES: Record<string, string> = { search_pubmed: "PubMed", search_medlineplus: "MedlinePlus", fda_label_search: "FDA label" };
 
 function stageOf(events: Ev[]): number {
@@ -15,9 +15,10 @@ function stageOf(events: Ev[]): number {
   for (const e of events) {
     if (e.type === "conference_round" && e.round === 1) s = Math.max(s, 1);
     if (e.type === "conference_round" && e.round === 2) s = Math.max(s, 2);
-    if (e.type === "coordinator_thinking" && e.stage === "synthesis") s = Math.max(s, 3);
-    if (e.type === "safety_check") s = Math.max(s, 4);
-    if (e.type === "final") s = 5;
+    if (e.type === "conference_round" && e.round === 3) s = Math.max(s, 3);
+    if (e.type === "coordinator_thinking" && e.stage === "synthesis") s = Math.max(s, 4);
+    if (e.type === "safety_check") s = Math.max(s, 5);
+    if (e.type === "final") s = 6;
   }
   return s;
 }
@@ -88,8 +89,7 @@ export function PanelActivity({ events, live, waiting, compact }: { events: Ev[]
           ))}
         </div>
         <div className="spend-line muted small">
-          {view.spend ? <>Spent so far: <strong>${view.spend.total_usd.toFixed(4)}</strong> · {(view.spend.input_tokens + view.spend.output_tokens).toLocaleString()} tokens</> : "Starting…"}
-          {view.final && <> · finished in {view.final.seconds}s · {view.final.status}</>}
+          {view.final ? <>Finished in {view.final.seconds}s · {view.final.status}</> : view.panel ? "The panel is working…" : "Starting…"}
           {waiting && " · preparing the summary…"}
         </div>
       </section>

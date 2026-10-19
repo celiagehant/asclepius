@@ -13,7 +13,7 @@ const OUTER = { rx: 47, ry: 64, from: 172, to: 8 };
 const INNER_LOW = { rx: 35, ry: 40, from: 160, to: 20 };
 const INNER_HIGH = { rx: 44, ry: 56, from: 166, to: 14 };
 // The two members who sit at every table take the seats beside the coordinator, at the head of the table.
-const HEAD_SEATS: Record<string, { x: number; y: number }> = { lifestyle: { x: 18, y: 89 }, skeptic: { x: 82, y: 89 } };
+const HEAD_SEATS: Record<string, { x: number; y: number }> = { lifestyle: { x: 18, y: 89 } };
 const CROWDED = 6;  // from this many arc cards on, the stage beside the case board is too narrow for one row
 const ringFor = (i: number, n: number) => (n >= CROWDED ? (i % 2 ? INNER_HIGH : INNER_LOW) : INNER);
 const STAGE_ASPECT = 680 / 1080; // stage height / typical width, to measure arc length in real proportions
@@ -132,6 +132,8 @@ export default function PanelTable({ events, roster, patientName, live, medicati
   pos[state.coordinatorId] = { x: 50, y: 90 };
   for (const r of head) pos[r.id] = HEAD_SEATS[r.id];
   const focus = new Set(focusMembers ?? []);
+  const bubbleSeq = ["round1", "round2", "round3"].includes(state.stage) ? state.lastSeq : -1;
+  const coordBubble = state.coordinator.bubble && bubbleSeq - state.coordinator.bubble.seq <= BUBBLE_WINDOW ? state.coordinator.bubble : null;
   const board = state.board.length ? state.board : (replaying ? [] : boardFallback ?? []);
 
   return (
@@ -152,24 +154,25 @@ export default function PanelTable({ events, roster, patientName, live, medicati
         <div className="table-top" aria-hidden>
           <span className="table-label">{patientName}'s case</span>
           <span className="table-stage">{STAGE_LABEL[state.stage]}</span>
-          <SpendMeter spend={state.spend} />
         </div>
 
         {inner.map((r, i) => (
-          <DoctorCard key={r.id} entry={r} pos={arc(i, inner.length, ringFor(i, inner.length))} state={state.members[r.id]} cost={state.spend.byMember[r.id]}
+          <DoctorCard key={r.id} entry={r} pos={arc(i, inner.length, ringFor(i, inner.length))} state={state.members[r.id]}
             lastSeq={["round1", "round2", "round3"].includes(state.stage) ? state.lastSeq : Infinity} focused={focus.has(r.id)}
             active={state.selected} consult={state.consults.has(r.id)} medications={r.id === "clinical_pharmacist" ? medications : null} />
         ))}
         {head.map((r) => (
           <DoctorCard key={r.id} entry={r} pos={{ left: `${HEAD_SEATS[r.id].x}%`, top: `${HEAD_SEATS[r.id].y}%` }} state={state.members[r.id]}
-            cost={state.spend.byMember[r.id]} lastSeq={["round1", "round2", "round3"].includes(state.stage) ? state.lastSeq : Infinity}
+            lastSeq={["round1", "round2", "round3"].includes(state.stage) ? state.lastSeq : Infinity}
             focused={focus.has(r.id)} active={state.selected} dim={!forward.includes(r.id)} />
         ))}
         {outer.map((r, i) => (
           <DoctorCard key={r.id} entry={r} pos={arc(i, outer.length, OUTER)} state={state.members[r.id]} lastSeq={state.lastSeq} dim />
         ))}
 
-        <div className={`doctor coordinator ${state.coordinator.done ? "is-done" : ""}`} style={{ left: "50%", top: "90%", ["--c" as string]: colorOf(coordinator.id) }}>
+        <div className={`doctor coordinator ${state.coordinator.done ? "is-done" : ""} ${coordBubble ? "has-bubble" : ""} ${focus.has(coordinator.id) ? "is-focus" : ""}`}
+          style={{ left: "50%", top: "90%", ["--c" as string]: colorOf(coordinator.id) }}>
+          {coordBubble && <div className={`bubble bubble-${coordBubble.kind}`}><span className="bubble-kind">{coordBubble.kind === "agrees" ? "keeps" : "challenges"}</span> {coordBubble.text}</div>}
           <div className="doctor-row">
             <span className="avatar">{SPECIALTY_ICONS[coordinator.id] ?? "⚕"}</span>
             <div>
@@ -180,13 +183,6 @@ export default function PanelTable({ events, roster, patientName, live, medicati
           </div>
           <div className="activity-line">{state.coordinator.activity}</div>
           {state.coordinator.safety && <div className="safety-line">🛡 {state.coordinator.safety}</div>}
-          {state.spend.total > 0 && (
-            <div className="cost-row">
-              {(["coordinator", "safety_reviewer", "intake"] as const).filter((k) => state.spend.byMember[k]).map((k) => (
-                <span key={k} className="cost-chip">{{ coordinator: "coordinator", safety_reviewer: "safety", intake: "intake" }[k]} ${state.spend.byMember[k].toFixed(4)}</span>
-              ))}
-            </div>
-          )}
         </div>
       </div>
       <CaseBoard posts={board} roster={roster} focusRefs={focusRefs ?? []} onFocusPost={onFocusPost} live={live || replaying} />
@@ -197,24 +193,13 @@ export default function PanelTable({ events, roster, patientName, live, medicati
 
 const STAGE_LABEL: Record<string, string> = {
   intake: "Reading and routing records", round1: "Round 1 · independent reviews", round2: "Round 2 · connections",
-  round3: "Round 3 · debate with the skeptic", synthesis: "Round 4 · recommendations", safety: "Safety review", done: "Conference closed",
+  round3: "Round 3 · the coordinator challenges", synthesis: "Round 4 · recommendations", safety: "Safety review", done: "Conference closed",
 };
 
-function SpendMeter({ spend }: { spend: { total: number; limit: number | null } }) {
-  if (spend.total <= 0) return null;
-  const pct = spend.limit ? Math.min(100, (spend.total / spend.limit) * 100) : 0;
-  return (
-    <span className="spend-meter" title="Live cost of this review (gpt-6-luna prices per million tokens)">
-      <span className="spend-num">${spend.total.toFixed(4)}</span>
-      {spend.limit && <span className="spend-bar"><i style={{ width: `${pct}%` }} /></span>}
-      {spend.limit && <span className="spend-limit">of ${spend.limit.toFixed(2)} budget</span>}
-    </span>
-  );
-}
 
-function DoctorCard({ entry, pos, state, lastSeq, dim, active, consult, medications, cost, focused }: {
+function DoctorCard({ entry, pos, state, lastSeq, dim, active, consult, medications, focused }: {
   entry: RosterEntry; pos: { left: string; top: string }; state?: MemberState; lastSeq: number;
-  dim?: boolean; active?: boolean; consult?: boolean; medications?: number | null; cost?: number; focused?: boolean;
+  dim?: boolean; active?: boolean; consult?: boolean; medications?: number | null; focused?: boolean;
 }) {
   const s = state ?? { status: "idle", activity: "", docs: [], round2: "none" as const };
   const lit = s.status === "lit";
@@ -241,7 +226,6 @@ function DoctorCard({ entry, pos, state, lastSeq, dim, active, consult, medicati
           <div className="activity-line">{s.activity || (active ? "Waiting to start" : lit ? `Reviewing ${s.docs.join(", ")}` : "")}</div>
           {s.round2 !== "none" && <div className="round2-line">Round 2: {s.round2 === "done" ? "done" : "discussing…"}</div>}
           {s.roundLine && s.roundLine !== s.activity && <div className="round2-line">{s.roundLine}</div>}
-          {cost !== undefined && cost > 0 && <div className="cost-chip card-cost">${cost.toFixed(4)}</div>}
         </>
       )}
     </div>

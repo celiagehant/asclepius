@@ -1,5 +1,5 @@
 """The case conference: specialists, pharmacist, lifestyle agent, a shared case board,
-four rounds (independent review, connections, debate with a skeptic, recommendations), an
+four rounds (independent review, connections, a debate led by the coordinator, recommendations), an
 optional consult, the coordinator and the safety reviewer.
 
 Flow for one case run:
@@ -9,7 +9,7 @@ Flow for one case run:
          -> optional consult (one extra specialist, only if the cap allows; joins the board)
          -> round 2: connection round (members with abnormal posts read the whole board and
             propose up to 2 connections each; code merges them into candidates)
-         -> round 3: debate (the skeptic challenges every candidate, the involved members
+         -> round 3: debate (the coordinator challenges every candidate, the involved members
             defend, concede, support or challenge; code scores them) -> HARD STOP
             (the lifestyle agent writes self-care steps in parallel with round 3)
          -> round 4: recommendations (coordinator) -> safety review (model + code) -> final
@@ -48,7 +48,7 @@ from .registry import BY_ID, MAX_ACTIVE_SPECIALISTS, PANEL_IDS, PHARMACIST_ID
 from .schemas import (
     REGION_LABELS, CaseSummaryOutput, ConsultDecisionOutput, DocumentRecord, IntakeResult, Modes,
     ConnectionRoundOutput, LifestyleBoardOutput, LifestyleStepsOutput, PanelResponseOutput, PharmacistReportOutput,
-    Questionnaire, SafetyReviewOutput, SkepticOutput, SpecialistReportOutput,
+    ChallengeOutput, Questionnaire, SafetyReviewOutput, SpecialistReportOutput,
 )
 
 HERE = Path(__file__).resolve().parent
@@ -59,7 +59,6 @@ SPECIALIST_PROMPT_RAW = (PROMPTS / "specialist_base.md").read_text()
 PHARMACIST_PROMPT_RAW = (PROMPTS / "pharmacist.md").read_text()
 COORDINATOR_PROMPT_RAW = (PROMPTS / "coordinator.md").read_text()
 SAFETY_PROMPT_RAW = (PROMPTS / "safety.md").read_text()
-SKEPTIC_PROMPT_RAW = (PROMPTS / "skeptic.md").read_text()
 LIFESTYLE_PROMPT_RAW = (PROMPTS / "lifestyle.md").read_text()
 LIFESTYLE_ID = "lifestyle"
 LIFESTYLE_NAME = "Lifestyle & prevention"
@@ -72,7 +71,7 @@ LIFESTYLE_TOOLS = {"search_medlineplus"}
 TOOL_CAP = {"specialist": 2, "consult": 2, "pharmacist": 6, "lifestyle": 3}
 MAX_PANEL_QUESTIONS = 2   # questions one specialist may put to other panel specialists
 AGENT_TIMEOUT_S = 180
-MAX_TOKENS = {"specialist": 3500, "pharmacist": 4000, "round2": 2000, "skeptic": 3000, "round3": 1500,
+MAX_TOKENS = {"specialist": 3500, "pharmacist": 4000, "round2": 2000, "challenge": 3000, "round3": 1500,
               "lifestyle_board": 800, "lifestyle": 3000,
               "consult_decision": 600, "coordinator": 7000, "safety": 3000}
 KEY_LAB_WORDS = ("creatinine", "egfr", "gfr", "potassium", "inr", "alt", "ast", "hemoglobin", "platelet",
@@ -977,38 +976,43 @@ async def _run_case(
 
             async def run_debate() -> None:
                 nonlocal debate, stop_reason
-                # round 3: debate (the skeptic challenges, the involved members answer) ----
-                if candidates and budget.can_start("skeptic"):
-                    events.emit("conference_round", round=3, status="started", name="debate", candidates=len(candidates))
-                    skeptic_agent = Agent(m, instructions=library + defenses.prompt_text(SKEPTIC_PROMPT_RAW),
-                                          output_type=NativeOutput(SkepticOutput), toolsets=[traps.trap_toolset()], retries=1)
+                # round 3: debate (the coordinator challenges, the involved members answer) ----
+                # The coordinator leads the conference, so it is also the challenger. It reads agent
+                # outputs only (no patient text), so like rounds 2-3 it holds the harmless trap tools.
+                chair = modes.coordinator
+                if candidates and budget.can_start("challenge"):
+                    events.emit("conference_round", round=3, status="started", name="debate", candidates=len(candidates),
+                                challenger=chair)
+                    challenge_agent = Agent(m, instructions=library + defenses.prompt_text(COORDINATOR_PROMPT_RAW),
+                                            output_type=NativeOutput(ChallengeOutput), toolsets=[traps.trap_toolset()], retries=1)
                     prompt = "\n\n".join([
-                        board_block, f"<mode>\n{m_text}\n</mode>", conference.render_candidates(candidates),
+                        board_block, f"<profile>\n{profile(chair)}\n</profile>", f"<mode>\n{m_text}\n</mode>",
+                        conference.render_candidates(candidates),
                         f"<pharmacist>\n{compact_pharmacist(pharm) if pharm else '(no medication review)'}\n</pharmacist>",
-                        "Task: challenge every candidate.",
+                        "Task C: challenge every candidate.",
                     ])
-                    sk, err = await _run_logged(events, skeptic_agent, prompt, meter=meter, agent_id="r3.skeptic",
-                                                agent_kind="skeptic", specialty=None, round_=3, inputs=["case board", "candidates"],
-                                                max_tokens=MAX_TOKENS["skeptic"], request_limit=2, attempts=2)
+                    sk, err = await _run_logged(events, challenge_agent, prompt, meter=meter, agent_id="coordinator.challenge",
+                                                agent_kind="coordinator", specialty=chair, round_=3, inputs=["case board", "candidates"],
+                                                max_tokens=MAX_TOKENS["challenge"], request_limit=2, attempts=2)
                     challenges: dict[str, dict] = {}
                     if sk is not None:
-                        challenges, alternative, sk_dropped = conference.validate_skeptic(sk, candidates, posts)
+                        challenges, alternative, sk_dropped = conference.validate_challenge(sk, candidates, posts, chair)
                         if alternative and len(candidates) < conference.MAX_CANDIDATES + 1:
                             alt = conference.merge_candidates([alternative], posts)[0]
                             alt["id"] = f"C{len(candidates) + 1}"
                             candidates.append(alt)
-                            challenges[alt["id"]] = {"verdict": "keep", "reason": "Proposed by the skeptic as a simpler or overlooked link.",
+                            challenges[alt["id"]] = {"verdict": "keep", "reason": "Proposed by the coordinator as a simpler or overlooked link.",
                                                      "simpler_explanations": [], "unsupported_refs": [], "missing": []}
-                        events.agent_finished("r3.skeptic", "completed", "completed",
+                        events.agent_finished("coordinator.challenge", "completed", "completed",
                                               ", ".join(f"{k}: {v['verdict']}" for k, v in challenges.items()) or "no challenges",
                                               {"dropped": sk_dropped})
                         for c_ in candidates:
                             ch = challenges.get(c_["id"])
-                            if ch and c_["proposers"] != ["skeptic"]:
-                                events.emit("challenge", round=3, from_="skeptic", candidate=c_["id"], verdict=ch["verdict"],
+                            if ch and c_["proposers"] != [chair]:
+                                events.emit("challenge", round=3, from_=chair, candidate=c_["id"], verdict=ch["verdict"],
                                             to=sorted(set(c_["proposers"]) | set(c_["posters"])), text=ch["reason"])
                         if alternative:
-                            events.emit("connection", round=3, from_="skeptic", title=candidates[-1]["title"], refs=candidates[-1]["refs"],
+                            events.emit("connection", round=3, from_=chair, title=candidates[-1]["title"], refs=candidates[-1]["refs"],
                                         members=candidates[-1]["posters"], pattern_id=candidates[-1]["pattern_id"])
                     involved = [s_ for s_ in own_text if any(s_ in c_["proposers"] or s_ in c_["posters"] for c_ in candidates)]
                     stances: list[dict] = []
@@ -1029,7 +1033,7 @@ async def _run_case(
                             ])
                             out, err = await _run_logged(events, round3_agent, prompt, meter=meter, agent_id=agent_id,
                                                          agent_kind="specialist", specialty=spec, round_=3,
-                                                         inputs=["case board", "candidates with the skeptic's challenges"],
+                                                         inputs=["case board", "candidates with the coordinator's challenges"],
                                                          max_tokens=MAX_TOKENS["round3"], request_limit=2, attempts=2)
                             if out is None:
                                 return

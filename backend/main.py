@@ -77,14 +77,12 @@ def _read_profile(case_dir) -> dict:
 
 @app.get("/api/roster")
 def roster() -> list[dict]:
-    """The full panel roster (from backend/registry.py), for the panel view, plus the two
-    agents that sit at every table: the lifestyle agent and the skeptic."""
+    """The full panel roster (from backend/registry.py), for the panel view, plus the lifestyle agent,
+    which sits at every table."""
     from .registry import ROSTER
     return [{"id": s.id, "name": s.name, "tier": s.tier, "scope": s.scope} for s in ROSTER] + [
         {"id": "lifestyle", "name": "Lifestyle & prevention", "tier": "always",
          "scope": "Always on: lifestyle facts for the case board and safe self-care steps with sources."},
-        {"id": "skeptic", "name": "Skeptic", "tier": "always",
-         "scope": "Challenges every proposed explanation with simpler ones in the debate round."},
     ]
 
 

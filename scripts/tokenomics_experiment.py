@@ -134,8 +134,9 @@ async def judge(summary: dict | None, expected: dict, meter: llm.UsageMeter) -> 
 # ---- runs ---------------------------------------------------------------------------------
 
 def round2_usage(usage: dict) -> dict:
-    """The conference itself: rounds 2 and 3 (connections, skeptic, panel response)."""
-    calls = [c for c in usage["calls"] if c["agent"] in ("specialist_r2", "specialist_r3", "skeptic") and not c["from_cache"]]
+    """The conference itself: rounds 2 and 3 (connections, the coordinator's challenge, panel response)."""
+    calls = [c for c in usage["calls"] if (c["agent"] in ("specialist_r2", "specialist_r3") or c["label"].startswith("coordinator.challenge"))
+             and not c["from_cache"]]
     return {"calls": len(calls), "input_tokens": sum(c["input_tokens"] for c in calls),
             "output_tokens": sum(c["output_tokens"] for c in calls), "cost_usd": round(sum(c["cost_usd"] for c in calls), 6)}
 

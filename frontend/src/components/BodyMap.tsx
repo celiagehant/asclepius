@@ -68,8 +68,7 @@ export default function BodyMap({ regions, waiting, force2d, focusRegions, focus
           ) : waiting ? (
             <div className="holo-hint">The body lights up when the coordinator finishes the summary.</div>
           ) : (
-            <div className="holo-hint">{touch ? (use3d ? "Drag to rotate · pinch to zoom · tap a glowing area" : "Tap a highlighted area")
-              : (use3d ? "Drag to rotate · scroll to zoom · hover a glowing area" : "Hover a highlighted area")}</div>
+            <div className="holo-hint">{touch ? "Tap a glowing area to see what the panel found" : "Hover or click a glowing area to see what the panel found"}</div>
           )}
         </div>
       {sorted.length > 0 && (

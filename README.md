@@ -8,8 +8,8 @@ see several specialists who never talk to each other. The app **does not diagnos
 not prescribe**. Every agent is an AI specialist agent, never a real or licensed physician.
 
 > **Status: panel upgrade (four-round conference).** The specialists now work as a team:
-> a shared case board, a pattern library, a connection round, a debate with a skeptic, a
-> lifestyle and prevention agent, and a summary that leads with possible-explanation
+> a shared case board, a pattern library, a connection round, a debate in which the case
+> coordinator challenges every proposed explanation, a lifestyle and prevention agent, and a summary that leads with possible-explanation
 > cards (never a diagnosis). Earlier phases built the safety tests, tokenomics, chat, the
 > panel view, the 3D body, accounts and the questionnaire.
 
@@ -136,7 +136,7 @@ The run prints every live event as it happens:
 - documents routed
 - specialists started and finished
 - each tool call to PubMed, MedlinePlus or openFDA
-- every case-board post, proposed connection, skeptic challenge and debate stance
+- every case-board post, proposed connection, coordinator challenge and debate stance
 - the coordinator and the safety checks
 - spend after every model call
 
@@ -239,13 +239,16 @@ The case page is laid out top to bottom:
   - The pharmacist card shows a pill icon and the number of medications under review.
   - Finished cases can **Replay the conference** from the saved event log.
 - **Body map and summary, side by side:**
-  - The 3D hologram body is built from simple shapes with React Three Fiber (no
-    downloaded model): translucent cyan, slow rotation, drag to orbit and scroll to zoom.
+  - The 3D body is a translucent human figure drawn in code with React Three Fiber (no
+    downloaded model), seen from the front and standing still: no rotation, no dragging.
   - Each of the 16 regions glows by severity (urgent, discuss, watch). Hovering or tapping
     shows the reason and which specialists flagged it.
   - Without WebGL, a 2D SVG body with the same regions is shown instead.
-- **Chat** goes below the summary (Phase 6, below).
-- **Details** come last: specialist reports, the full conference log, and cost.
+- **Chat** is a floating window: a button in the bottom-right corner opens it, and it stays
+  on screen while you scroll the case (Phase 6, below).
+- **Details** come last: specialist reports, the full conference log, and **How the
+  conference ran**: the four rounds in order, who took part, what came out of each and
+  its tokens and cost, then the totals. Costs appear only there, never on the panel.
 
 See [docs/design_note.md](docs/design_note.md) for the palette and layout choices, and
 [docs/screenshots/](docs/screenshots) for the panel at each stage, the body (3D, 2D and
@@ -318,12 +321,12 @@ the rest (`backend/llm.py: cost_usd`).
   by "Delete all my data". Command-line runs append to `output/usage/usage_log.jsonl`.
 
 **In the app:**
-- **Panel:** each doctor card shows its own live cost. The table shows the total against
-  the run budget. The coordinator card breaks out coordinator, safety and intake.
+- **How the conference ran** (bottom of the case page): tokens and cost for each of the
+  four rounds, plus reading the records and the safety review, then the totals. The panel
+  itself shows no costs while the conference runs.
 - **Run details panel:** every panel run and chat question, with input, cached,
   cache-write and output tokens, cost and latency per agent, the cache hit rate, and every
   individual call.
-- **Chat messages:** each answer shows its cost.
 
 **Budgets (enforced in code):**
 - **Per agent:** output caps (`max_tokens`), request limits and tool-call caps.
@@ -380,8 +383,9 @@ Each question goes through these steps:
 2. **Routing.** The coordinator picks the one or two most relevant panel members, and the
    pharmacist for medicine questions. Code makes sure only this case's panel can answer,
    never more than two members. **Connection questions** ("why are my acne and my weight
-   related?") go to the specialists who posted those findings on the case board plus the
-   skeptic, who adds what else could explain the link. Code checks whether an explanation
+   related?") go to the specialists who posted those findings on the case board, and the
+   coordinator (who challenged every explanation in the debate) adds what else could
+   explain the link in its wrap-up. Code checks whether an explanation
    card really links the two things. If none does, the panel says it found no link
    instead of inventing one (about $0.0013–0.0025 per question).
 3. **Answers.** The chosen specialists answer in their own voice, in parallel. Each uses
@@ -468,7 +472,7 @@ intake ─► ROUND 1 · independent review (parallel)
           · every member with an abnormal post reads the whole board + the pattern library and
             proposes up to 2 connections across body systems; code merges them into candidates
         ─► ROUND 3 · debate (no tools) ─► HARD STOP
-          · the skeptic challenges every candidate (keep / weaken / drop, simpler explanations)
+          · the coordinator challenges every candidate (keep / weaken / drop, simpler explanations)
           · the involved members defend, concede, support or challenge; code scores the result
           · in parallel: the lifestyle agent writes self-care steps (MedlinePlus only)
         ─► ROUND 4 · recommendations: coordinator (internal medicine or pediatrics)
@@ -493,8 +497,9 @@ intake ─► ROUND 1 · independent review (parallel)
   - **Merging:** cards naming the same library pattern merge; different library patterns
     never do.
   - **Strength:** stronger, possible or weaker match comes from arithmetic on the debate
-    (proposers, supports, challenges, the skeptic's verdict), never from a model and never
-    as a percentage. A skeptic "drop" that the proposer concedes removes the card.
+    (proposers, supports, challenges, the coordinator's verdict), never from a model and
+    never as a percentage. A "drop" from the coordinator that the proposer concedes removes
+    the card.
   - **Shortlist:** the top 3 surviving candidates go to the coordinator, and the list is
     never padded.
 - **Explanation cards.** The coordinator writes the patient-facing wording for each top

@@ -166,5 +166,5 @@ def index(posts: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
 
 
 def member_name(member: str) -> str:
-    extra = {"intake": "Intake", "lifestyle": "Lifestyle & prevention", "skeptic": "Skeptic"}
+    extra = {"intake": "Intake", "lifestyle": "Lifestyle & prevention"}
     return extra.get(member) or (BY_ID[member].name if member in BY_ID else member)

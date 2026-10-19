@@ -75,25 +75,27 @@ get a stable color generated from their id.
 
 ## The 3D body
 
-- **Built only from primitives** (spheres, capsules, tori, tubes) with React Three Fiber.
-  No downloaded model, so nothing is licensed and nothing extra is fetched.
+- **A human figure built in code** with React Three Fiber: the torso is a lathe of a human
+  side profile (shoulders, chest, waist, hips), arms and legs are tapered limbs with
+  elbows, knees, hands and feet. No downloaded model, so nothing is licensed and nothing
+  extra is fetched.
 - **The hologram look:**
-  - a translucent shell drawn twice: a faint fill plus a slightly brighter wireframe
+  - a faint cyan fill plus a sparse wireframe outline, so flagged organs stand out
   - additive blending
-  - a rotating floor ring
+  - a still floor ring
   - faint scanlines on the panel background
 - **The 16 regions** come from the coordinator's fixed list:
   - brain, eyes, ear-nose-throat, thyroid, heart, lungs, stomach, liver, intestines,
     kidneys, bladder and prostate, reproductive organs
   - blood: vessel tubes along the trunk and limbs
   - bones and joints: glowing joint spheres
-  - skin: the whole shell changes color
+  - skin: a faint tint of the whole figure (never a solid color that hides the organs)
   - mind: a halo above the head
 - **Region states:** unflagged regions stay faint cyan, and flagged ones glow in their
   severity color.
 - **Interaction:**
-  - Slow auto-rotation stops while the user hovers.
-  - Drag to orbit and scroll to zoom. Pan is disabled so the body can't be lost.
+  - The body stands still in a fixed front view: no rotation, no dragging, no zoom. Only an
+    urgent region, or one linked to the selected explanation card, pulses gently.
   - The shell ignores the pointer, so hover reaches the organs inside it.
   - Hovering shows the region, its severity, the coordinator's reason and which
     specialists flagged it. The legend chips below work the same way and are reachable by
@@ -102,8 +104,8 @@ get a stable color generated from their id.
   body with the same regions, colors and hover card is shown.
 - **Loading:** the three.js code is loaded only when a body is on screen, so the rest of
   the app stays light (about 290 KB instead of about 1.2 MB).
-- **Reduced motion:** with `prefers-reduced-motion`, rotation, pulsing, card glides and
-  bubble animations are all turned off.
+- **Reduced motion:** with `prefers-reduced-motion`, pulsing, card glides and bubble
+  animations are all turned off.
 
 ## Typography and tone
 

@@ -206,8 +206,8 @@ function ExplanationCard({ card, rank, names, active, faded, onFocus, onRef }: {
         <span className="ex-who">{card.specialists.map((m: Result) => <span key={m.id} className="who-chip" style={{ ["--c" as string]: colorOf(m.id) }}>{names[m.id] ?? m.name}</span>)}</span>
         {card.pattern && <a href={card.pattern.source} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>Learn about this pattern (MedlinePlus)</a>}
       </div>
-      {card.debate?.skeptic_verdict && (
-        <p className="ex-debate muted small">Debate: the skeptic said <em>{card.debate.skeptic_verdict}</em>
+      {(card.debate?.challenge_verdict ?? card.debate?.skeptic_verdict) && (
+        <p className="ex-debate muted small">Debate: the coordinator's challenge said <em>{card.debate.challenge_verdict ?? card.debate.skeptic_verdict}</em>
           {card.debate.supports ? ` · ${card.debate.supports} support` : ""}{card.debate.challenges ? ` · ${card.debate.challenges} challenge` : ""}
           {card.debate.conceded_by?.length ? ` · conceded by ${card.debate.conceded_by.length}` : ""}</p>
       )}
@@ -259,7 +259,7 @@ export function RunMeta({ result }: { result: Result }) {
       <div>
         <strong>How this summary was made.</strong> {Object.keys(result.specialists ?? {}).length} AI specialist agents
         {result.pharmacist ? " and a clinical pharmacist agent" : ""} reviewed the records and posted their findings on a shared case board;
-        they proposed connections, a skeptic challenged them in a debate, a lifestyle agent suggested safe self-care steps, and a
+        they proposed connections, the coordinator challenged them in a debate, a lifestyle agent suggested safe self-care steps, and a
         coordinator wrote this summary, which a safety reviewer then checked. Model calls: {result.usage?.totals?.model_calls} · cost $
         {result.usage?.totals?.cost_usd?.toFixed(4)} · {result.seconds}s.
       </div>
