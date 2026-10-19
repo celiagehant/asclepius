@@ -127,7 +127,10 @@ if (config.FRONTEND_DIST / "index.html").is_file():
         candidate = (config.FRONTEND_DIST / path).resolve()
         if path and candidate.is_file() and config.FRONTEND_DIST in candidate.parents:
             return FileResponse(candidate)
-        return FileResponse(config.FRONTEND_DIST / "index.html")
+        # The page itself must never be reused from the browser's cache: after an update it points
+        # to new script files (their names change with every build), so an old copy would keep
+        # showing the old app. The script files under /assets can be cached; their names are unique.
+        return FileResponse(config.FRONTEND_DIST / "index.html", headers={"Cache-Control": "no-cache, must-revalidate"})
 
 else:
 
