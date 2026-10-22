@@ -716,3 +716,12 @@ h2 { font-weight: 600; color: var(--brand); }
 .on-call-chip .avatar { width: 1.2rem; height: 1.2rem; font-size: 0.62rem; background: color-mix(in srgb, var(--c) 55%, #c9d3df); }
 .room3d .thread-connection { stroke: #2f7de1; }
 @media (prefers-reduced-motion: reduce) { .room-bubble { animation: none; } }
+
+/* ---- chat: one answer from the coordinator ---- */
+.msg-panel.single { gap: 0.35rem; }
+.msg-panel.single .answer.wrap { margin-top: 0; background: #f4f8fe; }
+.consulted { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem; padding: 0 0.2rem; }
+.consulted-chip { display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.72rem; background: #fff; border: 1px solid var(--line);
+  border-radius: 999px; padding: 0.05rem 0.45rem 0.05rem 0.12rem; color: var(--ink); }
+.consulted-chip .avatar { width: 1.15rem; height: 1.15rem; font-size: 0.6rem; }
+.reviewed-inline { margin-left: auto; color: var(--muted); font-size: 0.7rem; }

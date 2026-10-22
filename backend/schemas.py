@@ -611,4 +611,5 @@ class ChatAnswerOutput(BaseModel):
 
 
 class ChatWrapUpOutput(BaseModel):
-    wrap_up: str = Field(description="1-3 sentences (up to 4 for a connection question).")
+    wrap_up: str = Field(description="The single answer the patient sees: 2-5 short sentences, at most about 90 words.")
+    ask_your_doctor: str | None = Field(description="One specific question the patient could bring to their own doctor, or null.")

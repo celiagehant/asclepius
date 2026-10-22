@@ -44,7 +44,9 @@ export interface ChatAnswer { specialty: string; name: string; text: string; fin
 export interface ChatMessage { id: number; role: "user" | "panel" | "safety"; content: string; created_at?: string;
   meta: { answers?: ChatAnswer[]; wrap_up?: string; routed?: string[]; emergency?: Emergency | null;
           safety?: { edits: unknown[]; blocked: unknown[] }; usage?: { cost_usd: number };
-          connection?: { topic_a: string; topic_b: string; status: "linked" | "both_on_board_no_card" | "not_on_board"; cards: string[] } | null } }
+          connection?: { topic_a: string; topic_b: string; status: "linked" | "both_on_board_no_card" | "not_on_board"; cards: string[] } | null;
+          style?: "coordinator" | "panel"; ask_your_doctor?: string | null; sources?: { title: string; url: string }[];
+          consulted?: { id: string; name: string }[] } }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ChatEvent = Record<string, any> & { type: string };
 

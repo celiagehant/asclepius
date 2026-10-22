@@ -49,8 +49,8 @@ export default function ChatPanel({ caseId, roster, coordinatorId, onOverlay, on
     try {
       await api.askChat(caseId, question, (e: ChatEvent) => {
         if (e.type === "chat_routed") {
-          setStatus(`${e.names.join(" and ")} ${e.names.length > 1 ? "are" : "is"} answering…`);
-          lit.coordinator = `Asked ${e.names.map(shortName).join(" and ")} to answer`;
+          setStatus(`Consulting ${e.names.map(shortName).join(" and ")}…`);
+          lit.coordinator = `Consulting ${e.names.map(shortName).join(" and ")}`;
         } else if (e.type === "specialist_started") {
           lit.members[e.specialty] = { status: "working" };
           setAnswering((a) => ({ ...a, [e.specialty]: "working" }));
@@ -61,17 +61,19 @@ export default function ChatPanel({ caseId, roster, coordinatorId, onOverlay, on
           lit.members[e.specialty] = { status: "failed" };
           setAnswering((a) => ({ ...a, [e.specialty]: "failed" }));
         } else if (e.type === "coordinator_thinking" && e.stage === "wrap_up") {
-          setStatus("The coordinator is writing a short wrap-up…");
-          lit.coordinator = "Writing a wrap-up";
+          setStatus("The coordinator is writing your answer…");
+          lit.coordinator = "Writing your answer";
         } else if (e.type === "safety_check" && e.stage === "started") {
-          setStatus("The safety reviewer is checking every answer…");
+          setStatus("The safety reviewer is checking the answer…");
           lit.coordinator = "Safety reviewer checking the answers";
         } else if (e.type === "final") {
           if (e.message) {
             const msg = e.message as ChatMessage;
             setMessages((m) => [...m, msg]);
             onAnswer?.();
-            for (const a of msg.meta.answers ?? []) lit.members[a.specialty] = { status: "done", bubble: firstSentence(a.text) };
+            // One answer, from the coordinator: the consulted doctors just show as done (no bubbles of their own).
+            for (const a of msg.meta.answers ?? []) lit.members[a.specialty] = msg.meta.style === "coordinator"
+              ? { status: "done" } : { status: "done", bubble: firstSentence(a.text) };
             lit.coordinator = msg.role === "safety" ? "Emergency guidance shown" : "Answer checked and shared";
           } else if (e.error) {
             setError(e.error);
@@ -92,7 +94,7 @@ export default function ChatPanel({ caseId, roster, coordinatorId, onOverlay, on
     <section className={docked ? "chat docked" : "card chat"} aria-label="Ask the panel">
       {docked ? (
         <p className="muted small chat-intro">Your question goes to the most relevant AI specialists (or the pharmacist for medicines); ask how two
-          things are related and the coordinator adds what else could explain it. A safety reviewer checks every answer.</p>
+          things are related and the coordinator adds what else could explain it. You get one short answer from the coordinator, checked by a safety reviewer.</p>
       ) : (
         <div className="chat-head">
           <div>
@@ -145,6 +147,40 @@ export function Message({ m, names, coordinatorId }: { m: ChatMessage; names: Re
     return <EmergencyBanner emergency={{ kind: em?.kind ?? "medical", message: m.content }} reasons={em?.matches?.map((x) => `You mentioned: ${x}.`)} />;
   }
   const edits = (m.meta.safety?.edits?.length ?? 0) + (m.meta.safety?.blocked?.length ?? 0);
+  if (m.meta.style === "coordinator") {  // one short answer from the coordinator, who consulted the specialists
+    return (
+      <div className="msg-panel single">
+        {m.meta.emergency && <EmergencyBanner emergency={{ kind: "medical", message: m.meta.emergency.message }} />}
+        {m.meta.connection && (
+          <div className={`connection-note link-${m.meta.connection.status}`}>
+            <strong>“{m.meta.connection.topic_a}” and “{m.meta.connection.topic_b}”:</strong>{" "}
+            {m.meta.connection.status === "linked" ? `linked in the panel's explanation ${m.meta.connection.cards.join(", ")}.`
+              : m.meta.connection.status === "both_on_board_no_card" ? "both are in your records, but the panel found no supported link."
+              : "the panel did not find a link in your records."}
+          </div>
+        )}
+        <div className="answer wrap" style={{ ["--c" as string]: colorOf(coordinatorId) }}>
+          <span className="avatar">{SPECIALTY_ICONS[coordinatorId] ?? "⚕"}</span>
+          <div>
+            <div className="answer-who"><strong>{shortName(names[coordinatorId] ?? "Coordinator")}</strong> <span className="ai-tag">Coordinator · AI specialist</span></div>
+            <p>{m.meta.wrap_up}</p>
+            {m.meta.ask_your_doctor && <p className="ask-doc"><strong>Ask your doctor:</strong> {m.meta.ask_your_doctor}</p>}
+            {(m.meta.sources?.length ?? 0) > 0 && (
+              <p className="small">Sources: {m.meta.sources!.map((src, i) => <span key={src.url}>{i > 0 && " · "}<a href={src.url} target="_blank" rel="noreferrer">{src.title}</a></span>)}</p>
+            )}
+          </div>
+        </div>
+        <div className="consulted small">
+          <span className="muted">Consulted:</span>
+          {(m.meta.consulted ?? []).map((c) => (
+            <span key={c.id} className="consulted-chip" style={{ ["--c" as string]: colorOf(c.id) }}>
+              <span className="avatar">{SPECIALTY_ICONS[c.id] ?? "•"}</span>{shortName(names[c.id] ?? c.name)}</span>
+          ))}
+          <span className="reviewed-inline">🛡 Checked by the safety reviewer{edits ? ` · ${edits} part${edits > 1 ? "s" : ""} adjusted` : ""}</span>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="msg-panel">
       {m.meta.emergency && <EmergencyBanner emergency={{ kind: "medical", message: m.meta.emergency.message }} />}
