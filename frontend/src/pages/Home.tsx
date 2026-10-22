@@ -57,26 +57,6 @@ export default function Home({ onDataDeleted, publicDemo }: { onDataDeleted: () 
       {error && <p className="error-text">{error}</p>}
       {publicDemo && <PublicDemoNotice where="home" />}
 
-      <section className="welcome-band">
-        <img className="welcome-watermark" src="/emblem.svg?v=4" alt="" aria-hidden />
-        <div>
-          <p className="g-eyebrow">ΛSCLEPIUS · your AI case conference</p>
-          <h1>{cases.some((c) => c.status === "complete") ? "Welcome back." : "Your panel is ready."}</h1>
-          <p>Start a case from a health profile, add the records from each doctor, and convene the panel. Or try a fictional demo
-            patient to see a full conference in about two minutes.</p>
-          <div className="welcome-ctas">
-            {profiles[0] && <button className="btn" disabled={busy !== null} onClick={() => newCase(profiles[0].id)}>Start a new case</button>}
-            <button className="btn btn-ghost" onClick={() => document.getElementById("demos")?.scrollIntoView({ behavior: "smooth" })}>Try a demo patient</button>
-          </div>
-        </div>
-        <div className="welcome-stats" aria-label="Your account">
-          <div><strong>{profiles.length}</strong><span>health profile{profiles.length === 1 ? "" : "s"}</span></div>
-          <div><strong>{cases.length}</strong><span>case{cases.length === 1 ? "" : "s"}</span></div>
-          <div><strong>{cases.filter((c) => c.status === "complete").length}</strong><span>summar{cases.filter((c) => c.status === "complete").length === 1 ? "y" : "ies"} ready</span></div>
-          <p className="welcome-lock">🔒 Private to your account · delete anytime</p>
-        </div>
-      </section>
-
       <div className="section-head">
         <div>
           <h1>Health profiles</h1>
