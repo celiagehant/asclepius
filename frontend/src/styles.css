@@ -989,3 +989,37 @@ a { color: var(--accent); }
 .flow-total { background: #fbf8f1; border: 1px solid var(--line); }
 .chat-fab { background: linear-gradient(180deg, #163f6e, #0b2a4a); box-shadow: 0 10px 30px rgba(11, 42, 74, 0.35), 0 0 0 2px rgba(225, 184, 102, 0.6); }
 .dock-head { background: linear-gradient(180deg, #163f6e, #0b2a4a); border-bottom: 2px solid var(--gold); }
+
+/* ---- the printable summary for the doctor (only this prints) ---- */
+.print-sheet { display: none; }
+@media print {
+  @page { size: auto; margin: 14mm 14mm 16mm; }
+  html, body { background: #fff !important; }
+  body > *:not(.print-sheet) { display: none !important; }   /* the whole app, the chat, everything else */
+  .print-sheet { display: block; color: #13233a; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+    font-size: 10.5pt; line-height: 1.42; }
+  .print-sheet * { box-shadow: none !important; }
+  .ps-head { display: flex; gap: 12px; align-items: center; border-bottom: 2px solid #b8893b; padding-bottom: 8px; }
+  .ps-brand { font-family: "Iowan Old Style", Palatino, Georgia, serif; letter-spacing: 0.14em; color: #8a6a32; font-size: 9pt; }
+  .print-sheet h1 { font-family: "Iowan Old Style", Palatino, Georgia, serif; font-size: 17pt; color: #0b2a4a; margin: 2px 0; }
+  .ps-meta { margin: 0; color: #5a6b80; font-size: 9.5pt; }
+  .ps-disclaimer { background: #f6efe0; border: 1px solid #e3cfa5; border-radius: 6px; padding: 6px 9px; font-size: 9pt; margin: 8px 0 4px; }
+  .print-sheet section { margin-top: 10px; }
+  .print-sheet h2 { font-family: "Iowan Old Style", Palatino, Georgia, serif; font-size: 12.5pt; color: #0b2a4a; margin: 0 0 4px;
+    border-bottom: 1px solid #e6dfcf; padding-bottom: 2px; break-after: avoid; }
+  .print-sheet h3 { font-size: 10.5pt; margin: 0 0 3px; color: #13233a; break-after: avoid; }
+  .print-sheet h4 { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.04em; color: #5a6b80; margin: 0 0 2px; }
+  .print-sheet ul, .print-sheet ol { margin: 0; padding-left: 16px; }
+  .print-sheet li { margin: 1px 0; break-inside: avoid; }
+  .ps-urgent { border: 2px solid #b3261e; border-radius: 6px; padding: 6px 9px; }
+  .ps-urgent h2 { color: #b3261e; border: none; }
+  .ps-card { border: 1px solid #e6dfcf; border-left: 3px solid #b8893b; border-radius: 6px; padding: 6px 9px; margin: 6px 0; break-inside: avoid; }
+  .ps-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .ps-strength { font-size: 8pt; font-weight: 700; color: #164c8f; border: 1px solid #c9daf3; border-radius: 99px; padding: 0 6px; margin-left: 4px; }
+  .ps-tell { margin: 4px 0 0; font-size: 9.5pt; }
+  .ps-small { font-size: 8.5pt; color: #5a6b80; margin: 3px 0 0; }
+  .ps-note { font-size: 8.5pt; color: #5a6b80; margin: 0 0 2px; }
+  .ps-urg { color: #8a5a00; font-size: 9pt; }
+  .ps-q { break-inside: avoid; margin-bottom: 5px; }
+  .ps-foot { margin-top: 12px; border-top: 1px solid #e6dfcf; padding-top: 5px; font-size: 8pt; color: #5a6b80; }
+}

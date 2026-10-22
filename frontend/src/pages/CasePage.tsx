@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { api, type CaseDetail, type Emergency, type Profile } from "../api/client";
 import { EmergencyBanner, PublicDemoNotice, StatusBadge } from "../components/Common";
+import PrintSummary from "../components/PrintSummary";
 import CaseRoom from "../components/CaseRoom";
 import { go } from "../lib/router";
 import { LABELS } from "../lib/questionnaire";
@@ -79,6 +80,7 @@ export default function CasePage({ caseId, publicDemo }: { caseId: number; publi
 
   return (
     <div className="case-page">
+      <PrintSummary c={c} patientLine={d ? `${d.name} · ${profile!.age} y · ${LABELS[d.sex_at_birth] ?? d.sex_at_birth}` : ""} />
       {emergency && <EmergencyBanner emergency={emergency} reasons={emergency.matches.map((m) => `You mentioned: ${m}.`)} onDismiss={() => setEmergency(null)} />}
       <div className="section-head">
         <div>
@@ -89,7 +91,9 @@ export default function CasePage({ caseId, publicDemo }: { caseId: number; publi
         <div className="head-actions">
           <StatusBadge status={c.status} />
           {mode === "result" && <button className="btn btn-ghost" onClick={() => setMode("setup")}>Add records & run again</button>}
-          {mode === "result" && <button className="btn btn-ghost" onClick={() => window.print()}>Print</button>}
+          {mode === "result" && c.result?.summary?.explanations && (
+            <button className="btn" onClick={() => window.print()} title="A clean summary for your doctor; choose “Save as PDF” in the print dialog to keep a file">
+              🖨 Print or save as PDF for my doctor</button>)}
         </div>
       </div>
 
