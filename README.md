@@ -243,9 +243,11 @@ The case page is laid out top to bottom:
   - Finished cases can **Replay the conference** from the saved event log.
 - **Body map and summary, side by side:**
   - The 3D body is a translucent human figure drawn in code with React Three Fiber (no
-    downloaded model), seen from the front and standing still: no rotation, no dragging.
-  - Each of the 16 regions glows by severity (urgent, discuss, watch). Hovering or tapping
-    shows the reason and which specialists flagged it.
+    downloaded model), seen from the front and completely static: no rotation, no hover
+    effects, no animation. Only the colored areas can be clicked, and a click shows the
+    details below.
+  - Each of the 16 regions shows its severity color (urgent, discuss, watch). Clicking a
+    colored area shows the reason and which specialists flagged it.
   - Without WebGL, a 2D SVG body with the same regions is shown instead.
 - **Chat** is a floating window: a button in the bottom-right corner opens it, and it stays
   on screen while you scroll the case (Phase 6, below).

@@ -1,9 +1,9 @@
-// The 3D body: a translucent human figure seen from the front, standing still (no rotation, no
-// dragging), drawn from simple geometry in code (no downloaded model). The torso is a lathe of a
+// The 3D body: a translucent human figure seen from the front, completely static (no rotation, no
+// dragging, no hover effects, no animation), drawn from simple geometry in code (no downloaded model). The torso is a lathe of a
 // human profile (shoulders, chest, waist, hips); arms and legs are tapered limbs with joints.
-// Each of the 16 regions glows by severity; hovering or tapping a region reports it upward.
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useEffect, useMemo, useRef, type ReactNode } from "react";
+// Each of the 16 regions shows its severity color; only a click on a colored region reports it upward.
+import { Canvas, useThree } from "@react-three/fiber";
+import { useEffect, useMemo, type ReactNode } from "react";
 import * as THREE from "three";
 import { SEVERITY_COLORS, type RegionView } from "../lib/panel";
 
@@ -133,30 +133,19 @@ function Shell({ tint, tintOpacity }: { tint: string; tintOpacity: number }) {
   );
 }
 
-function Region({ id, view, hovered, focused, dimmed, onHover, onSelect, motion }: {
-  id: string; view?: RegionView; hovered: boolean; focused: boolean; dimmed: boolean; onHover: (id: string | null) => void;
-  onSelect?: (id: string | null) => void; motion: boolean;
+function Region({ id, view, selected, focused, dimmed, onSelect }: {
+  id: string; view?: RegionView; selected: boolean; focused: boolean; dimmed: boolean; onSelect: (id: string) => void;
 }) {
-  const group = useRef<THREE.Group>(null);
-  // A region linked to the selected explanation card glows white-hot; the others step back.
+  // Static: no hover, no animation. A flagged region shows its severity color and responds to a
+  // click; everything else ignores the pointer. Selecting one only makes it fully opaque.
   const color = focused && !view ? FOCUS : view ? SEVERITY_COLORS[view.severity] : QUIET;
-  const opacity = focused ? 1 : dimmed ? (view ? 0.3 : 0.06) : view ? (hovered ? 1 : 0.85) : 0.14;
-  const interactive = !!view || focused;   // healthy organs ignore the pointer
-  useFrame(({ clock }) => {
-    if (!group.current) return;
-    // The body stands still; only a flagged region breathes gently so it is easy to spot.
-    const pulse = motion && (focused || view?.severity === "urgent") ? 1 + (focused ? 0.12 : 0.07) * Math.sin(clock.elapsedTime * (focused ? 4 : 3)) : 1;
-    // No growth on hover: a region that grows under the pointer makes it enter and leave in a loop (flicker).
-    group.current.scale.lerp(new THREE.Vector3(pulse, pulse, pulse), 0.2);
-  });
+  const opacity = selected || focused ? 1 : dimmed ? (view ? 0.3 : 0.06) : view ? 0.85 : 0.14;
+  const clickable = !!view;
   return (
-    <group ref={group}
-      onPointerOver={interactive ? (e) => { e.stopPropagation(); onHover(id); } : undefined}
-      onPointerOut={interactive ? (e) => { if (e.pointerType === "mouse") { e.stopPropagation(); onHover(null); } } : undefined}
-      onClick={interactive ? (e) => { e.stopPropagation(); onHover(id); onSelect?.(id); } : undefined}>
+    <group onClick={clickable ? (e) => { e.stopPropagation(); onSelect(id); } : undefined}>
       {REGION_PARTS[id].map((p, i) => (
         <Placed key={i} part={p}>
-          <mesh raycast={interactive ? undefined : noRaycast}>
+          <mesh raycast={clickable ? undefined : noRaycast}>
             <Geometry part={p} />
             <meshBasicMaterial color={color} transparent opacity={opacity} depthWrite={false} />
           </mesh>
@@ -184,21 +173,20 @@ function Floor() {
   );
 }
 
-export default function Body3D({ regions, hovered, onHover, motion, focus, onSelect, children }: {
-  regions: RegionView[]; hovered: string | null; onHover: (id: string | null) => void; motion: boolean;
-  focus?: string[]; onSelect?: (id: string | null) => void; children?: ReactNode;
+export default function Body3D({ regions, selected, focus, onSelect, children }: {
+  regions: RegionView[]; selected: string | null; focus?: string[]; onSelect: (id: string) => void; children?: ReactNode;
 }) {
   const focused = new Set(focus ?? []);
   const byId = Object.fromEntries(regions.map((r) => [r.region, r]));
   const skin = byId.skin;
+  // frameloop="demand": the picture is redrawn only when something changes, so the body never moves on its own.
   return (
-    <Canvas camera={{ position: [0, 1.42, 7.4], fov: 33 }} dpr={[1, 2]} gl={{ antialias: true, alpha: true }}
-      onPointerMissed={() => onHover(null)}>
+    <Canvas frameloop="demand" camera={{ position: [0, 1.42, 7.4], fov: 33 }} dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
       <FixedCamera />
-      <Shell tint={skin ? SEVERITY_COLORS[skin.severity] : "#a8c4ec"} tintOpacity={skin ? (hovered === "skin" || focused.has("skin") ? 0.2 : 0.12) : 0.12} />
+      <Shell tint={skin ? SEVERITY_COLORS[skin.severity] : "#a8c4ec"} tintOpacity={skin ? (selected === "skin" || focused.has("skin") ? 0.2 : 0.12) : 0.12} />
       {Object.keys(REGION_PARTS).map((id) => (
-        <Region key={id} id={id} view={byId[id]} hovered={hovered === id} focused={focused.has(id)} dimmed={focused.size > 0 && !focused.has(id)}
-          onHover={onHover} onSelect={onSelect} motion={motion} />
+        <Region key={id} id={id} view={byId[id]} selected={selected === id} focused={focused.has(id)}
+          dimmed={(focused.size > 0 || selected !== null) && !focused.has(id) && selected !== id} onSelect={onSelect} />
       ))}
       <Floor />
       {children}

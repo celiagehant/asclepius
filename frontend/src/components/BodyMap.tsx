@@ -1,4 +1,4 @@
-import { Component, lazy, Suspense, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { Component, lazy, Suspense, useMemo, useState, type ReactNode } from "react";
 import { REGION_LABELS, SEVERITY_COLORS, type RegionView } from "../lib/panel";
 
 const Body3D = lazy(() => import("./Body3D"));  // three.js loads only when the body is shown
@@ -23,21 +23,22 @@ export default function BodyMap({ regions, waiting, force2d, focusRegions, focus
   regions: RegionView[]; waiting?: boolean; force2d?: boolean; focusRegions?: string[]; focusLabel?: string | null;
   onSelectRegion?: (region: string | null) => void;
 }) {
-  const [hovered, setHoveredNow] = useState<string | null>(null);
-  // A short delay before the info changes, so passing the mouse over the body doesn't make it flicker.
-  const timer = useRef<number | null>(null);
-  const setHovered = (id: string | null) => {
-    if (timer.current) window.clearTimeout(timer.current);
-    timer.current = window.setTimeout(() => setHoveredNow(id), id ? 110 : 220);
-  };
-  useEffect(() => () => { if (timer.current) window.clearTimeout(timer.current); }, []);
+  // The body is static: nothing reacts to the mouse and nothing moves. Only a click on a colored
+  // (flagged) area does something: it shows below what the panel found there. Clicking the same
+  // area again clears it.
+  const [selected, setSelected] = useState<string | null>(null);
   const focus = focusRegions ?? [];
   const [use3d] = useState(() => !force2d && webglAvailable());
-  const motion = useMemo(() => !window.matchMedia?.("(prefers-reduced-motion: reduce)").matches, []);
   const touch = useMemo(() => !!window.matchMedia?.("(hover: none)").matches, []);
+  const flagged = new Set(regions.map((r) => r.region));
   const sorted = [...regions].sort((a, b) => ORDER[a.severity] - ORDER[b.severity]);
-  const info = hovered ? regions.find((r) => r.region === hovered) : null;
-  const flat = <Body2D regions={regions} hovered={hovered} onHover={setHovered} focus={focus} onSelect={onSelectRegion} />;
+  const info = selected ? regions.find((r) => r.region === selected) : null;
+  const select = (id: string) => {
+    if (!flagged.has(id)) return;                 // only colored areas can be clicked
+    setSelected((cur) => (cur === id ? null : id));
+    onSelectRegion?.(id);                         // also lights up the explanation cards that involve it
+  };
+  const flat = <Body2D regions={regions} selected={selected} focus={focus} onSelect={select} />;
 
   return (
     <section className="card body-card" aria-label="Body map">
@@ -49,41 +50,41 @@ export default function BodyMap({ regions, waiting, force2d, focusRegions, focus
           ))}
         </div>
       </div>
-      <div className={`hologram ${hovered ? "over-region" : ""}`}>
+      <div className="hologram">
         {use3d ? (
           <GLBoundary fallback={flat}>
-            <Suspense fallback={<div className="holo-loading">Projecting the body…</div>}>
-              <Body3D regions={regions} hovered={hovered} onHover={setHovered} motion={motion} focus={focus} onSelect={onSelectRegion} />
+            <Suspense fallback={<div className="holo-loading">Preparing the body map…</div>}>
+              <Body3D regions={regions} selected={selected} focus={focus} onSelect={select} />
             </Suspense>
           </GLBoundary>
         ) : flat}
       </div>
       <div className="holo-info" aria-live="polite">
-          {focus.length > 0 && !hovered && focusLabel ? (
-            <>
-              <div className="holo-title focus-title">{focusLabel}</div>
-              <p>{focus.map((r) => REGION_LABELS[r] ?? r).join(" · ")}</p>
-            </>
-          ) : info ? (
+          {info ? (
             <>
               <div className="holo-title"><i style={{ background: SEVERITY_COLORS[info.severity] }} />{REGION_LABELS[info.region]} · {info.severity}</div>
               <p>{info.reason}</p>
               <p className="holo-who">Flagged by: {info.specialists.join(", ") || "the coordinator"}</p>
             </>
-          ) : hovered ? (
-            <div className="holo-title">{REGION_LABELS[hovered]} · nothing flagged</div>
+          ) : focus.length > 0 && focusLabel ? (
+            <>
+              <div className="holo-title focus-title">{focusLabel}</div>
+              <p>{focus.map((r) => REGION_LABELS[r] ?? r).join(" · ")}</p>
+            </>
           ) : waiting ? (
-            <div className="holo-hint">The body lights up when the coordinator finishes the summary.</div>
+            <div className="holo-hint">The colored areas appear when the coordinator finishes the summary.</div>
+          ) : regions.length ? (
+            <div className="holo-hint">{touch ? "Tap" : "Click"} a colored area, or a name below, to see what the panel found there.</div>
           ) : (
-            <div className="holo-hint">{touch ? "Tap a glowing area to see what the panel found" : "Hover or click a glowing area to see what the panel found"}</div>
+            <div className="holo-hint">The panel did not flag any body area.</div>
           )}
         </div>
       {sorted.length > 0 && (
         <ul className="region-legend">
           {sorted.map((r) => (
-            <li key={r.region} onMouseEnter={() => setHovered(r.region)} onMouseLeave={() => setHovered(null)}
-              onFocus={() => setHovered(r.region)} onBlur={() => setHovered(null)} tabIndex={0}
-              onClick={() => onSelectRegion?.(r.region)} className={hovered === r.region || focus.includes(r.region) ? "on" : ""}>
+            <li key={r.region} tabIndex={0} onClick={() => select(r.region)}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(r.region); } }}
+              className={selected === r.region ? "on" : ""}>
               <i style={{ background: SEVERITY_COLORS[r.severity] }} />
               <strong>{REGION_LABELS[r.region]}</strong> <span className="muted small">{r.severity}</span>
             </li>
@@ -103,15 +104,15 @@ const SPOTS: Record<string, [number, number, number][]> = {
   mind: [[100, 12, 6]], blood: [[100, 120, 3], [100, 150, 3], [86, 230, 3], [114, 230, 3], [60, 110, 3], [140, 110, 3]],
 };
 
-function Body2D({ regions, hovered, onHover, focus, onSelect }: {
-  regions: RegionView[]; hovered: string | null; onHover: (id: string | null) => void; focus: string[]; onSelect?: (id: string | null) => void;
+function Body2D({ regions, selected, focus, onSelect }: {
+  regions: RegionView[]; selected: string | null; focus: string[]; onSelect: (id: string) => void;
 }) {
   const byId = Object.fromEntries(regions.map((r) => [r.region, r]));
   const skin = byId.skin;
   const stroke = skin ? SEVERITY_COLORS[skin.severity] : "#2f6fd1";
   return (
     <svg viewBox="0 0 200 330" className="body2d" role="img" aria-label="Body map (2D)">
-      <g fill="rgba(47,125,225,0.07)" stroke={stroke} strokeWidth={1.2} onMouseEnter={() => onHover("skin")} onMouseLeave={() => onHover(null)}>
+      <g fill="rgba(47,125,225,0.07)" stroke={stroke} strokeWidth={1.2} onClick={() => onSelect("skin")}>
         <ellipse cx="100" cy="38" rx="20" ry="24" />
         <rect x="93" y="60" width="14" height="12" rx="4" />
         <rect x="68" y="72" width="64" height="90" rx="26" />
@@ -125,11 +126,10 @@ function Body2D({ regions, hovered, onHover, focus, onSelect }: {
         const v = byId[id];
         const color = v ? SEVERITY_COLORS[v.severity] : "#7fa6dc";
         return (
-          <g key={id} onMouseEnter={() => onHover(id)} onMouseLeave={() => onHover(null)} onClick={() => onSelect?.(id)} style={{ cursor: "pointer" }}>
+          <g key={id} onClick={v ? () => onSelect(id) : undefined} style={{ cursor: v ? "pointer" : "default" }}>
             {spots.map(([x, y, r], i) => (
-              <circle key={i} cx={x} cy={y} r={hovered === id || focus.includes(id) ? r * 1.3 : r} fill={focus.includes(id) && !v ? "#e8fdff" : color}
-                fillOpacity={v || focus.includes(id) ? 0.9 : 0.12}
-                className={v?.severity === "urgent" || focus.includes(id) ? "pulse2d" : undefined} stroke={focus.includes(id) ? "#ffffff" : undefined} />
+              <circle key={i} cx={x} cy={y} r={r} fill={focus.includes(id) && !v ? "#0b2a4a" : color}
+                fillOpacity={v || focus.includes(id) ? 0.9 : 0.12} stroke={selected === id ? "#0b2a4a" : undefined} strokeWidth={selected === id ? 1.4 : 0} />
             ))}
             <title>{REGION_LABELS[id]}{v ? ` · ${v.severity}: ${v.reason}` : ""}</title>
           </g>

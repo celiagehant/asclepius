@@ -14,8 +14,10 @@ medical symbol, rather than the two-snake caduceus.
 - **The case board** became "What the doctors found": the doctor's avatar, a plain label
   ("Out of range", "Borderline", "Worth noting"), the body area with an icon; ids only on
   hover.
-- **The body map** is a light card with a blue figure. Organs no longer grow on hover
-  (which made them flicker), react after a short delay, and only flagged organs respond.
+- **The body map** is a light card with a blue figure, and it is completely static: no
+  hover effects, no pulsing, nothing moves, and it is only redrawn when something changes.
+  Only the colored (flagged) organs can be clicked; a click shows below what the panel found
+  there, and a second click clears it. The names under the body work the same way.
 
 The sections below describe the original layout and palette, kept for the record.
 
