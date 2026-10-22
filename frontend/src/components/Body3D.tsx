@@ -7,8 +7,10 @@ import { useEffect, useMemo, useRef, type ReactNode } from "react";
 import * as THREE from "three";
 import { SEVERITY_COLORS, type RegionView } from "../lib/panel";
 
-const CYAN = "#5ff3ff";
-const FOCUS = "#f2feff";
+// A light, clinical look: a blue figure on a white card (normal blending, so colors stay true).
+const FIGURE = "#2f6fd1";
+const QUIET = "#7fa6dc";      // organs with nothing flagged
+const FOCUS = "#0b2a4a";      // an organ linked to the selected explanation card
 type Vec3 = [number, number, number];
 type Part =
   | { shape: "sphere" | "capsule" | "torus"; pos?: Vec3; rot?: Vec3; scale?: Vec3; args: number[] }
@@ -110,7 +112,7 @@ function Placed({ part, children }: { part: Part; children: ReactNode }) {
 
 const noRaycast = () => null;
 
-/** The body: a faint cyan figure with a sparse outline, so flagged organs stand out against it.
+/** The body: a faint blue figure with a sparse outline, so flagged organs stand out against it.
  *  A skin finding only tints the figure; it never paints the whole body. */
 function Shell({ tint, tintOpacity }: { tint: string; tintOpacity: number }) {
   return (
@@ -119,11 +121,11 @@ function Shell({ tint, tintOpacity }: { tint: string; tintOpacity: number }) {
         <Placed key={i} part={p}>
           <mesh raycast={noRaycast}>
             <Geometry part={p} />
-            <meshBasicMaterial color={tint} transparent opacity={tintOpacity} depthWrite={false} blending={THREE.AdditiveBlending} side={THREE.DoubleSide} />
+            <meshBasicMaterial color={tint} transparent opacity={tintOpacity} depthWrite={false} side={THREE.DoubleSide} />
           </mesh>
           <mesh raycast={noRaycast}>
             <Geometry part={p} low />
-            <meshBasicMaterial color={CYAN} wireframe transparent opacity={0.16} depthWrite={false} blending={THREE.AdditiveBlending} />
+            <meshBasicMaterial color={FIGURE} wireframe transparent opacity={0.22} depthWrite={false} />
           </mesh>
         </Placed>
       ))}
@@ -137,25 +139,26 @@ function Region({ id, view, hovered, focused, dimmed, onHover, onSelect, motion 
 }) {
   const group = useRef<THREE.Group>(null);
   // A region linked to the selected explanation card glows white-hot; the others step back.
-  const color = focused && !view ? FOCUS : view ? SEVERITY_COLORS[view.severity] : CYAN;
-  const opacity = focused ? 1 : dimmed ? (view ? 0.25 : 0.05) : view ? (hovered ? 1 : 0.9) : hovered ? 0.35 : 0.08;
+  const color = focused && !view ? FOCUS : view ? SEVERITY_COLORS[view.severity] : QUIET;
+  const opacity = focused ? 1 : dimmed ? (view ? 0.3 : 0.06) : view ? (hovered ? 1 : 0.85) : 0.14;
+  const interactive = !!view || focused;   // healthy organs ignore the pointer
   useFrame(({ clock }) => {
     if (!group.current) return;
     // The body stands still; only a flagged region breathes gently so it is easy to spot.
     const pulse = motion && (focused || view?.severity === "urgent") ? 1 + (focused ? 0.12 : 0.07) * Math.sin(clock.elapsedTime * (focused ? 4 : 3)) : 1;
-    const s = (hovered || focused ? 1.12 : 1) * pulse;
-    group.current.scale.lerp(new THREE.Vector3(s, s, s), 0.2);
+    // No growth on hover: a region that grows under the pointer makes it enter and leave in a loop (flicker).
+    group.current.scale.lerp(new THREE.Vector3(pulse, pulse, pulse), 0.2);
   });
   return (
     <group ref={group}
-      onPointerOver={(e) => { e.stopPropagation(); onHover(id); }}
-      onPointerOut={(e) => { if (e.pointerType === "mouse") { e.stopPropagation(); onHover(null); } }}
-      onClick={(e) => { e.stopPropagation(); onHover(id); onSelect?.(id); }}>
+      onPointerOver={interactive ? (e) => { e.stopPropagation(); onHover(id); } : undefined}
+      onPointerOut={interactive ? (e) => { if (e.pointerType === "mouse") { e.stopPropagation(); onHover(null); } } : undefined}
+      onClick={interactive ? (e) => { e.stopPropagation(); onHover(id); onSelect?.(id); } : undefined}>
       {REGION_PARTS[id].map((p, i) => (
         <Placed key={i} part={p}>
-          <mesh>
+          <mesh raycast={interactive ? undefined : noRaycast}>
             <Geometry part={p} />
-            <meshBasicMaterial color={color} transparent opacity={opacity} depthWrite={false} blending={THREE.AdditiveBlending} />
+            <meshBasicMaterial color={color} transparent opacity={opacity} depthWrite={false} />
           </mesh>
         </Placed>
       ))}
@@ -173,10 +176,10 @@ function FixedCamera() {
 function Floor() {
   return (
     <group position={[0, -0.47, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-      <mesh raycast={noRaycast}><ringGeometry args={[0.7, 0.74, 64]} />
-        <meshBasicMaterial color={CYAN} transparent opacity={0.35} blending={THREE.AdditiveBlending} side={THREE.DoubleSide} /></mesh>
+      <mesh raycast={noRaycast}><ringGeometry args={[0.7, 0.73, 64]} />
+        <meshBasicMaterial color={FIGURE} transparent opacity={0.28} side={THREE.DoubleSide} /></mesh>
       <mesh raycast={noRaycast}><circleGeometry args={[0.95, 64]} />
-        <meshBasicMaterial color={CYAN} transparent opacity={0.05} blending={THREE.AdditiveBlending} side={THREE.DoubleSide} /></mesh>
+        <meshBasicMaterial color={FIGURE} transparent opacity={0.05} side={THREE.DoubleSide} /></mesh>
     </group>
   );
 }
@@ -192,7 +195,7 @@ export default function Body3D({ regions, hovered, onHover, motion, focus, onSel
     <Canvas camera={{ position: [0, 1.42, 7.4], fov: 33 }} dpr={[1, 2]} gl={{ antialias: true, alpha: true }}
       onPointerMissed={() => onHover(null)}>
       <FixedCamera />
-      <Shell tint={skin ? SEVERITY_COLORS[skin.severity] : CYAN} tintOpacity={skin ? (hovered === "skin" || focused.has("skin") ? 0.16 : 0.08) : 0.06} />
+      <Shell tint={skin ? SEVERITY_COLORS[skin.severity] : "#a8c4ec"} tintOpacity={skin ? (hovered === "skin" || focused.has("skin") ? 0.2 : 0.12) : 0.12} />
       {Object.keys(REGION_PARTS).map((id) => (
         <Region key={id} id={id} view={byId[id]} hovered={hovered === id} focused={focused.has(id)} dimmed={focused.size > 0 && !focused.has(id)}
           onHover={onHover} onSelect={onSelect} motion={motion} />

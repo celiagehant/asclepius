@@ -1,4 +1,4 @@
-import { Component, lazy, Suspense, useMemo, useState, type ReactNode } from "react";
+import { Component, lazy, Suspense, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { REGION_LABELS, SEVERITY_COLORS, type RegionView } from "../lib/panel";
 
 const Body3D = lazy(() => import("./Body3D"));  // three.js loads only when the body is shown
@@ -23,7 +23,14 @@ export default function BodyMap({ regions, waiting, force2d, focusRegions, focus
   regions: RegionView[]; waiting?: boolean; force2d?: boolean; focusRegions?: string[]; focusLabel?: string | null;
   onSelectRegion?: (region: string | null) => void;
 }) {
-  const [hovered, setHovered] = useState<string | null>(null);
+  const [hovered, setHoveredNow] = useState<string | null>(null);
+  // A short delay before the info changes, so passing the mouse over the body doesn't make it flicker.
+  const timer = useRef<number | null>(null);
+  const setHovered = (id: string | null) => {
+    if (timer.current) window.clearTimeout(timer.current);
+    timer.current = window.setTimeout(() => setHoveredNow(id), id ? 110 : 220);
+  };
+  useEffect(() => () => { if (timer.current) window.clearTimeout(timer.current); }, []);
   const focus = focusRegions ?? [];
   const [use3d] = useState(() => !force2d && webglAvailable());
   const motion = useMemo(() => !window.matchMedia?.("(prefers-reduced-motion: reduce)").matches, []);
@@ -42,7 +49,7 @@ export default function BodyMap({ regions, waiting, force2d, focusRegions, focus
           ))}
         </div>
       </div>
-      <div className="hologram">
+      <div className={`hologram ${hovered ? "over-region" : ""}`}>
         {use3d ? (
           <GLBoundary fallback={flat}>
             <Suspense fallback={<div className="holo-loading">Projecting the body…</div>}>
@@ -101,10 +108,10 @@ function Body2D({ regions, hovered, onHover, focus, onSelect }: {
 }) {
   const byId = Object.fromEntries(regions.map((r) => [r.region, r]));
   const skin = byId.skin;
-  const stroke = skin ? SEVERITY_COLORS[skin.severity] : "#5ff3ff";
+  const stroke = skin ? SEVERITY_COLORS[skin.severity] : "#2f6fd1";
   return (
     <svg viewBox="0 0 200 330" className="body2d" role="img" aria-label="Body map (2D)">
-      <g fill="rgba(95,243,255,0.08)" stroke={stroke} strokeWidth={1.2} onMouseEnter={() => onHover("skin")} onMouseLeave={() => onHover(null)}>
+      <g fill="rgba(47,125,225,0.07)" stroke={stroke} strokeWidth={1.2} onMouseEnter={() => onHover("skin")} onMouseLeave={() => onHover(null)}>
         <ellipse cx="100" cy="38" rx="20" ry="24" />
         <rect x="93" y="60" width="14" height="12" rx="4" />
         <rect x="68" y="72" width="64" height="90" rx="26" />
@@ -116,7 +123,7 @@ function Body2D({ regions, hovered, onHover, focus, onSelect }: {
       </g>
       {Object.entries(SPOTS).map(([id, spots]) => {
         const v = byId[id];
-        const color = v ? SEVERITY_COLORS[v.severity] : "#5ff3ff";
+        const color = v ? SEVERITY_COLORS[v.severity] : "#7fa6dc";
         return (
           <g key={id} onMouseEnter={() => onHover(id)} onMouseLeave={() => onHover(null)} onClick={() => onSelect?.(id)} style={{ cursor: "pointer" }}>
             {spots.map(([x, y, r], i) => (

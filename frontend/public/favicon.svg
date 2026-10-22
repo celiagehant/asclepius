@@ -1,1 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#0f3d4c"/><circle cx="11" cy="13" r="4" fill="#7fd1c7"/><circle cx="21" cy="13" r="4" fill="#7fd1c7"/><circle cx="16" cy="21" r="4" fill="#ffffff"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>Asclepius: the rod of Asclepius</title>
+  <rect width="64" height="64" rx="15" fill="#0b2a4a"/>
+  <path d="M32 9 V56" stroke="#ffffff" stroke-width="4.2" stroke-linecap="round"/>
+  <path d="M32 50 C 18 48, 18 40, 32 38 C 46 36, 46 28, 32 26 C 21 24.5, 21 18, 30 16.5"
+        fill="none" stroke="#8ec0ff" stroke-width="4" stroke-linecap="round"/>
+  <ellipse cx="32.4" cy="15.6" rx="4" ry="2.9" fill="#8ec0ff" transform="rotate(-12 32.4 15.6)"/>
+  <circle cx="33.6" cy="14.9" r="0.9" fill="#0b2a4a"/>
+</svg>

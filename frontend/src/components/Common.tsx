@@ -57,8 +57,8 @@ export function TopBar({ email, onLogout, children }: { email?: string; onLogout
   return (
     <header className="topbar">
       <a className="brand" href="#/">
-        <img src="/favicon.svg" alt="" width={30} height={30} />
-        <span>Case Conference</span>
+        <img src="/favicon.svg" alt="" width={34} height={34} />
+        <span className="brand-text"><span className="brand-name">Asclepius</span><span className="brand-sub">AI case conference</span></span>
       </a>
       <nav className="topnav">
         {children}

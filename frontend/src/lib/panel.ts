@@ -41,7 +41,7 @@ export const SYSTEM_COLORS: Record<string, string> = {
   medication: "#2e7d32", lifestyle: "#139a74", general: "#607d8b",
 };
 
-export interface BoardPost { id: string; by: string; by_name: string; system: string; symptoms: string[]; line: string; significance: string; region: string | null; seq?: number }
+export interface BoardPost { id: string; by: string; by_name: string; system: string; symptoms: string[]; line: string; significance: string; region: string | null; document?: string; seq?: number }
 export interface Thread { from: string; to: string[]; kind: "connection" | "challenge" | "support"; seq: number; text: string; candidate?: string }
 
 export const SEVERITY_COLORS = { urgent: "#ff4d5e", discuss: "#ffb627", watch: "#4fa8ff" } as const;
@@ -200,7 +200,7 @@ export function derivePanel(events: Ev[], fallbackCoordinator = "internal_medici
       case "board_post":
         if (!s.board.some((p) => p.id === e.id)) {
           s.board.push({ id: e.id, by: e.by, by_name: e.by_name, system: e.system, symptoms: e.symptoms ?? [], line: e.line,
-            significance: e.significance, region: e.region ?? null, seq: e.seq });
+            significance: e.significance, region: e.region ?? null, document: e.document, seq: e.seq });
         }
         break;
       case "connection":

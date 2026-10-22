@@ -1,9 +1,12 @@
-# Case Conference
+# Asclepius
+
+*An AI case conference, named after the Greek god of medicine. (The project was built as "Case
+Conference"; the code keeps that name internally.)*
 
 **A panel of AI specialist agents reviews all of a patient's medical records together. It
 then prepares an educational case summary for the patient to bring to their own doctors.**
 
-Case Conference simulates a hospital multidisciplinary case conference for patients who
+Asclepius simulates a hospital multidisciplinary case conference for patients who
 see several specialists who never talk to each other. The app **does not diagnose and does
 not prescribe**. Every agent is an AI specialist agent, never a real or licensed physician.
 

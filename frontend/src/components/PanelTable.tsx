@@ -1,6 +1,34 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { colorOf, derivePanel, shortName, SPECIALTY_ICONS, type BoardPost, type ChatOverlay, type Ev, type MemberState, type RosterEntry, type Thread } from "../lib/panel";
+import { webglAvailable } from "./BodyMap";
 import CaseBoard from "./CaseBoard";
+import type { RoomLayout, Seat } from "./ConferenceRoom3D";
+
+const ConferenceRoom3D = lazy(() => import("./ConferenceRoom3D"));  // three.js loads only when the room is shown
+
+/** The 3D room needs WebGL and some width; phones and old browsers get the card layout. */
+function useRoom3d(): boolean {
+  const query = "(min-width: 821px)";
+  const [ok, setOk] = useState(() => webglAvailable() && !!window.matchMedia?.(query).matches);
+  useEffect(() => {
+    const mq = window.matchMedia?.(query);
+    if (!mq) return;
+    const on = () => setOk(webglAvailable() && mq.matches);
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
+  return ok;
+}
+
+/** Seat angles around the table: the coordinator at the head (90°), the others split left and right. */
+function seatAngles(ids: string[]): Record<string, number> {
+  const left = ids.slice(0, Math.ceil(ids.length / 2)), right = ids.slice(Math.ceil(ids.length / 2));
+  const spread = (list: string[], from: number, to: number) =>
+    Object.fromEntries(list.map((id, i) => [id, list.length === 1 ? (from + to) / 2 : from + ((to - from) * i) / (list.length - 1)]));
+  // Use the whole table: from the near-left corner round to the near-right corner (the coordinator sits at 90°).
+  const span = ids.length > 4 ? [208, 116, 64, -28] : [178, 122, 58, 2];
+  return { ...spread(left, span[0], span[1]), ...spread(right, span[2], span[3]) };
+}
 
 const BUBBLE_WINDOW = 10; // a comment stays visible for this many later events
 
@@ -133,15 +161,35 @@ export default function PanelTable({ events, roster, patientName, live, medicati
   for (const r of head) pos[r.id] = HEAD_SEATS[r.id];
   const focus = new Set(focusMembers ?? []);
   const bubbleSeq = ["round1", "round2", "round3"].includes(state.stage) ? state.lastSeq : -1;
-  const coordBubble = state.coordinator.bubble && bubbleSeq - state.coordinator.bubble.seq <= BUBBLE_WINDOW ? state.coordinator.bubble : null;
+  const coordBubble = state.coordinator.bubble && bubbleSeq >= 0 && bubbleSeq - state.coordinator.bubble.seq <= BUBBLE_WINDOW ? state.coordinator.bubble : null;
   const board = state.board.length ? state.board : (replaying ? [] : boardFallback ?? []);
+  const room3d = useRoom3d();
+  const [layout, setLayout] = useState<RoomLayout | null>(null);
+  const atTable = [...inner, ...head.filter((r) => forward.includes(r.id))];
+  const speaking = [
+    ...(coordBubble ? [{ id: coordinator.id, seq: coordBubble.seq }] : []),
+    ...atTable.map((r) => ({ id: r.id, seq: state.members[r.id]?.bubble?.seq ?? -1 })).filter((x) => x.seq >= 0),
+  ].filter((x) => x.id === coordinator.id || (x.seq === Number.MAX_SAFE_INTEGER || (bubbleSeq >= 0 && bubbleSeq - x.seq <= BUBBLE_WINDOW)))
+    .sort((a, b) => b.seq - a.seq).slice(0, 2).map((x) => x.id);
+  const angles = seatAngles(atTable.map((r) => r.id));
+  // A bubble shows while its round is running (or while answering a chat question), never after the conference closes.
+  const recent = (seq?: number) => seq !== undefined && (seq === Number.MAX_SAFE_INTEGER || (bubbleSeq >= 0 && bubbleSeq - seq <= BUBBLE_WINDOW));
+  const seats: Seat[] = [
+    { id: coordinator.id, color: colorOf(coordinator.id), angle: 90, coordinator: true, focused: focus.has(coordinator.id),
+      talking: !!coordBubble || (!state.coordinator.done && ["intake", "round3", "synthesis", "safety"].includes(state.stage) && (live || replaying)) },
+    ...atTable.map((r) => {
+      const m = state.members[r.id];
+      return { id: r.id, color: colorOf(r.id), angle: angles[r.id], focused: focus.has(r.id),
+        talking: m?.status === "working" || recent(m?.bubble?.seq) };
+    }),
+  ];
 
   return (
     <section className="card panel-table-card" aria-label="The panel">
       <div className="panel-table-head">
         <div>
           <h2>The panel</h2>
-          <p className="muted small">AI specialist agents, not real doctors. Bright cards are on this case; dimmed cards are the rest of the roster.</p>
+          <p className="muted small">AI specialist agents, not real doctors. Everyone at the table is reviewing this case; whoever is working leans in to talk.</p>
           <div className="thread-legend" aria-hidden><span><i />connects findings</span><span><i className="ch" />challenges</span></div>
         </div>
         {!live && events.length > 0 && (
@@ -149,6 +197,50 @@ export default function PanelTable({ events, roster, patientName, live, medicati
         )}
       </div>
       <div className="panel-layout">{/* stage on the left, live case board on the right */}
+      {room3d ? (
+        <div className="room-col">
+          <div className="room3d">
+            <Suspense fallback={<div className="room-loading">Setting up the conference room…</div>}>
+              <ConferenceRoom3D seats={seats} onLayout={setLayout} />
+            </Suspense>
+            {layout && (
+              <>
+                <Threads threads={state.threads} pos={layout.chest} lastSeq={replaying || live ? state.lastSeq : Infinity} focus={focus} />
+                <div className="room-table-label" style={{ left: `${layout.table.x}%`, top: `${layout.table.y}%` }}>
+                  <span className="table-label">{patientName}'s case</span>
+                  <span className="table-stage">{STAGE_LABEL[state.stage]}</span>
+                </div>
+                {seats.map((seat) => {
+                  const entry = seat.coordinator ? coordinator : atTable.find((r) => r.id === seat.id)!;
+                  const m = state.members[seat.id];
+                  const raw = seat.coordinator ? (coordBubble ? { ...coordBubble, kind: coordBubble.kind === "agrees" ? "keeps" : "challenges" } : null)
+                    : (m?.bubble && recent(m.bubble.seq) ? m.bubble : null);
+                  const bubble = raw && speaking.includes(seat.id) ? raw : null;   // only the two newest speakers, so bubbles don't pile up
+                  const head = layout.head[seat.id], tag = layout.tag[seat.id];
+                  if (!head || !tag) return null;
+                  return (
+                    <div key={seat.id}>
+                      {bubble && <div className={`room-bubble bubble-${bubble.kind}`}
+                        style={{ left: `${Math.min(Math.max(head.x, 14), 86)}%`, top: `${Math.max(head.y, 24)}%` }}>
+                        <span className="bubble-kind">{bubble.kind}</span> {bubble.text}</div>}
+                      <NameTag entry={entry} state={seat.coordinator ? undefined : m} coordinator={seat.coordinator}
+                        coordinatorState={seat.coordinator ? state.coordinator : undefined} focused={seat.focused} pos={tag}
+                        consult={state.consults.has(seat.id)} medications={seat.id === "clinical_pharmacist" ? medications : null} active={state.selected} />
+                    </div>
+                  );
+                })}
+              </>
+            )}
+          </div>
+          {outer.length > 0 && (
+            <div className="on-call" aria-label="Rest of the roster">
+              <span className="muted small">On call, not needed for this case:</span>
+              {outer.map((r) => <span key={r.id} className="on-call-chip" title={`${r.name}: ${r.scope}`}>
+                <span className="avatar" style={{ ["--c" as string]: colorOf(r.id) }}>{SPECIALTY_ICONS[r.id] ?? r.name[0]}</span>{shortName(r.name)}</span>)}
+            </div>
+          )}
+        </div>
+      ) : (
       <div className={`stage-area ${inner.length >= CROWDED ? "crowded" : ""}`}>
         <Threads threads={state.threads} pos={pos} lastSeq={replaying || live ? state.lastSeq : Infinity} focus={focus} />
         <div className="table-top" aria-hidden>
@@ -185,6 +277,7 @@ export default function PanelTable({ events, roster, patientName, live, medicati
           {state.coordinator.safety && <div className="safety-line">🛡 {state.coordinator.safety}</div>}
         </div>
       </div>
+      )}
       <CaseBoard posts={board} roster={roster} focusRefs={focusRefs ?? []} onFocusPost={onFocusPost} live={live || replaying} />
       </div>
     </section>
@@ -228,6 +321,34 @@ function DoctorCard({ entry, pos, state, lastSeq, dim, active, consult, medicati
           {s.roundLine && s.roundLine !== s.activity && <div className="round2-line">{s.roundLine}</div>}
         </>
       )}
+    </div>
+  );
+}
+
+
+/** The name tag under each person at the 3D table: who they are, what they are doing, and a check when done. */
+function NameTag({ entry, state, coordinator, coordinatorState, focused, pos, consult, medications, active }: {
+  entry: RosterEntry; state?: MemberState; coordinator?: boolean; coordinatorState?: { activity: string; done: boolean; safety: string | null };
+  focused: boolean; pos: { x: number; y: number }; consult?: boolean; medications?: number | null; active?: boolean;
+}) {
+  const s = state ?? { status: "idle", activity: "", docs: [], round2: "none" as const };
+  const done = coordinator ? coordinatorState?.done : s.status === "done";
+  const working = coordinator ? !coordinatorState?.done : s.status === "working";
+  const activity = coordinator ? coordinatorState?.activity : (s.activity || (active ? "Waiting to start" : ""));
+  return (
+    <div className={`name-tag ${coordinator ? "is-coordinator" : ""} ${working ? "is-working" : ""} ${focused ? "is-focus" : ""} ${s.status === "failed" ? "is-failed" : ""}`}
+      style={{ left: `${Math.min(Math.max(pos.x, 8), 92)}%`, top: `${pos.y}%`, ["--c" as string]: colorOf(entry.id) }}
+      title={`${entry.name}${activity ? ` · ${activity}` : ""}${coordinator ? "" : `\n${entry.scope}`}`}>
+      <div className="tag-row">
+        <span className="tag-dot" aria-hidden />
+        <strong>{shortName(entry.name)}{consult ? " · consult" : ""}</strong>
+        {done && <span className="tag-check" aria-label="done">✓</span>}
+        {s.status === "failed" && <span className="tag-check fail" aria-label="failed">!</span>}
+      </div>
+      <div className="tag-role">{coordinator ? "Coordinator · AI specialist" : medications !== null && medications !== undefined
+        ? `AI specialist · 💊 ${medications}` : "AI specialist"}</div>
+      {coordinator && activity && <div className="tag-line">{activity}</div>}
+      {coordinator && coordinatorState?.safety && <div className="tag-line">🛡 {coordinatorState.safety}</div>}
     </div>
   );
 }

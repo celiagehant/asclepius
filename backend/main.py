@@ -33,7 +33,7 @@ async def lifespan(_: FastAPI):
     yield
 
 
-app = FastAPI(title="Case Conference", version="0.4.0", lifespan=lifespan)
+app = FastAPI(title="Asclepius", version="0.4.0", lifespan=lifespan)
 app.include_router(auth_router)
 app.include_router(api_router)
 
@@ -42,7 +42,7 @@ app.include_router(api_router)
 def health(ping: bool = False) -> JSONResponse:
     """Model name and key status. `?ping=true` also makes one tiny model call."""
     body: dict = {
-        "app": "Case Conference",
+        "app": "Asclepius",
         "version": app.version,
         "model": config.MODEL_ID,
         "provider": "Portkey (OpenAI-compatible Responses API)",
@@ -137,7 +137,7 @@ else:
     @app.get("/", include_in_schema=False)
     def no_build() -> HTMLResponse:
         return HTMLResponse(
-            "<h1>Case Conference</h1><p>The frontend build (frontend/dist) is missing. "
+            "<h1>Asclepius</h1><p>The frontend build (frontend/dist) is missing. "
             "Run <code>cd frontend && npm install && npm run build</code>, then reload.</p>"
             "<p>The API is up: <a href='/api/health'>/api/health</a></p>"
         )

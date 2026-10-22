@@ -52,7 +52,7 @@ export class ApiError extends Error {
   constructor(public status: number, message: string) { super(message); }
 }
 
-const OFFLINE = "Can't reach the Case Conference server. Check your connection, wait a moment and try again. "
+const OFFLINE = "Can't reach the Asclepius server. Check your connection, wait a moment and try again. "
   + "If you are running it yourself, make sure `python run.py` is still running.";
 
 /** fetch, but a dropped connection becomes a readable message instead of the browser's "Load failed" / "NetworkError". */

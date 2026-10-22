@@ -48,7 +48,7 @@ export default function DemoApp() {
   return (
     <div className="app demo">
       <header className="topbar">
-        <span className="brand"><Logo /><span>Case Conference</span></span>
+        <span className="brand"><Logo /><span>Asclepius</span></span>
         <span className="muted small">Interactive demo · runs offline · synthetic patients only</span>
       </header>
       <main className="page">
@@ -85,7 +85,7 @@ export default function DemoApp() {
         <HowItWorks data={data} />
       </main>
       <footer className="demo-footer muted small">
-        Case Conference · {data.author} · {data.course} · educational project, not a medical device · all patients and records are fictional
+        Asclepius · {data.author} · {data.course} · educational project, not a medical device · all patients and records are fictional
       </footer>
       <DisclaimerBar />
     </div>
@@ -157,7 +157,7 @@ function HowItWorks({ data }: { data: DemoData }) {
   const h = data.headline;
   return (
     <section className="how">
-      <h2>How Case Conference works</h2>
+      <h2>How Asclepius works</h2>
       <ol className="pipeline">
         <li><strong>Intake</strong> reads each record, keeping only text a person can see, routes it to the right specialties and extracts labs and medicines.</li>
         <li><strong>Round 1:</strong> up to five AI specialists plus a clinical pharmacist review only their own records, in parallel, checking PubMed, MedlinePlus and FDA labels.</li>

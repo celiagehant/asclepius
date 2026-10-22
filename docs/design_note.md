@@ -1,5 +1,24 @@
 # Design note: the panel view and the 3D body
 
+**Update (2026-10-21): the Asclepius look.** The app is now called Asclepius, after the Greek
+god of medicine, with the Rod of Asclepius as its logo: one staff and one serpent, the true
+medical symbol, rather than the two-snake caduceus.
+- **Style:** white and near-white surfaces, a deep clinical navy (`#0b2a4a`), calm blues
+  (`#1f5fae`, `#2f7de1`), and serif headings (Iowan Old Style or Palatino, from the system,
+  so nothing is downloaded) over a clean sans-serif body.
+- **The panel** is a still 3D conference room. Each member is a seated torso (white coat over
+  scrubs in the specialty's color) around an oval table, with the coordinator at the head.
+  Whoever is working leans in and nods. Name tags and speech bubbles are HTML overlays
+  anchored to each person (at most two bubbles at a time), and the members not needed sit in
+  an "on call" strip. Without WebGL, or on narrow screens, the card layout below is used.
+- **The case board** became "What the doctors found": the doctor's avatar, a plain label
+  ("Out of range", "Borderline", "Worth noting"), the body area with an icon; ids only on
+  hover.
+- **The body map** is a light card with a blue figure. Organs no longer grow on hover
+  (which made them flicker), react after a short delay, and only flagged organs respond.
+
+The sections below describe the original layout and palette, kept for the record.
+
 ## Layout
 
 The case page reads top to bottom, in the order a patient needs things:
