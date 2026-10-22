@@ -18,9 +18,9 @@ The case page reads top to bottom, in the order a patient needs things:
    (sticky) while the summary scrolls, so a red region is never far from the text that
    explains it. While the panel is still working, the right column shows the live log
    instead of the summary.
-4. **Chat** below the summary. The patient reads first, then asks.
-5. **Details last:** specialist reports with exact quotes and sources, the full
-   conference log, and cost and time.
+4. **Chat** in a floating window that stays on screen while the patient scrolls.
+5. **Details last:** specialist reports with exact quotes and sources, then "How the
+   conference ran": the four rounds, who took part, and tokens and cost per round.
 
 On screens narrower than 820 px the semicircle becomes a stacked grid (coordinator first),
 the body moves above the summary, and speech bubbles become inline notes.

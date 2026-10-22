@@ -246,8 +246,7 @@ The case page is laid out top to bottom:
   - Without WebGL, a 2D SVG body with the same regions is shown instead.
 - **Chat** is a floating window: a button in the bottom-right corner opens it, and it stays
   on screen while you scroll the case (Phase 6, below).
-- **Details** come last: specialist reports, the full conference log, and **How the
-  conference ran**: the four rounds in order, who took part, what came out of each and
+- **Details** come last: specialist reports, then **How the conference ran**: the four rounds in order, who took part, what came out of each and
   its tokens and cost, then the totals. Costs appear only there, never on the panel.
 
 See [docs/design_note.md](docs/design_note.md) for the palette and layout choices, and
@@ -330,9 +329,9 @@ the rest (`backend/llm.py: cost_usd`).
 - **How the conference ran** (bottom of the case page): tokens and cost for each of the
   four rounds, plus reading the records and the safety review, then the totals. The panel
   itself shows no costs while the conference runs.
-- **Run details panel:** every panel run and chat question, with input, cached,
-  cache-write and output tokens, cost and latency per agent, the cache hit rate, and every
-  individual call.
+- **Every call** (panel and chat) is still recorded with its tokens, cost and latency in
+  the usage log and returned by `GET /api/cases/{id}/usage`; the case page shows only the
+  per-round summary above.
 
 **Budgets (enforced in code):**
 - **Per agent:** output caps (`max_tokens`), request limits and tool-call caps.

@@ -5,7 +5,6 @@ import ChatPanel from "./ChatPanel";
 import BodyMap from "./BodyMap";
 import { EmergencyBanner } from "./Common";
 import PanelTable from "./PanelTable";
-import RunDetails from "./RunDetails";
 import { PanelActivity, useRunEvents, waitForResult } from "./RunTimeline";
 import ConferenceDiagram from "./ConferenceDiagram";
 import FloatingChat from "./FloatingChat";
@@ -108,12 +107,7 @@ export default function CaseRoom({ c, patientName, onFinished }: {
       {!live && result && (
         <>
           <SpecialistReports result={result} />
-          <details className="card conference-log">
-            <summary><strong>Full conference log</strong> <span className="muted small">· every routing step, tool call and comment</span></summary>
-            <PanelActivity events={events} />
-          </details>
           <ConferenceDiagram result={result} names={names} />
-          <RunDetails caseId={c.id} roster={roster} />
         </>
       )}
     </div>
