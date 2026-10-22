@@ -2,7 +2,7 @@
 # Render asks for PORTKEY_API_KEY (stored as a secret, never in the repo). Everything else is set here.
 services:
   - type: web
-    name: case-conference
+    name: asclepius
     runtime: python
     plan: free                      # free instances sleep after 15 idle minutes (first visit then takes ~1 min)
     buildCommand: pip install --prefer-binary -r requirements.txt

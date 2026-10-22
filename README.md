@@ -36,15 +36,15 @@ already in `frontend/dist`.
 ### 1. Get the code
 
 ```bash
-git clone <this-repo-url> case-conference
-cd case-conference
+git clone https://github.com/celiagehant/asclepius.git
+cd asclepius
 ```
 
 ### 2. Add your API key
 
 The app uses `PORTKEY_API_KEY` and looks for a `.env` file in two places, in this order:
 
-1. this repo folder (`case-conference/.env`)
+1. this repo folder (`asclepius/.env`)
 2. the folder one level above it (`../.env`)
 
 If you already keep a `.env` with `PORTKEY_API_KEY=...` one folder above the repo, skip
@@ -586,6 +586,8 @@ intake ─► ROUND 1 · independent review (parallel)
 
 The repo is ready for [Render](https://render.com)'s free tier through `render.yaml`. A
 `Dockerfile` is included for any other host.
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/celiagehant/asclepius)
 
 1. Push this repo to GitHub (public or private).
 2. On Render: **New + → Blueprint**, pick the repo, and click **Apply**.
