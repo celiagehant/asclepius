@@ -894,7 +894,6 @@ body { background: radial-gradient(1200px 600px at 85% -10%, #e7f0fc 0%, rgba(23
 .demo-card { border-top: 4px solid #2f7de1; }
 .profile-card { border-top: 4px solid #0b2a4a; }
 .card, section[id], h2[id] { scroll-margin-top: 84px; }
-@media (max-width: 860px) { .welcome-band { grid-template-columns: 1fr; padding: 1.5rem; } }
 
 /* ======================= Greek · medical · hospital theme ======================= */
 :root {
