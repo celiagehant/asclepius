@@ -1,9 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <title>Asclepius: the rod of Asclepius</title>
-  <rect width="64" height="64" rx="15" fill="#0b2a4a"/>
-  <path d="M32 9 V56" stroke="#ffffff" stroke-width="4.2" stroke-linecap="round"/>
-  <path d="M32 50 C 18 48, 18 40, 32 38 C 46 36, 46 28, 32 26 C 21 24.5, 21 18, 30 16.5"
-        fill="none" stroke="#8ec0ff" stroke-width="4" stroke-linecap="round"/>
-  <ellipse cx="32.4" cy="15.6" rx="4" ry="2.9" fill="#8ec0ff" transform="rotate(-12 32.4 15.6)"/>
-  <circle cx="33.6" cy="14.9" r="0.9" fill="#0b2a4a"/>
+  <title>Asclepius</title>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2f7de1"/>
+      <stop offset="1" stop-color="#0b2a4a"/>
+    </linearGradient>
+  </defs>
+  <path d="M32 3 L55 11 V30 C55 45 45 55 32 61 C19 55 9 45 9 30 V11 Z" fill="url(#g)"/>
+  <path d="M32 7.5 L51 14 V30 C51 42.5 43 51 32 56.5 C21 51 13 42.5 13 30 V14 Z" fill="none" stroke="#ffffff" stroke-opacity="0.28" stroke-width="1.2"/>
+  <rect x="27.5" y="16" width="9" height="27" rx="2.2" fill="#ffffff"/>
+  <rect x="18.5" y="25" width="27" height="9" rx="2.2" fill="#ffffff"/>
+  <g fill="#bcd8ff">
+    <ellipse cx="17.5" cy="41" rx="1.6" ry="3.4" transform="rotate(-38 17.5 41)"/>
+    <ellipse cx="20.5" cy="45.6" rx="1.6" ry="3.4" transform="rotate(-55 20.5 45.6)"/>
+    <ellipse cx="25" cy="49.2" rx="1.6" ry="3.2" transform="rotate(-72 25 49.2)"/>
+    <ellipse cx="46.5" cy="41" rx="1.6" ry="3.4" transform="rotate(38 46.5 41)"/>
+    <ellipse cx="43.5" cy="45.6" rx="1.6" ry="3.4" transform="rotate(55 43.5 45.6)"/>
+    <ellipse cx="39" cy="49.2" rx="1.6" ry="3.2" transform="rotate(72 39 49.2)"/>
+  </g>
 </svg>

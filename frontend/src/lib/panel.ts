@@ -43,6 +43,12 @@ export const SYSTEM_COLORS: Record<string, string> = {
 
 export interface BoardPost { id: string; by: string; by_name: string; system: string; symptoms: string[]; line: string; significance: string; region: string | null; document?: string; seq?: number }
 export interface Thread { from: string; to: string[]; kind: "connection" | "challenge" | "support"; seq: number; text: string; candidate?: string }
+/** One line of the conference conversation, for the readable transcript. */
+export interface TalkEntry {
+  seq: number;
+  kind: "round" | "lookup" | "connects" | "challenges" | "keeps" | "supports" | "defends" | "concedes" | "answers" | "note";
+  from?: string; to?: string[]; text: string; candidate?: string;
+}
 
 export const SEVERITY_COLORS = { urgent: "#ff4d5e", discuss: "#ffb627", watch: "#4fa8ff" } as const;
 export type Severity = keyof typeof SEVERITY_COLORS;
@@ -91,6 +97,7 @@ export interface PanelState {
   spend: { total: number; limit: number | null; byMember: Record<string, number> };
   board: BoardPost[];
   threads: Thread[];
+  talk: TalkEntry[];
 }
 
 /** Same mapping as backend/panel.py member_of, for event logs saved before it existed. */
@@ -109,7 +116,7 @@ export function derivePanel(events: Ev[], fallbackCoordinator = "internal_medici
   const s: PanelState = {
     coordinatorId: fallbackCoordinator, active: new Set(), consults: new Set(), selected: false, medications: null, members: {},
     coordinator: { activity: "Waiting for records", done: false, safety: null }, lastSeq: 0, stage: "intake",
-    spend: { total: 0, limit: null, byMember: {} }, board: [], threads: [],
+    spend: { total: 0, limit: null, byMember: {} }, board: [], threads: [], talk: [],
   };
   const ROUND_NAMES: Record<number, string> = { 2: "Round 2", 3: "Round 3", 4: "Round 4" };
   const m = (id: string) => (s.members[id] ??= blank());
@@ -173,7 +180,9 @@ export function derivePanel(events: Ev[], fallbackCoordinator = "internal_medici
       }
       case "tool_call": {
         const src = ({ search_pubmed: "PubMed", search_medlineplus: "MedlinePlus", fda_label_search: "FDA label" } as Record<string, string>)[e.tool] ?? e.tool;
-        m(e.specialty).activity = `Checking ${src}: "${e.args?.query ?? e.args?.drug ?? ""}"`;
+        const what = e.args?.query ?? e.args?.drug ?? "";
+        m(e.specialty).activity = `Checking ${src}: "${what}"`;
+        if (e.status !== "refused") s.talk.push({ seq: e.seq, kind: "lookup", from: e.specialty, text: `looked up “${what}” on ${src}` });
         break;
       }
       case "specialist_done": {
@@ -205,6 +214,7 @@ export function derivePanel(events: Ev[], fallbackCoordinator = "internal_medici
         break;
       case "connection":
         s.threads.push({ from: e.from_, to: e.members ?? [], kind: "connection", seq: e.seq, text: e.title });
+        s.talk.push({ seq: e.seq, kind: "connects", from: e.from_, to: e.members ?? [], text: e.title });
         m(e.from_).bubble = { text: e.title, kind: "connection", seq: e.seq };
         break;
       case "challenge":
@@ -212,17 +222,28 @@ export function derivePanel(events: Ev[], fallbackCoordinator = "internal_medici
         s.threads.push({ from: e.from_ === "skeptic" ? s.coordinatorId : e.from_, to: e.to ?? [], kind: "challenge", seq: e.seq, text: e.text, candidate: e.candidate });
         s.coordinator.bubble = { text: `${e.candidate}: ${e.verdict}. ${e.text}`, kind: e.verdict === "keep" ? "agrees" : "challenge", seq: e.seq };
         s.coordinator.activity = "Challenging each candidate explanation";
+        s.talk.push({ seq: e.seq, kind: e.verdict === "keep" ? "keeps" : "challenges", from: e.from_ === "skeptic" ? s.coordinatorId : e.from_,
+          to: e.to ?? [], text: e.text, candidate: e.candidate });
         break;
       case "stance":
         if (e.stance === "support" || e.stance === "challenge") {
           s.threads.push({ from: e.from_, to: e.to ?? [], kind: e.stance, seq: e.seq, text: e.text, candidate: e.candidate });
         }
         m(e.from_).bubble = { text: `${e.candidate}: ${e.text}`, kind: e.stance === "challenge" || e.stance === "concede" ? "challenge" : e.stance, seq: e.seq };
+        s.talk.push({ seq: e.seq, kind: ({ support: "supports", challenge: "challenges", defend: "defends", concede: "concedes" } as Record<string, TalkEntry["kind"]>)[e.stance] ?? "note",
+          from: e.from_, to: e.to ?? [], text: e.text, candidate: e.candidate });
         break;
       case "comment":
         m(e.from_).bubble = { text: e.text, kind: e.kind, seq: e.seq };
+        s.talk.push({ seq: e.seq, kind: e.kind === "answer" ? "answers" : e.kind === "disagrees" ? "challenges" : e.kind === "agrees" ? "supports" : "connects",
+          from: e.from_, to: String(e.to ?? "").split(",").filter(Boolean), text: e.text });
         break;
       case "conference_round":
+        if (e.status === "started") {
+          const title = ({ 1: "Round 1 · Individual review: each doctor reads their own records", 2: "Round 2 · Joint review: connecting findings across the table",
+            3: "Round 3 · Challenge: the coordinator questions each explanation", 4: "Round 4 · Recommendations" } as Record<number, string>)[e.round];
+          if (title) s.talk.push({ seq: e.seq, kind: "round", text: title });
+        }
         if (e.round === 2 && e.status === "started" && e.name) { s.stage = "round2"; s.coordinator.activity = "Round 2: looking for connections across the board"; }
         if (e.round === 2 && e.status === "done") s.coordinator.activity = e.candidates ? `${e.candidates.length} candidate explanation(s) for the debate` : "Conference closed after round 2";
         if (e.round === 3 && e.status === "started") { s.stage = "round3"; s.coordinator.activity = "Round 3: looking for simpler explanations"; }

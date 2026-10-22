@@ -19,6 +19,22 @@ medical symbol, rather than the two-snake caduceus.
   Only the colored (flagged) organs can be clicked; a click shows below what the panel found
   there, and a second click clears it. The names under the body work the same way.
 
+**Update (2026-10-22): ΛSCLEPIUS.**
+- **Wordmark:** "ΛSCLEPIUS", with the Greek capital lambda standing in for the A, and the
+  original Greek "Ἀσκληπιός" as the subtitle. Screen readers announce "Asclepius".
+- **Logo:** a blue shield (protection) with a white medical cross (medicine) and a laurel
+  wreath (Greece).
+- **Public home page:** inspired by leading hospitals. A large serif promise and a drawing
+  of the AI conference, then how it works in four steps, what you receive, a navy "Your
+  data, protected" section (every claim is something the app really does), safety
+  commitments, the panel, an FAQ and a closing call to action. The sign-in pages share its
+  trust panel, and the logged-in home opens with a welcome banner.
+- **The conference room:** in round 1 each doctor holds an open case file and reads it.
+  Speech bubbles are short two-line previews above the name tags. The full discussion is in
+  a "Conversation" tab beside "Findings", which switches on by itself during the debate.
+  Replays run at a reading pace and can be paused or skipped.
+- **The body map column** scrolls on its own below the sticky top bar.
+
 The sections below describe the original layout and palette, kept for the record.
 
 ## Layout

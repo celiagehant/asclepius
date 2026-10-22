@@ -57,6 +57,25 @@ export default function Home({ onDataDeleted, publicDemo }: { onDataDeleted: () 
       {error && <p className="error-text">{error}</p>}
       {publicDemo && <PublicDemoNotice where="home" />}
 
+      <section className="welcome-band">
+        <div>
+          <p className="hero-eyebrow light">ΛSCLEPIUS · your AI case conference</p>
+          <h1>{cases.some((c) => c.status === "complete") ? "Welcome back." : "Your panel is ready."}</h1>
+          <p>Start a case from a health profile, add the records from each doctor, and convene the panel. Or try a fictional demo
+            patient to see a full conference in about two minutes.</p>
+          <div className="welcome-ctas">
+            {profiles[0] && <button className="btn btn-light" disabled={busy !== null} onClick={() => newCase(profiles[0].id)}>Start a new case</button>}
+            <button className="btn btn-outline-light" onClick={() => document.getElementById("demos")?.scrollIntoView({ behavior: "smooth" })}>Try a demo patient</button>
+          </div>
+        </div>
+        <div className="welcome-stats" aria-label="Your account">
+          <div><strong>{profiles.length}</strong><span>health profile{profiles.length === 1 ? "" : "s"}</span></div>
+          <div><strong>{cases.length}</strong><span>case{cases.length === 1 ? "" : "s"}</span></div>
+          <div><strong>{cases.filter((c) => c.status === "complete").length}</strong><span>summar{cases.filter((c) => c.status === "complete").length === 1 ? "y" : "ies"} ready</span></div>
+          <p className="welcome-lock">🔒 Private to your account · delete anytime</p>
+        </div>
+      </section>
+
       <div className="section-head">
         <div>
           <h1>Health profiles</h1>
@@ -90,17 +109,19 @@ export default function Home({ onDataDeleted, publicDemo }: { onDataDeleted: () 
         <div className="case-list">
           {cases.map((c) => (
             <a className="case-row card" key={c.id} href={`#/cases/${c.id}`}>
-              <div>
+              <span className="case-icon" aria-hidden>📁</span>
+              <div className="case-main">
                 <strong>{c.title}</strong>
                 <div className="muted small">{nameOf(c.profile_id)} · {c.file_count ?? 0} document(s) · {new Date(c.created_at).toLocaleDateString()}</div>
               </div>
               <StatusBadge status={c.status} />
+              <span className="case-arrow" aria-hidden>›</span>
             </a>
           ))}
         </div>
       )}
 
-      <h2>Try a demo patient</h2>
+      <h2 id="demos">Try a demo patient</h2>
       <p className="muted">Fictional patients with synthetic records. Loading one adds its profile and a ready-to-review case to your account.</p>
       <div className="grid">
         {demos.map((d) => (

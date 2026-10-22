@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { colorOf, derivePanel, shortName, SPECIALTY_ICONS, type BoardPost, type ChatOverlay, type Ev, type MemberState, type RosterEntry, type Thread } from "../lib/panel";
 import { webglAvailable } from "./BodyMap";
 import CaseBoard from "./CaseBoard";
+import ConversationFeed from "./ConversationFeed";
 import type { RoomLayout, Seat } from "./ConferenceRoom3D";
 
 const ConferenceRoom3D = lazy(() => import("./ConferenceRoom3D"));  // three.js loads only when the room is shown
@@ -106,6 +107,7 @@ export default function PanelTable({ events, roster, patientName, live, medicati
   autoReplay?: boolean; focusMembers?: string[]; focusRefs?: string[]; onFocusPost?: (p: BoardPost | null) => void; boardFallback?: BoardPost[];
 }) {
   const [replayAt, setReplayAt] = useState<number | null>(null);
+  const [paused, setPaused] = useState(false);
   const timer = useRef<number | null>(null);
   const shown = replayAt === null ? events : events.slice(0, replayAt);
   const derived = useMemo(() => derivePanel(shown), [shown]);
@@ -122,7 +124,7 @@ export default function PanelTable({ events, roster, patientName, live, medicati
     return { ...derived, members, coordinator: overlay.coordinator ? { ...derived.coordinator, activity: overlay.coordinator } : derived.coordinator };
   }, [derived, overlay]);
 
-  useEffect(() => () => { if (timer.current) window.clearInterval(timer.current); }, []);
+  useEffect(() => () => { if (timer.current) window.clearTimeout(timer.current); }, []);
   const autoStarted = useRef(false);
   useEffect(() => {  // the offline demo replays the conference once when a case opens
     if (autoReplay && !autoStarted.current && events.length) {
@@ -131,16 +133,26 @@ export default function PanelTable({ events, roster, patientName, live, medicati
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoReplay, events.length]);
-  const replay = () => {
-    if (timer.current) window.clearInterval(timer.current);
-    setReplayAt(0);
-    timer.current = window.setInterval(() => {
-      setReplayAt((i) => {
-        if (i === null || i >= events.length) { if (timer.current) window.clearInterval(timer.current); return null; }
-        return i + 1;
-      });
-    }, 140);
+  // Replay at a human pace: what the doctors say gets time to be read; bookkeeping events go by quickly.
+  const delayFor = (e?: Ev) => !e ? 100 : ["connection", "challenge", "stance", "comment"].includes(e.type) ? 1500
+    : e.type === "board_post" ? 380 : e.type === "conference_round" ? 900 : e.type === "spend" ? 15 : 110;
+  const step = (i: number) => {
+    if (i >= events.length) { setReplayAt(null); setPaused(false); return; }
+    setReplayAt(i + 1);
+    timer.current = window.setTimeout(() => step(i + 1), delayFor(events[i]));
   };
+  const replay = () => {
+    if (timer.current) window.clearTimeout(timer.current);
+    setPaused(false);
+    setReplayAt(0);
+    timer.current = window.setTimeout(() => step(0), 300);
+  };
+  const togglePause = () => {
+    if (replayAt === null) return;
+    if (paused) { setPaused(false); step(replayAt); }
+    else { if (timer.current) window.clearTimeout(timer.current); setPaused(true); }
+  };
+  const skip = () => { if (timer.current) window.clearTimeout(timer.current); setReplayAt(null); setPaused(false); };
 
   const coordinator = roster.find((r) => r.id === state.coordinatorId) ?? { id: state.coordinatorId, name: "Internal medicine", tier: "coordinator", scope: "" };
   const members = roster.filter((r) => r.tier !== "coordinator");
@@ -159,11 +171,16 @@ export default function PanelTable({ events, roster, patientName, live, medicati
   const pos: Record<string, { x: number; y: number }> = Object.fromEntries(inner.map((r, i) => [r.id, arcPoint(i, inner.length, ringFor(i, inner.length))]));
   pos[state.coordinatorId] = { x: 50, y: 90 };
   for (const r of head) pos[r.id] = HEAD_SEATS[r.id];
-  const focus = new Set(focusMembers ?? []);
+  const [talkFocus, setTalkFocus] = useState<string[] | null>(null);
+  const focus = new Set(talkFocus ?? focusMembers ?? []);
   const bubbleSeq = ["round1", "round2", "round3"].includes(state.stage) ? state.lastSeq : -1;
   const coordBubble = state.coordinator.bubble && bubbleSeq >= 0 && bubbleSeq - state.coordinator.bubble.seq <= BUBBLE_WINDOW ? state.coordinator.bubble : null;
   const board = state.board.length ? state.board : (replaying ? [] : boardFallback ?? []);
   const room3d = useRoom3d();
+  const [tabPick, setTabPick] = useState<"talk" | "found" | null>(null);
+  const talking = (live || replaying) && ["round2", "round3", "synthesis"].includes(state.stage);
+  const tab = tabPick ?? (talking ? "talk" : "found");
+  const spoken = state.talk.filter((t) => t.kind !== "round" && t.kind !== "lookup").length;
   const [layout, setLayout] = useState<RoomLayout | null>(null);
   const atTable = [...inner, ...head.filter((r) => forward.includes(r.id))];
   const speaking = [
@@ -179,8 +196,9 @@ export default function PanelTable({ events, roster, patientName, live, medicati
       talking: !!coordBubble || (!state.coordinator.done && ["intake", "round3", "synthesis", "safety"].includes(state.stage) && (live || replaying)) },
     ...atTable.map((r) => {
       const m = state.members[r.id];
-      return { id: r.id, color: colorOf(r.id), angle: angles[r.id], focused: focus.has(r.id),
-        talking: m?.status === "working" || recent(m?.bubble?.seq) };
+      const reading = m?.status === "working" && (state.stage === "round1" || state.stage === "intake");
+      return { id: r.id, color: colorOf(r.id), angle: angles[r.id], focused: focus.has(r.id), reading,
+        talking: !reading && (m?.status === "working" || recent(m?.bubble?.seq)) };
     }),
   ];
 
@@ -192,9 +210,12 @@ export default function PanelTable({ events, roster, patientName, live, medicati
           <p className="muted small">AI specialist agents, not real doctors. Everyone at the table is reviewing this case; whoever is working leans in to talk.</p>
           <div className="thread-legend" aria-hidden><span><i />connects findings</span><span><i className="ch" />challenges</span></div>
         </div>
-        {!live && events.length > 0 && (
-          <button className="btn btn-ghost" onClick={replay} disabled={replaying}>{replaying ? "Replaying…" : "▶ Replay the conference"}</button>
-        )}
+        {!live && events.length > 0 && (replaying ? (
+          <div className="replay-ctl">
+            <button className="btn btn-ghost" onClick={togglePause}>{paused ? "▶ Resume" : "❚❚ Pause"}</button>
+            <button className="btn btn-ghost" onClick={skip}>Skip to the end</button>
+          </div>
+        ) : <button className="btn btn-ghost" onClick={replay}>▶ Replay the conference</button>)}
       </div>
       <div className="panel-layout">{/* stage on the left, live case board on the right */}
       {room3d ? (
@@ -222,7 +243,7 @@ export default function PanelTable({ events, roster, patientName, live, medicati
                     <div key={seat.id}>
                       {bubble && <div className={`room-bubble bubble-${bubble.kind}`}
                         style={{ left: `${Math.min(Math.max(head.x, 14), 86)}%`, top: `${Math.max(head.y, 24)}%` }}>
-                        <span className="bubble-kind">{bubble.kind}</span> {bubble.text}</div>}
+                        <span className="bubble-kind">{bubble.kind}</span> {bubble.text.length > 90 ? `${bubble.text.slice(0, 88).trimEnd()}…` : bubble.text}</div>}
                       <NameTag entry={entry} state={seat.coordinator ? undefined : m} coordinator={seat.coordinator}
                         coordinatorState={seat.coordinator ? state.coordinator : undefined} focused={seat.focused} pos={tag}
                         consult={state.consults.has(seat.id)} medications={seat.id === "clinical_pharmacist" ? medications : null} active={state.selected} />
@@ -278,7 +299,18 @@ export default function PanelTable({ events, roster, patientName, live, medicati
         </div>
       </div>
       )}
-      <CaseBoard posts={board} roster={roster} focusRefs={focusRefs ?? []} onFocusPost={onFocusPost} live={live || replaying} />
+      <aside className="side-panel">
+        <div className="side-tabs" role="tablist">
+          <button role="tab" aria-selected={tab === "talk"} className={tab === "talk" ? "on" : ""} onClick={() => setTabPick("talk")}>
+            💬 Conversation {spoken > 0 && <span className="tab-n">{spoken}</span>}</button>
+          <button role="tab" aria-selected={tab === "found"} className={tab === "found" ? "on" : ""} onClick={() => setTabPick("found")}>
+            📋 Findings {board.length > 0 && <span className="tab-n">{board.length}</span>}</button>
+        </div>
+        {tab === "talk"
+          ? <ConversationFeed talk={state.talk} roster={roster} coordinatorId={state.coordinatorId} live={live || replaying} focus={focus}
+              onFocus={(ms) => setTalkFocus(ms)} />
+          : <CaseBoard posts={board} roster={roster} focusRefs={focusRefs ?? []} onFocusPost={onFocusPost} live={live || replaying} />}
+      </aside>
       </div>
     </section>
   );

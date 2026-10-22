@@ -27,14 +27,16 @@ export default function AuthPage({ mode, onAuthed, publicDemo }: { mode: "login"
 
   return (
     <div className="auth">
-      <section className="auth-intro">
-        <h1>Your specialists, finally in one room.</h1>
-        <p>Upload records from every doctor you see. A panel of AI specialist agents reviews them together, discusses what
-          connects, and prepares a case summary with questions to bring to your own doctors.</p>
-        <ul className="ticks">
-          <li>Not a diagnosis and never a prescription: an organized summary for your real doctors.</li>
-          <li>The panel is made of AI specialist agents, not licensed physicians.</li>
-          <li>Your data is private to your account, and you can delete all of it at any time.</li>
+      <section className="auth-intro auth-panel">
+        <p className="hero-eyebrow light">ΛSCLEPIUS · AI case conference</p>
+        <h1>{signup ? "Your specialists, finally in one room." : "Welcome back."}</h1>
+        <p>A panel of AI specialist agents reviews the records from every doctor you see, connects what they find, and prepares
+          questions for your own doctors.</p>
+        <ul className="auth-trust">
+          <li><span aria-hidden>🔒</span><div><strong>Private to your account.</strong> Only you can open your cases.</div></li>
+          <li><span aria-hidden>🔑</span><div><strong>Your password is never stored.</strong> It is scrambled with a one-way method.</div></li>
+          <li><span aria-hidden>🗑️</span><div><strong>Delete everything anytime,</strong> in one click.</div></li>
+          <li><span aria-hidden>🩺</span><div><strong>Not a diagnosis.</strong> An organized summary for your real doctors, from AI agents, not physicians.</div></li>
         </ul>
       </section>
       <form className="card auth-card" onSubmit={submit}>

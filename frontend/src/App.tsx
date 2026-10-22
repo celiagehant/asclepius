@@ -4,6 +4,7 @@ import { DisclaimerBar, TopBar } from "./components/Common";
 import AuthPage from "./pages/AuthPage";
 import CasePage from "./pages/CasePage";
 import Home from "./pages/Home";
+import Landing from "./pages/Landing";
 import Questionnaire from "./pages/Questionnaire";
 import { go, useRoute } from "./lib/router";
 
@@ -52,7 +53,9 @@ export default function App() {
 
   let page;
   if (user === undefined) page = <p className="muted">Loading…</p>;
-  else if (user === null) page = <AuthPage mode={path === "/signup" ? "signup" : "login"} onAuthed={() => { refresh(); go("/"); }} publicDemo={health?.public_demo} />;
+  else if (user === null && (path === "/login" || path === "/signup"))
+    page = <AuthPage mode={path === "/signup" ? "signup" : "login"} onAuthed={() => { refresh(); go("/"); }} publicDemo={health?.public_demo} />;
+  else if (user === null) page = <Landing publicDemo={health?.public_demo} />;
   else if (path === "/profiles/new") page = <Questionnaire key={route} forWhom={params.get("for") === "care" ? "care" : "self"} firstTime={params.get("first") === "1" || profileCount === 0} onSaved={profilesChanged} />;
   else if (/^\/profiles\/\d+$/.test(path)) page = <Questionnaire key={route} profileId={Number(path.split("/")[2])} onSaved={profilesChanged} />;
   else if (/^\/cases\/\d+$/.test(path)) page = <CasePage key={route} caseId={Number(path.split("/")[2])} publicDemo={health?.public_demo} />;
@@ -62,11 +65,15 @@ export default function App() {
     <div className="app">
       <TopBar email={user?.email} onLogout={user ? logout : undefined}>
         {user && <a className="btn btn-ghost hide-sm" href="#/">My cases</a>}
+        {user === null && <>
+          <a className="btn btn-ghost" href="#/login">Log in</a>
+          <a className="btn" href="#/signup">Get started</a>
+        </>}
       </TopBar>
       {health && !health.key_loaded && (
         <div className="error-banner">The server has no model key: {health.message}</div>
       )}
-      <main className="page">{page}</main>
+      <main className={user === null && !(path === "/login" || path === "/signup") ? "page page-wide" : "page"}>{page}</main>
       <DisclaimerBar />
     </div>
   );

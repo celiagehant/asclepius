@@ -12,6 +12,7 @@ export interface Seat {
   color: string;           // scrubs color (the specialty's color)
   angle: number;           // degrees around the table: 90 = head of the table, far side
   talking: boolean;        // working or speaking: leans in and nods
+  reading?: boolean;       // round 1: holds the case file up and reads it
   focused: boolean;        // linked to the selected card or finding
   coordinator?: boolean;
 }
@@ -54,6 +55,7 @@ function Limb({ from, to, r, color }: { from: [number, number, number]; to: [num
 function Bust({ seat }: { seat: Seat }) {
   const body = useRef<THREE.Group>(null);
   const head = useRef<THREE.Group>(null);
+  const sheet = useRef<THREE.Group>(null);
   const h = hash(seat.id);
   const skin = SKIN[h % SKIN.length];
   const hair = HAIR[(h >> 3) % HAIR.length];
@@ -67,9 +69,11 @@ function Bust({ seat }: { seat: Seat }) {
       body.current.rotation.x += (lean - body.current.rotation.x) * 0.08;   // lean in toward the table while talking
     }
     if (head.current) {
-      head.current.rotation.x = seat.talking ? 0.1 * Math.sin(t * 5.2) : 0.015 * Math.sin(t * 1.1);   // nod while talking
+      head.current.rotation.x = seat.reading ? 0.32 + 0.03 * Math.sin(t * 1.6)            // looking down at the file
+        : seat.talking ? 0.1 * Math.sin(t * 5.2) : 0.015 * Math.sin(t * 1.1);             // nod while talking
       head.current.rotation.y = seat.talking ? 0.08 * Math.sin(t * 2.3) : 0;
     }
+    if (sheet.current) sheet.current.rotation.x = seat.reading ? -0.15 + 0.12 * Math.max(0, Math.sin(t * 0.9)) : 0;  // turning a page
   });
   const scale = seat.coordinator ? 1.1 : 1;
   return (
@@ -82,14 +86,38 @@ function Bust({ seat }: { seat: Seat }) {
         <mesh position={[0, 0.34, 0]} scale={[1.18, 1, 0.74]}><capsuleGeometry args={[0.3, 0.34, 8, 16]} /><meshStandardMaterial color={coat} roughness={0.8} /></mesh>
         <mesh position={[0, 0.58, 0.17]} rotation={[0.25, 0, Math.PI]} scale={[1, 1, 0.5]}><coneGeometry args={[0.13, 0.32, 3]} /><meshStandardMaterial color={seat.color} roughness={0.7} /></mesh>
         <mesh position={[0, 0.7, 0.02]}><cylinderGeometry args={[0.15, 0.17, 0.08, 16]} /><meshStandardMaterial color={seat.color} roughness={0.7} /></mesh>
-        {/* arms resting on the table */}
-        {([-1, 1] as const).map((s) => (
+        {/* arms: resting on the table, or holding the case file up while reading (round 1) */}
+        {([-1, 1] as const).map((s) => seat.reading ? (
+          <group key={s}>
+            <Limb from={[s * 0.34, 0.56, 0]} to={[s * 0.3, 0.24, 0.22]} r={0.085} color={coat} />
+            <Limb from={[s * 0.3, 0.24, 0.22]} to={[s * 0.17, 0.42, 0.46]} r={0.075} color={coat} />
+            <mesh position={[s * 0.15, 0.45, 0.5]}><sphereGeometry args={[0.065, 12, 10]} /><meshStandardMaterial color={skin} roughness={0.7} /></mesh>
+          </group>
+        ) : (
           <group key={s}>
             <Limb from={[s * 0.34, 0.56, 0]} to={[s * 0.36, 0.22, 0.2]} r={0.085} color={coat} />
             <Limb from={[s * 0.36, 0.22, 0.2]} to={[s * 0.2, 0.16, 0.52]} r={0.075} color={coat} />
             <mesh position={[s * 0.17, 0.16, 0.6]}><sphereGeometry args={[0.065, 12, 10]} /><meshStandardMaterial color={skin} roughness={0.7} /></mesh>
           </group>
         ))}
+        {/* the case file: open in the hands while reading, closed on the table otherwise */}
+        {seat.reading ? (
+          <group position={[0, 0.5, 0.52]} rotation={[-0.95, 0, 0]}>
+            <mesh><boxGeometry args={[0.46, 0.015, 0.32]} /><meshStandardMaterial color="#2f5f9e" roughness={0.6} /></mesh>
+            <mesh position={[-0.11, 0.012, 0]}><boxGeometry args={[0.21, 0.01, 0.29]} /><meshStandardMaterial color="#fbf8f0" roughness={0.9} /></mesh>
+            <group ref={sheet} position={[0.005, 0.014, 0]}>
+              <mesh position={[0.11, 0, 0]}><boxGeometry args={[0.21, 0.008, 0.29]} /><meshStandardMaterial color="#ffffff" roughness={0.9} /></mesh>
+              {[-0.08, -0.04, 0, 0.04, 0.08].map((z) => (
+                <mesh key={z} position={[0.11, 0.006, z]}><boxGeometry args={[0.16, 0.002, 0.008]} /><meshBasicMaterial color="#9fb3cc" /></mesh>
+              ))}
+            </group>
+          </group>
+        ) : (
+          <group position={[0, 0.14, 0.72]} rotation={[0, 0.25, 0]}>
+            <mesh><boxGeometry args={[0.3, 0.025, 0.22]} /><meshStandardMaterial color="#2f5f9e" roughness={0.6} /></mesh>
+            <mesh position={[0, 0.016, 0]}><boxGeometry args={[0.27, 0.008, 0.2]} /><meshStandardMaterial color="#fbf8f0" roughness={0.9} /></mesh>
+          </group>
+        )}
         {/* neck and head */}
         <mesh position={[0, 0.8, 0]}><cylinderGeometry args={[0.08, 0.09, 0.16, 12]} /><meshStandardMaterial color={skin} roughness={0.7} /></mesh>
         <group ref={head} position={[0, 1.02, 0]}>

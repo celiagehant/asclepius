@@ -1,6 +1,6 @@
-# Asclepius
+# ΛSCLEPIUS (Asclepius)
 
-*An AI case conference, named after the Greek god of medicine. (The project was built as "Case
+*An AI case conference, named after the Greek god of medicine (Ἀσκληπιός). (The project was built as "Case
 Conference"; the code keeps that name internally.)*
 
 **A panel of AI specialist agents reviews all of a patient's medical records together. It
