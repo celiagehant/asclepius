@@ -58,14 +58,15 @@ export default function Home({ onDataDeleted, publicDemo }: { onDataDeleted: () 
       {publicDemo && <PublicDemoNotice where="home" />}
 
       <section className="welcome-band">
+        <img className="welcome-watermark" src="/emblem.svg?v=4" alt="" aria-hidden />
         <div>
-          <p className="hero-eyebrow light">ΛSCLEPIUS · your AI case conference</p>
+          <p className="g-eyebrow">ΛSCLEPIUS · your AI case conference</p>
           <h1>{cases.some((c) => c.status === "complete") ? "Welcome back." : "Your panel is ready."}</h1>
           <p>Start a case from a health profile, add the records from each doctor, and convene the panel. Or try a fictional demo
             patient to see a full conference in about two minutes.</p>
           <div className="welcome-ctas">
-            {profiles[0] && <button className="btn btn-light" disabled={busy !== null} onClick={() => newCase(profiles[0].id)}>Start a new case</button>}
-            <button className="btn btn-outline-light" onClick={() => document.getElementById("demos")?.scrollIntoView({ behavior: "smooth" })}>Try a demo patient</button>
+            {profiles[0] && <button className="btn" disabled={busy !== null} onClick={() => newCase(profiles[0].id)}>Start a new case</button>}
+            <button className="btn btn-ghost" onClick={() => document.getElementById("demos")?.scrollIntoView({ behavior: "smooth" })}>Try a demo patient</button>
           </div>
         </div>
         <div className="welcome-stats" aria-label="Your account">

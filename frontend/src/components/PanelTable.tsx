@@ -193,10 +193,13 @@ export default function PanelTable({ events, roster, patientName, live, medicati
   const recent = (seq?: number) => seq !== undefined && (seq === Number.MAX_SAFE_INTEGER || (bubbleSeq >= 0 && bubbleSeq - seq <= BUBBLE_WINDOW));
   const seats: Seat[] = [
     { id: coordinator.id, color: colorOf(coordinator.id), angle: 90, coordinator: true, focused: focus.has(coordinator.id),
-      talking: !!coordBubble || (!state.coordinator.done && ["intake", "round3", "synthesis", "safety"].includes(state.stage) && (live || replaying)) },
+      // Before round 1 the coordinator sorts the incoming records: it reads through a file.
+      reading: (live || replaying) && state.stage === "intake",
+      talking: !!coordBubble || (!state.coordinator.done && ["round3", "synthesis", "safety"].includes(state.stage) && (live || replaying)) },
     ...atTable.map((r) => {
       const m = state.members[r.id];
-      const reading = m?.status === "working" && (state.stage === "round1" || state.stage === "intake");
+      // A doctor reads as soon as a record is routed to them (before round 1) and through their round-1 review.
+      const reading = (live || replaying) && (m?.status === "lit" || (m?.status === "working" && (state.stage === "round1" || state.stage === "intake")));
       return { id: r.id, color: colorOf(r.id), angle: angles[r.id], focused: focus.has(r.id), reading,
         talking: !reading && (m?.status === "working" || recent(m?.bubble?.seq)) };
     }),

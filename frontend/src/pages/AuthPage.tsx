@@ -26,17 +26,17 @@ export default function AuthPage({ mode, onAuthed, publicDemo }: { mode: "login"
   };
 
   return (
-    <div className="auth">
-      <section className="auth-intro auth-panel">
-        <p className="hero-eyebrow light">ΛSCLEPIUS · AI case conference</p>
-        <h1>{signup ? "Your specialists, finally in one room." : "Welcome back."}</h1>
-        <p>A panel of AI specialist agents reviews the records from every doctor you see, connects what they find, and prepares
-          questions for your own doctors.</p>
-        <ul className="auth-trust">
-          <li><span aria-hidden>🔒</span><div><strong>Private to your account.</strong> Only you can open your cases.</div></li>
-          <li><span aria-hidden>🔑</span><div><strong>Your password is never stored.</strong> It is scrambled with a one-way method.</div></li>
-          <li><span aria-hidden>🗑️</span><div><strong>Delete everything anytime,</strong> in one click.</div></li>
-          <li><span aria-hidden>🩺</span><div><strong>Not a diagnosis.</strong> An organized summary for your real doctors, from AI agents, not physicians.</div></li>
+    <div className="auth auth-greek">
+      <img className="auth-watermark" src="/emblem.svg?v=4" alt="" aria-hidden />
+      <section className="auth-intro">
+        <p className="g-eyebrow">AI case conference</p>
+        <h1>Your specialists,<br /><em>finally in one room.</em></h1>
+        <p>Upload records from every doctor you see. A panel of AI specialist agents reviews them together, discusses what
+          connects, and prepares a case summary with questions to bring to your own doctors.</p>
+        <ul className="g-points">
+          <li><span className="g-ic" aria-hidden>✦</span><div><strong>Not a diagnosis and never a prescription:</strong> an organized summary for your real doctors.</div></li>
+          <li><span className="g-ic" aria-hidden>✦</span><div><strong>AI specialist agents,</strong> not licensed physicians, and they say so.</div></li>
+          <li><span className="g-ic" aria-hidden>✦</span><div><strong>Private to your account,</strong> and you can delete all of it at any time.</div></li>
         </ul>
       </section>
       <form className="card auth-card" onSubmit={submit}>
@@ -60,6 +60,12 @@ export default function AuthPage({ mode, onAuthed, publicDemo }: { mode: "login"
           {signup ? <>Already have an account? <a href="#/login">Log in</a></> : <>New here? <a href="#/signup">Create an account</a></>}
         </p>
       </form>
+      <aside className="g-symbol">
+        <img src="/emblem.svg?v=4" alt="" width={56} height={56} />
+        <div><h3>One serpent, many heads</h3>
+          <p>Asclepius' serpent has always stood for medicine. Ours has many heads on one body: many specialists, one patient,
+            a holistic view of the whole person.</p></div>
+      </aside>
     </div>
   );
 }

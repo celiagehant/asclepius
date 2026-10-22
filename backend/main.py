@@ -126,7 +126,8 @@ if (config.FRONTEND_DIST / "index.html").is_file():
             raise HTTPException(404, "Unknown API route.")
         candidate = (config.FRONTEND_DIST / path).resolve()
         if path and candidate.is_file() and config.FRONTEND_DIST in candidate.parents:
-            return FileResponse(candidate)
+            # Files outside /assets (the icon, the emblem) keep their names across updates: always re-check them.
+            return FileResponse(candidate, headers={"Cache-Control": "no-cache, must-revalidate"})
         # The page itself must never be reused from the browser's cache: after an update it points
         # to new script files (their names change with every build), so an old copy would keep
         # showing the old app. The script files under /assets can be cached; their names are unique.

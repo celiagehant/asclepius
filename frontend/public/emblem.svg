@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <title>Asclepius: one serpent, many heads</title>
+  <defs>
+    <radialGradient id="g" cx="50%" cy="40%" r="60%"><stop offset="0" stop-color="#1d4f86"/><stop offset="1" stop-color="#0b2a4a"/></radialGradient>
+  </defs>
+  <circle cx="50" cy="50" r="48" fill="url(#g)"/>
+  <circle cx="50" cy="50" r="44.5" fill="none" stroke="#b8893b" stroke-width="2"/>
+  <circle cx="50" cy="50" r="41.2" fill="none" stroke="#b8893b" stroke-width="0.7" stroke-dasharray="2.2 2.2"/>
+  <line x1="50" y1="30" x2="50" y2="86" stroke="#f3e7cf" stroke-width="4.4" stroke-linecap="round"/>
+  <path d="M50 82 C 36 79, 36 71, 50 68 C 64 65, 64 57, 50 54 C 41 52, 41 46, 48 43" fill="none" stroke="#e1b866" stroke-width="4.6" stroke-linecap="round"/>
+  <path d="M48 43 C 40 39, 33 35, 30 27 M48 43 C 49 36, 50 30, 50 21 M48 43 C 57 39, 65 35, 70 27" fill="none" stroke="#e1b866" stroke-width="3.8" stroke-linecap="round"/>
+  <ellipse cx="29.2" cy="24.6" rx="4.5" ry="3.2" fill="#e1b866" transform="rotate(-62 29.2 24.6)"/>
+  <ellipse cx="50" cy="18.2" rx="4.5" ry="3.2" fill="#e1b866" transform="rotate(-90 50 18.2)"/>
+  <ellipse cx="70.8" cy="24.6" rx="4.5" ry="3.2" fill="#e1b866" transform="rotate(62 70.8 24.6)"/>
+  <circle cx="28.4" cy="23.4" r="0.8" fill="#0b2a4a"/><circle cx="50.9" cy="17.2" r="0.8" fill="#0b2a4a"/><circle cx="71.6" cy="23.4" r="0.8" fill="#0b2a4a"/>
+</svg>

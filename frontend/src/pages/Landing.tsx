@@ -17,8 +17,9 @@ export default function Landing({ publicDemo }: { publicDemo?: boolean }) {
   return (
     <div className="landing">
       <section className="hero-x">
+        <img className="hero-watermark" src="/emblem.svg?v=4" alt="" aria-hidden />
         <div className="hero-copy">
-          <p className="hero-eyebrow">AI case conference · for patients who see many doctors</p>
+          <p className="g-eyebrow">AI case conference</p>
           <h1>All your specialists,<br /><em>finally at one table.</em></h1>
           <p className="hero-lead">Upload the records from each of your doctors. A panel of AI specialist agents reviews every one, connects
             what no single visit could, debates what fits, and gives you clear questions to bring to your own doctors.</p>
@@ -82,6 +83,19 @@ export default function Landing({ publicDemo }: { publicDemo?: boolean }) {
         </div>
       </section>
 
+      <section className="l-section l-emblem">
+        <img src="/emblem.svg?v=4" alt="The Asclepius emblem: a staff with one serpent and three heads" width={150} height={150} />
+        <div>
+          <p className="l-eyebrow">Our emblem</p>
+          <h2>One serpent, many heads</h2>
+          <p className="l-lead">For more than two thousand years, the serpent of Asclepius, the Greek god of medicine, has stood for healing.
+            Ours rises from one body into many heads: many specialists looking at one patient. It is our promise of a holistic
+            approach, where your heart, your blood, your hormones and your daily life are seen together, never in isolation.</p>
+        </div>
+      </section>
+
+      <div className="meander-rule" aria-hidden />
+
       <section id="privacy" className="l-section l-privacy">
         <p className="l-eyebrow light">Your data, protected</p>
         <h2>Your health story stays yours</h2>
@@ -130,6 +144,7 @@ export default function Landing({ publicDemo }: { publicDemo?: boolean }) {
         <a className="btn btn-xl btn-light" href="#/signup">Get started</a>
       </section>
 
+      <div className="meander-rule" aria-hidden />
       <footer className="l-footer">
         <span><span className="lambda">Λ</span>SCLEPIUS · AI case conference</span>
         <span>An educational project (MGT 409, Yale SOM). Not a medical device.</span>
@@ -151,15 +166,15 @@ function ConferenceArt() {
   return (
     <svg viewBox="0 0 400 400" className="conf-art">
       <defs>
-        <radialGradient id="halo" cx="50%" cy="50%" r="50%"><stop offset="0" stopColor="#dce9fb" /><stop offset="1" stopColor="#f6f8fb" stopOpacity="0" /></radialGradient>
-        <linearGradient id="tbl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#ffffff" /><stop offset="1" stopColor="#eaf1fb" /></linearGradient>
+        <radialGradient id="halo" cx="50%" cy="50%" r="50%"><stop offset="0" stopColor="#efe6d2" /><stop offset="1" stopColor="#f7f4ec" stopOpacity="0" /></radialGradient>
+        <linearGradient id="tbl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#ffffff" /><stop offset="1" stopColor="#f3eee2" /></linearGradient>
         <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="6" stdDeviation="8" floodColor="#0b2a4a" floodOpacity="0.15" /></filter>
       </defs>
       <circle cx="200" cy="200" r="195" fill="url(#halo)" />
-      <circle cx="200" cy="200" r="112" fill="url(#tbl)" stroke="#2f7de1" strokeOpacity="0.35" strokeWidth="2" filter="url(#soft)" />
+      <circle cx="200" cy="200" r="112" fill="url(#tbl)" stroke="#b8893b" strokeOpacity="0.7" strokeWidth="2.2" filter="url(#soft)" />
       {[[0, 2], [1, 3], [2, 4], [5, 1], [6, 3], [0, 5]].map(([a, b], i) => {
         const [x1, y1] = pos(seats[a][1], 150), [x2, y2] = pos(seats[b][1], 150);
-        return <path key={i} d={`M${x1} ${y1} Q200 200 ${x2} ${y2}`} fill="none" stroke={i === 5 ? "#f0961a" : "#2f7de1"}
+        return <path key={i} d={`M${x1} ${y1} Q200 200 ${x2} ${y2}`} fill="none" stroke={i === 5 ? "#f0961a" : "#2f6fb5"}
           strokeOpacity={i === 5 ? 0.8 : 0.45} strokeWidth="2.2" strokeDasharray={i === 5 ? "6 5" : undefined} className="art-line" />;
       })}
       <g transform="translate(168 168)">

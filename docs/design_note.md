@@ -35,6 +35,17 @@ medical symbol, rather than the two-snake caduceus.
   Replays run at a reading pace and can be paused or skipped.
 - **The body map column** scrolls on its own below the sticky top bar.
 
+**Update (2026-10-22, later): Greek, medical and hospital style.**
+- **Emblem:** a Greek-coin medallion, navy with a gold rim, a staff, and one serpent that rises into three heads. "One serpent,
+  many heads" stands for many specialists looking at one patient, a holistic approach; the welcome and log-in pages explain it.
+- **Palette:** marble white (`#fbfaf6`), stone (`#f1ede3`), navy (`#0b2a4a`), Aegean blue (`#2f6fb5`), gold (`#b8893b`). The
+  severity colors are unchanged.
+- **Greek key (meander):** a thin gold divider under the header, above the footer and between sections. Gold eyebrows have
+  short gold rules, and key cards have a gold top line.
+- **Log-in / sign-up:** the original layout (text left, form right, no blue box), with a faint emblem watermark.
+- **Logged-in home:** a light marble welcome card instead of a blue box.
+- **Room:** the coordinator sorts the records and the doctors read their routed files before round 1.
+
 The sections below describe the original layout and palette, kept for the record.
 
 ## Layout

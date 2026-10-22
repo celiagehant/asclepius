@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ΛSCLEPIUS · design proposal (mockup, not the app)</title>
+<style>
+  :root {
+    --navy: #0b2a4a; --navy-2: #163f6e; --blue: #2f6fb5; --gold: #b8893b; --gold-soft: #e9d9b8;
+    --marble: #fbfaf6; --stone: #f1ede3; --ink: #1b2533; --muted: #6a7280; --line: #e4ddcd;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--sans); color: var(--ink); background: #e9e6df; }
+  .doc { max-width: 1180px; margin: 0 auto; padding: 2rem 1.2rem 4rem; }
+  .doc > h1 { font-family: var(--serif); color: var(--navy); margin: 0 0 0.3rem; }
+  .doc > p.lead { color: var(--muted); margin: 0 0 2rem; }
+  .sheet { background: #fff; border-radius: 18px; padding: 1.6rem; margin-bottom: 1.6rem; box-shadow: 0 10px 30px rgba(0,0,0,0.06); }
+  .sheet > h2 { font-family: var(--serif); color: var(--navy); margin: 0 0 0.3rem; }
+  .sheet > p { color: var(--muted); margin: 0 0 1.2rem; }
+  .logos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+  .logo-opt { border: 1px solid var(--line); border-radius: 16px; padding: 1.2rem; background: var(--marble); text-align: center; }
+  .logo-opt h3 { font-family: var(--serif); color: var(--navy); margin: 0.6rem 0 0.2rem; }
+  .logo-opt p { color: var(--muted); font-size: 0.9rem; margin: 0.3rem 0 0; text-align: left; }
+  .logo-opt .sizes { display: flex; align-items: flex-end; justify-content: center; gap: 1rem; margin-top: 0.8rem; }
+  .tag { display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); }
+  .rec { border: 2px solid var(--gold); }
+  .meander { height: 14px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='14' viewBox='0 0 28 14'%3E%3Cpath d='M0 13 H6 V1 H22 V9 H14 V5 H18' fill='none' stroke='%23b8893b' stroke-width='1.6'/%3E%3Cpath d='M18 5 V9 M22 13 H28' fill='none' stroke='%23b8893b' stroke-width='1.6'/%3E%3C/svg%3E"); background-repeat: repeat-x; opacity: 0.85; }
+  /* login mockup */
+  .frame { border: 1px solid #d9d3c4; border-radius: 16px; overflow: hidden; background: var(--marble); }
+  .m-top { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 1.6rem; background: #fff; }
+  .m-brand { display: flex; align-items: center; gap: 0.7rem; }
+  .m-name { font-family: var(--serif); font-size: 1.35rem; letter-spacing: 0.16em; color: var(--navy); font-weight: 600; line-height: 1; }
+  .m-sub { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.06em; }
+  .m-btn { font: inherit; font-weight: 600; border-radius: 10px; padding: 0.5rem 1rem; border: 1px solid var(--line); background: #fff; color: var(--navy); }
+  .m-btn.primary { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .m-hero { position: relative; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 2.5rem; padding: 3rem 3rem 3.2rem; align-items: center;
+    background:
+      radial-gradient(900px 420px at 20% 10%, rgba(255,255,255,0.9), rgba(255,255,255,0) 70%),
+      repeating-linear-gradient(115deg, rgba(184,137,59,0.035) 0 2px, transparent 2px 22px),
+      linear-gradient(180deg, #fbfaf6, #f3efe5); }
+  .m-hero .watermark { position: absolute; left: -40px; bottom: -30px; width: 360px; opacity: 0.06; pointer-events: none; }
+  .m-eyebrow { color: var(--gold); font-weight: 700; letter-spacing: 0.14em; font-size: 0.78rem; text-transform: uppercase; }
+  .m-hero h1 { font-family: var(--serif); font-size: 3rem; line-height: 1.06; color: var(--navy); margin: 0.6rem 0 1rem; font-weight: 600; }
+  .m-hero h1 em { color: var(--blue); }
+  .m-hero p { color: #4a5363; font-size: 1.08rem; line-height: 1.6; max-width: 34rem; }
+  .m-points { list-style: none; padding: 0; margin: 1.4rem 0 0; display: flex; flex-direction: column; gap: 0.7rem; }
+  .m-points li { display: flex; gap: 0.7rem; align-items: flex-start; color: #3f4857; }
+  .m-points .ic { flex: none; width: 1.9rem; height: 1.9rem; border-radius: 50%; border: 1.5px solid var(--gold); color: var(--gold); display: grid; place-items: center; font-size: 0.85rem; background: #fff; }
+  .m-points strong { color: var(--navy); }
+  .m-card { background: #fff; border-radius: 18px; padding: 1.6rem; border: 1px solid var(--line); border-top: 4px solid var(--gold);
+    box-shadow: 0 18px 40px rgba(11,42,74,0.10); }
+  .m-card h2 { font-family: var(--serif); color: var(--navy); margin: 0 0 1rem; font-size: 1.5rem; }
+  .m-field { display: block; margin-bottom: 0.9rem; font-size: 0.9rem; font-weight: 600; color: var(--ink); }
+  .m-field span { display: block; margin-bottom: 0.3rem; }
+  .m-input { height: 2.7rem; border: 1px solid #d9d3c4; border-radius: 10px; background: #fffdf9; }
+  .m-submit { width: 100%; height: 2.9rem; border: none; border-radius: 12px; background: linear-gradient(180deg, #163f6e, #0b2a4a); color: #fff; font-weight: 700; font-size: 1rem; }
+  .m-demo { font-size: 0.82rem; background: #f6efe0; border: 1px solid var(--gold-soft); border-radius: 10px; padding: 0.5rem 0.7rem; color: #6b5328; margin-bottom: 1rem; }
+  .m-symbol { display: flex; gap: 1.2rem; align-items: center; padding: 1.4rem 3rem; background: #fff; border-top: 1px solid var(--line); }
+  .m-symbol h3 { font-family: var(--serif); color: var(--navy); margin: 0 0 0.3rem; }
+  .m-symbol p { margin: 0; color: #4a5363; }
+  .m-foot { padding: 0.8rem 3rem 1.2rem; background: #fff; color: var(--muted); font-size: 0.8rem; display: flex; justify-content: space-between; }
+  .palette { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+  .sw { width: 150px; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); font-size: 0.8rem; }
+  .sw div { height: 64px; }
+  .sw p { margin: 0; padding: 0.4rem 0.6rem; color: var(--ink); }
+  .room-plan { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .room-plan div { background: var(--marble); border: 1px solid var(--line); border-radius: 14px; padding: 1rem; }
+  .room-plan h4 { margin: 0 0 0.3rem; font-family: var(--serif); color: var(--navy); }
+  .room-plan p { margin: 0; color: #4a5363; font-size: 0.92rem; }
+</style>
+</head>
+<body>
+<div class="doc">
+  <h1>ΛSCLEPIUS · design proposal</h1>
+  <p class="lead">A mockup to review before anything changes in the app. Greek, medical and hospital style: marble white, deep navy,
+    a touch of gold, classical serif headings, a Greek key (meander) border, and a new emblem with a many-headed serpent.</p>
+
+  <section class="sheet">
+    <h2>1 · The new emblem: one serpent, many heads</h2>
+    <p>The serpent is the classical symbol of medicine and pharmacy. Ours has three heads on one body: many specialties, one patient,
+      a holistic view of the whole person. The home page would explain it in one sentence. Pick one (or ask for changes).</p>
+    <div class="logos">
+      <div class="logo-opt rec">
+        <span class="tag">Recommended</span>
+        <svg viewBox="0 0 100 100" width="150" height="150" aria-label="Option A">
+          <defs><radialGradient id="ga" cx="50%" cy="40%" r="60%"><stop offset="0" stop-color="#1d4f86"/><stop offset="1" stop-color="#0b2a4a"/></radialGradient></defs>
+          <circle cx="50" cy="50" r="48" fill="url(#ga)"/>
+          <circle cx="50" cy="50" r="44.5" fill="none" stroke="#b8893b" stroke-width="1.6"/>
+          <circle cx="50" cy="50" r="41.5" fill="none" stroke="#b8893b" stroke-width="0.6" stroke-dasharray="2.2 2.2"/>
+          <!-- staff -->
+          <line x1="50" y1="30" x2="50" y2="86" stroke="#f3e7cf" stroke-width="4.2" stroke-linecap="round"/>
+          <!-- body coiling up the staff -->
+          <path d="M50 82 C 36 79, 36 71, 50 68 C 64 65, 64 57, 50 54 C 41 52, 41 46, 48 43" fill="none" stroke="#e1b866" stroke-width="4.4" stroke-linecap="round"/>
+          <!-- three necks -->
+          <path d="M48 43 C 40 39, 33 35, 30 27" fill="none" stroke="#e1b866" stroke-width="3.6" stroke-linecap="round"/>
+          <path d="M48 43 C 49 36, 50 30, 50 21" fill="none" stroke="#e1b866" stroke-width="3.6" stroke-linecap="round"/>
+          <path d="M48 43 C 57 39, 65 35, 70 27" fill="none" stroke="#e1b866" stroke-width="3.6" stroke-linecap="round"/>
+          <!-- heads -->
+          <ellipse cx="29.2" cy="24.6" rx="4.4" ry="3.1" fill="#e1b866" transform="rotate(-62 29.2 24.6)"/>
+          <ellipse cx="50" cy="18.2" rx="4.4" ry="3.1" fill="#e1b866" transform="rotate(-90 50 18.2)"/>
+          <ellipse cx="70.8" cy="24.6" rx="4.4" ry="3.1" fill="#e1b866" transform="rotate(62 70.8 24.6)"/>
+          <circle cx="28.4" cy="23.4" r="0.7" fill="#0b2a4a"/><circle cx="50.9" cy="17.2" r="0.7" fill="#0b2a4a"/><circle cx="71.6" cy="23.4" r="0.7" fill="#0b2a4a"/>
+        </svg>
+        <h3>A · The medallion</h3>
+        <p>A Greek-coin medallion: navy with a gold rim, a staff, and one serpent rising into three heads (gold). Reads well even
+          tiny, as the browser icon.</p>
+        <div class="sizes">
+          <svg viewBox="0 0 100 100" width="40" height="40"><use href="#none"/><circle cx="50" cy="50" r="48" fill="#0b2a4a"/><circle cx="50" cy="50" r="44.5" fill="none" stroke="#b8893b" stroke-width="3"/><line x1="50" y1="30" x2="50" y2="86" stroke="#f3e7cf" stroke-width="6" stroke-linecap="round"/><path d="M50 82 C 36 79, 36 71, 50 68 C 64 65, 64 57, 50 54 C 41 52, 41 46, 48 43 M48 43 C 40 39, 33 35, 30 27 M48 43 C 49 36, 50 30, 50 21 M48 43 C 57 39, 65 35, 70 27" fill="none" stroke="#e1b866" stroke-width="6" stroke-linecap="round"/></svg>
+          <svg viewBox="0 0 100 100" width="24" height="24"><circle cx="50" cy="50" r="48" fill="#0b2a4a"/><line x1="50" y1="30" x2="50" y2="86" stroke="#f3e7cf" stroke-width="8" stroke-linecap="round"/><path d="M50 82 C 36 79, 36 71, 50 68 C 64 65, 64 57, 50 54 C 41 52, 41 46, 48 43 M48 43 C 40 39, 33 35, 30 27 M48 43 C 49 36, 50 30, 50 21 M48 43 C 57 39, 65 35, 70 27" fill="none" stroke="#e1b866" stroke-width="8" stroke-linecap="round"/></svg>
+        </div>
+      </div>
+
+      <div class="logo-opt">
+        <span class="tag">Pharmacy</span>
+        <svg viewBox="0 0 100 100" width="150" height="150" aria-label="Option B">
+          <rect x="4" y="4" width="92" height="92" rx="22" fill="#fbfaf6" stroke="#0b2a4a" stroke-width="2.4"/>
+          <!-- bowl of Hygieia -->
+          <path d="M28 46 H72 C 70 60, 60 66, 50 66 C 40 66, 30 60, 28 46 Z" fill="#0b2a4a"/>
+          <rect x="47" y="66" width="6" height="12" fill="#0b2a4a"/>
+          <ellipse cx="50" cy="81" rx="15" ry="3.6" fill="#0b2a4a"/>
+          <!-- serpent rising from the stem, three heads over the bowl -->
+          <path d="M53 76 C 64 73, 66 66, 58 62 C 50 58, 40 56, 44 50 C 46 46, 50 44, 50 40" fill="none" stroke="#b8893b" stroke-width="3.8" stroke-linecap="round"/>
+          <path d="M50 40 C 44 36, 38 34, 33 30" fill="none" stroke="#b8893b" stroke-width="3.2" stroke-linecap="round"/>
+          <path d="M50 40 C 50 34, 50 30, 50 24" fill="none" stroke="#b8893b" stroke-width="3.2" stroke-linecap="round"/>
+          <path d="M50 40 C 56 36, 62 34, 67 30" fill="none" stroke="#b8893b" stroke-width="3.2" stroke-linecap="round"/>
+          <ellipse cx="31.6" cy="28.6" rx="4" ry="2.8" fill="#b8893b" transform="rotate(-40 31.6 28.6)"/>
+          <ellipse cx="50" cy="21.4" rx="4" ry="2.8" fill="#b8893b" transform="rotate(-90 50 21.4)"/>
+          <ellipse cx="68.4" cy="28.6" rx="4" ry="2.8" fill="#b8893b" transform="rotate(40 68.4 28.6)"/>
+        </svg>
+        <h3>B · The bowl of Hygieia</h3>
+        <p>The pharmacy symbol (Hygieia, Asclepius' daughter, goddess of health): a bowl with a serpent whose three heads lean over
+          it. Strong link to pharmacy and prevention.</p>
+      </div>
+
+      <div class="logo-opt">
+        <span class="tag">Minimal</span>
+        <svg viewBox="0 0 100 100" width="150" height="150" aria-label="Option C">
+          <line x1="50" y1="26" x2="50" y2="90" stroke="#0b2a4a" stroke-width="5" stroke-linecap="round"/>
+          <path d="M50 86 C 34 83, 34 74, 50 71 C 66 68, 66 59, 50 56 C 40 54, 40 48, 47 44" fill="none" stroke="#2f6fb5" stroke-width="5" stroke-linecap="round"/>
+          <path d="M47 44 C 38 40, 30 36, 26 26 M47 44 C 48 37, 50 30, 50 18 M47 44 C 56 40, 66 36, 74 26" fill="none" stroke="#2f6fb5" stroke-width="4.2" stroke-linecap="round"/>
+          <circle cx="25" cy="23.5" r="4.4" fill="#2f6fb5"/><circle cx="50" cy="15" r="4.4" fill="#2f6fb5"/><circle cx="75" cy="23.5" r="4.4" fill="#2f6fb5"/>
+          <path d="M14 70 C 18 84, 30 92, 40 94 M86 70 C 82 84, 70 92, 60 94" fill="none" stroke="#b8893b" stroke-width="2.4" stroke-linecap="round"/>
+        </svg>
+        <h3>C · Rod and laurel</h3>
+        <p>A clean line drawing: the rod with a three-headed serpent in blue and a gold laurel at the base. Lightest and most modern.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet">
+    <h2>2 · The log-in / sign-up page (the "home page" you meant)</h2>
+    <p>Back to the original layout (text on the left, form on the right, no blue box), in the Greek-hospital style: marble
+      background, a faint emblem watermark, gold accents, a Greek key border, and a short line explaining the emblem.</p>
+    <div class="frame">
+      <div class="m-top">
+        <div class="m-brand">
+          <svg viewBox="0 0 100 100" width="40" height="40"><circle cx="50" cy="50" r="48" fill="#0b2a4a"/><circle cx="50" cy="50" r="44.5" fill="none" stroke="#b8893b" stroke-width="2.5"/><line x1="50" y1="30" x2="50" y2="86" stroke="#f3e7cf" stroke-width="5" stroke-linecap="round"/><path d="M50 82 C 36 79, 36 71, 50 68 C 64 65, 64 57, 50 54 C 41 52, 41 46, 48 43 M48 43 C 40 39, 33 35, 30 27 M48 43 C 49 36, 50 30, 50 21 M48 43 C 57 39, 65 35, 70 27" fill="none" stroke="#e1b866" stroke-width="5" stroke-linecap="round"/></svg>
+          <div><div class="m-name">ΛSCLEPIUS</div><div class="m-sub">Ἀσκληπιός · AI case conference</div></div>
+        </div>
+        <div><button class="m-btn">Log in</button> <button class="m-btn primary">Get started</button></div>
+      </div>
+      <div class="meander"></div>
+      <div class="m-hero">
+        <svg class="watermark" viewBox="0 0 100 100"><line x1="50" y1="30" x2="50" y2="86" stroke="#0b2a4a" stroke-width="4"/><path d="M50 82 C 36 79, 36 71, 50 68 C 64 65, 64 57, 50 54 C 41 52, 41 46, 48 43 M48 43 C 40 39, 33 35, 30 27 M48 43 C 49 36, 50 30, 50 21 M48 43 C 57 39, 65 35, 70 27" fill="none" stroke="#0b2a4a" stroke-width="4" stroke-linecap="round"/></svg>
+        <div>
+          <div class="m-eyebrow">AI case conference</div>
+          <h1>Your specialists,<br /><em>finally in one room.</em></h1>
+          <p>Upload records from every doctor you see. A panel of AI specialist agents reviews them together, discusses what connects,
+            and prepares a case summary with questions to bring to your own doctors.</p>
+          <ul class="m-points">
+            <li><span class="ic">✦</span><div><strong>Not a diagnosis and never a prescription:</strong> an organized summary for your real doctors.</div></li>
+            <li><span class="ic">✦</span><div><strong>AI specialist agents,</strong> not licensed physicians, and they say so.</div></li>
+            <li><span class="ic">✦</span><div><strong>Private to your account,</strong> and you can delete all of it at any time.</div></li>
+          </ul>
+        </div>
+        <div class="m-card">
+          <h2>Log in</h2>
+          <div class="m-demo"><strong>Demo:</strong> please use the fictional demo patients, not real records.</div>
+          <label class="m-field"><span>Email</span><div class="m-input"></div></label>
+          <label class="m-field"><span>Password</span><div class="m-input"></div></label>
+          <button class="m-submit">Log in</button>
+          <p style="text-align:center;color:#6a7280;font-size:0.88rem;margin:0.9rem 0 0">New here? <u style="color:#2f6fb5">Create an account</u></p>
+        </div>
+      </div>
+      <div class="m-symbol">
+        <svg viewBox="0 0 100 100" width="56" height="56"><circle cx="50" cy="50" r="48" fill="#0b2a4a"/><circle cx="50" cy="50" r="44.5" fill="none" stroke="#b8893b" stroke-width="2.5"/><line x1="50" y1="30" x2="50" y2="86" stroke="#f3e7cf" stroke-width="5" stroke-linecap="round"/><path d="M50 82 C 36 79, 36 71, 50 68 C 64 65, 64 57, 50 54 C 41 52, 41 46, 48 43 M48 43 C 40 39, 33 35, 30 27 M48 43 C 49 36, 50 30, 50 21 M48 43 C 57 39, 65 35, 70 27" fill="none" stroke="#e1b866" stroke-width="5" stroke-linecap="round"/></svg>
+        <div><h3>One serpent, many heads</h3>
+          <p>Asclepius' serpent has always stood for medicine. Ours has many heads on one body: many specialists, one patient, a
+            holistic view of the whole person.</p></div>
+      </div>
+      <div class="meander"></div>
+      <div class="m-foot"><span>ΛSCLEPIUS · AI case conference</span><span>Educational project · not a medical device · in an emergency call 911</span></div>
+    </div>
+  </section>
+
+  <section class="sheet">
+    <h2>3 · The style for the whole site</h2>
+    <p>Applied everywhere (home, profiles, case page, panel, chat): marble-white backgrounds, navy text and buttons, gold for
+      accents and dividers, serif headings, the Greek key as a thin divider under the header and above the footer. The severity
+      colors (red, amber, blue) stay as they are so warnings remain clear.</p>
+    <div class="palette">
+      <div class="sw"><div style="background:#fbfaf6"></div><p>Marble · background</p></div>
+      <div class="sw"><div style="background:#f1ede3"></div><p>Stone · panels</p></div>
+      <div class="sw"><div style="background:#0b2a4a"></div><p>Navy · text, buttons</p></div>
+      <div class="sw"><div style="background:#2f6fb5"></div><p>Aegean blue · links</p></div>
+      <div class="sw"><div style="background:#b8893b"></div><p>Gold · accents</p></div>
+      <div class="sw"><div class="meander" style="height:64px;background-size:28px 14px;background-position:center"></div><p>Greek key divider</p></div>
+    </div>
+  </section>
+
+  <section class="sheet">
+    <h2>4 · The conference room: reading before round 1</h2>
+    <p>While the records are being read and routed (before round 1), the room shows it too.</p>
+    <div class="room-plan">
+      <div><h4>Coordinator</h4><p>Sorts the incoming records: holds a file and looks through it while the records are read.</p></div>
+      <div><h4>Doctors receiving records</h4><p>As each record is routed to a specialist, that doctor takes it and starts reading (open file, head down).</p></div>
+      <div><h4>Round 1</h4><p>Everyone at the table keeps reading their own case files, as today; files go back on the table when done.</p></div>
+    </div>
+  </section>
+</div>
+</body>
+</html>

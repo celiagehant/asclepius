@@ -143,14 +143,14 @@ function Table() {
         <cylinderGeometry args={[1, 1, 0.09, 64]} /><meshStandardMaterial color="#ffffff" roughness={0.35} />
       </mesh>
       <mesh position={[0, TABLE_Y + 0.047, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={[TABLE_RX, TABLE_RZ, 1]}>
-        <ringGeometry args={[0.965, 1, 64]} /><meshBasicMaterial color="#2f7de1" transparent opacity={0.55} />
+        <ringGeometry args={[0.965, 1, 64]} /><meshBasicMaterial color="#b8893b" transparent opacity={0.75} />
       </mesh>
       <mesh position={[0, TABLE_Y + 0.048, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={[0.75, 0.42, 1]}>
-        <circleGeometry args={[1, 48]} /><meshBasicMaterial color="#e8f0fb" />
+        <circleGeometry args={[1, 48]} /><meshBasicMaterial color="#f3eee2" />
       </mesh>
-      <mesh position={[0, TABLE_Y / 2, 0]}><cylinderGeometry args={[0.35, 0.5, TABLE_Y, 24]} /><meshStandardMaterial color="#d9e4f2" roughness={0.6} /></mesh>
+      <mesh position={[0, TABLE_Y / 2, 0]}><cylinderGeometry args={[0.35, 0.5, TABLE_Y, 24]} /><meshStandardMaterial color="#e4dccb" roughness={0.6} /></mesh>
       <mesh position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={[4.3, 3.1, 1]}>
-        <circleGeometry args={[1, 64]} /><meshBasicMaterial color="#eef3fa" />
+        <circleGeometry args={[1, 64]} /><meshBasicMaterial color="#ece5d6" />
       </mesh>
     </group>
   );

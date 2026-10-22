@@ -57,7 +57,7 @@ export function TopBar({ email, onLogout, children }: { email?: string; onLogout
   return (
     <header className="topbar">
       <a className="brand" href="#/">
-        <img src="/favicon.svg" alt="" width={34} height={34} />
+        <img src="/emblem.svg?v=4" alt="" width={40} height={40} className="brand-emblem" />
         <span className="brand-text" aria-label="Asclepius, AI case conference">
           <span className="brand-name" aria-hidden><span className="lambda">Λ</span>SCLEPIUS</span>
           <span className="brand-sub" aria-hidden>Ἀσκληπιός · AI case conference</span>
