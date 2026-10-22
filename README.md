@@ -3,6 +3,9 @@
 *An AI case conference, named after the Greek god of medicine (Ἀσκληπιός). (The project was built as "Case
 Conference"; the code keeps that name internally.)*
 
+**Live demo: https://asclepius-2scx.onrender.com** (free hosting: the first visit after a quiet
+period takes about a minute to wake up. Please use the fictional demo patients, not real records.)
+
 **A panel of AI specialist agents reviews all of a patient's medical records together. It
 then prepares an educational case summary for the patient to bring to their own doctors.**
 
